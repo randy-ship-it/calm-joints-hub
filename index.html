@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Calm Joints — Virtual physiotherapy with Align · Scale Health</title>
+<meta name="description" content="Calm Joints is a Scale clinic hub for joint comfort and mobility. Book virtual physiotherapy with Align clinicians — free membership, insurance-friendly receipts.">
+<meta name="theme-color" content="#042414">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Calm Joints — Book Align physiotherapy">
+<meta property="og:description" content="Joint comfort, virtual physio, Align clinicians on the Scale network. Showcase hub — calmjoints.ca DNS pending.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/media/calm-joints-mark.svg">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<script src="/config.js"></script>
+<style>
+  :root {
+    --primary: #15A34A;
+    --primary-hover: #15803D;
+    --darkest: #042414;
+    --dark: #0B1D16;
+    --mint: #D3F8DF;
+    --surface: #EDFAF4;
+    --paper: #F7F6F1;
+    --mute: #42534A;
+    --line: rgba(11, 29, 22, 0.12);
+    --head: "Fraunces", Georgia, serif;
+    --sans: "DM Sans", system-ui, sans-serif;
+    --max: 1120px;
+    --pad: clamp(1.1rem, 3.5vw, 2.2rem);
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  body {
+    margin: 0;
+    font: 17px/1.55 var(--sans);
+    color: var(--darkest);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--primary); text-underline-offset: .15em; }
+  a:hover { color: var(--darkest); }
+  :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+  .wrap { width: min(var(--max), calc(100% - var(--pad) * 2)); margin: 0 auto; }
+  .skip {
+    position: absolute; left: -999px; top: auto;
+  }
+  .skip:focus {
+    left: var(--pad); top: .5rem; z-index: 90;
+    background: var(--darkest); color: #fff; padding: .45rem .7rem; text-decoration: none;
+  }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(247, 246, 241, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; min-height: 64px; padding: .7rem 0;
+  }
+  .brand {
+    display: flex; align-items: center; gap: .7rem;
+    text-decoration: none; color: var(--darkest);
+  }
+  .brand img { width: 40px; height: 40px; }
+  .brand strong {
+    font-family: var(--head); font-size: 1.2rem; font-weight: 600;
+    letter-spacing: -.02em; display: block; line-height: 1.1;
+  }
+  .brand span {
+    display: block; font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--mute); font-weight: 600;
+  }
+  .nav-actions { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .chip {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-size: .72rem; font-weight: 600; letter-spacing: .04em;
+    color: var(--mute); background: #fff;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: .35rem .7rem;
+  }
+  .chip img { width: 14px; height: 14px; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    font: inherit; font-weight: 600; font-size: .95rem;
+    border-radius: 8px; border: 0; cursor: pointer;
+    padding: .75rem 1.15rem; text-decoration: none;
+    transition: background .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); color: #fff; }
+  .btn-dark { background: var(--darkest); color: #fff; }
+  .btn-dark:hover { background: var(--primary); color: #fff; }
+  .btn-ghost {
+    background: transparent; color: var(--darkest);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { background: var(--mint); border-color: transparent; color: var(--darkest); }
+  .btn-lg { padding: .95rem 1.4rem; font-size: 1.02rem; }
+
+  /* Hero */
+  .hero {
+    padding: clamp(2.2rem, 6vw, 4.2rem) 0 clamp(2.5rem, 5vw, 3.8rem);
+  }
+  .hero-grid {
+    display: grid; gap: 2rem;
+  }
+  @media (min-width: 900px) {
+    .hero-grid { grid-template-columns: 1.15fr .85fr; align-items: center; gap: 3rem; }
+  }
+  .kicker {
+    display: inline-flex; align-items: center; gap: .45rem;
+    font-size: .72rem; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--primary);
+    margin: 0 0 .85rem;
+  }
+  .kicker::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--primary); box-shadow: 0 0 0 4px rgba(21,163,74,.2);
+  }
+  h1 {
+    font-family: var(--head); font-weight: 600;
+    font-size: clamp(2.35rem, 6.5vw, 3.6rem);
+    letter-spacing: -.03em; line-height: 1.08; margin: 0;
+    color: var(--darkest);
+  }
+  .lede {
+    margin: 1rem 0 0; max-width: 36rem;
+    color: var(--mute); font-size: 1.08rem; line-height: 1.55;
+  }
+  .hero-ctas {
+    display: flex; flex-wrap: wrap; gap: .7rem;
+    margin-top: 1.6rem;
+  }
+  .micro {
+    margin: .85rem 0 0; font-size: .82rem; color: var(--mute);
+  }
+  .proof {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.2rem;
+    margin-top: 1.6rem; padding-top: 1.3rem;
+    border-top: 1px solid var(--line);
+    font-size: .85rem; color: var(--mute);
+  }
+  .proof strong { color: var(--darkest); font-weight: 600; }
+
+  /* Booking card */
+  .book-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.35rem 1.35rem 1.2rem;
+    box-shadow: 0 18px 40px -28px rgba(4, 36, 20, 0.55);
+  }
+  .book-card .eyebrow {
+    font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: #126B35; margin: 0 0 .55rem;
+  }
+  .book-card h2 {
+    font-family: var(--head); font-size: 1.45rem; font-weight: 600;
+    margin: 0; letter-spacing: -.02em; line-height: 1.2;
+  }
+  .book-card p { margin: .55rem 0 0; color: var(--mute); font-size: .92rem; }
+  .slots {
+    display: flex; flex-wrap: wrap; gap: .45rem;
+    margin: 1.1rem 0 1.15rem;
+  }
+  .slot {
+    appearance: none; border: 1px solid var(--line); background: var(--surface);
+    color: var(--darkest); font: inherit; font-size: .82rem; font-weight: 600;
+    padding: .5rem .75rem; border-radius: 8px; cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .slot:hover, .slot:focus-visible {
+    background: var(--mint); border-color: var(--primary);
+  }
+  .book-note {
+    margin-top: .75rem; font-size: .75rem; color: var(--mute);
+    background: var(--surface); border-radius: 8px; padding: .55rem .7rem;
+  }
+  .book-note[data-status="interim-jane"] {
+    border-left: 3px solid #F59E0B;
+  }
+  .partner-row {
+    display: flex; align-items: center; gap: .6rem;
+    margin-top: 1rem; padding-top: .9rem; border-top: 1px dashed var(--line);
+    font-size: .78rem; color: var(--mute);
+  }
+  .partner-row img { width: 18px; height: 18px; }
+
+  /* Sections */
+  section { padding: clamp(2.4rem, 5vw, 3.6rem) 0; }
+  .band { background: #fff; border-block: 1px solid var(--line); }
+  .band-dark {
+    background: var(--darkest); color: #E8F5EE;
+    border: 0;
+  }
+  .band-dark h2 { color: #fff; }
+  .band-dark .lede, .band-dark p { color: rgba(232, 245, 238, 0.78); }
+  h2 {
+    font-family: var(--head); font-weight: 600;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    letter-spacing: -.025em; margin: 0; line-height: 1.15;
+  }
+  .section-lede { margin: .7rem 0 0; max-width: 34rem; color: var(--mute); }
+
+  .grid-3 {
+    display: grid; gap: 1rem;
+    margin-top: 1.6rem;
+  }
+  @media (min-width: 720px) {
+    .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 1.15rem; }
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.2rem 1.15rem 1.25rem;
+  }
+  .band .card { background: #fff; }
+  .band-dark .card {
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.12);
+  }
+  .card .num {
+    font-family: var(--head); font-size: .85rem; font-weight: 600;
+    color: var(--primary); letter-spacing: .04em;
+  }
+  .band-dark .card .num { color: #4ADE80; }
+  .card h3 {
+    font-family: var(--head); font-size: 1.12rem; font-weight: 600;
+    margin: .45rem 0 0; letter-spacing: -.015em;
+  }
+  .band-dark .card h3 { color: #fff; }
+  .card p { margin: .45rem 0 0; font-size: .92rem; color: var(--mute); }
+  .band-dark .card p { color: rgba(232,245,238,.75); }
+
+  /* FAQ */
+  .faq { margin-top: 1.4rem; max-width: 42rem; }
+  details {
+    border-bottom: 1px solid var(--line);
+    padding: .95rem 0;
+  }
+  details summary {
+    cursor: pointer; font-weight: 600; list-style: none;
+    display: flex; justify-content: space-between; gap: 1rem;
+    align-items: center;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after {
+    content: "+"; font-size: 1.2rem; color: var(--primary); font-weight: 500;
+  }
+  details[open] summary::after { content: "–"; }
+  details p { margin: .55rem 0 0; color: var(--mute); font-size: .95rem; }
+
+  /* Footer */
+  footer {
+    padding: 2rem 0 2.4rem;
+    border-top: 1px solid var(--line);
+    font-size: .82rem; color: var(--mute);
+  }
+  .foot-grid {
+    display: flex; flex-wrap: wrap; justify-content: space-between;
+    gap: 1rem; align-items: flex-start;
+  }
+  .foot-brand {
+    display: flex; align-items: center; gap: .55rem;
+    color: var(--darkest); font-weight: 600; text-decoration: none;
+  }
+  .foot-brand img { width: 28px; height: 28px; }
+  .legal { margin-top: .85rem; max-width: 40rem; line-height: 1.5; }
+
+  /* Mobile sticky CTA */
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    padding: .7rem var(--pad) calc(.7rem + env(safe-area-inset-bottom));
+    background: rgba(247,246,241,.96); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    display: flex; gap: .6rem;
+  }
+  .sticky-cta .btn { flex: 1; }
+  @media (min-width: 880px) { .sticky-cta { display: none; } }
+  @media (max-width: 879px) { body { padding-bottom: 5.2rem; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" id="top">
+      <img src="/media/calm-joints-mark.svg" alt="" width="40" height="40">
+      <div>
+        <strong>Calm Joints</strong>
+        <span>Scale clinic hub</span>
+      </div>
+    </a>
+    <div class="nav-actions">
+      <span class="chip" title="Operated with Scale Health">
+        <img src="/media/scale-mark.svg" alt=""> Scale
+      </span>
+      <a class="btn btn-dark" id="nav-book" href="#book">Book physio</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">Joint comfort · Virtual care</p>
+        <h1>Feel calmer in your joints — with Align physios on Scale.</h1>
+        <p class="lede">
+          Calm Joints is a Scale clinic hub for mobility and joint comfort.
+          Book a licensed Align physiotherapist virtually. Membership is free.
+          Clinical appointments book separately — insurance-friendly receipts included.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-lg" id="hero-book" href="#book">Book your assessment</a>
+          <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
+        </div>
+        <p class="micro">No referral required · Ontario virtual physio · Align clinicians</p>
+        <div class="proof">
+          <span><strong>CHI</strong> owns the Calm Joints trade name</span>
+          <span><strong>Align</strong> delivers clinical care</span>
+          <span><strong>Scale</strong> powers the hub</span>
+        </div>
+      </div>
+
+      <aside class="book-card" id="book" aria-labelledby="book-title">
+        <p class="eyebrow">Align physiotherapy</p>
+        <h2 id="book-title">Book with an Align physiotherapist</h2>
+        <p>
+          Pick a time that works. You’ll continue into Align’s booking flow
+          (Jane) — the same licensed physio network used across Scale hubs.
+        </p>
+        <div class="slots" role="group" aria-label="Example time slots — opens real booking">
+          <button type="button" class="slot" data-book>Mon 9:30 AM</button>
+          <button type="button" class="slot" data-book>Wed 4:00 PM</button>
+          <button type="button" class="slot" data-book>Fri 11:00 AM</button>
+        </div>
+        <a class="btn btn-primary btn-lg" id="book-cta" href="#" style="width:100%">
+          Continue to book →
+        </a>
+        <p class="book-note" id="book-status" data-status="interim-jane">
+          Showcase: booking currently routes to Scale Health’s Jane calendar
+          (Align/Scale physio surface). Final Align embed URL + provider list API pending from Jon.
+        </p>
+        <div class="partner-row">
+          <img src="/media/scale-mark.svg" alt="">
+          <span>Care on the Scale network · Align physiotherapists</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <h2>Three steps to calmer joints</h2>
+      <p class="section-lede">Built like every Scale clinic hub: brand storefront up front, Align clinical booking behind the CTA.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="num">01</div>
+          <h3>Share what’s sore</h3>
+          <p>Tell us about your joints, activity level, and goals. No doctor’s referral needed for virtual physio.</p>
+        </article>
+        <article class="card">
+          <div class="num">02</div>
+          <h3>Meet an Align physio</h3>
+          <p>One-on-one video visit with a licensed Align physiotherapist. Clear plan you can start the same day.</p>
+        </article>
+        <article class="card">
+          <div class="num">03</div>
+          <h3>Move with a plan</h3>
+          <p>Home exercises, recovery guidance, and follow-ups when you need them. Receipts for benefits where eligible.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-dark">
+    <div class="wrap">
+      <h2>Why Calm Joints × Align × Scale</h2>
+      <p class="lede" style="margin-top:.7rem;max-width:36rem">
+        A brand hub, not a separate clinic corporation. CHI holds the Calm Joints name;
+        Align physios deliver care; Scale runs the hub rails.
+      </p>
+      <div class="grid-3" style="margin-top:1.6rem">
+        <article class="card">
+          <div class="num">Brand</div>
+          <h3>Calm Joints storefront</h3>
+          <p>Showcase-ready landing for joint comfort and mobility — green family aligned with Scale + Align.</p>
+        </article>
+        <article class="card">
+          <div class="num">Clinic</div>
+          <h3>Align physiotherapists</h3>
+          <p>Booking routes into Align clinicians (Jane / provider roster). Not a standalone Calm Joints clinic corp.</p>
+        </article>
+        <article class="card">
+          <div class="num">Network</div>
+          <h3>Scale Health rails</h3>
+          <p>Same hub pattern as DR-HO’S and other Scale clinic hubs — membership, booking gate, partner care.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Questions, answered</h2>
+      <div class="faq">
+        <details>
+          <summary>Is Calm Joints its own clinic?</summary>
+          <p>No. Calm Joints is a CHI trade-name storefront / Scale clinic hub. Clinical physiotherapy is delivered by Align physiotherapists on the Scale network.</p>
+        </details>
+        <details>
+          <summary>Do I need a referral?</summary>
+          <p>No. You can book a virtual physiotherapy assessment directly.</p>
+        </details>
+        <details>
+          <summary>Is this covered by insurance?</summary>
+          <p>Depending on your plan, some or all of the physio fee may be covered. Align provides insurance-friendly receipts for eligible services — confirm with your benefits provider.</p>
+        </details>
+        <details>
+          <summary>What is Scale Health?</summary>
+          <p>Scale Health is the virtual clinic and wellness membership network behind this hub. Membership is free. Clinical appointments are booked separately with Align physios.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <a class="foot-brand" href="#top">
+        <img src="/media/calm-joints-mark.svg" alt="">
+        Calm Joints
+      </a>
+      <p class="legal">
+        Trade name of Clairvoyant Holdings Inc. (CHI). Clinical care by Align physiotherapists via Scale Health.
+        Domain <strong>calmjoints.ca</strong> not yet registered — this is a preview deploy. DNS later.
+      </p>
+    </div>
+    <div style="text-align:right">
+      <a href="https://www.scalehealth.ca" rel="noopener">scalehealth.ca</a><br>
+      <span style="opacity:.7">Showcase · Sep 28, 2026 ET</span>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta" aria-label="Book now">
+  <a class="btn btn-primary" id="sticky-book" href="#book">Book Align physio</a>
+</div>
+
+<script>
+(function () {
+  var cfg = window.CALM_JOINTS || {};
+  var booking = cfg.booking || {};
+  var url = booking.primaryUrl || '#book';
+  var status = booking.status || 'interim-jane';
+
+  function goBook(e) {
+    if (e) e.preventDefault();
+    if (url && url.indexOf('http') === 0) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  ['nav-book', 'hero-book', 'book-cta', 'sticky-book'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (id === 'book-cta' || id === 'sticky-book' || id === 'hero-book' || id === 'nav-book') {
+      el.addEventListener('click', function (e) {
+        if (id === 'nav-book' || id === 'hero-book') {
+          // allow hash scroll; still wire primary CTA on book card
+          return;
+        }
+        goBook(e);
+      });
+    }
+  });
+
+  document.getElementById('book-cta').href = url;
+  document.querySelectorAll('[data-book]').forEach(function (btn) {
+    btn.addEventListener('click', goBook);
+  });
+
+  var note = document.getElementById('book-status');
+  if (note) {
+    note.setAttribute('data-status', status);
+    if (status === 'live' && booking.embedUrl) {
+      note.textContent = 'Live Align booking embed connected.';
+      note.style.borderLeftColor = '#15A34A';
+    }
+  }
+})();
+</script>
+</body>
+</html>
