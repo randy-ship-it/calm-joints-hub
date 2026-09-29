@@ -1,6 +1,6 @@
 /**
  * Calm Joints hub — runtime config.
- * Booking opens the Zoom Scheduler page (virtual physio visit).
+ * Booking: for now routes through the DR-HO'S partner clinic on Jane (popup confirms first).
  */
 window.CALM_JOINTS = {
   brand: {
@@ -9,10 +9,10 @@ window.CALM_JOINTS = {
     contact: 'info@calmjoints.org',
   },
   booking: {
-    primaryUrl: 'https://scheduler.zoom.us/randy-gilling-flc541/virtual-physio',
+    primaryUrl: 'https://scalehealth.janeapp.com/locations/scale-health-x-dr-ho/book#/staff_member/91/treatment/346',
     embedUrl: null,
     providerListApi: null,
-    status: 'zoom-scheduler',
+    status: 'partner-clinic-drho',
     label: 'Book a physiotherapist',
   },
   theme: {
