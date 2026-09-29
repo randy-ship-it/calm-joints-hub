@@ -1,12 +1,12 @@
 # Calm Joints hub — STATUS
 
-**Date:** 2026-09-29 ~2:15 AM ET (America/Toronto)
+**Date:** 2026-09-28 ~11:25 PM ET (America/Toronto)
 **Product:** Calm Joints digital clinic landing + intake
 **Trade name:** CHI (Clairvoyant Holdings Inc.)
 **Care:** Align physiotherapists
 **Hub rails:** Scale
-**Contact:** info@calmjoints.ca
-**Domain:** `calmjoints.ca` — **still not purchased**. Do not buy from this repo.
+**Contact:** info@calmjoints.org
+**Domain:** `calmjoints.org` — **purchased** via Replit Domains ($8.49). DNS A `@` → `76.76.21.21`, www CNAME → `cname.vercel-dns.com`. Attached on Vercel `calm-joints-hub` / `sbg-516724e0`.
 
 ---
 
@@ -14,16 +14,16 @@
 
 | Surface | URL |
 | --- | --- |
-| **Production** | **https://calm-joints-hub.vercel.app** |
+| **Production** | **https://calmjoints.org** |
 | This deployment | https://calm-joints-omvvxgyq3-sbg-516724e0.vercel.app |
 | Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/CfVCX9GR1JLGBSZw86ntJv2hehgG |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
-| Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/2 |
-| Branch | `cursor/calmjoints-clinic-polish-9ceb` |
+| Pull request | (this PR — calmjoints.org cutover) |
+| Branch | `cursor/calmjoints-org-domain` |
 
-Both forms post to Friday `POST https://fridayapp.org/api/intake` with `site: calmjoints.ca`. Auth: `Authorization: Bearer` + `X-Intake-Secret` from `INTAKE_WEBHOOK_SECRET` (fallback `FRIDAY_API_KEY`). The `/api/webhooks/calmjoints/*` paths are not used. A non-2xx still queues locally (Neon when configured). Contact display remains `info@calmjoints.ca`.
+Both forms post to Friday `POST https://fridayapp.org/api/intake` with `site: calmjoints.org`. Auth: `Authorization: Bearer` + `X-Intake-Secret` from `INTAKE_WEBHOOK_SECRET` (fallback `FRIDAY_API_KEY`). The `/api/webhooks/calmjoints/*` paths are not used. A non-2xx still queues locally (Neon when configured). Contact display remains `info@calmjoints.org`.
 
-Public index is on. Canonical / Open Graph / Twitter still point at the Vercel preview until `calmjoints.ca` exists.
+Public index is on. Canonical / Open Graph / Twitter / sitemap / robots point at `https://calmjoints.org/`.
 
 Interim Jane booking CTA is still in place (`config.js` → `booking.status = interim-jane`).
 
@@ -31,7 +31,14 @@ Deploy path is GitHub → Vercel only. No Replit publish. `scalehealthnew` / Sca
 
 ---
 
-## Visual polish (this pass)
+## Domain cutover (this pass)
+
+- Public URLs, contact, canonical/OG/Twitter, sitemap, robots → `https://calmjoints.org/`
+- Footer no longer says domain is pending; home is https://calmjoints.org
+- Friday site key `calmjoints.org`; notify `info@calmjoints.org`
+- Domain purchased via Replit Domains ($8.49); DNS A@ 76.76.21.21 + www CNAME cname.vercel-dns.com
+
+## Visual polish (prior pass)
 
 - Hero promise is calmer joints and Canada-wide Align physiotherapy, with primary paths to the clinic notes and the physio hello. Booking stays one honest Jane button — no sample time chips
 - CJ monogram stays in the header, favicon, apple-touch icon, and Open Graph image
@@ -39,7 +46,7 @@ Deploy path is GitHub → Vercel only. No Replit publish. `scalehealthnew` / Sca
 - Forms keep success, error, and pending states, with a specific message for an empty email, a short bio, LinkedIn, or a missing province
 - Mobile menu for the section links, plus a sticky bar for notes and booking
 
-**Intake contract unchanged** (`lib/intake.js`, `api/*`, Friday payload shape).
+**Domain cutover:** Friday `site` / envelope `source` and `notify_email` now use `calmjoints.org` / `info@calmjoints.org` (`lib/intake.js`). Payload shape otherwise unchanged.
 
 ---
 
@@ -56,7 +63,7 @@ Site routes stay `POST /api/newsletter` and `POST /api/apply`.
 
 ## Domain (do not buy here)
 
-`calmjoints.ca` still needs purchase. After: attach on Vercel, flip canonical/OG/sitemap to `https://calmjoints.ca/`, swap Jane when Jon sends Align embed.
+`calmjoints.org` is live on Vercel. Swap Jane when Jon sends Align embed. Do not buy further domains from this repo.
 
 ---
 

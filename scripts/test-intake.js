@@ -18,7 +18,7 @@ async function main() {
   assert.ok(validateNewsletter({ email: 'not-an-email' }).error);
   const news = validateNewsletter({ email: '  Ada@Example.com ', name: 'Ada Lovelace' });
   assert.strictEqual(news.value.email, 'ada@example.com');
-  assert.strictEqual(news.value.notify_email, 'info@calmjoints.ca');
+  assert.strictEqual(news.value.notify_email, 'info@calmjoints.org');
   assert.ok(validateNewsletter({ email: 'ada@example.com', name: '<script>' }).error);
 
   assert.ok(validateApply({ email: 'a@b.co', name: 'Jo', provinces: [] }).error);
@@ -54,7 +54,7 @@ async function main() {
   assert.deepStrictEqual(newsBody, {
     externalId: 'cj-news-fixed',
     email: 'ada@example.com',
-    site: 'calmjoints.ca',
+    site: 'calmjoints.org',
     source: 'calmjoints_newsletter',
     path: '/newsletter',
     kind: 'form',
@@ -63,7 +63,7 @@ async function main() {
   });
   const newsBare = fridayBody('newsletter', { email: 'bea@example.com', name: null }, 'cj-news-bare');
   assert.strictEqual(newsBare.meta, undefined);
-  assert.strictEqual(newsBare.site, 'calmjoints.ca');
+  assert.strictEqual(newsBare.site, 'calmjoints.org');
   assert.strictEqual(newsBare.kind, 'form');
 
   const applyFriday = fridayBody('apply', apply.value, 'cj-physio-fixed');
@@ -76,7 +76,7 @@ async function main() {
   assert.strictEqual(applyFriday.website, 'https://www.linkedin.com/in/priya-physio');
   assert.strictEqual(applyFriday.kind, 'providers');
   assert.strictEqual(applyFriday.path, '/apply');
-  assert.strictEqual(applyFriday.site, 'calmjoints.ca');
+  assert.strictEqual(applyFriday.site, 'calmjoints.org');
   assert.strictEqual(applyFriday.source, 'calmjoints_physio_apply');
   assert.deepStrictEqual(applyFriday.tags, ['calmjoints', 'physio-apply']);
   assert.strictEqual(applyFriday.meta.linkedin, 'priya-physio');
@@ -96,13 +96,13 @@ async function main() {
   const rows = readLines();
   assert.strictEqual(rows.length, 1);
   assert.strictEqual(rows[0].type, 'newsletter');
-  assert.strictEqual(rows[0].source, 'calmjoints.ca');
+  assert.strictEqual(rows[0].source, 'calmjoints.org');
   assert.strictEqual(rows[0].payload.email, 'ada@example.com');
   assert.strictEqual(rows[0].payload.source, 'calmjoints_newsletter');
-  assert.strictEqual(rows[0].payload.site, 'calmjoints.ca');
+  assert.strictEqual(rows[0].payload.site, 'calmjoints.org');
   assert.match(rows[0].payload.externalId, /^cj-news-/);
   assert.deepStrictEqual(rows[0].payload.meta, { name: 'Ada' });
-  assert.strictEqual(rows[0].notify_email, 'info@calmjoints.ca');
+  assert.strictEqual(rows[0].notify_email, 'info@calmjoints.org');
   assert.ok(rows[0].received_at);
 
   const bad = await processIntake('apply', { name: 'Jo', email: 'jo@example.com' }, { env, ip: '3.3.3.3' });
@@ -144,7 +144,7 @@ async function main() {
       assert.deepStrictEqual(body, {
         externalId: 'cj-news-bea',
         email: 'bea@example.com',
-        site: 'calmjoints.ca',
+        site: 'calmjoints.org',
         source: 'calmjoints_newsletter',
         path: '/newsletter',
         kind: 'form',
@@ -177,7 +177,7 @@ async function main() {
       const body = JSON.parse(init.body);
       assert.strictEqual(body.externalId, 'cj-physio-priya');
       assert.strictEqual(body.source, 'calmjoints_physio_apply');
-      assert.strictEqual(body.site, 'calmjoints.ca');
+      assert.strictEqual(body.site, 'calmjoints.org');
       assert.strictEqual(body.message, 'Knees, gardens, and Tuesday evenings.');
       assert.strictEqual(body.website, 'https://www.linkedin.com/in/priya-physio');
       assert.strictEqual(body.meta.linkedin, 'priya-physio');
