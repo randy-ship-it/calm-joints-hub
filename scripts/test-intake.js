@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { validateNewsletter, validateApply, processIntake, PROVINCES, FRIDAY_URLS, fridayBody } = require('../lib/intake');
+const { validateNewsletter, validateApply, processIntake, PROVINCES, FRIDAY_INTAKE_URL, fridayBody } = require('../lib/intake');
 
 const store = path.join(os.tmpdir(), `cj-intake-${process.pid}.jsonl`);
 const env = { INTAKE_STORE_PATH: store };
@@ -50,25 +50,40 @@ async function main() {
     bio: 'Enough words here to pass.',
   }).error);
 
-  const newsBody = fridayBody('newsletter', news.value);
+  const newsBody = fridayBody('newsletter', news.value, 'cj-news-fixed');
   assert.deepStrictEqual(newsBody, {
+    externalId: 'cj-news-fixed',
     email: 'ada@example.com',
+    site: 'calmjoints.ca',
     source: 'calmjoints_newsletter',
-    host: 'calmjoints.ca',
+    path: '/newsletter',
+    kind: 'form',
+    tags: ['calmjoints', 'newsletter'],
     meta: { name: 'Ada Lovelace' },
   });
-  const newsBare = fridayBody('newsletter', { email: 'bea@example.com', name: null });
-  assert.deepStrictEqual(Object.keys(newsBare).sort(), ['email', 'host', 'source']);
-  assert.strictEqual(newsBare.source, 'calmjoints_newsletter');
+  const newsBare = fridayBody('newsletter', { email: 'bea@example.com', name: null }, 'cj-news-bare');
+  assert.strictEqual(newsBare.meta, undefined);
+  assert.strictEqual(newsBare.site, 'calmjoints.ca');
+  assert.strictEqual(newsBare.kind, 'form');
 
-  const applyFriday = fridayBody('apply', apply.value);
-  assert.strictEqual(applyFriday.profile, 'I like stubborn knees and people who garden.');
+  const applyFriday = fridayBody('apply', apply.value, 'cj-physio-fixed');
+  assert.strictEqual(applyFriday.externalId, 'cj-physio-fixed');
+  assert.strictEqual(applyFriday.firstName, 'Priya');
+  assert.strictEqual(applyFriday.lastName, 'Shah');
+  assert.strictEqual(applyFriday.message, 'I like stubborn knees and people who garden.');
   assert.strictEqual(applyFriday.province, 'ON');
-  assert.deepStrictEqual(applyFriday.provinces, ['ON', 'BC']);
-  assert.strictEqual(applyFriday.license, 'PT 12345');
+  assert.strictEqual(applyFriday.country, 'CA');
+  assert.strictEqual(applyFriday.website, 'https://www.linkedin.com/in/priya-physio');
+  assert.strictEqual(applyFriday.kind, 'providers');
+  assert.strictEqual(applyFriday.path, '/apply');
+  assert.strictEqual(applyFriday.site, 'calmjoints.ca');
   assert.strictEqual(applyFriday.source, 'calmjoints_physio_apply');
-  assert.strictEqual(applyFriday.host, 'calmjoints.ca');
-  assert.deepStrictEqual(applyFriday.meta, { years_experience: 8, availability: 'Tue evenings' });
+  assert.deepStrictEqual(applyFriday.tags, ['calmjoints', 'physio-apply']);
+  assert.strictEqual(applyFriday.meta.linkedin, 'priya-physio');
+  assert.strictEqual(applyFriday.meta.license, 'PT 12345');
+  assert.strictEqual(applyFriday.meta.years_experience, 8);
+  assert.strictEqual(applyFriday.meta.availability, 'Tue evenings');
+  assert.deepStrictEqual(applyFriday.meta.provinces, ['ON', 'BC']);
   assert.strictEqual(applyFriday.phone, undefined);
 
   fs.rmSync(store, { force: true });
@@ -84,7 +99,8 @@ async function main() {
   assert.strictEqual(rows[0].source, 'calmjoints.ca');
   assert.strictEqual(rows[0].payload.email, 'ada@example.com');
   assert.strictEqual(rows[0].payload.source, 'calmjoints_newsletter');
-  assert.strictEqual(rows[0].payload.host, 'calmjoints.ca');
+  assert.strictEqual(rows[0].payload.site, 'calmjoints.ca');
+  assert.match(rows[0].payload.externalId, /^cj-news-/);
   assert.deepStrictEqual(rows[0].payload.meta, { name: 'Ada' });
   assert.strictEqual(rows[0].notify_email, 'info@calmjoints.ca');
   assert.ok(rows[0].received_at);
@@ -102,33 +118,41 @@ async function main() {
   assert.strictEqual(applied.status, 200);
   assert.strictEqual(readLines()[2] ? readLines().at(-1).type : readLines()[1].type, 'apply');
   const lastApply = readLines().at(-1);
-  assert.strictEqual(lastApply.payload.linkedin, 'https://www.linkedin.com/in/priya');
-  assert.strictEqual(lastApply.payload.profile, 'Coastal physio, knees and surfers.');
+  assert.strictEqual(lastApply.payload.website, 'https://www.linkedin.com/in/priya');
+  assert.strictEqual(lastApply.payload.message, 'Coastal physio, knees and surfers.');
   assert.strictEqual(lastApply.payload.province, 'NS');
-  assert.deepStrictEqual(lastApply.payload.provinces, ['NS']);
+  assert.deepStrictEqual(lastApply.payload.meta.provinces, ['NS']);
+  assert.strictEqual(lastApply.payload.meta.linkedin, 'https://www.linkedin.com/in/priya');
+  assert.strictEqual(lastApply.payload.meta.license, undefined);
   assert.strictEqual(lastApply.payload.source, 'calmjoints_physio_apply');
-  assert.strictEqual(lastApply.payload.license, undefined);
-  assert.strictEqual(lastApply.payload.phone, undefined);
-  assert.strictEqual(lastApply.payload.meta, undefined);
+  assert.match(lastApply.payload.externalId, /^cj-physio-/);
+  assert.strictEqual(lastApply.payload.kind, 'providers');
 
   let fridayCalls = 0;
-  const fridayEnv = { ...env, FRIDAY_API_KEY: 'door-key' };
+  const fridayEnv = { ...env, INTAKE_WEBHOOK_SECRET: 'door-key' };
   const before = readLines().length;
   const viaFriday = await processIntake('newsletter', { email: 'bea@example.com' }, {
     env: fridayEnv,
     ip: '4.4.4.4',
+    externalId: 'cj-news-bea',
     fetchImpl: async (url, init) => {
       fridayCalls += 1;
-      assert.strictEqual(url, FRIDAY_URLS.newsletter);
-      assert.strictEqual(url, 'https://fridayapp.org/api/webhooks/calmjoints/newsletter');
+      assert.strictEqual(url, FRIDAY_INTAKE_URL);
+      assert.strictEqual(url, 'https://fridayapp.org/api/intake');
+      assert.ok(!url.includes('/webhooks/calmjoints'));
       const body = JSON.parse(init.body);
       assert.deepStrictEqual(body, {
+        externalId: 'cj-news-bea',
         email: 'bea@example.com',
+        site: 'calmjoints.ca',
         source: 'calmjoints_newsletter',
-        host: 'calmjoints.ca',
+        path: '/newsletter',
+        kind: 'form',
+        tags: ['calmjoints', 'newsletter'],
       });
       assert.strictEqual(init.headers.Authorization, 'Bearer door-key');
-      return { ok: true, status: 200 };
+      assert.strictEqual(init.headers['X-Intake-Secret'], 'door-key');
+      return { ok: true, status: 201 };
     },
   });
   assert.strictEqual(viaFriday.status, 200);
@@ -144,20 +168,26 @@ async function main() {
     phone: '416-555-0199',
     registration_number: 'PT 9',
   }, {
-    env: fridayEnv,
+    env: { ...env, FRIDAY_API_KEY: 'door-key' },
     ip: '4.4.4.5',
+    externalId: 'cj-physio-priya',
     fetchImpl: async (url, init) => {
       fridayCalls += 1;
-      assert.strictEqual(url, 'https://fridayapp.org/api/webhooks/calmjoints/physio-apply');
+      assert.strictEqual(url, 'https://fridayapp.org/api/intake');
       const body = JSON.parse(init.body);
+      assert.strictEqual(body.externalId, 'cj-physio-priya');
       assert.strictEqual(body.source, 'calmjoints_physio_apply');
-      assert.strictEqual(body.host, 'calmjoints.ca');
-      assert.strictEqual(body.profile, 'Knees, gardens, and Tuesday evenings.');
-      assert.strictEqual(body.linkedin, 'priya-physio');
-      assert.strictEqual(body.phone, '416-555-0199');
-      assert.strictEqual(body.license, 'PT 9');
+      assert.strictEqual(body.site, 'calmjoints.ca');
+      assert.strictEqual(body.message, 'Knees, gardens, and Tuesday evenings.');
+      assert.strictEqual(body.website, 'https://www.linkedin.com/in/priya-physio');
+      assert.strictEqual(body.meta.linkedin, 'priya-physio');
+      assert.strictEqual(body.meta.phone, '416-555-0199');
+      assert.strictEqual(body.meta.license, 'PT 9');
       assert.strictEqual(body.province, 'ON');
+      assert.strictEqual(body.firstName, 'Priya');
+      assert.strictEqual(body.lastName, 'Shah');
       assert.strictEqual(init.headers.Authorization, 'Bearer door-key');
+      assert.strictEqual(init.headers['X-Intake-Secret'], 'door-key');
       return { ok: true, status: 201 };
     },
   });

@@ -24,20 +24,19 @@ Dev server: http://127.0.0.1:4173 — static site plus `POST /api/newsletter` an
 
 ## Intake
 
-`POST /api/newsletter` and `POST /api/apply` validate, rate-limit lightly, then POST to Friday:
+`POST /api/newsletter` and `POST /api/apply` validate, rate-limit lightly, then POST both forms to one Friday intake:
 
-| Flow | URL |
-| --- | --- |
-| Newsletter | `https://fridayapp.org/api/webhooks/calmjoints/newsletter` |
-| Physio apply | `https://fridayapp.org/api/webhooks/calmjoints/physio-apply` |
+`https://fridayapp.org/api/intake`
 
-Header: `Authorization: Bearer $FRIDAY_API_KEY`.
+Headers: `Authorization: Bearer $INTAKE_WEBHOOK_SECRET` and `X-Intake-Secret`. The handler reads `INTAKE_WEBHOOK_SECRET`, and falls back to `FRIDAY_API_KEY` when that name is the one already set. Both are the existing Scale/Birch door secret (the same value as `INTAKE_WEBHOOK_SECRET` on the `friday-crm` project and `FRIDAY_API_KEY` on `scalehealth`). Do not invent a second secret, and do not commit the value.
 
-Newsletter body: `{ "email", "source": "calmjoints_newsletter", "host": "calmjoints.ca", "meta"?: { "name"? } }`.
+Each submission gets one stable `externalId` (`cj-news-<uuid>` or `cj-physio-<uuid>`) and sends `site: "calmjoints.ca"`.
 
-Physio body: `{ "name", "email", "linkedin", "profile", "province"?, "provinces"?, "license"?, "phone"?, "source": "calmjoints_physio_apply", "host": "calmjoints.ca", "meta"?: {} }`. Years and availability notes, when present, go in `meta` only.
+Newsletter: `{ externalId, email, site, source: "calmjoints_newsletter", path: "/newsletter", kind: "form", tags: ["calmjoints","newsletter"], meta?: { name } }`.
 
-`FRIDAY_API_KEY` is the existing Scale/Birch Friday door key (the same value as `INTAKE_WEBHOOK_SECRET` on the `friday-crm` Vercel project, and as `FRIDAY_API_KEY` on `scalehealth`). It is set on `calm-joints-hub` as a sensitive env var for Production, Preview, and Development. Do not invent a second secret, and do not commit the value.
+Physio: `{ externalId, email, firstName, lastName, site, source: "calmjoints_physio_apply", path: "/apply", kind: "providers", country: "CA", province, website, message, meta: { linkedin, license?, phone?, provinces?, years_experience?, availability? }, tags: ["calmjoints","physio-apply"] }`. `website` is the LinkedIn URL. `message` is the short bio. `province` is the first selected code.
+
+This site does not call `/api/webhooks/calmjoints/*`.
 
 If Friday is unconfigured or returns non-2xx, the handler still writes a local JSONL row and, when a database URL is set, a Neon row, then returns the same friendly success. The stored envelope is `{ "type", "source": "calmjoints.ca", "payload": <Friday body>, "received_at", "notify_email": "info@calmjoints.ca" }`. `/tmp` on Vercel is ephemeral — Neon (`NEON_DATABASE_URL`, `DATABASE_URL`, or `POSTGRES_URL`, table `calm_joints_intakes`) is the durable copy when Friday is down. `INTAKE_STORE_PATH` overrides the JSONL file (default `data/intakes.jsonl` off Vercel).
 
