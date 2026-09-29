@@ -71,3 +71,7 @@ Site routes stay `POST /api/newsletter` and `POST /api/apply`.
 
 - No domain purchase / OBR / Stripe card digits
 - No edits to Scale Connect Hub / scalehealthnew
+
+## Clinic desk blogs (2026-09-28 evening)
+
+Added `#desk` “From the clinic desk” section with six externally linked education pieces (CPA, APA, MedlinePlus ×2, OrthoInfo AAOS ×2). URLs verified HTTP 200. No invented medical claims — blurbs describe the linked pages only. Contact remains `info@calmjoints.org`; canonical domain `calmjoints.org`.
