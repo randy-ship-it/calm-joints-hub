@@ -62,10 +62,11 @@
   .role h2 { margin:.5rem 0 .4rem; font-size:1.5rem; letter-spacing:-.02em; }
   .role p { margin:0; color:var(--mute); }
   .role .tag { margin-top:1.2rem; align-self:flex-start; font-size:.8rem; font-weight:700; background:var(--mint); color:var(--deep); padding:.35rem .7rem; border-radius:999px; }
-  .tesla { margin:clamp(3rem,8vw,5rem) auto; border-radius:32px; background:linear-gradient(120deg,#0B1D16,#0A3D22 60%,#15803D); color:#fff; padding:clamp(2rem,6vw,3.6rem); display:grid; gap:1.5rem; grid-template-columns:1fr auto; align-items:end; }
+  .tesla { margin:clamp(3rem,8vw,5rem) auto; border-radius:32px; background:linear-gradient(120deg,#0B1D16,#0A3D22 60%,#15803D); color:#fff; padding:clamp(2rem,6vw,3.6rem); display:grid; gap:1.5rem; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); align-items:end; }
   .tesla .big { font-size:clamp(2.2rem,6.5vw,4.4rem); line-height:.95; letter-spacing:-.04em; font-weight:700; margin:0; }
   .tesla .big span { color:#7EE2A8; white-space:nowrap; }
   .tesla p { margin:0; color:#CDEFD9; max-width:22rem; }
+  .tesla p.big { max-width:none; color:#fff; }
   @media (max-width:760px) { .tesla { grid-template-columns:1fr; } }
   .team { display:grid; grid-template-columns:repeat(5,1fr); gap:.8rem; }
   .team img { border-radius:20px; aspect-ratio:1; object-fit:cover; width:100%; }
@@ -81,6 +82,28 @@
   .bgrid small { display:block; margin-top:.2rem; font-weight:400; font-size:.85rem; color:var(--mute); }
   .bgrid.perks li { background:var(--mint); border-color:transparent; min-height:4.6rem; }
   .bnote { margin:-.8rem 0 0; font-size:.85rem; color:var(--mute); }
+  .brands { background:#0B1D16; color:#fff; margin:clamp(3rem,8vw,5rem) 0 0; padding:clamp(3rem,8vw,4.6rem) 0; overflow:hidden; }
+  .brands .kick { margin-bottom:.8rem; }
+  .brands h2 { margin:0 0 .8rem; font-size:clamp(1.8rem,4.4vw,2.8rem); line-height:1.02; letter-spacing:-.035em; max-width:18ch; }
+  .brands p.lead { margin:0 0 2.2rem; color:#CDEFD9; max-width:36rem; }
+  .mq { overflow:hidden; border-top:1px solid rgba(255,255,255,.09); -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); }
+  .mq:last-child { border-bottom:1px solid rgba(255,255,255,.09); }
+  .mq ul { list-style:none; margin:0; padding:0; display:flex; width:max-content; animation:mq 70s linear infinite; }
+  .mq.rev ul { animation-direction:reverse; animation-duration:80s; }
+  .mq li { display:flex; align-items:baseline; gap:.7rem; padding:1rem 1.6rem; border-right:1px solid rgba(255,255,255,.09); white-space:nowrap; }
+  .mq b { font-size:1rem; letter-spacing:.02em; text-transform:uppercase; }
+  .mq span { font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:#7E9A8A; }
+  @keyframes mq { to { transform:translateX(-50%); } }
+  @media (prefers-reduced-motion:reduce) { .mq ul { animation:none; flex-wrap:wrap; width:auto; } .mq li[aria-hidden] { display:none; } }
+  .benefits { margin-bottom:clamp(2.4rem,6vw,3.6rem); }
+  .benefits details { border:1px solid var(--line); border-radius:24px; background:#fff; }
+  .benefits summary { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.3rem 1.5rem; }
+  .benefits summary::-webkit-details-marker { display:none; }
+  .benefits summary h2 { margin:0; }
+  .benefits summary p { margin:.3rem 0 0; color:var(--mute); font-size:.95rem; }
+  .benefits summary i { flex:none; width:2.4rem; height:2.4rem; border-radius:50%; background:var(--mint); color:var(--deep); display:grid; place-items:center; font-style:normal; font-weight:700; font-size:1.3rem; transition:transform .2s; }
+  .benefits details[open] summary i { transform:rotate(45deg); }
+  .benefits .bin { padding:0 1.5rem 1.5rem; }
   .hbadge { display:inline-block; margin:0 0 1.6rem; padding:.4rem .85rem; border-radius:999px; background:rgba(126,226,168,.16); color:#7EE2A8; font-weight:700; font-size:.9rem; }
   .apply { background:var(--soft); padding:clamp(3rem,8vw,5rem) 0; }
   .apply form { max-width:560px; margin:0 auto; background:#fff; border-radius:28px; padding:clamp(1.6rem,5vw,2.6rem); box-shadow:0 1px 0 var(--line), 0 30px 60px -30px rgba(10,61,34,.25); }
@@ -113,17 +136,30 @@
     <article class="role"><span class="n">02</span><h2>Remote physio</h2><p>Video care from your own space. Physios with disabilities are welcome here.</p><span class="tag">Work from home</span></article>
     <article class="role"><span class="n">03</span><h2>Accessibility roles</h2><p>Help make our care easy for everyone to use. Lived experience counts.</p><span class="tag">Hiring people with disabilities</span></article>
   </div>
+  <section class="brands" aria-labelledby="brands-h">
+    <div class="wrap">
+      <p class="kick">Where our patients come from</p>
+      <h2 id="brands-h">Patients sent by brands they already trust.</h2>
+      <p class="lead">People find us through the recovery and wellness brands in our patient store. You spend your time treating people who want to get better, not chasing leads.</p>
+    </div>
+    <div class="mq "><ul><li><b>Dr. Ho</b><span>Recovery equipment</span></li><li><b>360 Athletics</b><span>Exercise equipment</span></li><li><b>Airwaav</b><span>Performance equipment</span></li><li><b>Viome</b><span>Personalized health</span></li><li><b>Kalaya</b><span>Topical pain relief</span></li><li><b>Magnum Supps</b><span>Sports nutrition</span></li><li><b>Fresh Prep</b><span>Meal delivery</span></li><li><b>Manduka</b><span>Yoga equipment</span></li><li><b>LyfeFuel</b><span>Nutrition</span></li><li><b>Renpho</b><span>Recovery equipment</span></li><li><b>Flora Health</b><span>Supplements and herbal</span></li><li><b>Resolve Sleep</b><span>Sleep care</span></li><li aria-hidden="true"><b>Dr. Ho</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>360 Athletics</b><span>Exercise equipment</span></li><li aria-hidden="true"><b>Airwaav</b><span>Performance equipment</span></li><li aria-hidden="true"><b>Viome</b><span>Personalized health</span></li><li aria-hidden="true"><b>Kalaya</b><span>Topical pain relief</span></li><li aria-hidden="true"><b>Magnum Supps</b><span>Sports nutrition</span></li><li aria-hidden="true"><b>Fresh Prep</b><span>Meal delivery</span></li><li aria-hidden="true"><b>Manduka</b><span>Yoga equipment</span></li><li aria-hidden="true"><b>LyfeFuel</b><span>Nutrition</span></li><li aria-hidden="true"><b>Renpho</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>Flora Health</b><span>Supplements and herbal</span></li><li aria-hidden="true"><b>Resolve Sleep</b><span>Sleep care</span></li></ul></div>
+    <div class="mq rev"><ul><li><b>Momentus</b><span>Sports nutrition</span></li><li><b>Hyperice Canada</b><span>Recovery equipment</span></li><li><b>Garmin</b><span>Wearable tech</span></li><li><b>Snap Supplements</b><span>Supplements</span></li><li><b>Bionic Gym</b><span>Exercise equipment</span></li><li><b>kGoal</b><span>Pelvic health</span></li><li><b>No Days Wasted</b><span>Recovery supplements</span></li><li><b>Medistick</b><span>Topical pain relief</span></li><li><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li><b>Bet Jet</b><span>Functional nutrition</span></li><li><b>Sierra Sil</b><span>Mineral supplements</span></li><li><b>Sensate</b><span>HRV device</span></li><li aria-hidden="true"><b>Momentus</b><span>Sports nutrition</span></li><li aria-hidden="true"><b>Hyperice Canada</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>Garmin</b><span>Wearable tech</span></li><li aria-hidden="true"><b>Snap Supplements</b><span>Supplements</span></li><li aria-hidden="true"><b>Bionic Gym</b><span>Exercise equipment</span></li><li aria-hidden="true"><b>kGoal</b><span>Pelvic health</span></li><li aria-hidden="true"><b>No Days Wasted</b><span>Recovery supplements</span></li><li aria-hidden="true"><b>Medistick</b><span>Topical pain relief</span></li><li aria-hidden="true"><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li aria-hidden="true"><b>Bet Jet</b><span>Functional nutrition</span></li><li aria-hidden="true"><b>Sierra Sil</b><span>Mineral supplements</span></li><li aria-hidden="true"><b>Sensate</b><span>HRV device</span></li></ul></div>
+  </section>
   <div class="wrap"><div class="tesla">
     <p class="big">In-home physios get a <span>Tesla Model Y.</span></p>
     <p>For qualifying physios who see patients at home.</p>
   </div></div>
   <section class="wrap benefits" id="benefits" aria-labelledby="benefits-h">
-    <h2 id="benefits-h">Benefits and perks</h2>
+    <details id="benefits-d">
+      <summary><div><h2 id="benefits-h">Benefits and perks</h2><p>Health, dental, vision and more, plus a Tesla Model Y for qualifying in-home physios.</p></div><i aria-hidden="true">+</i></summary>
+      <div class="bin">
     <h3>Health benefits</h3>
     <ul class="bgrid"><li>Prescription drugs</li><li>Dental</li><li>Vision</li><li>Paramedical</li><li>Mental health</li><li>Virtual care</li><li>Travel coverage</li><li>Life insurance</li></ul>
     <h3>Perks</h3>
     <ul class="bgrid perks"><li>Tesla Model Y<small>Qualifying in-home physios</small></li><li>Work from home<small>Remote video roles</small></li><li>Accommodations<small>Just ask, no diagnosis needed</small></li><li>Easy enrolment<small>No medical questionnaire</small></li></ul>
     <p class="bnote">For eligible hires. Plan details come with your offer.</p>
+      </div>
+    </details>
   </section>
   <div class="wrap team" aria-label="The team">
     <img src="/media/team/mark.webp" alt="Mark Rukavina" width="480" height="480" loading="lazy">
@@ -159,5 +195,6 @@
 </footer>
 <script src="/form.js"></script>
 <script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers');</script>
+<script>(function(){function o(){if(location.hash==="#benefits"){var d=document.getElementById("benefits-d");if(d)d.open=true;}}o();addEventListener("hashchange",o);})();</script>
 </body>
 </html>
