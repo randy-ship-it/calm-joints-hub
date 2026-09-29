@@ -15,8 +15,8 @@
 | Surface | URL |
 | --- | --- |
 | **Production** | **https://calm-joints-hub.vercel.app** |
-| This deployment | https://calm-joints-4vysff7z1-sbg-516724e0.vercel.app |
-| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/FNS21xN34XGW6wdBCXNy9RzyEATj |
+| This deployment | https://calm-joints-431u835wq-sbg-516724e0.vercel.app |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/9HNwqFXaYSTCuvjHtXdK6gpH8X6f |
 | Vercel project | `calm-joints-hub` (`prj_Y2OAVqC0nJ2jZXcuNMwMRNAC0vY6`) |
 | Team | `sbg-516724e0` (`team_lOeMvVi5qA620Xr4vVA0C59W`) |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |

@@ -7,7 +7,7 @@ Digital clinic landing and intake for **Calm Joints**.
 - **Scale** powers the hub.
 - Contact: [info@calmjoints.ca](mailto:info@calmjoints.ca)
 - Production: https://calm-joints-hub.vercel.app
-- This deployment: https://calm-joints-4vysff7z1-sbg-516724e0.vercel.app
+- This deployment: https://calm-joints-431u835wq-sbg-516724e0.vercel.app
 - Domain `calmjoints.ca` is not purchased yet.
 
 GitHub → Vercel project `calm-joints-hub` on team `sbg-516724e0`. No Replit publish.
