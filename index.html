@@ -443,6 +443,11 @@
 <script>
 (function () {
   var cfg = window.CALM_JOINTS || {};
+  try {
+    var ref = new URLSearchParams(location.search).get('ref') || '';
+    var m = ref.match(/^partner:([a-z0-9-]{3,48})$/);
+    if (m) { var prev = JSON.parse(localStorage.getItem('cj_ref') || 'null'); if (!prev || prev.slug !== m[1]) localStorage.setItem('cj_ref', JSON.stringify({ slug: m[1], email: null, at: Date.now() })); }
+  } catch (e) {}
   var url = (cfg.booking && cfg.booking.primaryUrl) || '';
   var bk = document.getElementById('book-dlg');
   var bkOk = document.getElementById('bk-ok');
@@ -450,7 +455,13 @@
   if (bk) {
     bk.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function () { bk.close(); }); });
     bk.addEventListener('click', function (e) { if (e.target === bk) bk.close(); });
-    if (bkOk) bkOk.addEventListener('click', function () { setTimeout(function () { bk.close(); }, 50); });
+    if (bkOk) bkOk.addEventListener('click', function () {
+      try {
+        var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
+        if (r && r.slug && Date.now() - r.at < 30 * 864e5) fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: r.slug, event: 'book', email: r.email || '', src: 'home' }), keepalive: true }).catch(function () {});
+      } catch (e) {}
+      setTimeout(function () { bk.close(); }, 50);
+    });
   }
   document.querySelectorAll('[data-book]').forEach(function (el) {
     if (url) { el.href = url; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
