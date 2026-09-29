@@ -46,11 +46,11 @@ function sign(kind, o) {
 
 const CSS = `
 *{box-sizing:border-box;margin:0}
-html,body{width:1200px;height:800px;overflow:hidden;font-family:"DM Sans",sans-serif;-webkit-font-smoothing:antialiased}
-.scene{position:relative;width:1200px;height:800px;overflow:hidden}
+html,body{width:1200px;height:900px;overflow:hidden;font-family:"DM Sans",sans-serif;-webkit-font-smoothing:antialiased}
+.scene{position:relative;width:1200px;height:900px;overflow:hidden}
 .bg{position:absolute;inset:-30px;filter:blur(var(--blur,5px)) saturate(1.05)}
 .vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.28) 100%);pointer-events:none}
-.sign{position:absolute;background:#fff;border-radius:14px;box-shadow:0 2px 0 rgba(255,255,255,.6) inset,0 30px 60px -18px rgba(0,0,0,.45),0 8px 18px -8px rgba(0,0,0,.3);color:#0B1D16}
+.sign{position:absolute;background:#fff;border-radius:14px;box-shadow:0 2px 0 rgba(255,255,255,.6) inset,0 40px 80px -30px rgba(0,0,0,.45),0 10px 24px -12px rgba(0,0,0,.3);color:#0B1D16}
 .poster{width:var(--w,300px);padding:calc(var(--w,300px)*.075);display:flex;flex-direction:column;align-items:center;text-align:center;aspect-ratio:3/4}
 .lr{display:flex;align-items:center;justify-content:center;gap:.5em;width:100%;font-size:calc(var(--w,300px)*.05)}
 .cj{height:2.9em;flex:0 0 auto}.cj svg{height:100%;width:auto;display:block}
@@ -79,107 +79,37 @@ html,body{width:1200px;height:800px;overflow:hidden;font-family:"DM Sans",sans-s
 .tag i{font-style:normal;color:#15803D;margin-right:6px}
 `;
 
+// Clean mockups: one sign per venue on a tinted field with a faint material pattern. No fake photos.
+const PAT = {
+  boards: 'linear-gradient(transparent 0 86%,#F2C300 86% 91%,transparent 91%)',
+  fence: 'repeating-linear-gradient(45deg,rgba(255,255,255,.14) 0 2px,transparent 2px 26px),repeating-linear-gradient(-45deg,rgba(255,255,255,.14) 0 2px,transparent 2px 26px)',
+  wood: 'repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 3px,transparent 3px 150px)',
+  tile: 'repeating-linear-gradient(90deg,transparent 0 78px,rgba(0,0,0,.06) 78px 80px),repeating-linear-gradient(transparent 0 78px,rgba(0,0,0,.06) 78px 80px)',
+  shelf: 'repeating-linear-gradient(transparent 0 176px,rgba(0,0,0,.07) 176px 184px)',
+  lanes: 'repeating-linear-gradient(90deg,transparent 0 196px,rgba(255,255,255,.16) 196px 204px)',
+};
 const scenes = [
-  { name: 'hockey-rink', tag: 'Hockey rinks', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#0E1A2B 0,#1B2C44 38%,#2C4261 52%)"></div>
-    <div style="position:absolute;left:0;right:0;top:40px;height:300px;background:repeating-linear-gradient(90deg,#26395A 0 34px,#1A2A43 34px 44px),linear-gradient(#0000,#0000);opacity:.8;mask:repeating-linear-gradient(#000 0 26px,#0000 26px 40px)"></div>
-    <div style="position:absolute;left:0;right:0;top:330px;height:120px;background:linear-gradient(rgba(210,230,245,.28),rgba(210,230,245,.08))"></div>
-    <div style="position:absolute;left:0;right:0;top:450px;height:210px;background:linear-gradient(#FBFCFD,#E8EEF2)"></div>
-    <div style="position:absolute;left:0;right:0;top:444px;height:12px;background:#E9ECEF"></div>
-    <div style="position:absolute;left:0;right:0;top:640px;height:22px;background:#F2C300"></div>
-    <div style="position:absolute;left:0;right:0;top:662px;bottom:0;background:linear-gradient(#EAF4FA,#D6E8F3)"></div>
-    <div style="position:absolute;left:0;right:0;top:720px;height:10px;background:#C8102E;opacity:.75"></div>`,
-    fg: sign('banner', { h1: 'Sore after the game?', color: '#C8102E', icon: 'puck', style: '--w:600px;left:300px;top:444px;border-radius:4px' }) },
-  { name: 'sports-store', tag: 'Sporting goods stores', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#F3EEE6,#E7DFD2)"></div>
-    ${[0, 1, 2, 3].map(r => `<div style="position:absolute;left:0;right:0;top:${70 + r * 120}px;height:14px;background:#C9B79B"></div>` + Array.from({ length: 14 }, (_, c) => `<div style="position:absolute;left:${20 + c * 86}px;top:${10 + r * 120}px;width:70px;height:60px;border-radius:6px;background:${['#1F4E79', '#D94F30', '#2E7D5B', '#F2B134', '#6B4E9B', '#111', '#E8E3DA'][(r * 5 + c) % 7]}"></div>`).join('')).join('')}
-    <div style="position:absolute;left:0;right:0;top:560px;bottom:0;background:linear-gradient(#5A4632,#3E2F21)"></div>
-    <div style="position:absolute;left:0;right:0;top:548px;height:16px;background:#7A6247"></div>`,
-    blur: '7px',
-    fg: sign('tent', { h1: 'Sore from the season?', color: '#1F4E79', icon: 'store', style: '--w:230px;left:485px;top:195px' }) },
-  { name: 'pickleball-club', tag: 'Pickleball and tennis clubs', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#9FD3F2,#DDF0FA 60%)"></div>
-    <div style="position:absolute;left:0;right:0;top:300px;height:120px;background:linear-gradient(#5E8F4E,#4B7A3E)"></div>
-    <div style="position:absolute;left:0;right:0;top:420px;bottom:0;background:#2F6DA3"></div>
-    <div style="position:absolute;left:120px;right:120px;top:520px;bottom:-40px;background:#3F8C5C;border:6px solid #fff"></div>
-    <div style="position:absolute;left:0;right:0;top:120px;height:330px;background:repeating-linear-gradient(45deg,rgba(40,48,44,.45) 0 2px,transparent 2px 22px),repeating-linear-gradient(-45deg,rgba(40,48,44,.45) 0 2px,transparent 2px 22px)"></div>
-    <div style="position:absolute;left:0;right:0;top:112px;height:10px;background:#3A413D"></div>`,
-    blur: '3px',
-    fg: `<div class="grom" style="position:absolute;left:0;top:0"></div>` + sign('banner', { h1: 'Sore after a match?', color: '#E0701B', icon: 'paddle', style: '--w:620px;left:290px;top:150px' }) },
-  { name: 'running-store', tag: 'Running and bike shops', bg: `
-    <div style="position:absolute;inset:0;background:#EDEFF1"></div>
-    ${Array.from({ length: 5 }, (_, r) => Array.from({ length: 12 }, (_, c) => `<div style="position:absolute;left:${c * 104}px;top:${40 + r * 110}px;width:80px;height:34px;border-radius:30px 10px 6px 6px;background:${['#FF5A36', '#2A6FDB', '#1C1C1C', '#F4F4F4', '#18B38A', '#FFC93C'][(r * 7 + c) % 6]}"></div><div style="position:absolute;left:${c * 104 - 10}px;top:${78 + r * 110}px;width:100px;height:6px;background:#C4CAD0"></div>`).join('')).join('')}
-    <div style="position:absolute;left:0;right:0;top:600px;bottom:0;background:linear-gradient(#9C7C5C,#7D6147)"></div>`,
-    blur: '7px',
-    fg: sign('poster', { h1: 'Shins, knees or hips sore?', color: '#FF5A36', icon: 'shoe', style: '--w:330px;left:435px;top:110px' }) },
-  { name: 'crossfit-box', tag: 'CrossFit and strength gyms', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#3B3F44,#2A2D31)"></div>
-    <div style="position:absolute;left:0;right:0;top:60px;height:22px;background:#1A1C1F"></div>
-    ${Array.from({ length: 7 }, (_, i) => `<div style="position:absolute;left:${40 + i * 180}px;top:60px;width:20px;height:560px;background:#16181B"></div>`).join('')}
-    <div style="position:absolute;left:0;right:0;top:600px;bottom:0;background:#141517"></div>
-    ${Array.from({ length: 6 }, (_, i) => `<div style="position:absolute;left:${90 + i * 190}px;top:640px;width:90px;height:90px;border-radius:50%;background:#0B0C0D;border:10px solid #2B2E33"></div>`).join('')}`,
-    blur: '5px',
-    fg: sign('banner', { h1: 'Tweaked something?', color: '#111111', icon: 'bar', style: '--w:640px;left:280px;top:190px' }) },
-  { name: 'pilates-studio', tag: 'Pilates, yoga and barre studios', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#F1E9DF,#E8DCCD)"></div>
-    <div style="position:absolute;left:760px;top:90px;width:330px;height:500px;border-radius:165px 165px 8px 8px;background:linear-gradient(135deg,#E3ECEA,#C9D8D5);box-shadow:inset 0 0 0 10px #D8C8B4"></div>
-    <div style="position:absolute;left:90px;top:360px;width:140px;height:240px;border-radius:70px 70px 10px 10px;background:#6E8B5E;opacity:.85"></div>
-    <div style="position:absolute;left:0;right:0;top:600px;bottom:0;background:linear-gradient(#C8A987,#B08F6E)"></div>
-    <div style="position:absolute;left:200px;top:640px;width:760px;height:40px;border-radius:10px;background:#5F7F72"></div>`,
-    blur: '6px',
-    fg: sign('poster', { h1: 'Sore back or hips?', color: '#6E8B5E', icon: 'leaf', style: '--w:320px;left:400px;top:120px' }) },
-  { name: 'golf-club', tag: 'Golf clubs and pro shops', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#5B3F2A,#3F2B1C)"></div>
-    ${Array.from({ length: 10 }, (_, i) => `<div style="position:absolute;left:${i * 124}px;top:0;width:118px;height:620px;background:linear-gradient(#7A5539,#5E402A);box-shadow:inset 0 0 0 3px #4A3222"><div style="position:absolute;left:14px;right:14px;top:30px;height:6px;background:#3A281B;border-radius:3px"></div><div style="position:absolute;left:14px;right:14px;top:44px;height:6px;background:#3A281B;border-radius:3px"></div><div style="position:absolute;right:16px;top:300px;width:10px;height:40px;background:#C9A45C;border-radius:4px"></div></div>`).join('')}
-    <div style="position:absolute;left:0;right:0;top:620px;bottom:0;background:linear-gradient(#2F5D3A,#23462C)"></div>`,
-    blur: '6px',
-    fg: sign('poster', { h1: 'Back or shoulder sore?', color: '#1E5B34', icon: 'flag', style: '--w:320px;left:440px;top:115px' }) },
-  { name: 'massage-spa', tag: 'Massage, spa and salon desks', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#EFE6DB,#E2D5C5)"></div>
-    <div style="position:absolute;left:80px;top:80px;width:420px;height:280px;border-radius:10px;background:linear-gradient(135deg,#CFE0D8,#AFC8BD)"></div>
-    <div style="position:absolute;left:880px;top:180px;width:120px;height:380px;border-radius:60px 60px 0 0;background:#7E9A74"></div>
-    <div style="position:absolute;left:0;right:0;top:560px;bottom:0;background:linear-gradient(#F7F3EE,#E9E1D6)"></div>
-    <div style="position:absolute;left:0;right:0;top:550px;height:14px;background:#C9B8A2"></div>
-    <div style="position:absolute;left:760px;top:505px;width:110px;height:50px;border-radius:0 0 30px 30px;background:#D9C9B3"></div>`,
-    blur: '6px',
-    fg: sign('tent', { h1: 'Need more than a massage?', color: '#8A6E52', icon: 'hand', style: '--w:230px;left:485px;top:195px' }) },
-  { name: 'trade-counter', tag: 'Trade supply and contractor counters', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#DADDE0,#C4C9CE)"></div>
-    ${[0, 1, 2].map(r => `<div style="position:absolute;left:0;right:0;top:${150 + r * 150}px;height:16px;background:#E86A1A"></div>` + Array.from({ length: 11 }, (_, c) => `<div style="position:absolute;left:${10 + c * 112}px;top:${60 + r * 150}px;width:96px;height:90px;border-radius:4px;background:${['#9AA3AB', '#6D7880', '#C79A5A', '#4E5A63'][(r + c) % 4]}"></div>`).join('')).join('')}
-    <div style="position:absolute;left:0;right:0;top:570px;bottom:0;background:linear-gradient(#5E666D,#454B51)"></div>
-    <div style="position:absolute;left:0;right:0;top:558px;height:16px;background:#8C949B"></div>`,
-    blur: '6px',
-    fg: sign('tent', { h1: 'Sore back from the job?', color: '#E86A1A', icon: 'hammer', style: '--w:230px;left:485px;top:200px' }) },
-  { name: 'race-day', tag: 'Races, run clubs and tournaments', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#8CCBF0,#E4F3FB 65%)"></div>
-    <div style="position:absolute;left:130px;top:80px;width:940px;height:560px;border:70px solid #15803D;border-bottom:0;border-radius:470px 470px 0 0"></div>
-    <div style="position:absolute;left:0;right:0;top:600px;bottom:0;background:linear-gradient(#6F7478,#595D61)"></div>
-    <div style="position:absolute;left:0;right:0;top:680px;height:8px;background:#fff;opacity:.8"></div>`,
-    blur: '4px',
-    fg: sign('banner', { h1: 'Sore after the race?', color: '#15803D', icon: 'bib', style: '--w:620px;left:290px;top:380px;border-radius:6px' }) },
-  { name: 'garden-centre', tag: 'Garden centres', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#EAF2E4,#D7E6CC)"></div>
-    ${Array.from({ length: 22 }, (_, i) => `<div style="position:absolute;left:${(i * 137) % 1200}px;top:${260 + (i * 53) % 260}px;width:${110 + (i * 17) % 80}px;height:${110 + (i * 17) % 80}px;border-radius:50%;background:${['#4F8A3C', '#6FA84F', '#3C6E2E', '#E7A5B8', '#F2C94C'][i % 5]}"></div>`).join('')}
-    <div style="position:absolute;left:0;right:0;top:600px;bottom:0;background:linear-gradient(#8A6A4C,#6E5238)"></div>`,
-    blur: '7px',
-    fg: sign('poster', { h1: 'Knees sore from the garden?', color: '#3C6E2E', icon: 'leaf', style: '--w:320px;left:440px;top:115px' }) },
-  { name: 'ski-hill', tag: 'Ski hills and rental shops', bg: `
-    <div style="position:absolute;inset:0;background:linear-gradient(#7FB6E0,#DCEBF6 55%)"></div>
-    <div style="position:absolute;left:-100px;top:250px;width:800px;height:500px;background:#F4F8FB;clip-path:polygon(0 100%,45% 0,100% 100%)"></div>
-    <div style="position:absolute;left:450px;top:180px;width:900px;height:600px;background:#E6EEF4;clip-path:polygon(0 100%,50% 0,100% 100%)"></div>
-    ${Array.from({ length: 16 }, (_, i) => `<div style="position:absolute;left:${i * 80}px;top:${520 + (i % 3) * 20}px;width:40px;height:90px;background:#2F5A45;clip-path:polygon(50% 0,100% 100%,0 100%)"></div>`).join('')}
-    <div style="position:absolute;left:0;right:0;top:620px;bottom:0;background:linear-gradient(#6B4B33,#51382A)"></div>`,
-    blur: '5px',
-    fg: sign('poster', { h1: 'Knees feeling the hill?', color: '#1F5FA8', icon: 'snow', style: '--w:320px;left:440px;top:115px' }) },
+  { name: 'hockey-rink', field: 'linear-gradient(160deg,#EAF2F8,#D5E4EF)', pat: PAT.boards,
+    fg: sign('banner', { h1: 'Sore after the game?', color: '#C8102E', icon: 'puck', style: '--w:860px;left:170px;top:235px;border-radius:8px' }) },
+  { name: 'tennis-courts', field: 'linear-gradient(160deg,#2F6DA3,#24568A)', pat: PAT.fence,
+    fg: sign('banner', { h1: 'Sore after a match?', color: '#E0701B', icon: 'paddle', style: '--w:860px;left:170px;top:235px;border-radius:8px' }) },
+  { name: 'private-club', field: 'linear-gradient(160deg,#2F5D3A,#1F4229)', pat: PAT.wood,
+    fg: sign('poster', { h1: 'Back or shoulder sore?', color: '#1E5B34', icon: 'flag', style: '--w:500px;left:350px;top:117px' }) },
+  { name: 'gym-change-room', field: 'linear-gradient(160deg,#E9EDEF,#D4DBDF)', pat: PAT.tile,
+    fg: sign('poster', { h1: 'Sore after your workout?', color: '#111111', icon: 'bar', style: '--w:500px;left:350px;top:117px' }) },
+  { name: 'sports-store', field: 'linear-gradient(160deg,#F4EDE3,#E6D9C6)', pat: PAT.shelf,
+    fg: sign('tent', { h1: 'Sore from the season?', color: '#1F4E79', icon: 'store', style: '--w:450px;left:375px;top:95px' }) },
+  { name: 'race-day', field: 'linear-gradient(160deg,#15803D,#0E5F2D)', pat: PAT.lanes,
+    fg: sign('banner', { h1: 'Sore after the race?', color: '#15803D', icon: 'bib', style: '--w:860px;left:170px;top:235px;border-radius:8px' }) },
 ];
 
 const chrome = process.env.CHROME || 'google-chrome';
 for (const s of scenes) {
-  const html = `<!doctype html><html><head><meta charset="utf-8"><style>${CSS}</style></head><body><div class="scene" style="--blur:${s.blur || '5px'}"><div class="bg">${s.bg}</div><div class="vig"></div>${s.fg}<div class="tag"><i>●</i>${s.tag}</div></div></body></html>`;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><style>${CSS}</style></head><body><div class="scene" style="background:${s.field}"><div style="position:absolute;inset:0;background:${s.pat}"></div>${s.fg}</div></body></html>`;
   const f = path.join(tmp, `${s.name}.html`); fs.writeFileSync(f, html);
   const png = path.join(tmp, `${s.name}.png`);
-  execFileSync(chrome, ['--headless=new', '--no-sandbox', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=2', `--screenshot=${png}`, '--window-size=1200,800', '--virtual-time-budget=2000', 'file://' + f], { stdio: 'ignore' });
-  execFileSync('python3', ['-c', `from PIL import Image;im=Image.open('${png}').convert('RGB');im.save('${path.join(out, s.name + '.webp')}','WEBP',quality=84,method=6);im.resize((1200,800),Image.LANCZOS).save('${path.join(out, s.name + '.jpg')}','JPEG',quality=85,optimize=True,progressive=True)`]);
+  execFileSync(chrome, ['--headless=new', '--no-sandbox', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=2', `--screenshot=${png}`, '--window-size=1200,900', '--virtual-time-budget=2000', 'file://' + f], { stdio: 'ignore' });
+  execFileSync('python3', ['-c', `from PIL import Image;im=Image.open('${png}').convert('RGB');im.save('${path.join(out, s.name + '.webp')}','WEBP',quality=84,method=6);im.resize((1200,900),Image.LANCZOS).save('${path.join(out, s.name + '.jpg')}','JPEG',quality=85,optimize=True,progressive=True)`]);
   console.log('built', s.name);
 }
 fs.writeFileSync(path.join(tmp, 'scenes.json'), JSON.stringify(scenes.map(s => ({ name: s.name, tag: s.tag })), null, 1));

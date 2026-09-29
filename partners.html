@@ -44,22 +44,25 @@
   .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem;padding:0;list-style:none}
   .chips li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.35rem .8rem;font-size:.88rem;color:var(--mute)}
   @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
-  .car{margin-top:2rem;position:relative}
-  .car-track{list-style:none;margin:0;padding:0 0 .4rem;display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;outline:none}
+  .car{margin-top:1.6rem;position:relative}
+  .car-track{list-style:none;margin:0 calc(50% - 50vw);padding:.6rem calc(50vw - min(44vw,380px)) 1.2rem;display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;outline:none}
   .car-track::-webkit-scrollbar{display:none}
-  .slide{flex:0 0 min(78%,760px);scroll-snap-align:start}
-  .slide figure{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 24px 48px -32px rgba(10,61,34,.45)}
-  .slide img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
-  .slide figcaption{padding:1rem 1.2rem 1.2rem;display:grid;gap:.2rem;font-size:.95rem;color:var(--mute)}
-  .slide figcaption b{color:var(--ink);font-size:1.08rem}
+  .slide{flex:0 0 min(88vw,760px);scroll-snap-align:center;opacity:.4;transform:scale(.94);transition:opacity .45s ease,transform .45s ease}
+  .slide.is-active{opacity:1;transform:none}
+  .slide figure{margin:0}
+  .slide img{display:block;width:100%;height:auto;aspect-ratio:4/3;border-radius:20px;border:1px solid var(--line);box-shadow:0 30px 60px -38px rgba(11,29,22,.5)}
+  .slide figcaption{padding:.9rem .3rem 0;display:grid;gap:.15rem;font-size:.95rem;color:var(--mute);line-height:1.45}
+  .slide figcaption b{color:var(--ink);font-size:1.12rem}
   .slide .pl{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
-  .car-ctl{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.1rem}
-  .car-btn{width:44px;height:44px;border-radius:50%;border:1px solid #CFD9D3;background:#fff;font-size:1.2rem;cursor:pointer;color:var(--ink)}
+  .car-ctl{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:.4rem}
+  .car-btn{width:44px;height:44px;border-radius:50%;border:1px solid #CFD9D3;background:#fff;font-size:1.15rem;cursor:pointer;color:var(--ink)}
   .car-btn:hover{border-color:var(--ink)}
-  .car-dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
-  .car-dots button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:#CFD9D3;cursor:pointer}
-  .car-dots button[aria-selected=true]{background:var(--green);width:24px;border-radius:9px}
-  @media (max-width:700px){.slide{flex-basis:88%}}
+  .car-dots{display:flex;gap:.45rem}
+  .car-dots button{width:8px;height:8px;padding:0;border-radius:99px;border:0;background:#CFD9D3;cursor:pointer;transition:width .3s,background .3s}
+  .car-dots button[aria-selected=true]{background:var(--green);width:24px}
+  .car-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media (max-width:700px){.car-track{gap:.75rem;padding-top:.3rem}.slide img{border-radius:16px}.slide figcaption{font-size:.92rem}.slide figcaption b{font-size:1.05rem}}
+  @media (prefers-reduced-motion:reduce){.slide{transition:none}}
   .terms{margin:1.1rem 0 0;border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:.2rem 1rem}
   .terms summary{cursor:pointer;font-weight:600;font-size:.92rem;padding:.7rem 0}
   .terms ol{margin:0 0 .9rem;padding-left:1.2rem;font-size:.86rem;color:var(--mute);display:grid;gap:.35rem}
@@ -107,6 +110,7 @@
   footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-size:.9rem}
   .foot{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between}
   .foot nav{display:flex;flex-wrap:wrap;gap:1.2rem}.foot a{text-decoration:none}
+  html,body{overflow-x:clip}
 </style>
 </head>
 <body>
@@ -138,7 +142,7 @@
           <li>Sports arenas and rinks</li><li>Volleyball and pickleball clubs</li><li>Gyms and studios</li><li>Leagues and tournaments</li><li>Recovery studios</li>
         </ul>
       </div>
-      <div class="hero-art" style="background:#1B2C44"><img src="/media/partners/scenes/hockey-rink.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR banner on the boards at a hockey rink"></div>
+      <div class="hero-art" style="background:#2F5D3A"><img src="/media/partners/scenes/private-club.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR poster in a private club locker room"></div>
     </div>
   </section>
 
@@ -146,27 +150,22 @@
     <div class="wrap">
       <p class="kicker">Where it goes</p>
       <h2>Big, simple, and right where people get sore.</h2>
-      <p class="lede">Every kit is a clean white sign with our logo beside yours and one big QR code. Any place with a crowd that gets sore is a fit. Swipe through a few ideas.</p>
-      <div class="car" id="car" aria-roledescription="carousel" aria-label="Example placements">
+      <p class="lede">Every kit is a clean white sign with our logo beside yours and one big QR code. These are the six places where it works best.</p>
+      <div class="car" id="car" aria-roledescription="carousel" aria-label="Six top places for a Calm Joints QR sign">
         <ol class="car-track" id="car-track" tabindex="0">
-          <li class="slide"><figure><img src="/media/partners/scenes/hockey-rink.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at hockey rinks" loading="eager"><figcaption><span class="pl">Banner on the boards</span><b>Hockey rinks</b><span>Players, parents and beer-league regulars all see it from the bench and the stands.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/sports-store.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at sporting goods stores" loading="eager"><figcaption><span class="pl">Table tent at checkout</span><b>Sporting goods stores</b><span>People buying braces, tape and new skates are already thinking about a sore spot.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/pickleball-club.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at pickleball and tennis clubs" loading="lazy"><figcaption><span class="pl">Banner on the fence</span><b>Pickleball and tennis clubs</b><span>Drop-in players are the fastest-growing sore shoulders and elbows around.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/running-store.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at running and bike shops" loading="lazy"><figcaption><span class="pl">Poster by the fitting bench</span><b>Running and bike shops</b><span>Right where people talk about shin splints, knees and hips.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/crossfit-box.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at crossfit and strength gyms" loading="lazy"><figcaption><span class="pl">Banner on the rig</span><b>CrossFit and strength gyms</b><span>For the lifter who tweaked something and wants to keep training.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/pilates-studio.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at pilates, yoga and barre studios" loading="lazy"><figcaption><span class="pl">Poster by the mirror</span><b>Pilates, yoga and barre studios</b><span>Clients who move carefully often want a physio’s eye on a back or hip.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/golf-club.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at golf clubs and pro shops" loading="lazy"><figcaption><span class="pl">Poster in the locker room</span><b>Golf clubs and pro shops</b><span>Backs and shoulders after the round, seen by members every visit.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/massage-spa.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at massage, spa and salon desks" loading="lazy"><figcaption><span class="pl">Table tent at the front desk</span><b>Massage, spa and salon desks</b><span>A natural next step for clients who need more than a massage.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/trade-counter.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at trade supply counters" loading="lazy"><figcaption><span class="pl">Table tent at the pro desk</span><b>Trade supply counters</b><span>Contractors and trades live with sore backs and knees, and they’re in every morning.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/race-day.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at races, run clubs and tournaments" loading="lazy"><figcaption><span class="pl">Banner at bib pickup or the finish</span><b>Races, run clubs and tournaments</b><span>Thousands of sore legs in one place, on one weekend.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/garden-centre.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at garden centres" loading="lazy"><figcaption><span class="pl">Poster at the till</span><b>Garden centres</b><span>Spring planting season means knees and backs that ache for days.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/ski-hill.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at ski hills and rental shops" loading="lazy"><figcaption><span class="pl">Poster at rentals and the lodge</span><b>Ski hills and rental shops</b><span>Knees and wrists feeling the hill, with a physio a scan away.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/hockey-rink.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR sign for hockey rinks" loading="eager" decoding="async"><figcaption><span class="pl">Banner on the boards</span><b>Hockey rinks</b><span>Players, parents and beer-league regulars see it from the bench and the stands, every week of the season.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/tennis-courts.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR sign for tennis and pickleball courts" loading="eager" decoding="async"><figcaption><span class="pl">Banner on the court fence</span><b>Tennis and pickleball courts</b><span>Sore elbows, shoulders and knees, right where people play. Works at clubs and public courts.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/private-club.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR sign for private golf and country clubs" loading="lazy" decoding="async"><figcaption><span class="pl">Poster in the members’ locker room</span><b>Private golf and country clubs</b><span>Members walk past it every visit, and backs and shoulders are the talk after the round.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/gym-change-room.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR sign for gym change rooms" loading="lazy" decoding="async"><figcaption><span class="pl">Poster in the change room</span><b>Gym change rooms</b><span>A quiet, private spot to scan after a workout that left something tweaked.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/sports-store.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR sign for sporting goods stores" loading="lazy" decoding="async"><figcaption><span class="pl">Table tent at checkout</span><b>Sporting goods stores</b><span>People buying braces, tape and new gear are already thinking about a sore spot.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/race-day.webp" width="1200" height="900" alt="Example: a co-branded Calm Joints QR sign for races and tournaments" loading="lazy" decoding="async"><figcaption><span class="pl">Banner at bib pickup or the finish</span><b>Races and tournaments</b><span>Thousands of sore legs in one place, on one weekend.</span></figcaption></figure></li>
         </ol>
         <div class="car-ctl">
           <button class="car-btn" type="button" id="car-prev" aria-label="Previous example">&#8592;</button>
           <div class="car-dots" id="car-dots" role="tablist" aria-label="Choose an example"></div>
           <button class="car-btn" type="button" id="car-next" aria-label="Next example">&#8594;</button>
         </div>
+        <p class="car-sr" id="car-live" aria-live="polite"></p>
       </div>
       <p class="fine" style="margin-top:1rem">Example placements. Every kit comes in four sizes: sticker, table tent, 18 × 24 poster and 3 × 6 ft banner, as print-ready files for any print shop.</p>
     </div>
@@ -301,21 +300,41 @@
 <script src="/js/partner-kit.js"></script>
 <script>
 (function () {
-  var track = document.getElementById('car-track'), dots = document.getElementById('car-dots');
+  var track = document.getElementById('car-track'), dots = document.getElementById('car-dots'), live = document.getElementById('car-live');
   var slides = Array.prototype.slice.call(track.children);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = 0, timer = null, paused = false, st;
   slides.forEach(function (sl, i) {
     var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab');
     b.setAttribute('aria-label', 'Example ' + (i + 1) + ': ' + sl.querySelector('b').textContent);
-    b.addEventListener('click', function () { go(i); }); dots.appendChild(b);
+    b.addEventListener('click', function () { go(i); restart(); }); dots.appendChild(b);
   });
-  function cur() { var x = track.scrollLeft, best = 0, d = 1e9; slides.forEach(function (sl, i) { var dd = Math.abs(sl.offsetLeft - track.offsetLeft - x); if (dd < d) { d = dd; best = i; } }); return best; }
-  function go(i) { i = (i + slides.length) % slides.length; track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' }); }
-  function mark() { var c = cur(); Array.prototype.forEach.call(dots.children, function (b, i) { b.setAttribute('aria-selected', String(i === c)); }); }
-  document.getElementById('car-prev').addEventListener('click', function () { go(cur() - 1); });
-  document.getElementById('car-next').addEventListener('click', function () { go(cur() + 1); });
-  track.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur() - 1); } });
-  var t; track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(mark, 60); }, { passive: true });
-  mark();
+  function go(i) {
+    current = (i + slides.length) % slides.length;
+    var s = slides[current];
+    track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+    mark();
+  }
+  function mark() {
+    slides.forEach(function (s, i) { s.classList.toggle('is-active', i === current); });
+    Array.prototype.forEach.call(dots.children, function (b, i) { b.setAttribute('aria-selected', String(i === current)); });
+    live.textContent = slides[current].querySelector('b').textContent + ', ' + (current + 1) + ' of ' + slides.length;
+  }
+  function nearest() {
+    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, d = Infinity;
+    slides.forEach(function (s, i) { var c = s.offsetLeft + s.clientWidth / 2; if (Math.abs(c - mid) < d) { d = Math.abs(c - mid); best = i; } });
+    return best;
+  }
+  track.addEventListener('scroll', function () { clearTimeout(st); st = setTimeout(function () { var n = nearest(); if (n !== current) { current = n; mark(); } }, 90); }, { passive: true });
+  function restart() { clearInterval(timer); if (reduce) return; timer = setInterval(function () { if (!paused && !document.hidden) go(current + 1); }, 4200); }
+  ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) { track.addEventListener(ev, function () { paused = true; }, { passive: true }); });
+  ['mouseleave', 'focusout'].forEach(function (ev) { track.addEventListener(ev, function () { paused = false; }); });
+  track.addEventListener('touchend', function () { setTimeout(function () { paused = false; }, 4000); }, { passive: true });
+  document.getElementById('car-prev').addEventListener('click', function () { go(current - 1); restart(); });
+  document.getElementById('car-next').addEventListener('click', function () { go(current + 1); restart(); });
+  track.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); restart(); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); restart(); } });
+  window.addEventListener('resize', function () { var s = slides[current]; track.scrollLeft = s.offsetLeft - (track.clientWidth - s.clientWidth) / 2; });
+  requestAnimationFrame(function () { go(0); restart(); });
 })();
 (function () {
   var state = { size: 'poster', logo: null, url: 'https://calmjoints.org/partners', slug: null };
