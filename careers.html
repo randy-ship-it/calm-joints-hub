@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Careers · Calm Joints</title>
-<meta name="description" content="Mobile physios, remote physios, and accessibility roles. We hire people with disabilities. Health benefits, plus a Tesla Model Y for qualifying in-home physios.">
+<meta name="description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 80+ partner locations. Hiring across Canada. We hire people with disabilities.">
 <meta name="theme-color" content="#15803D">
 <link rel="canonical" href="https://calmjoints.org/careers">
 <meta property="og:site_name" content="Calm Joints">
 <meta property="og:title" content="Careers · Calm Joints">
-<meta property="og:description" content="Mobile physios, remote physios, and accessibility roles. We hire people with disabilities. Health benefits, plus a Tesla Model Y for qualifying in-home physios.">
+<meta property="og:description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 80+ partner locations. Hiring across Canada. We hire people with disabilities.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calmjoints.org/careers">
 <meta property="og:image" content="https://calmjoints.org/media/og.jpg">
@@ -64,7 +64,8 @@
   .role .tag { margin-top:1.2rem; align-self:flex-start; font-size:.8rem; font-weight:700; background:var(--mint); color:var(--deep); padding:.35rem .7rem; border-radius:999px; }
   .tesla { margin:clamp(3rem,8vw,5rem) auto; border-radius:32px; background:linear-gradient(120deg,#0B1D16,#0A3D22 60%,#15803D); color:#fff; padding:clamp(2rem,6vw,3.6rem); display:grid; gap:1.5rem; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); align-items:end; }
   .tesla .big { font-size:clamp(2.2rem,6.5vw,4.4rem); line-height:.95; letter-spacing:-.04em; font-weight:700; margin:0; }
-  .tesla .big span { color:#7EE2A8; white-space:nowrap; }
+  .tesla .big span { color:#7EE2A8; }
+  .tesla .nw { font-style:normal; white-space:nowrap; }
   .tesla p { margin:0; color:#CDEFD9; max-width:22rem; }
   .tesla p.big { max-width:none; color:#fff; }
   @media (max-width:760px) { .tesla { grid-template-columns:1fr; } }
@@ -82,6 +83,33 @@
   .bgrid small { display:block; margin-top:.2rem; font-weight:400; font-size:.85rem; color:var(--mute); }
   .bgrid.perks li { background:var(--mint); border-color:transparent; min-height:4.6rem; }
   .bnote { margin:-.8rem 0 0; font-size:.85rem; color:var(--mute); }
+  .flex { margin:clamp(3rem,8vw,5rem) auto 0; display:grid; gap:clamp(1.6rem,4vw,3rem); grid-template-columns:1fr 1.1fr; align-items:start; }
+  @media (max-width:860px) { .flex { grid-template-columns:1fr; } }
+  .flex h2 { margin:0 0 .8rem; font-size:clamp(1.8rem,4.2vw,2.7rem); line-height:1.02; letter-spacing:-.035em; }
+  .flex .lead { margin:0; color:var(--mute); font-size:1.05rem; max-width:30rem; }
+  .flex .k2 { font-size:.78rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin:0 0 .8rem; }
+  .cal { background:var(--soft); border:1px solid var(--line); border-radius:24px; padding:1.3rem; }
+  .cal .days { display:grid; grid-template-columns:repeat(5,1fr); gap:.45rem; }
+  .cal .d { text-align:center; font-size:.75rem; font-weight:700; color:var(--mute); letter-spacing:.08em; text-transform:uppercase; padding-bottom:.2rem; }
+  .cal .s { height:2.1rem; border-radius:10px; background:#fff; border:1px dashed #CFDCD4; }
+  .cal .s.on { background:var(--mint); border:1.5px solid #9ADBB4; }
+  .cal .s.bk { background:var(--green); border:0; }
+  .cal .key { display:flex; gap:1.2rem; margin-top:1rem; font-size:.82rem; color:var(--mute); flex-wrap:wrap; }
+  .cal .key i { display:inline-block; width:.8rem; height:.8rem; border-radius:3px; vertical-align:-1px; margin-right:.35rem; }
+  .steps3 { list-style:none; counter-reset:s; padding:0; margin:1.6rem 0 0; display:grid; gap:.7rem; }
+  .steps3 li { counter-increment:s; display:flex; gap:.8rem; align-items:flex-start; }
+  .steps3 li::before { content:counter(s); flex:none; width:1.7rem; height:1.7rem; border-radius:50%; background:var(--mint); color:var(--deep); font-weight:700; font-size:.85rem; display:grid; place-items:center; }
+  .paths-h { margin:clamp(3rem,8vw,4.6rem) auto 1.2rem; }
+  .paths-h h2 { margin:0; font-size:clamp(1.6rem,3.5vw,2.2rem); letter-spacing:-.02em; }
+  .paths-h p { margin:.4rem 0 0; color:var(--mute); }
+  .role ul { margin:.9rem 0 0; padding:0 0 0 1.1rem; color:var(--mute); font-size:.95rem; }
+  .role ul li { margin:.25rem 0; }
+  .roles.paths { margin-top:0; }
+  .more { margin:clamp(2.4rem,6vw,3.4rem) auto 0; border:1px solid var(--line); border-radius:28px; padding:clamp(1.6rem,5vw,2.4rem); display:grid; gap:1.4rem; grid-template-columns:auto 1fr; align-items:center; }
+  @media (max-width:640px) { .more { grid-template-columns:1fr; } }
+  .more .num { font-size:clamp(3.2rem,9vw,5rem); line-height:.9; font-weight:700; letter-spacing:-.05em; color:var(--green); }
+  .more h3 { margin:0 0 .4rem; font-size:1.3rem; letter-spacing:-.02em; }
+  .more p { margin:0; color:var(--mute); }
   .brands { background:#0B1D16; color:#fff; margin:clamp(3rem,8vw,5rem) 0 0; padding:clamp(3rem,8vw,4.6rem) 0; overflow:hidden; }
   .brands .kick { margin-bottom:.8rem; }
   .brands h2 { margin:0 0 .8rem; font-size:clamp(1.8rem,4.4vw,2.8rem); line-height:1.02; letter-spacing:-.035em; max-width:18ch; }
@@ -123,19 +151,36 @@
   <header class="top"><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark-white.svg" alt="Calm Joints" width="205" height="56"></a><nav><a href="#apply">Apply</a></nav></header>
   <svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><path d="M30.66 43.43A10 10 0 1 1 30.66 30.57" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M41 29v15a8 8 0 0 1-8 8" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="41" cy="17.5" r="3.4" fill="#fff"/></svg>
   <div class="hero-in">
-    <p class="kick">Careers</p>
-    <h1>Move people. <em>Move with us.</em></h1>
-    <p class="sub">Physio at home, on the road, or from anywhere. We build the job around you.</p>
+    <p class="kick">Careers · Hiring across Canada</p>
+    <h1>Pick your hours. <em>We fill them.</em></h1>
+    <p class="sub">Open the calendar hours you want and we book patients into them. Work fully digital, see patients at home, or pick up on-site hours at partner locations.</p>
     <p class="hbadge">We hire people with disabilities</p><br>
     <a class="cta" href="#apply">Apply now</a>
   </div>
 </section>
 <main>
-  <div class="wrap roles">
-    <article class="role"><span class="n">01</span><h2>Mobile physio</h2><p>See patients at home and on site. Your car is the clinic.</p><span class="tag">Tesla Model Y for qualifying physios</span></article>
-    <article class="role"><span class="n">02</span><h2>Remote physio</h2><p>Video care from your own space. Physios with disabilities are welcome here.</p><span class="tag">Work from home</span></article>
-    <article class="role"><span class="n">03</span><h2>Accessibility roles</h2><p>Help make our care easy for everyone to use. Lived experience counts.</p><span class="tag">Hiring people with disabilities</span></article>
+  <section class="wrap flex" aria-labelledby="flex-h">
+    <div>
+      <p class="k2">Flexible booking</p>
+      <h2 id="flex-h">Your calendar. Your call.</h2>
+      <p class="lead">You choose which hours to open, and you can change them any week. We book patients into the hours you opened, and nothing else.</p>
+      <ol class="steps3"><li>Open the hours you want on your calendar.</li><li>We book patients into those hours.</li><li>Add in-home visits or on-site hours whenever you want more.</li></ol>
+    </div>
+    <div class="cal" aria-hidden="true">
+      <div class="days"><span class="d">Mon</span><span class="d">Tue</span><span class="d">Wed</span><span class="d">Thu</span><span class="d">Fri</span><span class="s on"></span><span class="s bk"></span><span class="s"></span><span class="s on"></span><span class="s"></span><span class="s bk"></span><span class="s on"></span><span class="s"></span><span class="s"></span><span class="s on"></span><span class="s"></span><span class="s on"></span><span class="s bk"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s bk"></span><span class="s on"></span><span class="s"></span><span class="s on"></span></div>
+      <div class="key"><span><i style="background:var(--green)"></i>Booked</span><span><i style="background:var(--mint);border:1px solid #9ADBB4"></i>Open, not booked yet</span><span><i style="background:#fff;border:1px dashed #CFDCD4"></i>Not open</span></div>
+    </div>
+  </section>
+  <div class="wrap paths-h"><h2>Three ways to work</h2><p>Pick one, or mix them. You can change your mind later.</p></div>
+  <div class="wrap roles paths">
+    <article class="role"><span class="n">01</span><h2>Fully digital</h2><p>See patients by video from anywhere in Canada.</p><ul><li>Open as few or as many hours as you like</li><li>Want in-person time too? Tell us which partner locations you'd like.</li></ul><span class="tag">Work from home</span></article>
+    <article class="role"><span class="n">02</span><h2>In-home visits</h2><p>Opt in and we use geo-tagging to book patients near you. Your car is the clinic.</p><ul><li>Set how far you'll travel</li><li>Hit the in-home minimum and you get a Tesla Model Y</li></ul><span class="tag">Tesla Model Y perk</span></article>
+    <article class="role"><span class="n">03</span><h2>On site</h2><p>Pick up easy on-site hours at 80+ in-person locations run by our partners.</p><ul><li>Each location owner is vetted by us</li><li>Great for digital clinicians who want more hours</li></ul><span class="tag">80+ partner locations</span></article>
   </div>
+  <div class="wrap"><div class="more">
+    <div class="num">80+</div>
+    <div><h3>Want more hours and in-person care?</h3><p>There are plenty of ways onto locations we trust. We've already built a network of over 80 through our partners, and we vet the owners ourselves. Tell us where you'd like to work and we'll help you get there.</p></div>
+  </div></div>
   <section class="brands" aria-labelledby="brands-h">
     <div class="wrap">
       <p class="kick">Where our patients come from</p>
@@ -146,18 +191,18 @@
     <div class="mq rev"><ul><li><b>Momentus</b><span>Sports nutrition</span></li><li><b>Hyperice Canada</b><span>Recovery equipment</span></li><li><b>Garmin</b><span>Wearable tech</span></li><li><b>Snap Supplements</b><span>Supplements</span></li><li><b>Bionic Gym</b><span>Exercise equipment</span></li><li><b>kGoal</b><span>Pelvic health</span></li><li><b>No Days Wasted</b><span>Recovery supplements</span></li><li><b>Medistick</b><span>Topical pain relief</span></li><li><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li><b>Bet Jet</b><span>Functional nutrition</span></li><li><b>Sierra Sil</b><span>Mineral supplements</span></li><li><b>Sensate</b><span>HRV device</span></li><li aria-hidden="true"><b>Momentus</b><span>Sports nutrition</span></li><li aria-hidden="true"><b>Hyperice Canada</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>Garmin</b><span>Wearable tech</span></li><li aria-hidden="true"><b>Snap Supplements</b><span>Supplements</span></li><li aria-hidden="true"><b>Bionic Gym</b><span>Exercise equipment</span></li><li aria-hidden="true"><b>kGoal</b><span>Pelvic health</span></li><li aria-hidden="true"><b>No Days Wasted</b><span>Recovery supplements</span></li><li aria-hidden="true"><b>Medistick</b><span>Topical pain relief</span></li><li aria-hidden="true"><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li aria-hidden="true"><b>Bet Jet</b><span>Functional nutrition</span></li><li aria-hidden="true"><b>Sierra Sil</b><span>Mineral supplements</span></li><li aria-hidden="true"><b>Sensate</b><span>HRV device</span></li></ul></div>
   </section>
   <div class="wrap"><div class="tesla">
-    <p class="big">In-home physios get a <span>Tesla Model Y.</span></p>
-    <p>For qualifying physios who see patients at home.</p>
+    <p class="big">Do in-home visits. <span>Drive a <i class="nw">Tesla Model Y.</i></span></p>
+    <p>Clinicians who meet our in-home visit minimum get access to a Tesla Model Y.</p>
   </div></div>
   <section class="wrap benefits" id="benefits" aria-labelledby="benefits-h">
     <details id="benefits-d">
-      <summary><div><h2 id="benefits-h">Benefits and perks</h2><p>Health, dental, vision and more, plus a Tesla Model Y for qualifying in-home physios.</p></div><i aria-hidden="true">+</i></summary>
+      <summary><div><h2 id="benefits-h">Benefits and perks</h2><p>Work a minimum number of hours with us and you get health, dental, vision and more.</p></div><i aria-hidden="true">+</i></summary>
       <div class="bin">
-    <h3>Health benefits</h3>
+    <h3>Health benefits · with minimum hours</h3>
     <ul class="bgrid"><li>Prescription drugs</li><li>Dental</li><li>Vision</li><li>Paramedical</li><li>Mental health</li><li>Virtual care</li><li>Travel coverage</li><li>Life insurance</li></ul>
     <h3>Perks</h3>
-    <ul class="bgrid perks"><li>Tesla Model Y<small>Qualifying in-home physios</small></li><li>Work from home<small>Remote video roles</small></li><li>Accommodations<small>Just ask, no diagnosis needed</small></li><li>Easy enrolment<small>No medical questionnaire</small></li></ul>
-    <p class="bnote">For eligible hires. Plan details come with your offer.</p>
+    <ul class="bgrid perks"><li>Tesla Model Y<small>Meet the in-home minimum</small></li><li>Work from home<small>Fully digital hours</small></li><li>Accommodations<small>Just ask, no diagnosis needed</small></li><li>Easy enrolment<small>No medical questionnaire</small></li></ul>
+    <p class="bnote">Benefits start once you reach the minimum hours. The exact minimums and plan details come with your offer.</p>
       </div>
     </details>
   </section>
@@ -172,10 +217,11 @@
   <section class="apply" id="apply">
     <form id="careers" novalidate>
       <h2>Apply</h2>
-      <fieldset class="pills"><legend>Role</legend>
-        <input type="radio" name="role" id="r1" value="mobile-physio" checked><label for="r1">Mobile physio</label>
-        <input type="radio" name="role" id="r2" value="remote-physio"><label for="r2">Remote physio</label>
-        <input type="radio" name="role" id="r3" value="accessibility"><label for="r3">Accessibility</label>
+      <fieldset class="pills"><legend>How do you want to work?</legend>
+        <input type="radio" name="role" id="r1" value="digital" checked><label for="r1">Fully digital</label>
+        <input type="radio" name="role" id="r2" value="in-home"><label for="r2">In-home</label>
+        <input type="radio" name="role" id="r3" value="on-site"><label for="r3">On site</label>
+        <input type="radio" name="role" id="r4" value="accessibility"><label for="r4">Accessibility role</label>
       </fieldset>
       <div class="two">
         <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>

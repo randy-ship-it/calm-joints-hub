@@ -152,20 +152,22 @@
   @media (min-width: 761px) { footer { padding-bottom: 2.4rem; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
   /* email pop */
-  .pop { position:fixed; inset:auto 1rem 1rem auto; width:min(360px, calc(100vw - 2rem)); background:var(--deep); color:#fff; border-radius:22px; padding:1.4rem 1.4rem 1.2rem; box-shadow:0 30px 60px -20px rgba(0,0,0,.45); transform:translateY(24px); opacity:0; pointer-events:none; transition:opacity .35s, transform .35s; z-index:50; }
-  .pop.on { transform:none; opacity:1; pointer-events:auto; }
-  .pop h2 { margin:0 0 .3rem; font-size:1.3rem; letter-spacing:-.02em; }
-  .pop p { margin:0 0 1rem; color:#BFE9CF; font-size:.95rem; }
-  .pop .row { display:flex; gap:.5rem; }
-  .pop input { width:100%; font:16px/1.4 var(--sans); border-radius:14px; outline:none; border-color:transparent; padding:.75rem .9rem; }
-  .pop .btn { width:auto; border:0; border-radius:999px; color:#fff; font:700 1rem var(--sans); cursor:pointer; width:auto; background:var(--green-2); padding:.75rem 1.1rem; }
-  .pop .btn:hover { background:#1DB954; }
-  .pop .x { position:absolute; top:.6rem; right:.7rem; background:none; border:0; color:#BFE9CF; font-size:1.4rem; line-height:1; cursor:pointer; padding:.3rem; }
-  .pop .msg.ok { color:#9AF0BC; } .pop .msg.err { color:#FFB4A8; }
-  @media (max-width:520px) { .pop { inset:auto .75rem .75rem .75rem; width:auto; padding:1.1rem 1.1rem .4rem; } .pop h2 { font-size:1.15rem; } .pop p { margin-bottom:.8rem; font-size:.9rem; } }
-  .pop .msg { min-height:1.2em; margin:.6rem 0 0; font-size:.88rem; font-weight:600; }
+  .pop { position:fixed; right:1rem; bottom:1rem; width:min(380px, calc(100vw - 2rem)); background:#fff; color:var(--ink); border:1px solid var(--line); border-top:4px solid var(--green); border-radius:20px; padding:1.3rem 1.3rem 1rem; box-shadow:0 24px 60px -18px rgba(10,61,34,.35); visibility:hidden; transform:translateY(16px); transition:transform .3s ease, visibility 0s linear .3s; z-index:50; }
+  .pop.on { visibility:visible; transform:none; transition:transform .3s ease; }
+  .pop h2 { margin:0 2rem .35rem 0; font-size:1.2rem; line-height:1.25; letter-spacing:-.01em; color:var(--ink); }
+  .pop p { margin:0 0 .9rem; color:#3F5147; font-size:.95rem; line-height:1.45; }
+  .pop .row { display:flex; flex-direction:column; gap:.55rem; }
+  .pop input { width:100%; font:16px/1.4 var(--sans); color:var(--ink); background:#fff; border:1.5px solid #C9D6CE; border-radius:12px; outline:none; padding:.8rem .9rem; }
+  .pop input::placeholder { color:#6B7C72; }
+  .pop input:focus { border-color:var(--green); box-shadow:0 0 0 4px rgba(21,128,61,.12); }
+  .pop .btn { width:100%; border:0; border-radius:12px; color:#fff; font:700 1rem var(--sans); cursor:pointer; background:var(--green); padding:.85rem 1rem; }
+  .pop .btn:hover { background:#116A32; }
+  .pop .x { position:absolute; top:.55rem; right:.6rem; width:2.2rem; height:2.2rem; background:none; border:0; color:#3F5147; font-size:1.5rem; line-height:1; cursor:pointer; border-radius:50%; }
+  .pop .x:hover { background:var(--soft); color:var(--ink); }
+  .pop .msg { min-height:1.2em; margin:.6rem 0 0; font-size:.9rem; font-weight:600; }
+  .pop .msg.ok { color:var(--green); } .pop .msg.err { color:#B42318; }
   .pop .hp { position:absolute; left:-5000px; }
-  @media (max-width:760px){ .pop { bottom:5.2rem; } }
+  @media (max-width:760px){ .pop { left:.75rem; right:.75rem; bottom:5.2rem; width:auto; } }
 </style>
 </head>
 <body>
@@ -496,10 +498,10 @@
 </script>
 <aside class="pop" id="pop" role="dialog" aria-labelledby="pop-h" aria-hidden="true">
   <button class="x" type="button" aria-label="Close">×</button>
-  <h2 id="pop-h">Stay in the loop</h2>
-  <p>Clinic notes, now and then. No spam.</p>
+  <h2 id="pop-h">Get tips for sore joints</h2>
+  <p>A short email now and then from our physios. No spam, and you can unsubscribe anytime.</p>
   <form id="popform" novalidate>
-    <div class="row"><label class="sr" for="pop-email">Email</label><input id="pop-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required><button class="btn" type="submit">Join</button></div>
+    <div class="row"><label class="sr" for="pop-email">Email</label><input id="pop-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required><button class="btn" type="submit">Send me tips</button></div>
     <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="msg" role="status" aria-live="polite"></p>
   </form>
