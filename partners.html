@@ -44,12 +44,27 @@
   .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem;padding:0;list-style:none}
   .chips li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.35rem .8rem;font-size:.88rem;color:var(--mute)}
   @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
-  .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem}
-  .gallery figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--soft)}
-  .gallery figure.wide{grid-column:1/-1}
-  .gallery figcaption{padding:.8rem 1rem;font-size:.92rem;color:var(--mute)}
-  .gallery figcaption b{color:var(--ink)}
-  @media (max-width:700px){.gallery{grid-template-columns:1fr}}
+  .car{margin-top:2rem;position:relative}
+  .car-track{list-style:none;margin:0;padding:0 0 .4rem;display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;outline:none}
+  .car-track::-webkit-scrollbar{display:none}
+  .slide{flex:0 0 min(78%,760px);scroll-snap-align:start}
+  .slide figure{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:0 24px 48px -32px rgba(10,61,34,.45)}
+  .slide img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+  .slide figcaption{padding:1rem 1.2rem 1.2rem;display:grid;gap:.2rem;font-size:.95rem;color:var(--mute)}
+  .slide figcaption b{color:var(--ink);font-size:1.08rem}
+  .slide .pl{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+  .car-ctl{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.1rem}
+  .car-btn{width:44px;height:44px;border-radius:50%;border:1px solid #CFD9D3;background:#fff;font-size:1.2rem;cursor:pointer;color:var(--ink)}
+  .car-btn:hover{border-color:var(--ink)}
+  .car-dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+  .car-dots button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:#CFD9D3;cursor:pointer}
+  .car-dots button[aria-selected=true]{background:var(--green);width:24px;border-radius:9px}
+  @media (max-width:700px){.slide{flex-basis:88%}}
+  .terms{margin:1.1rem 0 0;border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:.2rem 1rem}
+  .terms summary{cursor:pointer;font-weight:600;font-size:.92rem;padding:.7rem 0}
+  .terms ol{margin:0 0 .9rem;padding-left:1.2rem;font-size:.86rem;color:var(--mute);display:grid;gap:.35rem}
+  .fp{margin-top:1.2rem;font-size:.86rem;line-height:1.55;color:#A9C9B8;max-width:40rem}
+  .fp b{color:#E6F4EC}
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem;counter-reset:s}
   .step{border:1px solid var(--line);border-radius:18px;padding:1.3rem;background:#fff}
   .step:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--mint);color:var(--deep);font-weight:700;margin-bottom:.8rem}
@@ -123,7 +138,7 @@
           <li>Sports arenas and rinks</li><li>Volleyball and pickleball clubs</li><li>Gyms and studios</li><li>Leagues and tournaments</li><li>Recovery studios</li>
         </ul>
       </div>
-      <div class="hero-art"><img src="/media/partners/qr/volleyball-net.svg" width="1200" height="800" alt="A co-branded Calm Joints QR banner hanging on a beach volleyball net"></div>
+      <div class="hero-art" style="background:#1B2C44"><img src="/media/partners/scenes/hockey-rink.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR banner on the boards at a hockey rink"></div>
     </div>
   </section>
 
@@ -131,14 +146,30 @@
     <div class="wrap">
       <p class="kicker">Where it goes</p>
       <h2>Big, simple, and right where people get sore.</h2>
-      <p class="lede">Every kit is a clean white sign with our logo beside yours and one big QR code. Put it where people feel it: on the net, the boards, the mirror, the front desk.</p>
-      <div class="gallery">
-        <figure><img src="/media/partners/qr/arena-boards.svg" width="1200" height="800" alt="Three co-branded QR signs along arena dasher boards" loading="lazy"><figcaption><b>Arena boards.</b> A row of banners people see from the bench and the stands.</figcaption></figure>
-        <figure><img src="/media/partners/qr/studio-poster.svg" width="1200" height="800" alt="A co-branded QR poster on a studio wall" loading="lazy"><figcaption><b>Studio wall.</b> An 18 × 24 poster beside the mats and the mirror.</figcaption></figure>
-        <figure><img src="/media/partners/qr/front-desk.svg" width="1200" height="800" alt="A co-branded QR table tent on a front desk" loading="lazy"><figcaption><b>Front desk.</b> A table tent where people check in and check out.</figcaption></figure>
-        <figure><img src="/media/partners/qr/volleyball-net.svg" width="1200" height="800" alt="A co-branded QR banner on a volleyball net" loading="lazy"><figcaption><b>Nets and fences.</b> A 6 × 3 ft banner on the net, the fence or the rail.</figcaption></figure>
-        <figure class="wide"><img src="/media/partners/qr/sizes.svg" width="1200" height="800" alt="The four kit sizes side by side: sticker, table tent, poster and banner" loading="lazy"><figcaption><b>Four sizes in every kit:</b> sticker, table tent, poster and banner. Download them as print-ready files and take them to any print shop.</figcaption></figure>
+      <p class="lede">Every kit is a clean white sign with our logo beside yours and one big QR code. Any place with a crowd that gets sore is a fit. Swipe through a few ideas.</p>
+      <div class="car" id="car" aria-roledescription="carousel" aria-label="Example placements">
+        <ol class="car-track" id="car-track" tabindex="0">
+          <li class="slide"><figure><img src="/media/partners/scenes/hockey-rink.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at hockey rinks" loading="eager"><figcaption><span class="pl">Banner on the boards</span><b>Hockey rinks</b><span>Players, parents and beer-league regulars all see it from the bench and the stands.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/sports-store.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at sporting goods stores" loading="eager"><figcaption><span class="pl">Table tent at checkout</span><b>Sporting goods stores</b><span>People buying braces, tape and new skates are already thinking about a sore spot.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/pickleball-club.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at pickleball and tennis clubs" loading="lazy"><figcaption><span class="pl">Banner on the fence</span><b>Pickleball and tennis clubs</b><span>Drop-in players are the fastest-growing sore shoulders and elbows around.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/running-store.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at running and bike shops" loading="lazy"><figcaption><span class="pl">Poster by the fitting bench</span><b>Running and bike shops</b><span>Right where people talk about shin splints, knees and hips.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/crossfit-box.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at crossfit and strength gyms" loading="lazy"><figcaption><span class="pl">Banner on the rig</span><b>CrossFit and strength gyms</b><span>For the lifter who tweaked something and wants to keep training.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/pilates-studio.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at pilates, yoga and barre studios" loading="lazy"><figcaption><span class="pl">Poster by the mirror</span><b>Pilates, yoga and barre studios</b><span>Clients who move carefully often want a physio’s eye on a back or hip.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/golf-club.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at golf clubs and pro shops" loading="lazy"><figcaption><span class="pl">Poster in the locker room</span><b>Golf clubs and pro shops</b><span>Backs and shoulders after the round, seen by members every visit.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/massage-spa.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at massage, spa and salon desks" loading="lazy"><figcaption><span class="pl">Table tent at the front desk</span><b>Massage, spa and salon desks</b><span>A natural next step for clients who need more than a massage.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/trade-counter.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at trade supply counters" loading="lazy"><figcaption><span class="pl">Table tent at the pro desk</span><b>Trade supply counters</b><span>Contractors and trades live with sore backs and knees, and they’re in every morning.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/race-day.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at races, run clubs and tournaments" loading="lazy"><figcaption><span class="pl">Banner at bib pickup or the finish</span><b>Races, run clubs and tournaments</b><span>Thousands of sore legs in one place, on one weekend.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/garden-centre.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at garden centres" loading="lazy"><figcaption><span class="pl">Poster at the till</span><b>Garden centres</b><span>Spring planting season means knees and backs that ache for days.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/ski-hill.webp" width="1200" height="800" alt="Example: a co-branded Calm Joints QR sign at ski hills and rental shops" loading="lazy"><figcaption><span class="pl">Poster at rentals and the lodge</span><b>Ski hills and rental shops</b><span>Knees and wrists feeling the hill, with a physio a scan away.</span></figcaption></figure></li>
+        </ol>
+        <div class="car-ctl">
+          <button class="car-btn" type="button" id="car-prev" aria-label="Previous example">&#8592;</button>
+          <div class="car-dots" id="car-dots" role="tablist" aria-label="Choose an example"></div>
+          <button class="car-btn" type="button" id="car-next" aria-label="Next example">&#8594;</button>
+        </div>
       </div>
+      <p class="fine" style="margin-top:1rem">Example placements. Every kit comes in four sizes: sticker, table tent, 18 × 24 poster and 3 × 6 ft banner, as print-ready files for any print shop.</p>
+    </div>
     </div>
   </section>
 
@@ -160,17 +191,18 @@
     <div class="wrap earn-grid">
       <div>
         <p class="kicker">Proposed partner terms</p>
-        <h2>Proposed: 25% of net billing on patients you send.</h2>
-        <p class="lede">Net billing is what the clinic bills for a visit, minus what we pay the physiotherapist who gave it. Under the proposed terms, you’d get a quarter of what’s left each month, for as long as your people keep coming.</p>
+        <h2>Proposed: a 25% share of net billing from your partnership.</h2>
+        <p class="lede">Net billing is what the clinic bills for a visit booked through your code, minus what we pay the physiotherapist who gave it. Under the proposed terms, your location would share 25% of what’s left each month, for as long as your people keep coming.</p>
         <p class="lede">You don’t hire anyone, run anything, or touch patient records. We do the care, the booking and the billing.</p>
+        <p class="fp"><b>This is a partnership, not a referral fee.</b> Calm Joints doesn’t pay for patients or referrals. Your location and Calm Joints form a commercial partnership to serve your own customers who have recovery needs. Revenue from visits booked through your code belongs to that partnership, and both Calm Joints and your location share in the proceeds and share in the commercial risks in a similar way. Neither side is the other’s agent or employee.</p>
         <p class="pending"><b>Proposed, not final.</b> These terms aren’t a live offer yet. The partner agreement and its tax treatment, including HST, are under legal review. We’ll confirm final terms in writing before anyone signs or is paid.</p>
       </div>
       <div class="math" aria-label="Example payout math">
-        <div class="row"><span>Example visit billed</span><span>$100.00</span></div>
+        <div class="row"><span>Example visit billed</span><span>$120.00</span></div>
         <div class="row"><span>Minus physiotherapist pay</span><span>− $60.00</span></div>
-        <div class="row"><span>Net billing</span><span>$40.00</span></div>
-        <div class="row"><span>Your 25% (proposed)</span><span>$10.00</span></div>
-        <small>Example numbers only, to show the math. Real visit prices and physio pay vary by service.</small>
+        <div class="row"><span>Net billing</span><span>$60.00</span></div>
+        <div class="row"><span>Your location’s 25% share (proposed)</span><span>$15.00</span></div>
+        <small>Example numbers only, to show the math. Real visit prices and physio pay vary by service, and card processing fees may also come off before the split.</small>
       </div>
     </div>
   </section>
@@ -212,7 +244,18 @@
           <label for="k-phone">Phone (optional)</label>
           <input type="tel" id="k-phone" name="phone" maxlength="40" autocomplete="tel">
           <input class="hp" type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <label class="agree"><input type="checkbox" id="k-agree" name="agree"><span>I agree to the partner basics below. I know Calm Joints provides all care and billing, and that payout terms are proposed until we both sign the final partner agreement.</span></label>
+          <details class="terms" id="k-terms"><summary>Read the partnership terms</summary>
+            <ol>
+              <li>This is a commercial partnership, not a referral arrangement. Calm Joints does not pay for patients or referrals.</li>
+              <li>Your location and Calm Joints (a trade name of Clairvoyant Holdings Inc.) form a commercial partnership to serve your own customers who have recovery needs.</li>
+              <li>Revenue from visits booked through your code belongs to that partnership. Calm Joints provides all care, booking, records and billing.</li>
+              <li>After physiotherapist pay and card fees, Calm Joints and your location both share in the proceeds, and both share in the commercial risks in a similar way.</li>
+              <li>Neither side is the agent or employee of the other.</li>
+              <li>Calm Joints sends a monthly statement and your share by the last business day of the following month.</li>
+              <li>These terms are proposed, pending legal review of the final partner agreement and its HST treatment. Nothing is paid until both sides sign the final agreement.</li>
+            </ol>
+          </details>
+          <label class="agree"><input type="checkbox" id="k-agree" name="agree"><span>I’ve read the partnership terms. I understand this is a commercial partnership, not a referral fee: Calm Joints isn’t paying for patients, and we both share in the proceeds and the commercial risks. Calm Joints provides all care and billing, and the terms stay proposed until we both sign the final partner agreement.</span></label>
           <div class="ctas" style="margin-top:1.1rem"><button class="btn btn-primary" type="submit" id="k-go">Get my own QR code</button></div>
           <p class="msg" id="k-msg" role="status" aria-live="polite"></p>
           <div class="done" id="k-done">
@@ -238,7 +281,8 @@
       <details open><summary>What do I actually do?</summary><p>Put your signs up and keep them visible. That’s it. You don’t run a clinic, hire staff or handle any health information.</p></details>
       <details><summary>Who provides the care?</summary><p>Calm Joints. Every visit is with a registered physiotherapist, and we handle booking, records and billing.</p></details>
       <details><summary>How do you know who came from me?</summary><p>Your QR code is only yours. Every scan is tagged to your code, and people can leave an email before they book so we can match their visits to you.</p></details>
-      <details><summary>When do I get paid?</summary><p>Under the proposed terms, monthly, with a statement showing visits from your code and your share. The terms are being finalized, and we’ll sign the partner agreement with you before any payout.</p></details>
+      <details><summary>Is Calm Joints paying me for patients?</summary><p>No. Calm Joints doesn’t pay for patients or referrals. Your location and Calm Joints form a commercial partnership to serve your customers who have recovery needs, and both of us share in the proceeds and in the commercial risks in a similar way.</p></details>
+      <details><summary>When do I get paid?</summary><p>Under the proposed terms, monthly. You get a statement showing visits from your code and your share, sent by the last business day of the following month. The terms are being finalized, and we’ll sign the partner agreement with you before any payout.</p></details>
       <details><summary>Can I stop any time?</summary><p>Yes. Take your signs down and email <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>.</p></details>
       <details><summary>Anything I can’t say on my signs?</summary><p>Please keep the kit as it is. Don’t add health claims or promises about results.</p></details>
     </div>
@@ -256,6 +300,23 @@
 <script src="/js/qrcode.js"></script>
 <script src="/js/partner-kit.js"></script>
 <script>
+(function () {
+  var track = document.getElementById('car-track'), dots = document.getElementById('car-dots');
+  var slides = Array.prototype.slice.call(track.children);
+  slides.forEach(function (sl, i) {
+    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', 'Example ' + (i + 1) + ': ' + sl.querySelector('b').textContent);
+    b.addEventListener('click', function () { go(i); }); dots.appendChild(b);
+  });
+  function cur() { var x = track.scrollLeft, best = 0, d = 1e9; slides.forEach(function (sl, i) { var dd = Math.abs(sl.offsetLeft - track.offsetLeft - x); if (dd < d) { d = dd; best = i; } }); return best; }
+  function go(i) { i = (i + slides.length) % slides.length; track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' }); }
+  function mark() { var c = cur(); Array.prototype.forEach.call(dots.children, function (b, i) { b.setAttribute('aria-selected', String(i === c)); }); }
+  document.getElementById('car-prev').addEventListener('click', function () { go(cur() - 1); });
+  document.getElementById('car-next').addEventListener('click', function () { go(cur() + 1); });
+  track.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur() - 1); } });
+  var t; track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(mark, 60); }, { passive: true });
+  mark();
+})();
 (function () {
   var state = { size: 'poster', logo: null, url: 'https://calmjoints.org/partners', slug: null };
   var canvas = document.getElementById('k-canvas');
