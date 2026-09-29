@@ -15,14 +15,14 @@
 | Surface | URL |
 | --- | --- |
 | **Production** | **https://calm-joints-hub.vercel.app** |
-| This deployment | https://calm-joints-431u835wq-sbg-516724e0.vercel.app |
-| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/9HNwqFXaYSTCuvjHtXdK6gpH8X6f |
+| This deployment | https://calm-joints-mu0re0k63-sbg-516724e0.vercel.app |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/4Z1wwSdxDTD2yBQTuAw9H9AHWcV4 |
 | Vercel project | `calm-joints-hub` (`prj_Y2OAVqC0nJ2jZXcuNMwMRNAC0vY6`) |
 | Team | `sbg-516724e0` (`team_lOeMvVi5qA620Xr4vVA0C59W`) |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
 | Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/1 |
 
-Production alias serves the clinic page (indexable HTML, hub carousel, CJ mark, `info@calmjoints.ca`). Intake now posts to the confirmed Friday webhooks. `FRIDAY_API_KEY` is set. Neon is not set, so a Friday non-2xx still falls back to ephemeral `/tmp` until a database URL is added.
+Production alias checked after the Friday wiring deploy (`dpl_4Z1wwSdxDTD2yBQTuAw9H9AHWcV4`, commit `7df00f0`): HTML is indexable, the CJ mark and five hub JPEGs return 200, the carousel scrolls, and the Jane CTA is the interim Scale booking link. A newsletter smoke and a physio smoke both logged `friday=ok` (no local fallback). Those rows used `calmjoints-wire-check@example.com` / “Wire Check” — delete them in Friday if you don’t want the test leads. Neon is still unset, so a later Friday non-2xx would only land in ephemeral `/tmp`.
 
 Public index is on (`noindex` removed). Canonical and Open Graph still point at the Vercel preview until `calmjoints.ca` exists. Flip those to `https://calmjoints.ca/` when DNS is attached.
 
