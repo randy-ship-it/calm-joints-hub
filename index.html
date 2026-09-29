@@ -500,6 +500,53 @@
   @media (min-width: 900px) { .sticky-cta { display: none; } }
   @media (max-width: 899px) { body { padding-bottom: 5.4rem; } }
 
+
+  /* From the clinic desk — education cards */
+  .desk-grid {
+    display: grid; gap: 1.05rem; margin-top: 1.7rem;
+  }
+  @media (min-width: 700px) {
+    .desk-grid { grid-template-columns: repeat(2, 1fr); gap: 1.15rem; }
+  }
+  @media (min-width: 1040px) {
+    .desk-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .desk-card {
+    display: flex; flex-direction: column; gap: .55rem;
+    background: #fff; border: 1px solid var(--line); border-radius: 18px;
+    padding: 1.25rem 1.2rem 1.3rem; text-decoration: none; color: inherit;
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s var(--ease), border-color .2s, box-shadow .2s;
+    min-height: 100%;
+  }
+  .desk-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(21, 163, 74, .4);
+    box-shadow: var(--shadow);
+    color: inherit;
+  }
+  .desk-card .source {
+    font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--primary-soft);
+  }
+  .desk-card h3 {
+    font-family: var(--head); font-size: 1.12rem; font-weight: 600;
+    letter-spacing: -.018em; margin: 0; line-height: 1.25; color: var(--darkest);
+  }
+  .desk-card p {
+    margin: 0; color: var(--mute); font-size: .92rem; line-height: 1.5;
+    flex: 1;
+  }
+  .desk-card .read {
+    margin-top: .35rem; font-size: .84rem; font-weight: 700;
+    color: var(--primary-soft); display: inline-flex; align-items: center; gap: .35rem;
+  }
+  .desk-card:hover .read { color: var(--darkest); }
+  .desk-note {
+    margin: 1.35rem 0 0; font-size: .84rem; color: var(--mute-soft);
+    max-width: 42rem; line-height: 1.5;
+  }
+
   /* Mobile polish */
   @media (max-width: 480px) {
     h1 { font-size: clamp(2.2rem, 11vw, 2.7rem); }
@@ -529,6 +576,7 @@
     <nav class="nav-links" aria-label="Primary">
       <a href="#how">How it works</a>
       <a href="#hubs">Hubs</a>
+      <a href="#desk">Clinic desk</a>
       <a href="#newsletter">Updates</a>
       <a href="#apply">Physios</a>
       <a class="nav-mail" href="mailto:info@calmjoints.org">info@calmjoints.org</a>
@@ -537,6 +585,7 @@
         <div class="nav-panel">
           <a href="#how">How it works</a>
           <a href="#hubs">Hubs</a>
+          <a href="#desk">Clinic desk</a>
           <a href="#newsletter">Updates</a>
           <a href="#apply">Physios</a>
           <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>
@@ -744,6 +793,60 @@
     </div>
   </section>
 
+
+  <section class="band" id="desk">
+    <div class="wrap">
+      <p class="kicker">From the clinic desk</p>
+      <h2>Quiet reading for calmer joints</h2>
+      <p class="section-lede">
+        External education from physiotherapy associations and public health libraries.
+        We link the source pages as-is — useful background before or after a virtual Align visit, not a substitute for personal care.
+      </p>
+      <div class="desk-grid">
+        <a class="desk-card" href="https://physiotherapy.ca/about-physiotherapy/" target="_blank" rel="noopener noreferrer">
+          <span class="source">Canadian Physiotherapy Association</span>
+          <h3>About physiotherapy</h3>
+          <p>CPA’s public overview of what physiotherapists do and how physiotherapy supports movement and recovery across Canada.</p>
+          <span class="read">Read on physiotherapy.ca →</span>
+        </a>
+        <a class="desk-card" href="https://www.choose.physio/what-is-physio" target="_blank" rel="noopener noreferrer">
+          <span class="source">Australian Physiotherapy Association</span>
+          <h3>What is physio?</h3>
+          <p>APA’s patient-facing guide to physiotherapy — how physios assess, educate, and help people move with more confidence.</p>
+          <span class="read">Read on choose.physio →</span>
+        </a>
+        <a class="desk-card" href="https://medlineplus.gov/telehealth.html" target="_blank" rel="noopener noreferrer">
+          <span class="source">MedlinePlus · NIH / NLM</span>
+          <h3>Telehealth</h3>
+          <p>NIH MedlinePlus explainer on care by video or phone — the same delivery model behind virtual physiotherapy visits.</p>
+          <span class="read">Read on MedlinePlus →</span>
+        </a>
+        <a class="desk-card" href="https://medlineplus.gov/exerciseandphysicalfitness.html" target="_blank" rel="noopener noreferrer">
+          <span class="source">MedlinePlus · NIH / NLM</span>
+          <h3>Exercise and physical fitness</h3>
+          <p>A plain-language library page on exercise and fitness — why movement matters and where trusted reading starts.</p>
+          <span class="read">Read on MedlinePlus →</span>
+        </a>
+        <a class="desk-card" href="https://orthoinfo.aaos.org/en/staying-healthy/starting-an-exercise-program/" target="_blank" rel="noopener noreferrer">
+          <span class="source">OrthoInfo · AAOS</span>
+          <h3>Starting an exercise program</h3>
+          <p>American Academy of Orthopaedic Surgeons patient guidance on beginning exercise thoughtfully — pacing, habit, and safety basics.</p>
+          <span class="read">Read on OrthoInfo →</span>
+        </a>
+        <a class="desk-card" href="https://orthoinfo.aaos.org/en/diseases--conditions/arthritis-of-the-knee/" target="_blank" rel="noopener noreferrer">
+          <span class="source">OrthoInfo · AAOS</span>
+          <h3>Arthritis of the knee</h3>
+          <p>AAOS OrthoInfo patient page on knee arthritis — anatomy, common symptoms, and treatment options to discuss with a clinician.</p>
+          <span class="read">Read on OrthoInfo →</span>
+        </a>
+      </div>
+      <p class="desk-note">
+        These links are public education from the named organizations. Calm Joints does not rewrite their medical content.
+        For personal advice, book an Align physiotherapist or write <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>.
+      </p>
+    </div>
+  </section>
+
   <section id="faq">
     <div class="wrap">
       <h2>Questions, answered plainly</h2>
@@ -790,6 +893,7 @@
       <a href="https://www.scalehealth.ca" rel="noopener">scalehealth.ca</a>
       <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>
       <a href="#hubs">Partner hubs</a>
+      <a href="#desk">Clinic desk</a>
       <a href="#apply">Physio apply</a>
     </div>
   </div>
