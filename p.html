@@ -50,18 +50,19 @@
     try { return fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(function () {}); }
     catch (e) { return Promise.resolve(); }
   }
-  function go() { location.href = bookUrl; }
+  function remember(email) { try { localStorage.setItem('cj_ref', JSON.stringify({ slug: slug, email: email || null, at: Date.now() })); } catch (e) {} }
+  function go(email) { remember(email); location.href = ok ? '/?ref=' + encodeURIComponent('partner:' + slug) + '#book' : bookUrl; }
   if (!ok) { go(); return; }
   try { var k = 'cj-visit-' + slug; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src }); } }
   catch (e) { post({ slug: slug, event: 'visit', src: src }); }
-  document.getElementById('skip').addEventListener('click', go);
+  document.getElementById('skip').addEventListener('click', function () { go(); });
   document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
     var email = document.getElementById('email').value.trim();
     if (!email) { go(); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { document.getElementById('msg').textContent = 'That email doesn’t look quite right.'; return; }
     var b = document.getElementById('go'); b.disabled = true; b.textContent = 'Connecting…';
-    Promise.race([post({ slug: slug, event: 'email', email: email, src: src }), new Promise(function (r) { setTimeout(r, 2000); })]).then(go);
+    Promise.race([post({ slug: slug, event: 'email', email: email, src: src }), new Promise(function (r) { setTimeout(r, 2000); })]).then(function () { go(email); });
   });
 })();
 </script>

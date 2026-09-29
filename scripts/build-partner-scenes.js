@@ -16,7 +16,7 @@ function qrSvg(text) {
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c} ${r}h1v1h-1z`;
   return `<svg viewBox="-3 -3 ${n + 6} ${n + 6}" shape-rendering="crispEdges"><rect x="-3" y="-3" width="${n + 6}" height="${n + 6}" fill="#fff"/><path d="${d}" fill="#0B1D16"/></svg>`;
 }
-const QR = qrSvg('https://calmjoints.org/partners');
+const QR = qrSvg('https://calmjoints.org/p/sample');
 
 const ICONS = {
   puck: '<ellipse cx="12" cy="10" rx="8" ry="3.2"/><path d="M4 10v4c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2v-4"/>',
