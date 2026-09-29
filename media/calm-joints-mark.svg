@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="16" fill="#042414"/>
-  <circle cx="32" cy="32" r="18" stroke="#15A34A" stroke-width="3.5"/>
-  <circle cx="32" cy="32" r="8" fill="#15A34A"/>
-  <path d="M22 40c4 5 16 5 20 0" stroke="#D3F8DF" stroke-width="2.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Calm Joints">
+  <rect width="64" height="64" rx="18" fill="#15A34A"/>
+  <rect x="1.25" y="1.25" width="61.5" height="61.5" rx="16.75" stroke="#D3F8DF" stroke-opacity=".7" stroke-width="1.5"/>
+  <path d="M27.2 20.2c-6.6 1.5-10.6 6.6-10.6 12 0 5.5 4 10.6 10.6 12" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  <path d="M43 17.6v15.6c0 6-4.2 9.8-9.6 9.8" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/>
+  <circle cx="43" cy="15.2" r="2.35" fill="#D3F8DF"/>
 </svg>

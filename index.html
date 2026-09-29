@@ -3,14 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Calm Joints — Virtual physiotherapy with Align · Scale Health</title>
-<meta name="description" content="Calm Joints is a Scale clinic hub for joint comfort and mobility. Book virtual physiotherapy with Align clinicians — free membership, insurance-friendly receipts.">
-<meta name="theme-color" content="#042414">
-<meta name="robots" content="noindex,nofollow">
-<meta property="og:title" content="Calm Joints — Book Align physiotherapy">
-<meta property="og:description" content="Joint comfort, virtual physio, Align clinicians on the Scale network. Showcase hub — calmjoints.ca DNS pending.">
+<title>Calm Joints — a small digital clinic for calmer joints</title>
+<meta name="description" content="Calm Joints is a digital clinic for joint comfort. Book virtual physiotherapy with Align clinicians on the Scale network, or say hello if you’re a physio in Canada.">
+<meta name="theme-color" content="#15A34A">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://calm-joints-hub.vercel.app/">
+<meta property="og:title" content="Calm Joints — virtual physiotherapy with Align">
+<meta property="og:description" content="A CHI trade-name clinic hub. Align delivers the care. Scale powers the rails. Write info@calmjoints.ca.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/media/calm-joints-mark.svg">
+<meta property="og:url" content="https://calm-joints-hub.vercel.app/">
+<meta property="og:image" content="https://calm-joints-hub.vercel.app/media/og.jpg">
+<meta property="og:locale" content="en_CA">
 <link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,18 +23,20 @@
   :root {
     --primary: #15A34A;
     --primary-hover: #15803D;
+    --primary-soft: #126B35;
     --darkest: #042414;
     --dark: #0B1D16;
     --mint: #D3F8DF;
-    --surface: #EDFAF4;
-    --paper: #F7F6F1;
-    --mute: #42534A;
-    --line: rgba(11, 29, 22, 0.12);
+    --surface: #F3FBF6;
+    --paper: #FFFFFF;
+    --mute: #3E5348;
+    --line: rgba(4, 36, 20, 0.12);
     --head: "Fraunces", Georgia, serif;
     --sans: "DM Sans", system-ui, sans-serif;
     --max: 1120px;
     --pad: clamp(1.1rem, 3.5vw, 2.2rem);
     --ease: cubic-bezier(.2,.7,.2,1);
+    --shadow: 0 24px 50px -32px rgba(4, 36, 20, 0.45);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -43,61 +48,65 @@
     margin: 0;
     font: 17px/1.55 var(--sans);
     color: var(--darkest);
-    background: var(--paper);
+    background:
+      radial-gradient(900px 420px at 100% -10%, rgba(21, 163, 74, 0.16), transparent 60%),
+      radial-gradient(700px 380px at -10% 20%, rgba(211, 248, 223, 0.9), transparent 55%),
+      var(--paper);
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--primary); text-underline-offset: .15em; }
+  a { color: var(--primary-soft); text-underline-offset: .16em; }
   a:hover { color: var(--darkest); }
   :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
   .wrap { width: min(var(--max), calc(100% - var(--pad) * 2)); margin: 0 auto; }
-  .skip {
-    position: absolute; left: -999px; top: auto;
-  }
+  .skip { position: absolute; left: -999px; top: auto; }
   .skip:focus {
     left: var(--pad); top: .5rem; z-index: 90;
     background: var(--darkest); color: #fff; padding: .45rem .7rem; text-decoration: none;
   }
-
-  /* Nav */
+  .topbar {
+    background: var(--darkest);
+    color: #E7F6ED;
+    font-size: .78rem;
+  }
+  .topbar .wrap {
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    padding: .45rem 0;
+  }
+  .topbar a { color: #fff; font-weight: 600; text-decoration: none; }
+  .topbar a:hover { color: var(--mint); }
   .nav {
     position: sticky; top: 0; z-index: 40;
-    background: rgba(247, 246, 241, 0.92);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
   }
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem; min-height: 64px; padding: .7rem 0;
+    gap: 1rem; min-height: 72px;
   }
-  .brand {
-    display: flex; align-items: center; gap: .7rem;
-    text-decoration: none; color: var(--darkest);
-  }
-  .brand img { width: 40px; height: 40px; }
+  .brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--darkest); }
+  .brand img { width: 42px; height: 42px; }
   .brand strong {
-    font-family: var(--head); font-size: 1.2rem; font-weight: 600;
-    letter-spacing: -.02em; display: block; line-height: 1.1;
+    font-family: var(--head); font-size: 1.28rem; font-weight: 600;
+    letter-spacing: -.02em; display: block; line-height: 1;
   }
   .brand span {
-    display: block; font-size: .68rem; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--mute); font-weight: 600;
+    display: block; margin-top: .18rem; font-size: .68rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--mute); font-weight: 650;
   }
-  .nav-actions { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
-  .chip {
-    display: inline-flex; align-items: center; gap: .35rem;
-    font-size: .72rem; font-weight: 600; letter-spacing: .04em;
-    color: var(--mute); background: #fff;
-    border: 1px solid var(--line); border-radius: 999px;
-    padding: .35rem .7rem;
+  .nav-links { display: flex; align-items: center; gap: 1.05rem; }
+  .nav-links a { color: var(--darkest); text-decoration: none; font-weight: 600; font-size: .92rem; }
+  .nav-links a:hover { color: var(--primary-soft); }
+  .nav-mail { display: none; }
+  @media (max-width: 860px) {
+    .nav-links a:not(.btn) { display: none; }
   }
-  .chip img { width: 14px; height: 14px; }
-
-  /* Buttons */
+  @media (min-width: 980px) { .nav-mail { display: inline; } }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
-    font: inherit; font-weight: 600; font-size: .95rem;
-    border-radius: 8px; border: 0; cursor: pointer;
-    padding: .75rem 1.15rem; text-decoration: none;
+    font: inherit; font-weight: 650; font-size: .95rem;
+    border-radius: 999px; border: 0; cursor: pointer;
+    padding: .72rem 1.15rem; text-decoration: none;
     transition: background .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
   }
   .btn:active { transform: translateY(1px); }
@@ -105,191 +114,168 @@
   .btn-primary:hover { background: var(--primary-hover); color: #fff; }
   .btn-dark { background: var(--darkest); color: #fff; }
   .btn-dark:hover { background: var(--primary); color: #fff; }
-  .btn-ghost {
-    background: transparent; color: var(--darkest);
-    border: 1px solid var(--line);
-  }
+  .btn-ghost { background: #fff; color: var(--darkest); border: 1px solid var(--line); }
   .btn-ghost:hover { background: var(--mint); border-color: transparent; color: var(--darkest); }
-  .btn-lg { padding: .95rem 1.4rem; font-size: 1.02rem; }
-
-  /* Hero */
-  .hero {
-    padding: clamp(2.2rem, 6vw, 4.2rem) 0 clamp(2.5rem, 5vw, 3.8rem);
-  }
-  .hero-grid {
-    display: grid; gap: 2rem;
-  }
-  @media (min-width: 900px) {
-    .hero-grid { grid-template-columns: 1.15fr .85fr; align-items: center; gap: 3rem; }
+  .btn-lg { padding: .92rem 1.35rem; font-size: 1.02rem; }
+  .btn[disabled] { opacity: .65; cursor: wait; }
+  .hero { padding: clamp(2rem, 5vw, 3.6rem) 0 clamp(2.2rem, 5vw, 3.4rem); }
+  .hero-grid { display: grid; gap: 2rem; }
+  @media (min-width: 940px) {
+    .hero-grid { grid-template-columns: 1.12fr .88fr; align-items: center; gap: 3rem; }
   }
   .kicker {
     display: inline-flex; align-items: center; gap: .45rem;
     font-size: .72rem; font-weight: 700; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--primary);
-    margin: 0 0 .85rem;
+    text-transform: uppercase; color: var(--primary-soft); margin: 0 0 .85rem;
   }
   .kicker::before {
     content: ""; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--primary); box-shadow: 0 0 0 4px rgba(21,163,74,.2);
+    background: var(--primary); box-shadow: 0 0 0 4px rgba(21, 163, 74, .18);
   }
   h1 {
     font-family: var(--head); font-weight: 600;
-    font-size: clamp(2.35rem, 6.5vw, 3.6rem);
-    letter-spacing: -.03em; line-height: 1.08; margin: 0;
-    color: var(--darkest);
+    font-size: clamp(2.45rem, 6.4vw, 4rem);
+    letter-spacing: -.035em; line-height: 1.04; margin: 0; color: var(--darkest);
   }
-  .lede {
-    margin: 1rem 0 0; max-width: 36rem;
-    color: var(--mute); font-size: 1.08rem; line-height: 1.55;
-  }
-  .hero-ctas {
-    display: flex; flex-wrap: wrap; gap: .7rem;
-    margin-top: 1.6rem;
-  }
-  .micro {
-    margin: .85rem 0 0; font-size: .82rem; color: var(--mute);
-  }
+  h1 em { font-style: italic; font-weight: 560; color: var(--primary-soft); }
+  .lede { margin: 1rem 0 0; max-width: 38rem; color: var(--mute); font-size: 1.08rem; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.5rem; }
+  .micro { margin: .85rem 0 0; font-size: .82rem; color: var(--mute); }
   .proof {
-    display: flex; flex-wrap: wrap; gap: .6rem 1.2rem;
-    margin-top: 1.6rem; padding-top: 1.3rem;
-    border-top: 1px solid var(--line);
-    font-size: .85rem; color: var(--mute);
+    display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.45rem;
   }
-  .proof strong { color: var(--darkest); font-weight: 600; }
-
-  /* Booking card */
+  .proof span {
+    background: #fff; border: 1px solid var(--line); border-radius: 999px;
+    padding: .4rem .75rem; font-size: .8rem; color: var(--mute);
+  }
+  .proof strong { color: var(--darkest); font-weight: 700; }
   .book-card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 1.35rem 1.35rem 1.2rem;
-    box-shadow: 0 18px 40px -28px rgba(4, 36, 20, 0.55);
+    background: #fff; border: 1px solid var(--line); border-radius: 22px;
+    padding: 1.35rem 1.35rem 1.2rem; box-shadow: var(--shadow);
   }
   .book-card .eyebrow {
     font-size: .7rem; font-weight: 700; letter-spacing: .12em;
-    text-transform: uppercase; color: #126B35; margin: 0 0 .55rem;
+    text-transform: uppercase; color: var(--primary-soft); margin: 0 0 .45rem;
   }
   .book-card h2 {
-    font-family: var(--head); font-size: 1.45rem; font-weight: 600;
-    margin: 0; letter-spacing: -.02em; line-height: 1.2;
+    font-family: var(--head); font-size: 1.55rem; font-weight: 600;
+    margin: 0; letter-spacing: -.02em; line-height: 1.15;
   }
-  .book-card p { margin: .55rem 0 0; color: var(--mute); font-size: .92rem; }
-  .slots {
-    display: flex; flex-wrap: wrap; gap: .45rem;
-    margin: 1.1rem 0 1.15rem;
-  }
+  .book-card p { margin: .55rem 0 0; color: var(--mute); font-size: .94rem; }
+  .slots { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1rem 0 1.1rem; }
   .slot {
     appearance: none; border: 1px solid var(--line); background: var(--surface);
-    color: var(--darkest); font: inherit; font-size: .82rem; font-weight: 600;
-    padding: .5rem .75rem; border-radius: 8px; cursor: pointer;
-    transition: background .15s, border-color .15s;
+    color: var(--darkest); font: inherit; font-size: .82rem; font-weight: 650;
+    padding: .5rem .75rem; border-radius: 999px; cursor: pointer;
   }
-  .slot:hover, .slot:focus-visible {
-    background: var(--mint); border-color: var(--primary);
-  }
+  .slot:hover, .slot:focus-visible { background: var(--mint); border-color: var(--primary); }
   .book-note {
-    margin-top: .75rem; font-size: .75rem; color: var(--mute);
-    background: var(--surface); border-radius: 8px; padding: .55rem .7rem;
+    margin: .8rem 0 0; font-size: .78rem; color: var(--mute);
+    background: var(--surface); border-radius: 12px; padding: .65rem .75rem;
   }
-  .book-note[data-status="interim-jane"] {
-    border-left: 3px solid #F59E0B;
-  }
+  .book-note[data-status="interim-jane"] { border-left: 3px solid #E8A317; }
   .partner-row {
-    display: flex; align-items: center; gap: .6rem;
+    display: flex; align-items: center; gap: .55rem;
     margin-top: 1rem; padding-top: .9rem; border-top: 1px dashed var(--line);
     font-size: .78rem; color: var(--mute);
   }
   .partner-row img { width: 18px; height: 18px; }
-
-  /* Sections */
-  section { padding: clamp(2.4rem, 5vw, 3.6rem) 0; }
-  .band { background: #fff; border-block: 1px solid var(--line); }
-  .band-dark {
-    background: var(--darkest); color: #E8F5EE;
-    border: 0;
-  }
-  .band-dark h2 { color: #fff; }
-  .band-dark .lede, .band-dark p { color: rgba(232, 245, 238, 0.78); }
+  section { padding: clamp(2.5rem, 6vw, 4.2rem) 0; }
+  .band { background: var(--surface); border-block: 1px solid var(--line); }
   h2 {
     font-family: var(--head); font-weight: 600;
-    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
-    letter-spacing: -.025em; margin: 0; line-height: 1.15;
+    font-size: clamp(1.7rem, 3.4vw, 2.45rem);
+    letter-spacing: -.03em; margin: 0; line-height: 1.12;
   }
-  .section-lede { margin: .7rem 0 0; max-width: 34rem; color: var(--mute); }
-
-  .grid-3 {
-    display: grid; gap: 1rem;
-    margin-top: 1.6rem;
+  .section-lede { margin: .7rem 0 0; max-width: 38rem; color: var(--mute); }
+  .hub-head {
+    display: flex; justify-content: space-between; gap: 1rem; align-items: end;
+    margin-bottom: 1.15rem;
   }
-  @media (min-width: 720px) {
-    .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 1.15rem; }
+  .hub-controls { display: flex; gap: .45rem; }
+  .icon-btn {
+    width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line);
+    background: #fff; color: var(--darkest); font: inherit; font-size: 1.15rem; cursor: pointer;
   }
+  .icon-btn:hover { background: var(--mint); border-color: transparent; }
+  .hub-scroller {
+    display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: .25rem max(var(--pad), calc((100% - var(--max)) / 2)) 1.1rem;
+    scroll-padding-inline: max(var(--pad), calc((100% - var(--max)) / 2));
+    scrollbar-width: thin;
+  }
+  .hub-card {
+    flex: 0 0 min(82vw, 360px); scroll-snap-align: start;
+    background: #fff; border: 1px solid var(--line); border-radius: 18px;
+    overflow: hidden; text-decoration: none; color: inherit;
+    box-shadow: 0 12px 30px -24px rgba(4, 36, 20, .6);
+  }
+  .hub-card:hover { border-color: rgba(21, 163, 74, .45); }
+  .hub-card img { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; background: var(--mint); }
+  .hub-card div { padding: .85rem .95rem 1rem; }
+  .hub-card strong { display: block; font-family: var(--head); font-size: 1.12rem; font-weight: 600; }
+  .hub-card span { display: block; margin-top: .2rem; color: var(--mute); font-size: .86rem; }
+  .grid-3 { display: grid; gap: 1rem; margin-top: 1.5rem; }
+  @media (min-width: 760px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
   .card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 1.2rem 1.15rem 1.25rem;
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.15rem 1.1rem 1.2rem;
   }
-  .band .card { background: #fff; }
-  .band-dark .card {
-    background: rgba(255,255,255,.06);
-    border-color: rgba(255,255,255,.12);
+  .card .num { font-family: var(--head); color: var(--primary); font-weight: 650; }
+  .card h3 { font-family: var(--head); font-size: 1.15rem; margin: .35rem 0 0; font-weight: 600; }
+  .card p { margin: .4rem 0 0; color: var(--mute); font-size: .94rem; }
+  .split { display: grid; gap: 1rem; }
+  @media (min-width: 880px) { .split { grid-template-columns: .9fr 1.1fr; align-items: start; } }
+  form {
+    background: #fff; border: 1px solid var(--line); border-radius: 20px;
+    padding: 1.2rem; box-shadow: var(--shadow);
   }
-  .card .num {
-    font-family: var(--head); font-size: .85rem; font-weight: 600;
-    color: var(--primary); letter-spacing: .04em;
+  .fields { display: grid; gap: .75rem; }
+  @media (min-width: 700px) { .two { grid-template-columns: 1fr 1fr; } }
+  label { display: grid; gap: .3rem; font-size: .82rem; font-weight: 700; color: var(--darkest); }
+  .hint { font-weight: 500; color: var(--mute); }
+  input, textarea, select {
+    font: inherit; color: var(--darkest); background: #fff;
+    border: 1px solid var(--line); border-radius: 12px; padding: .7rem .75rem; width: 100%;
   }
-  .band-dark .card .num { color: #4ADE80; }
-  .card h3 {
-    font-family: var(--head); font-size: 1.12rem; font-weight: 600;
-    margin: .45rem 0 0; letter-spacing: -.015em;
+  textarea { min-height: 110px; resize: vertical; }
+  input:focus, textarea:focus { outline: 2px solid var(--primary); border-color: transparent; }
+  .provinces { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .15rem; }
+  .prov { position: relative; }
+  .prov input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .prov span {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
+    padding: .38rem .7rem; font-size: .8rem; font-weight: 650; cursor: pointer; background: #fff;
   }
-  .band-dark .card h3 { color: #fff; }
-  .card p { margin: .45rem 0 0; font-size: .92rem; color: var(--mute); }
-  .band-dark .card p { color: rgba(232,245,238,.75); }
-
-  /* FAQ */
-  .faq { margin-top: 1.4rem; max-width: 42rem; }
-  details {
-    border-bottom: 1px solid var(--line);
-    padding: .95rem 0;
+  .prov input:checked + span { background: var(--mint); border-color: var(--primary); }
+  .prov input:focus-visible + span { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .form-note { margin: .75rem 0 0; font-size: .8rem; color: var(--mute); }
+  .status {
+    margin-top: .8rem; border-radius: 12px; padding: .7rem .8rem; font-size: .92rem; display: none;
   }
+  .status.show { display: block; }
+  .status.ok { background: var(--mint); color: var(--darkest); }
+  .status.err { background: #FFF4F0; color: #7A2E16; }
+  .hp { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+  .faq { margin-top: 1.2rem; max-width: 42rem; }
+  details { border-bottom: 1px solid var(--line); padding: .9rem 0; }
   details summary {
-    cursor: pointer; font-weight: 600; list-style: none;
-    display: flex; justify-content: space-between; gap: 1rem;
-    align-items: center;
+    cursor: pointer; font-weight: 650; list-style: none;
+    display: flex; justify-content: space-between; gap: 1rem; align-items: center;
   }
   details summary::-webkit-details-marker { display: none; }
-  details summary::after {
-    content: "+"; font-size: 1.2rem; color: var(--primary); font-weight: 500;
-  }
+  details summary::after { content: "+"; color: var(--primary); font-size: 1.2rem; }
   details[open] summary::after { content: "–"; }
-  details p { margin: .55rem 0 0; color: var(--mute); font-size: .95rem; }
-
-  /* Footer */
-  footer {
-    padding: 2rem 0 2.4rem;
-    border-top: 1px solid var(--line);
-    font-size: .82rem; color: var(--mute);
-  }
-  .foot-grid {
-    display: flex; flex-wrap: wrap; justify-content: space-between;
-    gap: 1rem; align-items: flex-start;
-  }
-  .foot-brand {
-    display: flex; align-items: center; gap: .55rem;
-    color: var(--darkest); font-weight: 600; text-decoration: none;
-  }
+  details p { margin: .5rem 0 0; color: var(--mute); }
+  footer { padding: 2rem 0 2.6rem; border-top: 1px solid var(--line); font-size: .84rem; color: var(--mute); }
+  .foot-grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+  .foot-brand { display: flex; align-items: center; gap: .55rem; color: var(--darkest); font-weight: 700; text-decoration: none; }
   .foot-brand img { width: 28px; height: 28px; }
-  .legal { margin-top: .85rem; max-width: 40rem; line-height: 1.5; }
-
-  /* Mobile sticky CTA */
+  .legal { margin: .7rem 0 0; max-width: 42rem; }
   .sticky-cta {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
     padding: .7rem var(--pad) calc(.7rem + env(safe-area-inset-bottom));
-    background: rgba(247,246,241,.96); backdrop-filter: blur(10px);
-    border-top: 1px solid var(--line);
-    display: flex; gap: .6rem;
+    background: rgba(255,255,255,.96); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line); display: flex; gap: .6rem;
   }
   .sticky-cta .btn { flex: 1; }
   @media (min-width: 880px) { .sticky-cta { display: none; } }
@@ -298,22 +284,29 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
+<div class="topbar">
+  <div class="wrap">
+    <span>CHI trade name · Align delivers care · Scale powers the hub</span>
+    <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>
+  </div>
+</div>
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="#top" id="top">
-      <img src="/media/calm-joints-mark.svg" alt="" width="40" height="40">
+      <img src="/media/calm-joints-mark.svg" alt="" width="42" height="42">
       <div>
         <strong>Calm Joints</strong>
-        <span>Scale clinic hub</span>
+        <span>Digital clinic</span>
       </div>
     </a>
-    <div class="nav-actions">
-      <span class="chip" title="Operated with Scale Health">
-        <img src="/media/scale-mark.svg" alt=""> Scale
-      </span>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#hubs">Hubs</a>
+      <a href="#newsletter">Updates</a>
+      <a href="#apply">Physios</a>
+      <a class="nav-mail" href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>
       <a class="btn btn-dark" id="nav-book" href="#book">Book physio</a>
-    </div>
+    </nav>
   </div>
 </header>
 
@@ -321,129 +314,232 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="kicker">Joint comfort · Virtual care</p>
-        <h1>Feel calmer in your joints — with Align physios on Scale.</h1>
+        <p class="kicker">Virtual physiotherapy · from home</p>
+        <h1>Your joints have opinions. <em>Let’s hear them.</em></h1>
         <p class="lede">
-          Calm Joints is a Scale clinic hub for mobility and joint comfort.
-          Book a licensed Align physiotherapist virtually. Membership is free.
-          Clinical appointments book separately — insurance-friendly receipts included.
+          Calm Joints is a small digital clinic for people who’d rather move than collect exercises they never open.
+          You meet a registered Align physiotherapist on a video visit. Membership on Scale is free.
+          The appointment is a real one — with a receipt your benefits plan can actually read.
         </p>
         <div class="hero-ctas">
           <a class="btn btn-primary btn-lg" id="hero-book" href="#book">Book your assessment</a>
-          <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
+          <a class="btn btn-ghost btn-lg" href="#newsletter">Get the gentle updates</a>
         </div>
-        <p class="micro">No referral required · Ontario virtual physio · Align clinicians</p>
+        <p class="micro">No referral needed · Virtual visit · Care by Align physiotherapists</p>
         <div class="proof">
-          <span><strong>CHI</strong> owns the Calm Joints trade name</span>
-          <span><strong>Align</strong> delivers clinical care</span>
+          <span><strong>CHI</strong> owns the name</span>
+          <span><strong>Align</strong> delivers care</span>
           <span><strong>Scale</strong> powers the hub</span>
         </div>
       </div>
 
       <aside class="book-card" id="book" aria-labelledby="book-title">
         <p class="eyebrow">Align physiotherapy</p>
-        <h2 id="book-title">Book with an Align physiotherapist</h2>
-        <p>
-          Pick a time that works. You’ll continue into Align’s booking flow
-          (Jane) — the same licensed physio network used across Scale hubs.
-        </p>
-        <div class="slots" role="group" aria-label="Example time slots — opens real booking">
+        <h2 id="book-title">Book a visit that fits your week</h2>
+        <p>Pick a sample time, then continue into Align’s booking calendar. A person, not a generic routine.</p>
+        <div class="slots" role="group" aria-label="Example times — opens real booking">
           <button type="button" class="slot" data-book>Mon 9:30 AM</button>
           <button type="button" class="slot" data-book>Wed 4:00 PM</button>
           <button type="button" class="slot" data-book>Fri 11:00 AM</button>
         </div>
-        <a class="btn btn-primary btn-lg" id="book-cta" href="#" style="width:100%">
-          Continue to book →
-        </a>
+        <a class="btn btn-primary btn-lg" id="book-cta" href="#" style="width:100%">Continue to book</a>
         <p class="book-note" id="book-status" data-status="interim-jane">
-          Showcase: booking currently routes to Scale Health’s Jane calendar
-          (Align/Scale physio surface). Final Align embed URL + provider list API pending from Jon.
+          Booking currently opens Scale Health’s Jane calendar — the Align physio surface we use while the dedicated Calm Joints link is finished.
         </p>
         <div class="partner-row">
           <img src="/media/scale-mark.svg" alt="">
-          <span>Care on the Scale network · Align physiotherapists</span>
+          <span>Questions before you book? <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a></span>
         </div>
       </aside>
     </div>
   </section>
 
+  <section id="hubs">
+    <div class="wrap hub-head">
+      <div>
+        <p class="kicker">On the Scale network</p>
+        <h2>Same care rails. Different front doors.</h2>
+        <p class="section-lede">Calm Joints sits beside other Scale hubs. Here’s how their booking and portal screens look — cropped, labeled, and ready to peek at.</p>
+      </div>
+      <div class="hub-controls">
+        <button class="icon-btn" type="button" id="hub-prev" aria-label="Previous hubs">←</button>
+        <button class="icon-btn" type="button" id="hub-next" aria-label="Next hubs">→</button>
+      </div>
+    </div>
+    <div class="hub-scroller" id="hub-scroller" tabindex="0" aria-label="Partner hub previews">
+      <a class="hub-card" href="https://www.scalehealth.ca/jillhealth" target="_blank" rel="noopener noreferrer">
+        <img src="/media/hubs/jill-health.jpg" width="1600" height="1000" alt="Jill Health booking page: Feel balanced, move better, live stronger, with a session preview.">
+        <div><strong>Jill Health</strong><span>Virtual physio booking for Jill members</span></div>
+      </a>
+      <a class="hub-card" href="https://www.scalehealth.ca/effortlessadmin" target="_blank" rel="noopener noreferrer">
+        <img src="/media/hubs/effortless-admin.jpg" width="1600" height="1000" alt="Effortless Admin welcome portal into the Scale Health hub.">
+        <div><strong>Effortless Admin</strong><span>Benefits portal inside Effortless Admin</span></div>
+      </a>
+      <a class="hub-card" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer">
+        <img src="/media/hubs/dr-ho.jpg" width="1600" height="1000" alt="DR-HO’S recovery hub with a featured physiotherapist and virtual assessment.">
+        <div><strong>DR-HO’S</strong><span>Recovery hub and 1:1 physio</span></div>
+      </a>
+      <a class="hub-card" href="https://www.scalehealth.ca/sole" target="_blank" rel="noopener noreferrer">
+        <img src="/media/hubs/sole.jpg" width="1600" height="1000" alt="Sole early-access portal on Scale Health.">
+        <div><strong>Sole</strong><span>Early-access portal</span></div>
+      </a>
+      <a class="hub-card" href="https://www.scalehealth.ca/roll-recovery" target="_blank" rel="noopener noreferrer">
+        <img src="/media/hubs/roll-recovery.jpg" width="1600" height="1000" alt="Roll Recovery early-access portal on Scale Health.">
+        <div><strong>Roll Recovery</strong><span>Early-access portal</span></div>
+      </a>
+    </div>
+  </section>
+
   <section class="band" id="how">
     <div class="wrap">
-      <h2>Three steps to calmer joints</h2>
-      <p class="section-lede">Built like every Scale clinic hub: brand storefront up front, Align clinical booking behind the CTA.</p>
+      <h2>Three unfussy steps</h2>
+      <p class="section-lede">A brand storefront up front. An Align physiotherapist behind the button. Scale keeps the rails steady.</p>
       <div class="grid-3">
         <article class="card">
           <div class="num">01</div>
-          <h3>Share what’s sore</h3>
-          <p>Tell us about your joints, activity level, and goals. No doctor’s referral needed for virtual physio.</p>
+          <h3>Tell us what’s sore</h3>
+          <p>Joints, energy, the thing you actually want to get back to. No doctor’s referral for a virtual physio visit.</p>
         </article>
         <article class="card">
           <div class="num">02</div>
           <h3>Meet an Align physio</h3>
-          <p>One-on-one video visit with a licensed Align physiotherapist. Clear plan you can start the same day.</p>
+          <p>One-to-one video. A plan built around your body, not a printout with your name pasted on.</p>
         </article>
         <article class="card">
           <div class="num">03</div>
           <h3>Move with a plan</h3>
-          <p>Home exercises, recovery guidance, and follow-ups when you need them. Receipts for benefits where eligible.</p>
+          <p>Home work you might actually do, follow-ups when you want them, and a receipt for benefits where you’re eligible.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="band-dark">
-    <div class="wrap">
-      <h2>Why Calm Joints × Align × Scale</h2>
-      <p class="lede" style="margin-top:.7rem;max-width:36rem">
-        A brand hub, not a separate clinic corporation. CHI holds the Calm Joints name;
-        Align physios deliver care; Scale runs the hub rails.
-      </p>
-      <div class="grid-3" style="margin-top:1.6rem">
-        <article class="card">
-          <div class="num">Brand</div>
-          <h3>Calm Joints storefront</h3>
-          <p>Showcase-ready landing for joint comfort and mobility — green family aligned with Scale + Align.</p>
-        </article>
-        <article class="card">
-          <div class="num">Clinic</div>
-          <h3>Align physiotherapists</h3>
-          <p>Booking routes into Align clinicians (Jane / provider roster). Not a standalone Calm Joints clinic corp.</p>
-        </article>
-        <article class="card">
-          <div class="num">Network</div>
-          <h3>Scale Health rails</h3>
-          <p>Same hub pattern as DR-HO’S and other Scale clinic hubs — membership, booking gate, partner care.</p>
-        </article>
+  <section id="newsletter">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">A short list</p>
+        <h2>Blogs, notes, and the occasional open slot.</h2>
+        <p class="section-lede">Leave an email if you want the calm version of a newsletter — what we’re writing, what’s new, nothing that shouts. Optional name, so we don’t have to say “hey friend.”</p>
+        <p class="section-lede">Every signup also pings <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>.</p>
       </div>
+      <form id="news-form" novalidate>
+        <div class="fields">
+          <label>Email
+            <input name="email" type="email" autocomplete="email" required placeholder="you@domain.com" maxlength="254">
+          </label>
+          <label>Name <span class="hint">optional</span>
+            <input name="name" type="text" autocomplete="name" placeholder="What should we call you?" maxlength="80">
+          </label>
+          <label class="hp">Company
+            <input name="company" type="text" tabindex="-1" autocomplete="off">
+          </label>
+          <button class="btn btn-primary" type="submit">Keep me posted</button>
+        </div>
+        <p class="form-note">First-party only. We don’t sell the list. Change your mind any time by writing info@calmjoints.ca.</p>
+        <div class="status" id="news-status" role="status"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="band" id="apply">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Physios in Canada</p>
+        <h2>Come say hello. All provinces welcome.</h2>
+        <p class="section-lede">If you’re a registered physiotherapist anywhere in Canada, this is a light hello — not a 14-page application. Tell us where you practise, a little about how you work, and how to find you.</p>
+        <p class="section-lede">We’ll read it at <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>.</p>
+      </div>
+      <form id="apply-form" novalidate>
+        <div class="fields">
+          <div class="fields two">
+            <label>Your name
+              <input name="name" type="text" autocomplete="name" required maxlength="80" placeholder="Priya Shah">
+            </label>
+            <label>Email
+              <input name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@clinic.ca">
+            </label>
+          </div>
+          <div class="fields two">
+            <label>Phone <span class="hint">optional</span>
+              <input name="phone" type="tel" autocomplete="tel" maxlength="22" placeholder="If you like a call">
+            </label>
+            <label>Years in practice <span class="hint">optional</span>
+              <input name="years_experience" type="number" min="0" max="60" inputmode="numeric" placeholder="8">
+            </label>
+          </div>
+          <fieldset style="border:0;margin:0;padding:0">
+            <legend style="font-size:.82rem;font-weight:700;margin-bottom:.35rem">Where you’re registered</legend>
+            <div class="provinces" id="provinces">
+              <label class="prov"><input type="checkbox" name="provinces" value="AB"><span>Alberta</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="BC"><span>British Columbia</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="MB"><span>Manitoba</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="NB"><span>New Brunswick</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="NL"><span>Newfoundland &amp; Labrador</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="NS"><span>Nova Scotia</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="NT"><span>Northwest Territories</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="NU"><span>Nunavut</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="ON"><span>Ontario</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="PE"><span>Prince Edward Island</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="QC"><span>Quebec</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="SK"><span>Saskatchewan</span></label>
+              <label class="prov"><input type="checkbox" name="provinces" value="YT"><span>Yukon</span></label>
+            </div>
+          </fieldset>
+          <div class="fields two">
+            <label>College / registration # <span class="hint">optional</span>
+              <input name="registration_number" type="text" maxlength="60" placeholder="As printed on your licence">
+            </label>
+            <label>LinkedIn <span class="hint">handle or URL</span>
+              <input name="linkedin" type="text" maxlength="200" placeholder="your-name or linkedin.com/in/…">
+            </label>
+          </div>
+          <label>About you
+            <textarea name="bio" maxlength="800" required placeholder="A few lines. Who you like helping, how you work, the joint you never get bored of."></textarea>
+          </label>
+          <label>Availability notes <span class="hint">optional</span>
+            <input name="availability" type="text" maxlength="400" placeholder="Evenings, one Saturday a month, bilingual…">
+          </label>
+          <label class="hp">Company
+            <input name="company" type="text" tabindex="-1" autocomplete="off">
+          </label>
+          <button class="btn btn-primary" type="submit">Send my hello</button>
+        </div>
+        <p class="form-note">Canada only, every province and territory. We reply from info@calmjoints.ca.</p>
+        <div class="status" id="apply-status" role="status"></div>
+      </form>
     </div>
   </section>
 
   <section id="faq">
     <div class="wrap">
-      <h2>Questions, answered</h2>
+      <h2>Questions, answered plainly</h2>
       <div class="faq">
         <details>
           <summary>Is Calm Joints its own clinic?</summary>
-          <p>No. Calm Joints is a CHI trade-name storefront / Scale clinic hub. Clinical physiotherapy is delivered by Align physiotherapists on the Scale network.</p>
+          <p>Calm Joints is a trade name of Clairvoyant Holdings Inc. (CHI). Clinical physiotherapy is delivered by Align physiotherapists. Scale Health powers the hub. Write <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a> if you need the long version.</p>
         </details>
         <details>
           <summary>Do I need a referral?</summary>
           <p>No. You can book a virtual physiotherapy assessment directly.</p>
         </details>
         <details>
-          <summary>Is this covered by insurance?</summary>
-          <p>Depending on your plan, some or all of the physio fee may be covered. Align provides insurance-friendly receipts for eligible services — confirm with your benefits provider.</p>
+          <summary>Will insurance care?</summary>
+          <p>Some or all of the physio fee may be covered, depending on your plan. Align provides insurance-friendly receipts for eligible services. Your benefits provider has the final say.</p>
         </details>
         <details>
-          <summary>What is Scale Health?</summary>
-          <p>Scale Health is the virtual clinic and wellness membership network behind this hub. Membership is free. Clinical appointments are booked separately with Align physios.</p>
+          <summary>I’m a physio. Can I join from any province?</summary>
+          <p>Yes. The hello form covers every province and territory. Registration number is optional on the form — bring the details you’re comfortable sharing, and we’ll take it from there.</p>
+        </details>
+        <details>
+          <summary>How do I reach a human?</summary>
+          <p>Email <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>. That’s the inbox for members, physios, and “wait, what is this?”</p>
         </details>
       </div>
     </div>
   </section>
 </main>
 
-<footer>
+<footer id="contact">
   <div class="wrap foot-grid">
     <div>
       <a class="foot-brand" href="#top">
@@ -451,13 +547,14 @@
         Calm Joints
       </a>
       <p class="legal">
-        Trade name of Clairvoyant Holdings Inc. (CHI). Clinical care by Align physiotherapists via Scale Health.
-        Domain <strong>calmjoints.ca</strong> not yet registered — this is a preview deploy. DNS later.
+        Trade name of Clairvoyant Holdings Inc. (CHI). Clinical care by Align physiotherapists. Scale Health powers the hub.
+        Contact <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>.
+        The home we’re aiming for is calmjoints.ca — this preview is live while that domain is still being purchased.
       </p>
     </div>
-    <div style="text-align:right">
+    <div>
       <a href="https://www.scalehealth.ca" rel="noopener">scalehealth.ca</a><br>
-      <span style="opacity:.7">Showcase · Sep 28, 2026 ET</span>
+      <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>
     </div>
   </div>
 </footer>
@@ -475,40 +572,78 @@
 
   function goBook(e) {
     if (e) e.preventDefault();
-    if (url && url.indexOf('http') === 0) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
-    }
+    if (url && url.indexOf('http') === 0) window.open(url, '_blank', 'noopener,noreferrer');
+    else document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
   }
 
-  ['nav-book', 'hero-book', 'book-cta', 'sticky-book'].forEach(function (id) {
+  ['book-cta', 'sticky-book'].forEach(function (id) {
     var el = document.getElementById(id);
-    if (!el) return;
-    if (id === 'book-cta' || id === 'sticky-book' || id === 'hero-book' || id === 'nav-book') {
-      el.addEventListener('click', function (e) {
-        if (id === 'nav-book' || id === 'hero-book') {
-          // allow hash scroll; still wire primary CTA on book card
-          return;
-        }
-        goBook(e);
-      });
-    }
+    if (el) el.addEventListener('click', goBook);
   });
-
-  document.getElementById('book-cta').href = url;
+  var cta = document.getElementById('book-cta');
+  if (cta) cta.href = url;
   document.querySelectorAll('[data-book]').forEach(function (btn) {
     btn.addEventListener('click', goBook);
   });
-
   var note = document.getElementById('book-status');
   if (note) {
     note.setAttribute('data-status', status);
     if (status === 'live' && booking.embedUrl) {
-      note.textContent = 'Live Align booking embed connected.';
+      note.textContent = 'Live Align booking is connected.';
       note.style.borderLeftColor = '#15A34A';
     }
   }
+
+  var scroller = document.getElementById('hub-scroller');
+  function scrollHubs(dir) {
+    var card = scroller.querySelector('.hub-card');
+    var amount = card ? card.getBoundingClientRect().width + 16 : 340;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scroller.scrollBy({ left: dir * amount, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  document.getElementById('hub-next').addEventListener('click', function () { scrollHubs(1); });
+  document.getElementById('hub-prev').addEventListener('click', function () { scrollHubs(-1); });
+
+  function wireForm(formId, endpoint, statusId) {
+    var form = document.getElementById(formId);
+    var box = document.getElementById(statusId);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = {};
+      var fd = new FormData(form);
+      fd.forEach(function (value, key) {
+        if (key === 'provinces') {
+          data.provinces = data.provinces || [];
+          data.provinces.push(value);
+        } else if (value !== '') {
+          data[key] = value;
+        }
+      });
+      if (formId === 'apply-form') data.provinces = data.provinces || [];
+      var button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      box.className = 'status';
+      box.textContent = '';
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (res) {
+        return res.json().then(function (json) { return { ok: res.ok, json: json }; });
+      }).then(function (result) {
+        box.textContent = (result.json && result.json.message) || (result.ok ? 'Saved.' : 'Something went sideways.');
+        box.className = 'status show ' + (result.ok ? 'ok' : 'err');
+        if (result.ok) form.reset();
+      }).catch(function () {
+        box.textContent = 'We couldn’t reach the inbox just now. Email info@calmjoints.ca and we’ll grab it.';
+        box.className = 'status show err';
+      }).finally(function () {
+        button.disabled = false;
+      });
+    });
+  }
+  wireForm('news-form', '/api/newsletter', 'news-status');
+  wireForm('apply-form', '/api/apply', 'apply-status');
 })();
 </script>
 </body>

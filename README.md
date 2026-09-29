@@ -1,49 +1,45 @@
-# Calm Joints — Scale clinic hub (showcase)
+# Calm Joints
 
-**Product:** Brand storefront / Scale clinic hub for joint comfort & mobility.  
-**Care:** Books into **Align physiotherapists** (not a separate Calm Joints clinic corp).  
-**Trade name:** Calm Joints — Clairvoyant Holdings Inc. (CHI).  
-**Domain:** `calmjoints.ca` — not registered yet; preview URL only. DNS later.
+Digital clinic landing and intake for **Calm Joints**.
 
-## Why standalone (not scalehealthnew)
+- **CHI** (Clairvoyant Holdings Inc.) owns the trade name.
+- **Align** physiotherapists deliver care.
+- **Scale** powers the hub.
+- Contact: [info@calmjoints.ca](mailto:info@calmjoints.ca)
+- Preview: https://calm-joints-hub.vercel.app
+- Domain `calmjoints.ca` is not purchased yet.
 
-Randy lock: prefer **GitHub → Vercel** over Replit Agent for cost.  
-**Scale Connect Hub / `scalehealthnew` are frozen** unless needed. This repo is a thin static showcase patterned on the ClinicHub / Align booking-card UX, using Scale portal green tokens — without touching the frozen app.
-
-## Best template path (inventory)
-
-| Path | Role | Use for Calm Joints? |
-|------|------|----------------------|
-| `scalehealthnew` → `ClinicHubPage` + configs (`drHoConfig`, `jillConfig`, Align booking card) | Production hub framework | **Frozen** — do not edit unless Randy unfreezes |
-| `/workspace/hubads-site` | Static HTML + `vercel.json` deploy pattern | **Yes** — deploy shape |
-| `/workspace/launch/clinichub` | HubAds landing clone | Reference only (ember palette, not greens) |
-| `/workspace/clinichub-media` | HubAds buy server (Replit) | No — different product; Replit cost lock |
-| `/workspace/clinichubs.dom.html` | ClinicHubs catalog DOM scrape | Reference only |
-
-**Chosen path:** standalone static site (this repo) → GitHub (`randy-ship-it/calm-joints-hub`) → Vercel preview on SBG team. Promote into `ClinicHubPage` config later if Randy unfreezes scalehealthnew.
-
-## Brand greens (Scale + Align family)
-
-From Scale `portalTokens` / `index.css` SSOT:
-
-- Primary `#15A34A` · Hover `#15803D`
-- Darkest `#042414` · Dark `#0B1D16`
-- Mint `#D3F8DF` · Surface `#EDFAF4` · Paper `#F7F6F1`
+GitHub → Vercel project `calm-joints-hub` on team `sbg-516724e0`. No Replit publish.
 
 ## Local
 
-Open `index.html` or:
-
 ```bash
-npx serve .
+npm install
+npm test
+npm run dev
 ```
 
-## Deploy
+Dev server: http://127.0.0.1:4173 — static site plus `POST /api/newsletter` and `POST /api/apply`.
 
-```bash
-vercel --scope sbg-516724e0 --yes
+## Intake
+
+Both routes validate, rate-limit lightly, and persist a body of:
+
+```json
+{ "type": "newsletter|apply", "source": "calmjoints.ca", "payload": {}, "received_at": "ISO-8601" }
 ```
 
-## Config gaps (Jon)
+`payload.notify_email` is `info@calmjoints.ca`.
 
-See `STATUS.md` — booking embed URL, provider list API, brand tokens confirmation, logo assets.
+Environment variables (set on the Vercel project; do not commit values):
+
+| Name | Required | Purpose |
+| --- | --- | --- |
+| `FRIDAY_INTAKE_URL` | For Friday CRM | Webhook that receives the JSON body |
+| `FRIDAY_INTAKE_SECRET` | With the URL | Sent as `Authorization: Bearer` and `X-Friday-Secret` |
+| `NEON_DATABASE_URL` or `DATABASE_URL` | Fallback | Neon/Postgres row in `calm_joints_intakes` when Friday is down or unset |
+| `INTAKE_STORE_PATH` | Optional | Local JSONL path. Defaults to `data/intakes.jsonl` off Vercel, and `/tmp/calmjoints-intakes.jsonl` as a last resort |
+
+If Friday is unavailable, the handler writes the local file and Neon (when a database URL is set) so the submission is not dropped. `/tmp` on Vercel is ephemeral — set Friday or Neon before treating production signups as durable.
+
+Booking still uses the interim Jane calendar in `config.js` until Align sends a live embed URL.

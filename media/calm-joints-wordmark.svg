@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 48" fill="none" role="img" aria-label="Calm Joints">
+  <rect width="48" height="48" rx="14" fill="#15A34A"/>
+  <path d="M20.4 15.2c-5 1.1-8 5-8 9s3 7.9 8 9" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M32.2 13.2v11.7c0 4.5-3.2 7.4-7.2 7.4" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
+  <circle cx="32.2" cy="11.4" r="1.7" fill="#D3F8DF"/>
+  <text x="60" y="31" fill="#042414" font-family="Georgia, 'Iowan Old Style', Palatino, serif" font-size="22" font-weight="600">Calm Joints</text>
+</svg>

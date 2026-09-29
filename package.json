@@ -1,0 +1,12 @@
+{
+  "name": "calm-joints-hub",
+  "private": true,
+  "description": "Calm Joints digital clinic landing and intake. CHI trade name, Align care, Scale hub.",
+  "scripts": {
+    "test": "node scripts/test-intake.js",
+    "dev": "node scripts/dev-server.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0"
+  }
+}

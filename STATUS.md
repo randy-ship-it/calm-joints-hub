@@ -1,83 +1,80 @@
 # Calm Joints hub — STATUS
-**Date:** 2026-09-28 ~6:50 PM ET (America/Toronto)  
-**Agent:** Grok Bot (executor)  
-**Product:** Scale clinic hub storefront → books into Align physios  
-**Owner of trade name:** CHI (Clairvoyant Holdings Inc.)  
-**Domain:** `calmjoints.ca` — **NOT registered** (another agent / DNS later). OBR payment **not touched**.
+
+**Date:** 2026-09-29 ~1:40 AM ET (America/Toronto)
+**Product:** Calm Joints digital clinic landing + intake
+**Trade name:** CHI (Clairvoyant Holdings Inc.)
+**Care:** Align physiotherapists
+**Hub rails:** Scale
+**Contact:** info@calmjoints.ca
+**Domain:** `calmjoints.ca` — **still not purchased**. Do not buy from this repo.
 
 ---
 
-## Preview URL (live)
+## What’s live
 
 | Surface | URL |
-|---------|-----|
-| **Aliased preview** | **https://calm-joints-hub.vercel.app** |
-| Deployment | https://calm-joints-d0vkh11q8-sbg-516724e0.vercel.app |
-| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/6gmTtaCNQMP5zLvsMxPRXq9PUw7L |
+| --- | --- |
+| **Production** | **https://calm-joints-hub.vercel.app** |
+| Vercel project | `calm-joints-hub` (`prj_Y2OAVqC0nJ2jZXcuNMwMRNAC0vY6`) |
+| Team | `sbg-516724e0` (`team_lOeMvVi5qA620Xr4vVA0C59W`) |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
-| Local path | `/workspace/calm-joints-hub-2026-09-28/` |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub |
 
-Vercel project: `sbg-516724e0/calm-joints-hub` (SBG team). Static HTML — no Replit.
+Public index is on (`noindex` removed). Canonical and Open Graph still point at the Vercel preview until `calmjoints.ca` exists. Flip those to `https://calmjoints.ca/` when DNS is attached.
 
----
+Interim Jane booking CTA is still in place (`config.js` → `booking.status = interim-jane`):
 
-## 1) Inventory — best hub template path
+`https://scalehealth.janeapp.com/locations/scale-health-x-dr-ho/book#/staff_member/91/treatment/346`
 
-| Candidate | Verdict |
-|-----------|---------|
-| **`scalehealthnew` `ClinicHubPage` + hub configs** (drHo, jill, AlignBookingCard, Jane) | **Best production pattern** — but **FROZEN** (Scale Connect Hub / scalehealthnew lock). Do not edit unless Randy unfreezes. |
-| `/workspace/hubads-site` (+ `/workspace/launch/clinichub`) | **Best deploy shape** for a standalone showcase: static `index.html` + `vercel.json` → Vercel. Ember palette (not greens) — used as structure only. |
-| `/workspace/clinichub-media` | HubAds buy server on Replit — **skip** (cost lock; wrong product). |
-| `/workspace/clinichubs.dom.html` / `scalehealth_slots` | Catalog DOM reference only. |
-| Existing brand-hub / location-hub records in scalehealthnew | Future path once unfrozen: add Calm Joints as a ClinicHub config or brand-hub record. |
-
-**Chosen now:** Standalone static showcase (this folder/repo) patterned on ClinicHub + Align booking card UX, Scale portal greens (`#15A34A` family). GitHub → Vercel. No touch to scalehealthnew.
-
-**Brand greens used (Scale portalTokens SSOT):**
-- Primary `#15A34A` · Hover `#15803D`
-- Darkest `#042414` · Dark `#0B1D16`
-- Mint `#D3F8DF` · Surface `#EDFAF4` · Paper `#F7F6F1`
+Deploy path is GitHub → Vercel only. No Replit publish. `scalehealthnew` / Scale Connect Hub were not touched.
 
 ---
 
-## 2) What we need from Jon (ask list)
+## Friday env (set on the Vercel project — values not in git)
 
-1. **Booking embed URL** — iframe-safe (or deep-link) Align physio booking URL for Calm Joints CTA. Today: interim `scalehealth.janeapp.com` …/scale-health-x-dr-ho (config `booking.status = interim-jane`). Confirm correct Align location / staff / treatment IDs.
-2. **Provider list API** — endpoint (or static roster) of Align physios to show on hub (name, credentials, photo, bookingUrl). Schema preferred: `{ id, name, credentials, photoUrl, bookingUrl, provinces[] }`.
-3. **Brand tokens confirmation** — OK to keep Scale greens above, or send Align-specific Calm Joints palette / co-brand rules.
-4. **Logo assets** — final Calm Joints wordmark + mark (SVG/PNG, light + dark), optional Align co-brand lockup, OG image 1200×630.
-5. **Copy sign-off** — “CHI trade name / Align delivers care / Scale powers hub” legal line; any province gating copy.
-6. **(Optional later)** Promote into `scalehealthnew` ClinicHubPage config / brand-hub record when frozen lock lifts.
+| Variable | Role |
+| --- | --- |
+| `FRIDAY_INTAKE_URL` | POST target for intake |
+| `FRIDAY_INTAKE_SECRET` | `Authorization: Bearer …` and `X-Friday-Secret` |
 
-Wire answers into `config.js` (`booking.embedUrl`, `booking.providerListApi`, `booking.status = 'live'`).
+Webhook JSON:
+
+```json
+{
+  "type": "newsletter or apply",
+  "source": "calmjoints.ca",
+  "payload": { "notify_email": "info@calmjoints.ca" },
+  "received_at": "2026-09-29T00:00:00.000Z"
+}
+```
+
+`POST /api/newsletter` — email, optional name. Meant for blogs, newsletters, and the latest. Payload includes `notify_email: info@calmjoints.ca`.
+
+`POST /api/apply` — physio hello for every Canadian province and territory: name, email, optional phone, provinces, optional college/registration number, LinkedIn handle or URL, short bio, optional years, optional availability.
+
+If Friday is unset or returns an error, the same record is appended locally (`data/intakes.jsonl` in dev, `/tmp/calmjoints-intakes.jsonl` on Vercel) and inserted into Neon when `NEON_DATABASE_URL`, `DATABASE_URL`, or `POSTGRES_URL` is set (table `calm_joints_intakes`, created on first write).
+
+**These env vars are not set on the project yet.** Until `FRIDAY_INTAKE_URL` or a Neon URL is added in Vercel → calm-joints-hub → Settings → Environment Variables (Production + Preview), production submissions only hit ephemeral `/tmp` and can disappear when the function instance goes away. Add Friday (and Neon if you want a database copy) before relying on the forms.
+
+Optional: `INTAKE_STORE_PATH` to override the JSONL file.
 
 ---
 
-## 3) Next DNS steps (do NOT buy yet — another agent / Randy)
+## Domain (do not buy here)
 
-When ready to attach `calmjoints.ca`:
+`calmjoints.ca` still needs to be purchased (Porkbun / domain owner — not this change). After purchase:
 
-1. Register `calmjoints.ca` at Porkbun (`rgilling`) — domain agent owns purchase.
-2. In Vercel project `calm-joints-hub` → Domains → add `calmjoints.ca` + `www.calmjoints.ca`.
-3. At Porkbun DNS: add Vercel-required records (usually A `76.76.21.21` for apex + CNAME `cname.vercel-dns.com` for www — confirm in Vercel UI at attach time).
-4. Wait for SSL; remove `noindex` in `index.html` when public.
-5. Flip interim Jane URL to Jon’s live Align embed.
-
-OBR trade-name filing / Beanstream payment: **out of scope** (other agent).
+1. Vercel project `calm-joints-hub` → Domains → add `calmjoints.ca` and `www.calmjoints.ca`.
+2. At the registrar, add the records Vercel shows (typically apex A `76.76.21.21` and www CNAME `cname.vercel-dns.com` — confirm in the Vercel UI).
+3. Point canonical / `og:url` / sitemap at `https://calmjoints.ca/`.
+4. Swap the interim Jane URL when Jon sends the Align embed.
 
 ---
 
-## Done this turn
+## This ship
 
-- [x] Inventory templates; chose standalone static over frozen scalehealthnew  
-- [x] Scaffold landing + Align book CTA (Scale/Align greens)  
-- [x] Push GitHub `randy-ship-it/calm-joints-hub`  
-- [x] Deploy Vercel preview `https://calm-joints-hub.vercel.app`  
-- [x] STATUS.md (this file)  
-- [x] Did **not** buy domain or touch OBR payment  
-
-## Gaps remaining
-
-- Jon: embed URL, provider API, logos, token confirm  
-- Domain purchase + DNS  
-- Optional: production ClinicHub config inside scalehealthnew (needs unfreeze)
+- White + `#15A34A` clinic page, CJ monogram SVG, Fraunces + DM Sans
+- Hub carousel: Jill Health, Effortless Admin, DR-HO’S, Sole, Roll Recovery (cropped 8:5 portal/booking shots)
+- Newsletter + physio apply forms posting to `/api/newsletter` and `/api/apply`
+- `noindex` removed; Jane CTA kept
+- Sole and Roll Recovery currently share Scale’s “early access” portal screen; both are labeled
