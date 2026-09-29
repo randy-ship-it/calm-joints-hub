@@ -3,8 +3,8 @@
 Digital clinic landing and intake for **Calm Joints**.
 
 - **CHI** (Clairvoyant Holdings Inc.) owns the trade name.
-- **Align** physiotherapists deliver care.
-- **Scale** powers the hub.
+- Care by registered physiotherapists (internal: Align). Public site shows no Align or Scale branding.
+- Hub carousel: DR-HO’S, Jill Health, Jack Health, Roll Recovery, Sole.
 - Contact: [info@calmjoints.org](mailto:info@calmjoints.org)
 - Production: https://calmjoints.org
 - This deployment: https://calm-joints-kk4d9irzr-sbg-516724e0.vercel.app
