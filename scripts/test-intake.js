@@ -215,7 +215,7 @@ async function main() {
     fetchImpl: async () => ({ ok: false, status: 502 }),
   });
   assert.strictEqual(fallback.status, 200);
-  assert.match(fallback.json.message, /on the list/i);
+  assert.match(fallback.json.message, /email you tips/i);
   const queued = readLines().at(-1);
   assert.strictEqual(queued.payload.email, 'cy@example.com');
   assert.strictEqual(queued.payload.source, 'calmjoints_newsletter');
@@ -285,6 +285,48 @@ async function main() {
   });
   assert.strictEqual(cRes.status, 200);
   assert.strictEqual(posts.length, 1, 'accessibility role is not mirrored to Scale');
+
+  // Resume upload: type + magic checks, blob store, signed link into Friday meta.
+  const { cleanResume, resumeSig } = require('../lib/intake');
+  const pdf = Buffer.from('%PDF-1.4 test').toString('base64');
+  assert.ok(cleanResume({ name: 'cv.exe', data: pdf }).error);
+  assert.ok(cleanResume({ name: 'cv.pdf', data: Buffer.from('MZ fake').toString('base64') }).error);
+  assert.ok(cleanResume({ name: 'cv.pdf', data: Buffer.alloc(3 * 1024 * 1024 + 10, 65).toString('base64') }).error);
+  assert.strictEqual(cleanResume({ name: 'My CV (2026).pdf', data: pdf }).value.name, 'My-CV-2026-.pdf');
+  const puts = [];
+  const rPosts = [];
+  const rRes = await processIntake('careers', { name: 'Ann Lee', email: 'r@example.com', role: 'digital', resume: { name: 'cv.pdf', type: 'application/pdf', data: pdf } }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k' }, ip: '8.8.8.2', externalId: 'cj-careers-t1',
+    blobPut: async (pathname, buf, opts) => { puts.push({ pathname, opts, len: buf.length }); return { pathname }; },
+    fetchImpl: async (url, init) => { rPosts.push(JSON.parse(init.body)); return { ok: true, status: 200 }; },
+  });
+  assert.strictEqual(rRes.status, 200);
+  assert.strictEqual(puts[0].pathname, 'resumes/cj-careers-t1/cv.pdf');
+  assert.strictEqual(puts[0].opts.access, 'private');
+  const sig = resumeSig('resumes/cj-careers-t1/cv.pdf', { INTAKE_WEBHOOK_SECRET: 'k' });
+  assert.strictEqual(rPosts[0].meta.resume_url, `https://calmjoints.org/api/resume?f=resumes%2Fcj-careers-t1%2Fcv.pdf&s=${sig}`);
+  assert.ok(rPosts[0].tags.includes('has-resume'));
+  assert.strictEqual(rPosts.length, 2, 'physio resume also mirrored to Scale');
+  assert.strictEqual(rPosts[1].meta.resume_url, rPosts[0].meta.resume_url);
+
+  // Careers multi-select and brands form routing to Scale's hub lane.
+  const mv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: ['digital', 'in-home', 'digital'] });
+  assert.deepStrictEqual(mv.value.roles, ['digital', 'in-home']);
+  const mb = fridayBody('careers', mv.value, 'cj-careers-m');
+  assert.deepStrictEqual(mb.tags, ['calmjoints', 'careers', 'role:digital', 'role:in-home']);
+  assert.strictEqual(mb.kind, 'providers');
+  assert.ok(validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: [] }).error);
+  const bPosts = [];
+  const bRes = await processIntake('intake', { website: 'brand.com', name: 'Bo Li', email: 'bo@brand.com', org_type: 'gym' }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k' }, ip: '8.8.8.3',
+    fetchImpl: async (url, init) => { bPosts.push(JSON.parse(init.body)); return { ok: true, status: 200 }; },
+  });
+  assert.strictEqual(bRes.status, 200);
+  assert.strictEqual(bPosts.length, 2, 'brands form mirrored to Scale');
+  assert.strictEqual(bPosts[0].meta.org_type, 'gym');
+  assert.strictEqual(bPosts[1].site, 'scalehealth.ca');
+  assert.strictEqual(bPosts[1].lane, 'hubs');
+  assert.ok(bPosts[1].tags.includes('hub-intake'));
 
   fs.rmSync(store, { force: true });
   console.log('intake tests ok');
