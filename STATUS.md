@@ -15,8 +15,10 @@
 | Surface | URL |
 | --- | --- |
 | **Production** | **https://calm-joints-hub.vercel.app** |
+| This deployment | https://calm-joints-omvvxgyq3-sbg-516724e0.vercel.app |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/CfVCX9GR1JLGBSZw86ntJv2hehgG |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
-| Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/1 |
+| Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/2 |
 | Branch | `cursor/calmjoints-clinic-polish-9ceb` |
 
 Both forms post to Friday `POST https://fridayapp.org/api/intake` with `site: calmjoints.ca`. Auth: `Authorization: Bearer` + `X-Intake-Secret` from `INTAKE_WEBHOOK_SECRET` (fallback `FRIDAY_API_KEY`). The `/api/webhooks/calmjoints/*` paths are not used. A non-2xx still queues locally (Neon when configured). Contact display remains `info@calmjoints.ca`.
