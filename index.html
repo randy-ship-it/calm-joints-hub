@@ -32,7 +32,7 @@
 <style>
   :root {
     --green: #15803D; --green-2: #15A34A; --ink: #0B1D16; --mute: #4B5E54; --line: #E6ECE8;
-    --soft: #F5F8F6; --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif; --max: 1120px;
+    --soft: #F5F8F6; --deep: #0A3D22; --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif; --max: 1120px;
     --pad: clamp(1.1rem, 4vw, 2rem);
   }
   * { box-sizing: border-box; }
@@ -80,6 +80,20 @@
   .cap p { flex-basis: 100%; margin: 0; color: var(--mute); font-size: .95rem; }
   .tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; background: var(--soft); color: var(--mute); }
   .tag.live { background: #DCFCE7; color: var(--green); }
+  .soon-slide { position: relative; }
+  .soonbtn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; font: inherit; color: inherit; border-radius: 16px; }
+  .soonbtn:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+  .soon { position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 2 / 1; margin-top: 0; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: .35rem; padding: 1rem; border-radius: 16px; background: rgba(10,61,34,.92); color: #fff; }
+  .soon-slide.open .soon { display: flex; }
+  .soon strong { font-size: clamp(1.2rem, 3vw, 1.7rem); letter-spacing: -.02em; }
+  .soon p { margin: 0 0 .5rem; color: #CDEFD9; font-size: .95rem; }
+  .soon-links { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+  .soon-links a { display: inline-flex; align-items: center; min-height: 44px; padding: .55rem 1.1rem; border-radius: 999px; font-weight: 700; font-size: .95rem; text-decoration: none; background: #fff; color: var(--deep); }
+  .soon .soon-links a:first-child { color: var(--deep); }
+  .soon .soon-links a + a { color: #fff; }
+  .soon-links a + a { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.7); }
+  .soon-x { position: absolute; top: .4rem; right: .5rem; width: 44px; height: 44px; border: 0; background: none; color: #CDEFD9; font-size: 1.5rem; cursor: pointer; }
+  @media (max-width: 520px) { .soon p { display: none; } .soon-links a { padding: .45rem .9rem; font-size: .88rem; } }
   .controls { display: flex; align-items: center; justify-content: center; gap: 1rem; }
   .arrow { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #CFD9D3; background: #fff; font-size: 1.1rem; cursor: pointer; color: var(--ink); }
   .arrow:hover { border-color: var(--ink); }
@@ -202,25 +216,30 @@
           <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO’S hub page with a featured physiotherapist" decoding="async"></div>
           <div class="cap"><strong>DR-HO’S</strong><span class="tag live">Live</span></div>
         </a>
-        <a class="slide" href="https://www.scalehealth.ca/jillhealth" target="_blank" rel="noopener noreferrer" aria-label="Jill Health, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health hub page" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Jill Health</strong><span class="tag">Launching</span></div>
-        </a>
-        <a class="slide" href="https://www.scalehealth.ca/jackhealth" target="_blank" rel="noopener noreferrer" aria-label="Jack Health, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health-v2.webp" width="1600" height="800" alt="Jack Health hub page" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Jack Health</strong><span class="tag">Launching</span></div>
-        </a>
-        <a class="slide" href="https://www.scalehealth.ca/effortlessadmin" target="_blank" rel="noopener noreferrer" aria-label="Effortless Admin, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/effortless-v2.webp" width="1600" height="800" alt="Effortless Admin member hub page" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Effortless Admin</strong><span class="tag live">Live</span></div>
-        </a>
-        <div class="slide" aria-label="Roll Recovery member marketplace">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery member marketplace" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Roll Recovery</strong><span class="tag">Launching</span></div>
+        <div class="slide soon-slide">
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jill Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health hub page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Jill Health is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <div class="cap"><strong>Jill Health</strong><span class="tag">Coming soon</span></div>
         </div>
-        <div class="slide" aria-label="Sole member hub preview">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole-v2.webp" width="1600" height="800" alt="Sole member hub preview" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Sole</strong><span class="tag">Launching</span></div>
+        <div class="slide soon-slide">
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jack Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health-v2.webp" width="1600" height="800" alt="Jack Health hub page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Jack Health is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <div class="cap"><strong>Jack Health</strong><span class="tag">Coming soon</span></div>
+        </div>
+        <div class="slide soon-slide">
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Effortless Admin, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/effortless-v2.webp" width="1600" height="800" alt="Effortless Admin member hub page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Effortless Admin is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <div class="cap"><strong>Effortless Admin</strong><span class="tag">Coming soon</span></div>
+        </div>
+        <div class="slide soon-slide">
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Roll Recovery, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery member marketplace" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Roll Recovery is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <div class="cap"><strong>Roll Recovery</strong><span class="tag">Coming soon</span></div>
+        </div>
+        <div class="slide soon-slide">
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Sole, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole-v2.webp" width="1600" height="800" alt="Sole member hub preview" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Sole is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <div class="cap"><strong>Sole</strong><span class="tag">Coming soon</span></div>
         </div>
       </div>
       <div class="controls">
@@ -376,8 +395,23 @@
     timer = setInterval(function () { if (!paused && !document.hidden) go(current + 1); }, 4200);
   }
   ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) { track.addEventListener(ev, function () { paused = true; }, { passive: true }); });
-  ['mouseleave', 'focusout'].forEach(function (ev) { track.addEventListener(ev, function () { paused = false; }); });
-  track.addEventListener('touchend', function () { setTimeout(function () { paused = false; }, 4000); }, { passive: true });
+  ['mouseleave', 'focusout'].forEach(function (ev) { track.addEventListener(ev, function () { if (!openSoon) paused = false; }); });
+  track.addEventListener('touchend', function () { setTimeout(function () { if (!openSoon) paused = false; }, 4000); }, { passive: true });
+  var openSoon = null;
+  function closeSoon() { if (!openSoon) return; openSoon.classList.remove('open'); openSoon.querySelector('.soonbtn').setAttribute('aria-expanded', 'false'); openSoon = null; paused = false; }
+  slides.forEach(function (sl, i) {
+    var btn = sl.querySelector('.soonbtn'); if (!btn) return;
+    btn.addEventListener('click', function () {
+      if (openSoon === sl) { closeSoon(); return; }
+      closeSoon(); if (i !== current) go(i);
+      sl.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); openSoon = sl; paused = true;
+    });
+    sl.querySelector('.soon-x').addEventListener('click', function () { closeSoon(); btn.focus(); });
+    sl.querySelectorAll('.soon-links a').forEach(function (a) { a.addEventListener('click', closeSoon); });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSoon(); });
+  document.addEventListener('click', function (e) { if (openSoon && !openSoon.contains(e.target)) closeSoon(); });
+
   document.getElementById('prev').addEventListener('click', function () { go(current - 1); restart(); });
   document.getElementById('next').addEventListener('click', function () { go(current + 1); restart(); });
   track.addEventListener('keydown', function (e) {
