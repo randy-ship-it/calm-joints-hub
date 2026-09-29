@@ -207,11 +207,11 @@
       </div>
       <div class="math calc" aria-label="Partner earnings calculator">
         <label for="c-n">New customers a month from your QR code</label>
-        <div class="c-in"><input type="range" id="c-r" min="1" max="100" value="10" aria-label="New customers a month"><input type="number" id="c-n" min="0" max="9999" value="10" inputmode="numeric"></div>
-        <div class="row"><span>Per customer</span><span id="c-per">$75</span></div>
-        <div class="row"><span>Per month</span><span id="c-mo">$750</span></div>
-        <div class="row"><span>Per year</span><span id="c-yr">$9,000</span></div>
-        <small>Estimate only. Assumes each customer averages 6 visits at $100, about half of billing is left after physiotherapist pay, and your location’s 25% share. Real results vary. Payouts are made on the last day of each month for the prior month’s collected patient activity.</small>
+        <div class="c-in"><input type="range" id="c-r" min="0" max="100" step="1" value="30" aria-label="New customers a month"><input type="number" id="c-n" min="0" max="100000" value="25" inputmode="numeric"></div>
+        <div class="row"><span>Per customer</span><span id="c-per">$90</span></div>
+        <div class="row"><span>Per month</span><span id="c-mo">$2,250</span></div>
+        <div class="row"><span>Per year</span><span id="c-yr">$27,000</span></div>
+        <small>Estimate only. Assumes each customer averages 6 visits at $100, about half of billing is left after physiotherapist pay, and your location’s 25% share, plus about 20% more from product royalties we share back. Real results vary. Payouts are made on the last day of each month for the prior month’s collected patient activity.</small>
       </div>
     </div>
   </section>
@@ -339,10 +339,13 @@
 (function () {
   var r = document.getElementById('c-r'), n = document.getElementById('c-n');
   function money(v) { return '$' + Math.round(v).toLocaleString('en-CA'); }
-  function upd(v) { v = Math.max(0, Math.min(9999, parseInt(v, 10) || 0)); var per = 6 * 100 * 0.5 * 0.25;
+  function upd(v) { v = Math.max(0, Math.min(100000, parseInt(v, 10) || 0)); var per = 6 * 100 * 0.5 * 0.25 * 1.2;
     document.getElementById('c-per').textContent = money(per); document.getElementById('c-mo').textContent = money(v * per); document.getElementById('c-yr').textContent = money(v * per * 12); return v; }
-  r.addEventListener('input', function () { n.value = r.value; upd(r.value); });
-  n.addEventListener('input', function () { var v = upd(n.value); r.value = Math.min(100, Math.max(1, v)); });
+  function toN(x) { return Math.round(5000 * Math.pow(x / 100, 2.5)); }
+  function toX(v) { return Math.min(100, Math.round(100 * Math.pow(Math.min(v, 5000) / 5000, 1 / 2.5))); }
+  r.addEventListener('input', function () { var v = toN(+r.value); v = v < 50 ? v : v < 500 ? Math.round(v / 5) * 5 : Math.round(v / 50) * 50; n.value = v; upd(v); });
+  n.addEventListener('input', function () { r.value = toX(upd(n.value)); });
+  r.value = toX(+n.value);
   upd(n.value);
   var d = document.getElementById('fp-dlg'), agree = document.getElementById('k-agree');
   document.getElementById('fp-open').addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); if (d.showModal) d.showModal(); });
