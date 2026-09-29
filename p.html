@@ -12,98 +12,56 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
 <style>
-  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--soft:#F5F8F6;--mint:#D3F8DF;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
-  *{box-sizing:border-box} body{margin:0;color:var(--ink);font:17px/1.55 var(--sans);background:#fff;-webkit-font-smoothing:antialiased}
-  img{display:block;max-width:100%}
-  .bar{display:flex;align-items:center;justify-content:center;gap:1rem;padding:1rem;border-bottom:1px solid var(--line);background:#fff}
-  .bar .cj{height:38px;width:auto}.bar .x{color:#9AA8A0;font-weight:700;font-size:1.3rem}.bar .pl{max-height:42px;max-width:150px;width:auto;object-fit:contain}
-  main{max-width:640px;margin:0 auto;padding:2.2rem 1.2rem 3rem}
-  .kicker{margin:0 0 .6rem;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
-  h1{font-size:clamp(2rem,7vw,2.8rem);line-height:1.08;letter-spacing:-.02em;margin:0}
-  .lede{color:var(--mute);font-size:1.1rem;margin:1rem 0 0}
-  .btn{display:flex;width:100%;align-items:center;justify-content:center;padding:1rem 1.3rem;border-radius:999px;font:700 1.05rem var(--sans);border:0;cursor:pointer;background:var(--green);color:#fff;text-decoration:none;margin-top:1.6rem}
-  .btn:hover{background:#116A32}.btn[disabled]{opacity:.6}
-  ul.why{list-style:none;padding:0;margin:1.8rem 0 0;display:grid;gap:.7rem}
-  ul.why li{display:flex;gap:.7rem;align-items:flex-start;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:.85rem 1rem}
-  ul.why li b{display:block}
-  ul.why span.i{flex:none;width:1.8rem;height:1.8rem;border-radius:50%;background:var(--mint);display:grid;place-items:center;color:var(--green);font-weight:700}
-  .fine{font-size:.82rem;color:var(--mute);margin-top:2rem}
-  dialog{border:0;border-radius:22px;padding:0;max-width:430px;width:calc(100% - 2rem);box-shadow:0 30px 70px -20px rgba(0,0,0,.35)}
-  dialog::backdrop{background:rgba(11,29,22,.45)}
-  .dlg{padding:1.6rem}
-  .dlg h2{margin:0;font-size:1.45rem;letter-spacing:-.01em}
-  .dlg p{color:var(--mute);margin:.6rem 0 0}
-  .dlg input{width:100%;margin-top:1rem;padding:.85rem .95rem;border:1px solid #CFD9D3;border-radius:12px;font:inherit}
-  .dlg .skip{display:block;text-align:center;margin-top:.9rem;font-size:.88rem;color:var(--mute);background:none;border:0;cursor:pointer;text-decoration:underline;width:100%}
-  .msg{min-height:1.2em;margin:.6rem 0 0;font-size:.9rem;font-weight:600;color:#B42318}
-  .dots{display:inline-flex;gap:.3rem;margin-left:.5rem}.dots i{width:.4rem;height:.4rem;border-radius:50%;background:#fff;animation:b 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
-  @keyframes b{0%,100%{opacity:.3}50%{opacity:1}}
+  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;color:var(--ink);font:17px/1.55 var(--sans);background:linear-gradient(180deg,#F1FBF4,#fff 60%);-webkit-font-smoothing:antialiased;display:grid;place-items:center;padding:1.2rem}
+  .card{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:2rem 1.6rem 1.6rem;box-shadow:0 30px 70px -35px rgba(10,61,34,.35)}
+  .card img{height:36px;width:auto;margin-bottom:1.4rem}
+  h1{font-size:1.6rem;line-height:1.15;letter-spacing:-.015em;margin:0}
+  p{color:var(--mute);margin:.6rem 0 0}
+  input{width:100%;margin-top:1.1rem;padding:.9rem 1rem;border:1px solid #CFD9D3;border-radius:12px;font:inherit}
+  input:focus{outline:2px solid #86EFAC;border-color:var(--green)}
+  .btn{display:flex;width:100%;align-items:center;justify-content:center;padding:1rem;border-radius:999px;font:700 1.05rem var(--sans);border:0;cursor:pointer;background:var(--green);color:#fff;margin-top:.9rem}
+  .btn:hover{background:#116A32}.btn[disabled]{opacity:.7}
+  .skip{display:block;width:100%;text-align:center;margin-top:.9rem;font:500 .9rem var(--sans);color:var(--mute);background:none;border:0;cursor:pointer;text-decoration:underline}
+  .msg{min-height:1.2em;margin:.5rem 0 0;font-size:.9rem;font-weight:600;color:#B42318}
+  .fine{font-size:.78rem;margin-top:1.2rem;text-align:center}
 </style>
 </head>
 <body>
-<div class="bar"><img class="cj" src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="140" height="38"><span class="x" id="x" hidden>×</span><img class="pl" id="pl" alt="" hidden></div>
-<main>
-  <p class="kicker" id="welcome">Welcome</p>
-  <h1>Sore? See a physio today, by video.</h1>
-  <p class="lede" id="lede">Book a video visit with a registered physiotherapist in a few minutes. Get a clear plan and exercises you can start today.</p>
-  <button class="btn" id="book" type="button">Book a visit</button>
-  <ul class="why">
-    <li><span class="i">1</span><div><b>Pick a time that works</b>Evenings and weekdays, from wherever you are.</div></li>
-    <li><span class="i">2</span><div><b>Meet your physio on video</b>They’ll assess what’s going on and walk you through it.</div></li>
-    <li><span class="i">3</span><div><b>Leave with a plan</b>Exercises, next steps, and follow-ups if you need them.</div></li>
-  </ul>
-  <p class="fine">Calm Joints is a trade name of Clairvoyant Holdings Inc. Care is provided by registered physiotherapists. If you have severe pain, numbness, or can’t bear weight after an injury, get urgent care.</p>
-</main>
-<dialog id="dlg" aria-labelledby="d-title">
-  <form class="dlg" id="d-form" method="dialog" novalidate>
-    <h2 id="d-title">We’re connecting you to the clinic</h2>
-    <p>Pop in your email so we can send your booking details and keep your visit on track.</p>
-    <input type="email" id="d-email" autocomplete="email" placeholder="you@email.com" required>
-    <p class="msg" id="d-msg" role="status" aria-live="polite"></p>
-    <button class="btn" id="d-go" type="submit" style="margin-top:.8rem">Continue to booking</button>
-    <button class="skip" type="button" id="d-skip">Skip and go straight to booking</button>
-  </form>
-</dialog>
+<form class="card" id="f" novalidate>
+  <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="132" height="36">
+  <h1>We’re connecting you to the clinic</h1>
+  <p>Add your email so we can keep your visit on track. It’s optional.</p>
+  <input type="email" id="email" autocomplete="email" placeholder="you@email.com" aria-label="Email (optional)">
+  <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  <button class="btn" id="go" type="submit">Continue to booking</button>
+  <button class="skip" type="button" id="skip">Skip, take me to booking</button>
+  <p class="fine">Video visits with registered physiotherapists.</p>
+</form>
 <script>
 (function () {
   var qs = new URLSearchParams(location.search);
-  var slug = (qs.get('slug') || location.pathname.split('/p/')[1] || '').replace(/\/.*/, '').toLowerCase();
-  var src = qs.get('src') || 'link';
+  var slug = (qs.get('slug') || (location.pathname.split('/p/')[1] || '')).replace(/\/.*/, '').toLowerCase();
+  var src = (qs.get('src') || 'qr').slice(0, 20);
   var bookUrl = (window.CALM_JOINTS && window.CALM_JOINTS.booking && window.CALM_JOINTS.booking.primaryUrl) || '/#book';
-  var partner = null;
+  var ok = /^[a-z0-9-]{3,48}$/.test(slug);
   function post(body) {
-    return fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(function () {});
-  }
-  if (/^[a-z0-9-]{3,48}$/.test(slug)) {
-    fetch('/api/qr-partner?slug=' + encodeURIComponent(slug)).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (!j || !j.partner) return;
-      partner = j.partner;
-      document.getElementById('welcome').textContent = 'Welcome, ' + partner.venue;
-      document.title = 'Calm Joints × ' + partner.venue + ' | Book a physio visit';
-      if (partner.logo_url) {
-        var pl = document.getElementById('pl'); pl.src = partner.logo_url; pl.alt = partner.venue; pl.hidden = false;
-        document.getElementById('x').hidden = false;
-      }
-      try {
-        var k = 'cj-visit-' + slug;
-        if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src }); }
-      } catch (e) { post({ slug: slug, event: 'visit', src: src }); }
-    });
+    try { return fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(function () {}); }
+    catch (e) { return Promise.resolve(); }
   }
   function go() { location.href = bookUrl; }
-  var dlg = document.getElementById('dlg');
-  document.getElementById('book').addEventListener('click', function () {
-    if (!partner) { go(); return; }
-    if (typeof dlg.showModal === 'function') dlg.showModal(); else go();
-  });
-  document.getElementById('d-skip').addEventListener('click', go);
-  document.getElementById('d-form').addEventListener('submit', function (e) {
+  if (!ok) { go(); return; }
+  try { var k = 'cj-visit-' + slug; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src }); } }
+  catch (e) { post({ slug: slug, event: 'visit', src: src }); }
+  document.getElementById('skip').addEventListener('click', go);
+  document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
-    var email = document.getElementById('d-email').value.trim();
-    var m = document.getElementById('d-msg');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { m.textContent = 'That email doesn’t look quite right.'; return; }
-    var b = document.getElementById('d-go'); b.disabled = true; b.innerHTML = 'Connecting<span class="dots"><i></i><i></i><i></i></span>';
-    Promise.race([post({ slug: slug, event: 'email', email: email, src: src }), new Promise(function (ok) { setTimeout(ok, 2500); })]).then(go);
+    var email = document.getElementById('email').value.trim();
+    if (!email) { go(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { document.getElementById('msg').textContent = 'That email doesn’t look quite right.'; return; }
+    var b = document.getElementById('go'); b.disabled = true; b.textContent = 'Connecting…';
+    Promise.race([post({ slug: slug, event: 'email', email: email, src: src }), new Promise(function (r) { setTimeout(r, 2000); })]).then(go);
   });
 })();
 </script>
