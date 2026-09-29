@@ -72,8 +72,9 @@ Optional: `INTAKE_STORE_PATH` to override the JSONL file.
 
 ## This ship
 
-- White + `#15A34A` clinic page, CJ monogram SVG, Fraunces + DM Sans
-- Hub carousel: Jill Health, Effortless Admin, DR-HO’S, Sole, Roll Recovery (cropped 8:5 portal/booking shots)
+- White and soft-green clinic page, CJ monogram in the header, favicon, and Open Graph image, Fraunces + DM Sans
+- Hero promise is calmer joints and Canada-wide Align physiotherapy, with primary paths to the newsletter and the physio hello. Booking stays the interim Jane calendar, without sample time chips
+- Hub carousel: Jill Health, Effortless Admin, DR-HO’S, Sole, Roll Recovery. 960×600 crops, snap scrolling, arrow keys, and previous/next that announce the leading hub
 - Newsletter + physio apply forms posting to `/api/newsletter` and `/api/apply`
 - `noindex` removed; Jane CTA kept
 - Sole and Roll Recovery currently share Scale’s “early access” portal screen; both are labeled
