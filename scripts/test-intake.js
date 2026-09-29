@@ -261,6 +261,31 @@ async function main() {
   assert.match(alerts[0].text, /New question/);
   assert.match(alerts[0].text, /q2@example.com/);
 
+  // intake + careers
+  const { validateIntake, validateCareers } = require('../lib/intake');
+  assert.ok(validateIntake({ website: '', name: 'A', email: 'a@b.co' }).error);
+  const iv = validateIntake({ website: 'example.com', name: 'Ann Lee', email: 'A@B.co', message: 'hi' });
+  assert.strictEqual(iv.value.website, 'https://example.com');
+  const ib = fridayBody('intake', iv.value, 'cj-intake-x');
+  assert.strictEqual(ib.source, 'calmjoints_intake');
+  assert.strictEqual(ib.kind, 'form');
+  assert.deepStrictEqual(ib.tags, ['calmjoints', 'intake']);
+  assert.match(alertText('intake', ib), /New intake/);
+  assert.ok(validateCareers({ name: 'Ann', email: 'a@b.co', role: 'nope' }).error);
+  const cv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', role: 'mobile-physio', link: 'linkedin.com/in/ann' });
+  const cb = fridayBody('careers', cv.value, 'cj-careers-x');
+  assert.strictEqual(cb.kind, 'providers');
+  assert.deepStrictEqual(cb.tags, ['calmjoints', 'careers', 'role:mobile-physio']);
+  const ab = fridayBody('careers', validateCareers({ name: 'Ann', email: 'a@b.co', role: 'accessibility' }).value, 'x');
+  assert.strictEqual(ab.kind, 'form');
+  const posts = [];
+  const cRes = await processIntake('careers', { name: 'Ann Lee', email: 'c@example.com', role: 'accessibility' }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k' }, ip: '8.8.8.1',
+    fetchImpl: async (url, init) => { posts.push(JSON.parse(init.body)); return { ok: true, status: 200 }; },
+  });
+  assert.strictEqual(cRes.status, 200);
+  assert.strictEqual(posts.length, 1, 'accessibility role is not mirrored to Scale');
+
   fs.rmSync(store, { force: true });
   console.log('intake tests ok');
 }
