@@ -127,7 +127,8 @@
   .two { display: grid; gap: 2rem; }
   @media (min-width: 900px) { .two { grid-template-columns: 1fr 1fr; gap: 3rem; } }
   .panel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.3rem, 3vw, 2rem); }
-  .apply-panel { margin-top: 2rem; max-width: 760px; }
+  .apply-panel { margin: 2rem auto 0; max-width: 620px; }
+  .apply-panel .btn { width: 100%; justify-content: center; }
   .narrow { max-width: 760px; }
   .anchor-alias { position: relative; top: -80px; display: block; height: 0; }
   #brands, #hubs, #join { scroll-margin-top: 72px; }
@@ -180,10 +181,11 @@
   .check input { width: auto; margin: 0; accent-color: var(--green); }
   .panel h2 { font-size: 1.5rem; } .panel > p { color: var(--mute); margin: .5rem 0 1.2rem; }
   label { display: block; font-size: .85rem; font-weight: 600; }
-  label input, label textarea { margin-top: .3rem; }
+  label input, label textarea, label select { margin-top: .3rem; }
+  form select { appearance: none; -webkit-appearance: none; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23557' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right .85rem center; padding-right: 2.2rem; cursor: pointer; }
   .hint { font-weight: 400; color: var(--mute); }
-  input, textarea { width: 100%; font: 400 1rem var(--sans); padding: .75rem .85rem; border: 1px solid #CFD9D3; border-radius: 10px; background: #fff; color: var(--ink); }
-  input:focus, textarea:focus { outline: 2px solid var(--green-2); outline-offset: 1px; border-color: transparent; }
+  input, textarea, select { width: 100%; font: 400 1rem var(--sans); padding: .75rem .85rem; border: 1px solid #CFD9D3; border-radius: 10px; background: #fff; color: var(--ink); }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--green-2); outline-offset: 1px; border-color: transparent; }
   textarea { min-height: 96px; resize: vertical; }
   .is-invalid { border-color: #D97757 !important; }
   .fields { display: grid; gap: .85rem; }
@@ -316,31 +318,10 @@
               </div>
               <div class="pair">
                 <label>Phone <span class="hint">optional</span><input name="phone" type="tel" autocomplete="tel" maxlength="22"></label>
-                <label>Years in practice <span class="hint">optional</span><input name="years_experience" type="number" min="0" max="60" inputmode="numeric"></label>
+                <label>Registered in<select name="provinces" required><option value="">Choose a province</option><option value="ON">Ontario</option><option value="AB">Alberta</option><option value="BC">British Columbia</option><option value="MB">Manitoba</option><option value="NB">New Brunswick</option><option value="NL">Newfoundland &amp; Labrador</option><option value="NS">Nova Scotia</option><option value="NT">Northwest Territories</option><option value="NU">Nunavut</option><option value="PE">Prince Edward Island</option><option value="QC">Quebec</option><option value="SK">Saskatchewan</option><option value="YT">Yukon</option></select></label>
               </div>
-              <fieldset>
-                <legend>Where you’re registered</legend>
-                <div class="provinces" id="provinces">
-                  <label class="prov"><input type="checkbox" name="provinces" value="AB"><span>Alberta</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="BC"><span>British Columbia</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="MB"><span>Manitoba</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="NB"><span>New Brunswick</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="NL"><span>Newfoundland &amp; Labrador</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="NS"><span>Nova Scotia</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="NT"><span>Northwest Territories</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="NU"><span>Nunavut</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="ON"><span>Ontario</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="PE"><span>Prince Edward Island</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="QC"><span>Quebec</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="SK"><span>Saskatchewan</span></label>
-                  <label class="prov"><input type="checkbox" name="provinces" value="YT"><span>Yukon</span></label>
-                </div>
-              </fieldset>
-              <div class="pair">
-                <label>Registration # <span class="hint">optional</span><input name="registration_number" type="text" maxlength="60"></label>
-                <label>LinkedIn<input name="linkedin" type="text" required maxlength="200" placeholder="linkedin.com/in/…"></label>
-              </div>
-              <label>About you<textarea name="bio" maxlength="800" required placeholder="Who you like helping and when you’re free."></textarea></label>
+              <label>LinkedIn<input name="linkedin" type="text" required maxlength="200" placeholder="linkedin.com/in/…"></label>
+              <label>About you<textarea name="bio" maxlength="800" required rows="3" placeholder="Who you like helping and when you’re free."></textarea></label>
               <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
               <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Send application</span></button>
             </div>
@@ -522,7 +503,7 @@
 
   function markClientInvalid(form) {
     var first = null;
-    form.querySelectorAll('input, textarea').forEach(function (el) {
+    form.querySelectorAll('input, textarea, select').forEach(function (el) {
       if (el.name === 'company') return;
       if (el.required && !String(el.value || '').trim()) {
         el.classList.add('is-invalid');
@@ -537,17 +518,6 @@
         el.classList.remove('is-invalid');
       }
     });
-    if (form.id === 'apply-form') {
-      var checked = form.querySelectorAll('input[name="provinces"]:checked').length;
-      if (!checked) {
-        var legend = form.querySelector('fieldset legend');
-        if (legend) legend.style.color = '#D97757';
-        if (!first) first = form.querySelector('input[name="provinces"]');
-      } else {
-        var leg = form.querySelector('fieldset legend');
-        if (leg) leg.style.color = '';
-      }
-    }
     return first;
   }
 
@@ -579,7 +549,7 @@
         else if (bad.name === 'linkedin') hint = 'Add a LinkedIn handle or linkedin.com link so we can find you.';
         else if (bad.name === 'message') hint = 'Add a line or two so we know how to help.';
         else if (bad.name === 'bio') hint = 'A sentence or two about you is plenty — just not a blank box.';
-        else if (bad.name === 'provinces') hint = 'Pick at least one province or territory where you’re registered.';
+        else if (bad.name === 'provinces') hint = 'Pick the province where you’re registered.';
         setStatus(box, 'err', hint);
         if (typeof bad.focus === 'function') bad.focus();
         return;
@@ -619,8 +589,8 @@
       });
     });
 
-    form.querySelectorAll('input, textarea').forEach(function (el) {
-      el.addEventListener('input', function () { el.classList.remove('is-invalid'); });
+    form.querySelectorAll('input, textarea, select').forEach(function (el) {
+      el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', function () { el.classList.remove('is-invalid'); });
     });
   }
   wireForm('talk-form', '/api/intake', 'talk-status');
