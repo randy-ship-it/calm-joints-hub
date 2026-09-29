@@ -8,6 +8,11 @@
 //     (--labour-col "Practitioner Pay" | --labour-pct 60 | --labour-flat 60) [--share 25] [--out payout.csv]
 //
 //   --leads leads.csv  instead of --from-blob: a CSV with slug,email,at columns.
+//   --card-pct 2.9     optional card fee taken off before the split.
+//   --statements dir   also writes one email-ready statement per partner (no patient names or
+//                      emails, only visit dates and amounts) plus payouts-summary.csv with the
+//                      payout route: "email + BMO EFT" under --auto-threshold (default $1,000
+//                      billed that month), "auto (Plooto)" at or above it.
 // A patient is credited to the FIRST partner that captured their email, and only for
 // visits billed on or after that capture date.
 'use strict';
@@ -69,6 +74,23 @@ function firstTouch(leads) {
   return m;
 }
 
+function statements(totals, lines, o, partners) {
+  const dir = o.statements; fs.mkdirSync(dir, { recursive: true });
+  const threshold = o['auto-threshold'] ? parseFloat(o['auto-threshold']) : 1000;
+  const month = o.month || 'this period';
+  const summary = [['slug', 'venue', 'contact_email', 'visits', 'billed', 'net', 'partner_share', 'route'].join(',')];
+  for (const t of totals) {
+    const p = partners[t.slug] || {};
+    const venue = p.venue || t.slug;
+    const route = t.billed >= threshold ? 'auto (Plooto)' : 'email + BMO EFT';
+    summary.push([t.slug, venue, (p.contact && p.contact.email) || '', t.visits, t.billed, t.net, t.partner_share, route].map(csvCell).join(','));
+    const rows = lines.filter((l) => l.slug === t.slug).map((l, i) => `| ${i + 1} | ${l.date} | $${l.billed.toFixed(2)} | $${l.net.toFixed(2)} | $${l.partner_share.toFixed(2)} |`).join('\n');
+    const body = `Subject: Calm Joints partnership statement, ${month} (${venue})\n\nHi${p.contact && p.contact.name ? ' ' + p.contact.name.split(' ')[0] : ''},\n\nHere is your Calm Joints partnership statement for ${month}. It covers visits booked through your code. For privacy, it shows no patient names or contact details.\n\n| # | Visit date | Billed | Net after physio pay | Your share |\n|---|---|---|---|---|\n${rows}\n\nVisits: ${t.visits}\nBilled: $${t.billed.toFixed(2)}\nNet: $${t.net.toFixed(2)}\nYour location's share: $${t.partner_share.toFixed(2)}\n\nWe'll send this by ${route === 'auto (Plooto)' ? 'direct deposit through Plooto' : 'EFT'} by the last business day of next month. Reply to this email with any questions.\n\nThis is a commercial partnership between your location and Calm Joints (Clairvoyant Holdings Inc.), not a referral fee. Both sides share in the proceeds and the commercial risks.\n\nCalm Joints\ninfo@calmjoints.org\n`;
+    fs.writeFileSync(require('path').join(dir, `${t.slug}-${o.month || 'statement'}.md`), body);
+  }
+  fs.writeFileSync(require('path').join(dir, 'payouts-summary.csv'), summary.join('\n') + '\n');
+}
+
 function compute(billing, touch, o) {
   const share = (o.share ? parseFloat(o.share) : 25) / 100;
   const ec = o['email-col'] || 'Email', ac = o['amount-col'] || 'Amount', dc = o['date-col'] || 'Date';
@@ -81,7 +103,8 @@ function compute(billing, touch, o) {
     if (when && when < new Date(t.at.toISOString().slice(0, 10))) continue;
     const billed = money(r[ac]);
     const labour = o['labour-col'] ? money(r[o['labour-col']]) : o['labour-pct'] ? billed * parseFloat(o['labour-pct']) / 100 : money(o['labour-flat']);
-    const net = Math.max(0, billed - labour);
+    const fee = o['card-pct'] ? billed * parseFloat(o['card-pct']) / 100 : 0;
+    const net = Math.max(0, billed - labour - fee);
     const pay = Math.round(net * share * 100) / 100;
     lines.push({ slug: t.slug, email, date: r[dc] || '', billed, labour: Math.round(labour * 100) / 100, net: Math.round(net * 100) / 100, partner_share: pay });
     const T = totals[t.slug] || (totals[t.slug] = { slug: t.slug, visits: 0, billed: 0, net: 0, partner_share: 0 });
@@ -105,7 +128,16 @@ async function main() {
   if (o.out) fs.writeFileSync(o.out, csv); else process.stdout.write(csv);
   console.error(`\n${billing.length} billing rows, ${leads.length} captured leads, ${lines.length} matched visits`);
   for (const t of totals) console.error(`  ${t.slug}: ${t.visits} visits, billed $${t.billed}, net $${t.net}, partner $${t.partner_share}`);
+  if (o.statements) {
+    const partners = {};
+    if (o['from-blob']) {
+      const { getPartner } = require('../lib/qr-partners.js');
+      for (const t of totals) partners[t.slug] = await getPartner(t.slug, process.env).catch(() => null) || {};
+    }
+    statements(totals, lines, o, partners);
+    console.error(`Statements written to ${o.statements}`);
+  }
 }
 
 if (require.main === module) main().catch((e) => { console.error(e.message); process.exit(1); });
-module.exports = { parseCsv, firstTouch, compute };
+module.exports = { parseCsv, firstTouch, compute, statements };
