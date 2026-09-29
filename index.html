@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Calm Joints — virtual physiotherapy · Align clinicians</title>
-<meta name="description" content="Calm Joints is a premium digital clinic for joint comfort. Book virtual physiotherapy with Align clinicians on Scale. Newsletter & Canada physio hello at info@calmjoints.ca.">
+<title>Calm Joints — virtual physiotherapy across Canada</title>
+<meta name="description" content="Calm Joints is a Canadian digital clinic for calmer joints. Book virtual physiotherapy with Align clinicians, browse the Scale hubs beside us, or write info@calmjoints.ca.">
 <meta name="theme-color" content="#15A34A">
 <meta name="robots" content="index,follow">
 <meta name="author" content="Calm Joints · Clairvoyant Holdings Inc.">
 <link rel="canonical" href="https://calm-joints-hub.vercel.app/">
 <meta property="og:site_name" content="Calm Joints">
-<meta property="og:title" content="Calm Joints — a small digital clinic for calmer joints">
-<meta property="og:description" content="CHI trade name. Align delivers care. Scale powers the hub. Book virtual physio or write info@calmjoints.ca.">
+<meta property="og:title" content="Calm Joints — virtual physiotherapy across Canada">
+<meta property="og:description" content="A quiet digital clinic. Align physiotherapists deliver care. Scale powers the hubs. Write info@calmjoints.ca.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calm-joints-hub.vercel.app/">
 <meta property="og:image" content="https://calm-joints-hub.vercel.app/media/og.jpg">
@@ -19,8 +19,8 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_CA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Calm Joints — virtual physiotherapy with Align">
-<meta name="twitter:description" content="A CHI trade-name clinic hub. Align delivers care. Scale powers the rails. info@calmjoints.ca">
+<meta name="twitter:title" content="Calm Joints — virtual physiotherapy across Canada">
+<meta name="twitter:description" content="Calmer joints, from home. Align physiotherapists. Scale hubs beside the clinic. info@calmjoints.ca">
 <meta name="twitter:image" content="https://calm-joints-hub.vercel.app/media/og.jpg">
 <link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/media/apple-touch-icon.svg">
@@ -58,7 +58,7 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
+    html, .hub-scroller { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
   body {
@@ -133,9 +133,27 @@
   }
   .nav-links a:not(.btn):hover { color: var(--primary-soft); }
   .nav-mail { display: none; }
+  .nav-more { display: none; }
   @media (max-width: 900px) {
     .nav-links a:not(.btn) { display: none; }
     .nav-inner { min-height: 68px; }
+    .nav-more { display: block; position: relative; }
+    .nav-more summary {
+      list-style: none; cursor: pointer; font-weight: 700; font-size: .88rem;
+      border: 1px solid var(--line); border-radius: 999px; padding: .42rem .75rem; background: #fff;
+    }
+    .nav-more summary::-webkit-details-marker { display: none; }
+    .nav-more[open] summary { background: var(--mint); }
+    .nav-panel {
+      position: absolute; right: 0; top: calc(100% + .4rem); z-index: 30;
+      background: #fff; border: 1px solid var(--line); border-radius: 16px;
+      box-shadow: var(--shadow); min-width: 210px; padding: .35rem; display: grid;
+    }
+    .nav-panel a {
+      display: block; text-decoration: none; color: var(--darkest);
+      font-weight: 650; padding: .62rem .75rem; border-radius: 10px;
+    }
+    .nav-panel a:hover { background: var(--surface); }
   }
   @media (min-width: 1040px) { .nav-mail { display: inline; } }
 
@@ -300,14 +318,16 @@
     transition: background .15s, border-color .15s;
   }
   .icon-btn:hover { background: var(--mint); border-color: transparent; }
+  .icon-btn:disabled { opacity: .38; cursor: default; background: #fff; }
   .hub-scroller {
     display: flex; gap: 1.05rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    scroll-behavior: smooth; overscroll-behavior-x: contain;
     padding: .35rem max(var(--pad), calc((100% - var(--max)) / 2)) 1.2rem;
     scroll-padding-inline: max(var(--pad), calc((100% - var(--max)) / 2));
     scrollbar-width: thin; -webkit-overflow-scrolling: touch;
   }
   .hub-card {
-    flex: 0 0 min(84vw, 348px); scroll-snap-align: start;
+    flex: 0 0 min(84vw, 348px); scroll-snap-align: start; scroll-snap-stop: always;
     background: #fff; border: 1px solid var(--line); border-radius: 18px;
     overflow: hidden; text-decoration: none; color: inherit;
     box-shadow: var(--shadow-sm);
@@ -319,8 +339,12 @@
     box-shadow: var(--shadow);
   }
   .hub-card img {
-    display: block; width: 100%; aspect-ratio: 8 / 5;
-    object-fit: cover; background: var(--mint);
+    display: block; width: 100%; height: auto; aspect-ratio: 8 / 5;
+    object-fit: cover; background: #E7F3EB;
+  }
+  .sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
   }
   .hub-card div { padding: .95rem 1.05rem 1.1rem; }
   .hub-card strong {
@@ -508,6 +532,17 @@
       <a href="#newsletter">Updates</a>
       <a href="#apply">Physios</a>
       <a class="nav-mail" href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>
+      <details class="nav-more">
+        <summary>Menu</summary>
+        <div class="nav-panel">
+          <a href="#how">How it works</a>
+          <a href="#hubs">Hubs</a>
+          <a href="#newsletter">Updates</a>
+          <a href="#apply">Physios</a>
+          <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a>
+          <a href="#book">Book physio</a>
+        </div>
+      </details>
       <a class="btn btn-dark" id="nav-book" href="#book">Book physio</a>
     </nav>
   </div>
@@ -517,18 +552,17 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="kicker">Virtual physiotherapy · from home</p>
-        <h1>Your joints have opinions. <em>Let’s hear them.</em></h1>
+        <p class="kicker">Canada · virtual physiotherapy</p>
+        <h1>Calmer joints. <em>A real physiotherapist.</em> From home.</h1>
         <p class="lede">
-          Calm Joints is a small digital clinic for people who’d rather move than collect exercises they never open.
-          You meet a registered Align physiotherapist on a video visit. Membership on Scale is free.
-          The appointment is a real one — with a receipt your benefits plan can actually read.
+          Calm Joints is a digital clinic for people across Canada who’d rather move than collect exercises they never open.
+          You meet a registered Align physiotherapist on a video visit. Beside the clinic, the same Scale rails open Jill Health, Effortless Admin, DR-HO’S, Sole, and Roll Recovery.
         </p>
         <div class="hero-ctas">
-          <a class="btn btn-primary btn-lg" id="hero-book" href="#book">Book your assessment</a>
-          <a class="btn btn-ghost btn-lg" href="#newsletter">Get the gentle updates</a>
+          <a class="btn btn-primary btn-lg" href="#newsletter">Get the clinic notes</a>
+          <a class="btn btn-ghost btn-lg" href="#apply">Physios, say hello</a>
         </div>
-        <p class="micro">No referral needed · Virtual visit · Care by Align physiotherapists</p>
+        <p class="micro">Or <a id="hero-book" href="#book">book an Align visit</a> · No referral · Receipts for eligible benefits · <a href="mailto:info@calmjoints.ca">info@calmjoints.ca</a></p>
         <div class="proof">
           <span><strong>CHI</strong> owns the name</span>
           <span><strong>Align</strong> delivers care</span>
@@ -539,13 +573,8 @@
       <aside class="book-card" id="book" aria-labelledby="book-title">
         <p class="eyebrow">Align physiotherapy</p>
         <h2 id="book-title">Book a visit that fits your week</h2>
-        <p>Pick a sample time, then continue into Align’s booking calendar. A person, not a generic routine.</p>
-        <div class="slots" role="group" aria-label="Example times — opens real booking">
-          <button type="button" class="slot" data-book>Mon 9:30 AM</button>
-          <button type="button" class="slot" data-book>Wed 4:00 PM</button>
-          <button type="button" class="slot" data-book>Fri 11:00 AM</button>
-        </div>
-        <a class="btn btn-primary btn-lg" id="book-cta" href="#" style="width:100%">Continue to book</a>
+        <p>One button opens the real Align calendar. A person on the other side, not a generic routine.</p>
+        <a class="btn btn-primary btn-lg" id="book-cta" href="#" style="width:100%;margin-top:1rem">Continue to book</a>
         <p class="book-note" id="book-status" data-status="interim-jane">
           Booking currently opens Scale Health’s Jane calendar — the Align physio surface we use while the dedicated Calm Joints link is finished.
         </p>
@@ -565,29 +594,30 @@
         <p class="section-lede">Calm Joints sits beside other Scale hubs. Here’s how their booking and portal screens look — cropped, labeled, and ready to peek at.</p>
       </div>
       <div class="hub-controls">
-        <button class="icon-btn" type="button" id="hub-prev" aria-label="Previous hubs">←</button>
-        <button class="icon-btn" type="button" id="hub-next" aria-label="Next hubs">→</button>
+        <button class="icon-btn" type="button" id="hub-prev" aria-controls="hub-scroller" aria-label="Previous hubs">←</button>
+        <button class="icon-btn" type="button" id="hub-next" aria-controls="hub-scroller" aria-label="Next hubs">→</button>
       </div>
     </div>
-    <div class="hub-scroller" id="hub-scroller" tabindex="0" aria-label="Partner hub previews">
+    <p class="sr" id="hub-live" aria-live="polite"></p>
+    <div class="hub-scroller" id="hub-scroller" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Partner hub previews. Arrow keys move between hubs.">
       <a class="hub-card" href="https://www.scalehealth.ca/jillhealth" target="_blank" rel="noopener noreferrer">
-        <img src="/media/hubs/jill-health.jpg" width="1600" height="1000" loading="lazy" alt="Jill Health booking page: Feel balanced, move better, live stronger, with a session preview.">
+        <img src="/media/hubs/jill-health.jpg" width="960" height="600" decoding="async" alt="Jill Health booking page: Feel balanced, move better, live stronger, with a session preview.">
         <div><strong>Jill Health</strong><span>Virtual physio booking for Jill members</span></div>
       </a>
       <a class="hub-card" href="https://www.scalehealth.ca/effortlessadmin" target="_blank" rel="noopener noreferrer">
-        <img src="/media/hubs/effortless-admin.jpg" width="1600" height="1000" loading="lazy" alt="Effortless Admin welcome portal into the Scale Health hub.">
+        <img src="/media/hubs/effortless-admin.jpg" width="960" height="600" decoding="async" loading="lazy" alt="Effortless Admin welcome portal into the Scale Health hub.">
         <div><strong>Effortless</strong><span>Benefits portal inside Effortless Admin</span></div>
       </a>
       <a class="hub-card" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer">
-        <img src="/media/hubs/dr-ho.jpg" width="1600" height="1000" loading="lazy" alt="DR-HO’S recovery hub with a featured physiotherapist and virtual assessment.">
+        <img src="/media/hubs/dr-ho.jpg" width="960" height="600" decoding="async" loading="lazy" alt="DR-HO’S recovery hub with a featured physiotherapist and virtual assessment.">
         <div><strong>DR-HO’S</strong><span>Recovery hub and 1:1 physio</span></div>
       </a>
       <a class="hub-card" href="https://www.scalehealth.ca/sole" target="_blank" rel="noopener noreferrer">
-        <img src="/media/hubs/sole.jpg" width="1600" height="1000" loading="lazy" alt="Sole early-access portal on Scale Health.">
+        <img src="/media/hubs/sole.jpg" width="960" height="600" decoding="async" loading="lazy" alt="Sole early-access portal on Scale Health.">
         <div><strong>Sole</strong><span>Early-access portal</span></div>
       </a>
       <a class="hub-card" href="https://www.scalehealth.ca/roll-recovery" target="_blank" rel="noopener noreferrer">
-        <img src="/media/hubs/roll-recovery.jpg" width="1600" height="1000" loading="lazy" alt="Roll Recovery early-access portal on Scale Health.">
+        <img src="/media/hubs/roll-recovery.jpg" width="960" height="600" decoding="async" loading="lazy" alt="Roll Recovery early-access portal on Scale Health.">
         <div><strong>Roll Recovery</strong><span>Early-access portal</span></div>
       </a>
     </div>
@@ -765,8 +795,9 @@
   </div>
 </footer>
 
-<div class="sticky-cta" aria-label="Book now">
-  <a class="btn btn-primary" id="sticky-book" href="#book">Book Align physio</a>
+<div class="sticky-cta" aria-label="Quick actions">
+  <a class="btn btn-ghost" href="#newsletter">Clinic notes</a>
+  <a class="btn btn-primary" id="sticky-book" href="#book">Book a visit</a>
 </div>
 
 <script>
@@ -804,14 +835,46 @@
   var dots = document.getElementById('hub-dots');
   var cards = Array.prototype.slice.call(scroller.querySelectorAll('.hub-card'));
 
-  function scrollHubs(dir) {
-    var card = cards[0];
-    var amount = card ? card.getBoundingClientRect().width + 16 : 340;
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    scroller.scrollBy({ left: dir * amount, behavior: reduce ? 'auto' : 'smooth' });
+  var hubPrev = document.getElementById('hub-prev');
+  var hubNext = document.getElementById('hub-next');
+  var hubLive = document.getElementById('hub-live');
+  function hubIndex() {
+    var edge = scroller.getBoundingClientRect().left + 12;
+    var index = 0;
+    var best = Infinity;
+    cards.forEach(function (card, i) {
+      var dist = Math.abs(card.getBoundingClientRect().left - edge);
+      if (dist < best) { best = dist; index = i; }
+    });
+    return index;
   }
-  document.getElementById('hub-next').addEventListener('click', function () { scrollHubs(1); });
-  document.getElementById('hub-prev').addEventListener('click', function () { scrollHubs(-1); });
+  function scrollHubs(dir) {
+    var next = Math.max(0, Math.min(cards.length - 1, hubIndex() + dir));
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var left = cards[next].getBoundingClientRect().left - scroller.getBoundingClientRect().left + scroller.scrollLeft;
+    scroller.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function syncHubControls() {
+    var index = hubIndex();
+    var max = scroller.scrollWidth - scroller.clientWidth;
+    hubPrev.disabled = index <= 0 || scroller.scrollLeft <= 4;
+    hubNext.disabled = index >= cards.length - 1 || scroller.scrollLeft >= max - 4;
+    var name = cards[index] && cards[index].querySelector('strong');
+    if (name && hubLive) hubLive.textContent = 'Showing ' + name.textContent + ', ' + (index + 1) + ' of ' + cards.length;
+    return index;
+  }
+  hubNext.addEventListener('click', function () { scrollHubs(1); });
+  hubPrev.addEventListener('click', function () { scrollHubs(-1); });
+  scroller.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollHubs(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollHubs(-1); }
+  });
+  document.querySelectorAll('.nav-panel a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var menu = link.closest('details');
+      if (menu) menu.open = false;
+    });
+  });
 
   if (dots && cards.length) {
     cards.forEach(function (_, i) {
@@ -825,12 +888,7 @@
       dots.appendChild(b);
     });
     function syncDots() {
-      var left = scroller.scrollLeft;
-      var best = 0; var bestDist = Infinity;
-      cards.forEach(function (card, i) {
-        var dist = Math.abs(card.offsetLeft - left);
-        if (dist < bestDist) { bestDist = dist; best = i; }
-      });
+      var best = syncHubControls();
       Array.prototype.forEach.call(dots.children, function (btn, i) {
         if (i === best) btn.setAttribute('aria-current', 'true');
         else btn.removeAttribute('aria-current');
@@ -838,6 +896,9 @@
     }
     scroller.addEventListener('scroll', syncDots, { passive: true });
     syncDots();
+  } else {
+    scroller.addEventListener('scroll', syncHubControls, { passive: true });
+    syncHubControls();
   }
 
   function setStatus(box, kind, message) {
@@ -860,6 +921,9 @@
         el.classList.add('is-invalid');
         if (!first) first = el;
       } else if (el.type === 'email' && el.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) {
+        el.classList.add('is-invalid');
+        if (!first) first = el;
+      } else if (el.name === 'bio' && String(el.value || '').trim().length > 0 && String(el.value || '').trim().length < 12) {
         el.classList.add('is-invalid');
         if (!first) first = el;
       } else {
@@ -888,7 +952,14 @@
       clearInvalid(form);
       var bad = markClientInvalid(form);
       if (bad) {
-        setStatus(box, 'err', 'A couple of fields need a quick look — then try again.');
+        var hint = 'A couple of fields need a quick look — then try again.';
+        if (bad.name === 'email' && !String(bad.value || '').trim()) hint = 'Add an email and we’ll keep a place for you.';
+        else if (bad.type === 'email') hint = 'That email doesn’t look quite right. Try once more?';
+        else if (bad.name === 'name') hint = 'What should we call you?';
+        else if (bad.name === 'linkedin') hint = 'Add a LinkedIn handle or linkedin.com link so we can find you.';
+        else if (bad.name === 'bio') hint = 'A sentence or two about you is plenty — just not a blank box.';
+        else if (bad.name === 'provinces') hint = 'Pick at least one province or territory where you’re registered.';
+        setStatus(box, 'err', hint);
         if (typeof bad.focus === 'function') bad.focus();
         return;
       }

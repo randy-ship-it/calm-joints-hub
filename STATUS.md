@@ -1,6 +1,6 @@
 # Calm Joints hub — STATUS
 
-**Date:** 2026-09-28 ~10:11 PM ET (America/Toronto)
+**Date:** 2026-09-29 ~2:15 AM ET (America/Toronto)
 **Product:** Calm Joints digital clinic landing + intake
 **Trade name:** CHI (Clairvoyant Holdings Inc.)
 **Care:** Align physiotherapists
@@ -15,9 +15,11 @@
 | Surface | URL |
 | --- | --- |
 | **Production** | **https://calm-joints-hub.vercel.app** |
+| This deployment | https://calm-joints-omvvxgyq3-sbg-516724e0.vercel.app |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/CfVCX9GR1JLGBSZw86ntJv2hehgG |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
-| Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/1 |
-| Branch | `cursor/calmjoints-intake-carousel-9ceb` |
+| Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/2 |
+| Branch | `cursor/calmjoints-clinic-polish-9ceb` |
 
 Both forms post to Friday `POST https://fridayapp.org/api/intake` with `site: calmjoints.ca`. Auth: `Authorization: Bearer` + `X-Intake-Secret` from `INTAKE_WEBHOOK_SECRET` (fallback `FRIDAY_API_KEY`). The `/api/webhooks/calmjoints/*` paths are not used. A non-2xx still queues locally (Neon when configured). Contact display remains `info@calmjoints.ca`.
 
@@ -31,12 +33,11 @@ Deploy path is GitHub → Vercel only. No Replit publish. `scalehealthnew` / Sca
 
 ## Visual polish (this pass)
 
-- Cute CJ monogram (gradient green tile, soft highlight, joint-dot) + wordmark + apple-touch icon
-- Premium white/green clinic hero: Fraunces + DM Sans, mint washes, proof pills, booking card shadow
-- Hub carousel (Jill Health, Effortless, DR-HO’S, Sole, Roll Recovery) with prev/next + dots
-- Form success / error / pending states with icons, client invalid highlight, loading spinner on submit
-- Twitter card + richer OG meta; favicon SVG + mask-icon
-- Mobile: sticky CTA, full-width primary buttons under 480px, tighter nav links
+- Hero promise is calmer joints and Canada-wide Align physiotherapy, with primary paths to the clinic notes and the physio hello. Booking stays one honest Jane button — no sample time chips
+- CJ monogram stays in the header, favicon, apple-touch icon, and Open Graph image
+- Hub carousel (Jill Health, Effortless, DR-HO’S, Sole, Roll Recovery): 960×600 crops, snap scrolling, arrow keys, dots, and previous/next that announce the leading hub
+- Forms keep success, error, and pending states, with a specific message for an empty email, a short bio, LinkedIn, or a missing province
+- Mobile menu for the section links, plus a sticky bar for notes and booking
 
 **Intake contract unchanged** (`lib/intake.js`, `api/*`, Friday payload shape).
 
