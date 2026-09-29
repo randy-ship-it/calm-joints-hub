@@ -1,6 +1,6 @@
 # Calm Joints hub — STATUS
 
-**Date:** 2026-09-29 ~1:40 AM ET (America/Toronto)
+**Date:** 2026-09-29 ~1:50 AM ET (America/Toronto)
 **Product:** Calm Joints digital clinic landing + intake
 **Trade name:** CHI (Clairvoyant Holdings Inc.)
 **Care:** Align physiotherapists
@@ -22,7 +22,7 @@
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
 | Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/1 |
 
-Production alias checked 2026-09-29: HTML is indexable, hub JPEGs return 200, `POST /api/newsletter` and `POST /api/apply` return the friendly JSON. Friday and Neon env vars are still empty, so those smoke rows only landed in ephemeral `/tmp`.
+Production alias serves the clinic page (indexable HTML, hub carousel, CJ mark, `info@calmjoints.ca`). Intake now posts to the confirmed Friday webhooks. `FRIDAY_API_KEY` is set. Neon is not set, so a Friday non-2xx still falls back to ephemeral `/tmp` until a database URL is added.
 
 Public index is on (`noindex` removed). Canonical and Open Graph still point at the Vercel preview until `calmjoints.ca` exists. Flip those to `https://calmjoints.ca/` when DNS is attached.
 
@@ -34,31 +34,28 @@ Deploy path is GitHub → Vercel only. No Replit publish. `scalehealthnew` / Sca
 
 ---
 
-## Friday env (set on the Vercel project — values not in git)
+## Friday env (set on the Vercel project — value not in git)
 
 | Variable | Role |
 | --- | --- |
-| `FRIDAY_INTAKE_URL` | POST target for intake |
-| `FRIDAY_INTAKE_SECRET` | `Authorization: Bearer …` and `X-Friday-Secret` |
+| `FRIDAY_API_KEY` | `Authorization: Bearer` on both Friday webhooks. Sensitive. Production, Preview, and Development. |
 
-Webhook JSON:
+This is the existing Scale/Birch door key: the same secret already stored as `INTAKE_WEBHOOK_SECRET` on Vercel project `friday-crm`, and as `FRIDAY_API_KEY` on `scalehealth`. No new secret was created. The value is not in this repo.
 
-```json
-{
-  "type": "newsletter or apply",
-  "source": "calmjoints.ca",
-  "payload": { "notify_email": "info@calmjoints.ca" },
-  "received_at": "2026-09-29T00:00:00.000Z"
-}
-```
+Confirmed endpoints (do not substitute others):
 
-`POST /api/newsletter` — email, optional name. Meant for blogs, newsletters, and the latest. Payload includes `notify_email: info@calmjoints.ca`.
+| Flow | POST |
+| --- | --- |
+| Newsletter | `https://fridayapp.org/api/webhooks/calmjoints/newsletter` |
+| Physio apply | `https://fridayapp.org/api/webhooks/calmjoints/physio-apply` |
 
-`POST /api/apply` — physio hello for every Canadian province and territory: name, email, optional phone, provinces, optional college/registration number, LinkedIn handle or URL, short bio, optional years, optional availability.
+Newsletter JSON: `{ "email", "source": "calmjoints_newsletter", "host": "calmjoints.ca", "meta"?: { "name"? } }`.
 
-If Friday is unset or returns an error, the same record is appended locally (`data/intakes.jsonl` in dev, `/tmp/calmjoints-intakes.jsonl` on Vercel) and inserted into Neon when `NEON_DATABASE_URL`, `DATABASE_URL`, or `POSTGRES_URL` is set (table `calm_joints_intakes`, created on first write).
+Physio JSON: `{ "name", "email", "linkedin", "profile", "province"?, "provinces"?, "license"?, "phone"?, "source": "calmjoints_physio_apply", "host": "calmjoints.ca", "meta"?: {} }`. `profile` is the short bio. `license` is the college/registration number. `province` is the first selected code; `provinces` is the full list. Years and availability, when filled in, live only in `meta`.
 
-**These env vars are not set on the project yet.** Until `FRIDAY_INTAKE_URL` or a Neon URL is added in Vercel → calm-joints-hub → Settings → Environment Variables (Production + Preview), production submissions only hit ephemeral `/tmp` and can disappear when the function instance goes away. Add Friday (and Neon if you want a database copy) before relying on the forms.
+Site routes stay `POST /api/newsletter` (email, optional name) and `POST /api/apply` (name, email, LinkedIn, bio, at least one province/territory, optional phone, registration, years, availability). Contact display remains `info@calmjoints.ca`.
+
+If Friday is missing the key or returns non-2xx, the handler still appends a local JSONL row (`data/intakes.jsonl` in dev, `/tmp/calmjoints-intakes.jsonl` on Vercel) and inserts into Neon when `NEON_DATABASE_URL`, `DATABASE_URL`, or `POSTGRES_URL` is set (table `calm_joints_intakes`). The visitor still sees the friendly success when that local or Neon queue succeeds. `/tmp` on Vercel is ephemeral. Neon is **not** set on this project yet — add a database URL if you want a durable copy when Friday is down.
 
 Optional: `INTAKE_STORE_PATH` to override the JSONL file.
 
