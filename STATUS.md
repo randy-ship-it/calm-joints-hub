@@ -15,10 +15,14 @@
 | Surface | URL |
 | --- | --- |
 | **Production** | **https://calm-joints-hub.vercel.app** |
+| This deployment | https://calm-joints-4vysff7z1-sbg-516724e0.vercel.app |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/FNS21xN34XGW6wdBCXNy9RzyEATj |
 | Vercel project | `calm-joints-hub` (`prj_Y2OAVqC0nJ2jZXcuNMwMRNAC0vY6`) |
 | Team | `sbg-516724e0` (`team_lOeMvVi5qA620Xr4vVA0C59W`) |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
-| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub |
+| Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/1 |
+
+Production alias checked 2026-09-29: HTML is indexable, hub JPEGs return 200, `POST /api/newsletter` and `POST /api/apply` return the friendly JSON. Friday and Neon env vars are still empty, so those smoke rows only landed in ephemeral `/tmp`.
 
 Public index is on (`noindex` removed). Canonical and Open Graph still point at the Vercel preview until `calmjoints.ca` exists. Flip those to `https://calmjoints.ca/` when DNS is attached.
 
