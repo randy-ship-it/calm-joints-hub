@@ -96,12 +96,13 @@
   .steps div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.2rem 1.3rem; }
   .steps div::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #DCFCE7; color: var(--green); font-weight: 700; font-size: .85rem; margin-bottom: .7rem; }
   .steps strong { display: block; } .steps span { color: var(--mute); font-size: .95rem; }
-  .jbenefits { margin: 0 0 2rem; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 1.3rem 1.4rem; }
-  .jbenefits h3 { margin: 0 0 .3rem; font-size: 1.2rem; }
-  .jbenefits p { margin: 0 0 .9rem; color: var(--mute); }
-  .jbenefits ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
-  .jbenefits li { background: var(--soft); border-radius: 999px; padding: .35rem .8rem; font-size: .9rem; font-weight: 600; }
-  .jbenefits a { font-weight: 700; color: var(--green); }
+  .jbenefits { margin: 0 0 2rem; }
+  .jbenefits ul { list-style: none; padding: 0; margin: 0 0 .8rem; display: grid; gap: .7rem; grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 760px) { .jbenefits ul { grid-template-columns: repeat(2, 1fr); } }
+  .jbenefits li { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: .9rem 1rem; font-weight: 600; display: flex; align-items: center; min-height: 3.2rem; }
+  .jbenefits li.perk { background: #DCF7E6; border-color: transparent; flex-direction: column; align-items: flex-start; justify-content: center; }
+  .jbenefits small { font-weight: 400; font-size: .82rem; color: var(--mute); }
+  .jbenefits a { font-weight: 700; color: var(--green); font-size: .95rem; }
   .team { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   @media (min-width: 1000px) { .team { grid-template-columns: repeat(5, 1fr); } }
   .person { margin: 0; }
@@ -238,8 +239,8 @@
 
   <section class="block soft" id="join">
     <div class="wrap">
-      <div class="head"><p class="kicker">We’re hiring</p><h2>Physios, join us</h2><p>Registered anywhere in Canada? See patients by video with a small, friendly team. Physios we hire get health and dental benefits.</p></div>
-      <div class="jbenefits"><h3>Benefits for physios we hire</h3><p>A real group benefits plan with group pricing. Eligible hires can enrol without a medical questionnaire.</p><ul><li>Prescription drugs</li><li>Dental care</li><li>Vision care</li><li>Paramedical services</li><li>Mental health support</li><li>Virtual care</li><li>Emergency travel</li><li>Life insurance</li></ul><p style="margin:.9rem 0 0"><a href="/careers#benefits">See benefits on the careers page</a></p></div>
+      <div class="head"><p class="kicker">We’re hiring</p><h2>Physios, join us</h2><p>Registered anywhere in Canada? See patients by video with a small, friendly team. We hire people with disabilities.</p></div>
+      <div class="jbenefits"><ul><li>Health and dental</li><li>Vision and paramedical</li><li>Mental health</li><li class="perk">Tesla Model Y<small>In-home physios</small></li></ul><a href="/careers#benefits">See all benefits and perks</a></div>
       <div class="team">
         <figure class="person"><img src="/media/team/mark.webp" width="480" height="480" alt="Mark Rukavina" loading="lazy" decoding="async"><figcaption><strong>Mark Rukavina</strong><span>Registered Physiotherapist</span></figcaption></figure>
         <figure class="person"><img src="/media/team/chris.webp" width="480" height="480" alt="Chris Percy" loading="lazy" decoding="async"><figcaption><strong>Chris Percy</strong><span>Clinic growth</span></figcaption></figure>
