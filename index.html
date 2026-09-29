@@ -129,6 +129,24 @@
   .panel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.3rem, 3vw, 2rem); }
   .apply-panel { margin-top: 2rem; max-width: 760px; }
   .narrow { max-width: 760px; }
+  .anchor-alias { position: relative; top: -80px; display: block; height: 0; }
+  #brands, #hubs, #join { scroll-margin-top: 72px; }
+  .brands-grid { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 900px) { .brands-grid { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 5rem); } }
+  .brands-form .head { margin-bottom: 1.5rem; }
+  .brands-form .fields { display: grid; gap: .9rem; }
+  .who { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .who legend { font-size: .9rem; font-weight: 600; margin-bottom: .45rem; padding: 0; }
+  .who label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border: 1px solid #CFD9D3; border-radius: 999px; font-size: .92rem; font-weight: 600; cursor: pointer; gap: 0; }
+  .who input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .who label:has(input:checked) { background: #F0FDF4; border-color: var(--green); color: var(--green); }
+  .who label:has(input:focus-visible) { outline: 2px solid var(--green-2); outline-offset: 2px; }
+  .powered { display: flex; align-items: center; gap: .6rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); text-decoration: none; color: var(--mute); font-size: .88rem; }
+  .powered img { height: 22px; width: auto; }
+  .brands-hub { margin: 0; }
+  .brands-hub img { display: block; width: 100%; max-width: 560px; height: auto; margin-left: auto; border-radius: 18px; box-shadow: 0 40px 70px -40px rgba(11,29,22,.45); }
+  .brands-hub figcaption { max-width: 560px; margin: .9rem 0 0 auto; color: var(--mute); font-size: .9rem; }
+  @media (max-width: 899px) { .brands-hub img, .brands-hub figcaption { margin-left: 0; } }
   .check { display: flex; align-items: center; gap: .5rem; font-weight: 500; }
   .check input { width: auto; margin: 0; accent-color: var(--green); }
   .panel h2 { font-size: 1.5rem; } .panel > p { color: var(--mute); margin: .5rem 0 1.2rem; }
@@ -190,9 +208,9 @@
   <div class="wrap nav-inner">
     <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#hubs">Hubs</a>
+      <a href="#hubs">Partner deals</a>
       <a href="#join">Physios</a>
-      <a href="#talk">For brands</a>
+      <a href="#brands">For brands</a>
       <a href="/careers">Careers</a>
       <a class="btn btn-primary" id="nav-book" href="#" data-book>Book a visit</a>
     </nav>
@@ -202,50 +220,50 @@
 <main id="main">
   <section class="hero" id="hubs">
     <div class="wrap">
-      <p class="kicker">Virtual physiotherapy · Canada</p>
-      <h1>The clinic behind the brands you already use.</h1>
-      <p class="lede">Book a registered physiotherapist right from a brand’s own site.</p>
+      <p class="kicker">Digital physio clinic · Canada</p>
+      <h1>See a physio online. Get insider deals from brands you trust.</h1>
+      <p class="lede">Book a video visit with a registered physiotherapist. Our patients also get member pricing from our partner brands.</p>
       <div class="ctas">
         <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
         <a class="btn btn-ghost" href="#join">Physios, join us</a>
       </div>
     </div>
-    <div class="carousel" aria-roledescription="carousel" aria-label="Brand hubs we run care for">
+    <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
       <div class="track" id="track" tabindex="0">
-        <a class="slide" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer" aria-label="DR-HO’S, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO’S hub page with a featured physiotherapist" decoding="async"></div>
+        <a class="slide" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer" aria-label="DR-HO’S, see their patient deals">
+          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO’S page with a featured physiotherapist" decoding="async"></div>
           <div class="cap"><strong>DR-HO’S</strong><span class="tag live">Live</span></div>
         </a>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jill Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health hub page" decoding="async" loading="lazy"></div></button>
-          <div class="soon" role="group" aria-label="Jill Health is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jill Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Jill Health is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Jill Health</strong><span class="tag">Coming soon</span></div>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jack Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health-v2.webp" width="1600" height="800" alt="Jack Health hub page" decoding="async" loading="lazy"></div></button>
-          <div class="soon" role="group" aria-label="Jack Health is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jack Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health-v2.webp" width="1600" height="800" alt="Jack Health page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Jack Health is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Jack Health</strong><span class="tag">Coming soon</span></div>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Effortless Admin, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/effortless-v2.webp" width="1600" height="800" alt="Effortless Admin member hub page" decoding="async" loading="lazy"></div></button>
-          <div class="soon" role="group" aria-label="Effortless Admin is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Effortless Admin, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/effortless-v2.webp" width="1600" height="800" alt="Effortless Admin page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Effortless Admin is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Effortless Admin</strong><span class="tag">Coming soon</span></div>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Roll Recovery, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery member marketplace" decoding="async" loading="lazy"></div></button>
-          <div class="soon" role="group" aria-label="Roll Recovery is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Roll Recovery, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Roll Recovery is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Roll Recovery</strong><span class="tag">Coming soon</span></div>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Sole, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole-v2.webp" width="1600" height="800" alt="Sole member hub preview" decoding="async" loading="lazy"></div></button>
-          <div class="soon" role="group" aria-label="Sole is coming soon"><strong>Coming soon</strong><p>This hub isn’t open to patients yet.</p><div class="soon-links"><a href="#talk">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Sole, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole-v2.webp" width="1600" height="800" alt="Sole page" decoding="async" loading="lazy"></div></button>
+          <div class="soon" role="group" aria-label="Sole is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Sole</strong><span class="tag">Coming soon</span></div>
         </div>
       </div>
       <div class="controls">
-        <button class="arrow" type="button" id="prev" aria-label="Previous hub">←</button>
+        <button class="arrow" type="button" id="prev" aria-label="Previous brand">←</button>
         <div class="dots" id="dots"></div>
-        <button class="arrow" type="button" id="next" aria-label="Next hub">→</button>
+        <button class="arrow" type="button" id="next" aria-label="Next brand">→</button>
       </div>
       <p class="sr" id="live" aria-live="polite"></p>
     </div>
@@ -304,22 +322,33 @@
     </div>
   </section>
 
-  <section class="block" id="talk">
-    <div class="wrap narrow">
-      <div class="head"><p class="kicker">For brands, gyms and clinics</p><h2>Put a physio on your site.</h2><p>Send us your website. We’ll show you what a Calm Joints physio looks like on your brand. A real person writes back.</p></div>
-      <form id="talk-form" novalidate>
-        <div class="fields">
-          <div class="pair">
+  <section class="block" id="brands"><span id="talk" class="anchor-alias" aria-hidden="true"></span>
+    <div class="wrap brands-grid">
+      <div class="brands-form">
+        <div class="head"><p class="kicker">For brands, gyms and clinics</p><h2>Put a physio on your site.</h2><p>Send us your website. We’ll show you what a Calm Joints physio and a member hub look like on your brand. A real person writes back.</p></div>
+        <form id="talk-form" novalidate>
+          <div class="fields">
+            <fieldset class="who"><legend>You are a</legend>
+              <label><input type="radio" name="org_type" value="brand" checked>Brand</label>
+              <label><input type="radio" name="org_type" value="gym">Gym or studio</label>
+              <label><input type="radio" name="org_type" value="clinic">Clinic</label>
+              <label><input type="radio" name="org_type" value="other">Other</label>
+            </fieldset>
             <label>Website<input name="website" type="text" inputmode="url" autocomplete="url" required maxlength="200" placeholder="yourbrand.com"></label>
             <label>Name<input name="name" type="text" autocomplete="name" required maxlength="80"></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@domain.com" maxlength="254"></label>
+            <label>Anything else? <span class="hint">optional</span><textarea name="message" maxlength="1200"></textarea></label>
+            <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
+            <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Show me</span></button>
           </div>
-          <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@domain.com" maxlength="254"></label>
-          <label>Anything else? <span class="hint">optional</span><textarea name="message" maxlength="1200"></textarea></label>
-          <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
-          <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Show me</span></button>
-        </div>
-        <div class="status" id="talk-status" role="status" aria-live="polite"></div>
-      </form>
+          <div class="status" id="talk-status" role="status" aria-live="polite"></div>
+          <a class="powered" href="https://www.scalehealth.ca/clinichubs" target="_blank" rel="noopener noreferrer"><span>Powered by our partners at</span><img src="/media/partners/scale-health-logo.png" width="144" height="28" alt="Scale Health"></a>
+        </form>
+      </div>
+      <figure class="brands-hub">
+        <img src="/media/partners/clinic-hub-example.webp" width="601" height="847" alt="Example member hub for a studio, with a member perk and partner offers" loading="lazy" decoding="async">
+        <figcaption>An example member hub. Your members get perks, partner deals and a physio, all under your brand.</figcaption>
+      </figure>
     </div>
   </section>
 </main>
@@ -358,7 +387,7 @@
   slides.forEach(function (s, i) {
     var b = document.createElement('button');
     b.type = 'button';
-    b.setAttribute('aria-label', 'Show hub ' + (i + 1));
+    b.setAttribute('aria-label', 'Show brand ' + (i + 1));
     b.addEventListener('click', function () { go(i); restart(); });
     dots.appendChild(b);
   });

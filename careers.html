@@ -36,6 +36,14 @@
   input:focus, textarea:focus { border-color:var(--green); box-shadow:0 0 0 4px rgba(21,128,61,.12); }
   textarea { min-height:112px; resize:vertical; }
   .field { margin-bottom:1rem; }
+  .flabel { display:block; font-size:.86rem; font-weight:600; margin:0 0 .35rem; }
+  .file-in { position:absolute; width:1px; height:1px; opacity:0; overflow:hidden; }
+  .file-drop { margin:0; font-size:.95rem; display:flex; align-items:center; gap:.8rem; min-height:56px; padding:.85rem 1rem; border:1.5px dashed var(--line); border-radius:14px; background:#fff; cursor:pointer; color:var(--green); transition:border-color .15s, background .15s; }
+  .file-drop:hover, .file-in:focus-visible + .file-drop { border-color:var(--green); background:rgba(21,128,61,.04); }
+  .file-drop b { display:block; color:var(--ink); font-weight:600; }
+  .file-hint { display:block; font-size:.85rem; color:#5b6b61; }
+  .file-name { display:block; font-size:.9rem; color:var(--green); font-weight:600; word-break:break-all; }
+  .file-name:empty { display:none; }
   .btn { display:inline-flex; align-items:center; justify-content:center; width:100%; padding:.95rem 1.4rem; border:0; border-radius:999px; background:var(--green); color:#fff; font:700 1rem var(--sans); cursor:pointer; transition:background .15s, transform .15s; }
   .btn:hover { background:#116A32; } .btn:active { transform:translateY(1px); } .btn[disabled] { opacity:.6; cursor:default; }
   .msg { min-height:1.4em; margin:.8rem 0 0; font-size:.92rem; font-weight:600; }
@@ -143,6 +151,11 @@
   .pills label { margin:0; padding:.68rem 1rem; border:1.5px solid var(--line); border-radius:999px; font-weight:600; font-size:.92rem; cursor:pointer; }
   .pills input:checked + label { background:var(--green); border-color:var(--green); color:#fff; }
   .pills input:focus-visible + label { box-shadow:0 0 0 4px rgba(21,128,61,.2); }
+  .pills input:checked + label::before { content:"✓ "; }
+  .pills label.lead-pill { padding:.8rem 1.2rem; font-size:1rem; }
+  .pills .badge { display:inline-block; margin-left:.35rem; padding:.1rem .5rem; border-radius:999px; background:#DCFCE7; color:var(--green); font-size:.72rem; font-weight:700; letter-spacing:.02em; vertical-align:1px; }
+  .pills input:checked + label .badge { background:rgba(255,255,255,.22); color:#fff; }
+  .pills-note { flex-basis:100%; margin:.3rem 0 0; font-size:.88rem; color:#5b6b61; }
   .two { display:grid; gap:0 1rem; grid-template-columns:1fr 1fr; } @media (max-width:520px) { .two { grid-template-columns:1fr; } }
   .opt { font-weight:400; color:var(--mute); }
 </style>
@@ -218,17 +231,19 @@
   <section class="apply" id="apply">
     <form id="careers" novalidate>
       <h2>Apply</h2>
-      <fieldset class="pills"><legend>How do you want to work?</legend>
-        <input type="radio" name="role" id="r1" value="digital" checked><label for="r1">Fully digital</label>
-        <input type="radio" name="role" id="r2" value="in-home"><label for="r2">In-home</label>
-        <input type="radio" name="role" id="r3" value="on-site"><label for="r3">On site</label>
-        <input type="radio" name="role" id="r4" value="accessibility"><label for="r4">Accessibility role</label>
+      <fieldset class="pills"><legend>How do you want to work? <span class="opt">(pick all that fit)</span></legend>
+        <input type="checkbox" name="roles" id="r1" value="digital" checked><label for="r1" class="lead-pill">Fully digital <span class="badge">Our focus</span></label>
+        <input type="checkbox" name="roles" id="r2" value="in-home"><label for="r2">In-home</label>
+        <input type="checkbox" name="roles" id="r3" value="on-site"><label for="r3">On site</label>
+        <input type="checkbox" name="roles" id="r4" value="accessibility"><label for="r4">Accessibility role</label>
+        <p class="pills-note">Calm Joints is a digital clinic, so video visits come first. Add in-home or on site if you want more hours.</p>
       </fieldset>
       <div class="two">
         <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
         <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
       </div>
       <div class="field"><label for="c-link">LinkedIn or website <span class="opt">(optional)</span></label><input id="c-link" name="link" inputmode="url" placeholder="linkedin.com/in/you"></div>
+      <div class="field"><span class="flabel">Resume <span class="opt">(optional)</span></span><input class="file-in" id="c-resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><label class="file-drop" for="c-resume"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg><span><b>Upload your resume</b><span class="file-hint">PDF or Word, up to 3 MB</span><span class="file-name"></span></span></label></div>
       <div class="field"><label for="c-msg">A bit about you <span class="opt">(optional)</span></label><textarea id="c-msg" name="message" rows="3"></textarea></div>
       <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn" type="submit">Send application</button>
@@ -241,7 +256,7 @@
   <span><a href="/careers">Careers</a> &nbsp;·&nbsp; <a href="mailto:info@calmjoints.org">info@calmjoints.org</a></span>
 </footer>
 <script src="/form.js"></script>
-<script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers');</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers'); document.getElementById('c-resume').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.closest('.field').querySelector('.file-name').textContent = f ? f.name : ''; });</script>
 <script>(function(){function o(){if(location.hash==="#benefits"){var d=document.getElementById("benefits-d");if(d)d.open=true;}}o();addEventListener("hashchange",o);})();</script>
 </body>
 </html>
