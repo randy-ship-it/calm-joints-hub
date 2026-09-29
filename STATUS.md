@@ -15,14 +15,14 @@
 | Surface | URL |
 | --- | --- |
 | **Production** | **https://calm-joints-hub.vercel.app** |
-| This deployment | https://calm-joints-mu0re0k63-sbg-516724e0.vercel.app |
-| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/4Z1wwSdxDTD2yBQTuAw9H9AHWcV4 |
+| This deployment | https://calm-joints-kk4d9irzr-sbg-516724e0.vercel.app |
+| Inspect | https://vercel.com/sbg-516724e0/calm-joints-hub/8rG58Aq6aN5ATxfa1UWpFHEAAvHF |
 | Vercel project | `calm-joints-hub` (`prj_Y2OAVqC0nJ2jZXcuNMwMRNAC0vY6`) |
 | Team | `sbg-516724e0` (`team_lOeMvVi5qA620Xr4vVA0C59W`) |
 | GitHub | https://github.com/randy-ship-it/calm-joints-hub |
 | Pull request | https://github.com/randy-ship-it/calm-joints-hub/pull/1 |
 
-Both forms post to Friday `POST https://fridayapp.org/api/intake` with `site: calmjoints.ca`. The earlier `/api/webhooks/calmjoints/*` paths are not used. Friday marked this intake READY, so submissions go live there. A non-2xx still queues locally (and Neon when configured) and the visitor still sees the friendly success. Neon is not set, so that queue is ephemeral `/tmp` on Vercel.
+Both forms post to Friday `POST https://fridayapp.org/api/intake` with `site: calmjoints.ca` (`dpl_8rG58Aq6aN5ATxfa1UWpFHEAAvHF`, commit `cdf105e`). The `/api/webhooks/calmjoints/*` paths are not used. Production smokes for newsletter and physio both logged `friday=ok` (`calmjoints-intake-live@example.com` / “Intake Live”). A non-2xx still queues locally (and Neon when configured) and the visitor still sees the friendly success. Neon is not set, so that queue is ephemeral `/tmp` on Vercel.
 
 Public index is on (`noindex` removed). Canonical and Open Graph still point at the Vercel preview until `calmjoints.ca` exists. Flip those to `https://calmjoints.ca/` when DNS is attached.
 
