@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { validateNewsletter, validateApply, validateQuestion, alertText, processIntake, PROVINCES, FRIDAY_INTAKE_URL, fridayBody } = require('../lib/intake');
+const { validatePartner, validateNewsletter, validateApply, validateQuestion, alertText, processIntake, PROVINCES, FRIDAY_INTAKE_URL, fridayBody } = require('../lib/intake');
 
 const store = path.join(os.tmpdir(), `cj-intake-${process.pid}.jsonl`);
 const env = { INTAKE_STORE_PATH: store };
@@ -327,6 +327,39 @@ async function main() {
   assert.strictEqual(bPosts[1].site, 'scalehealth.ca');
   assert.strictEqual(bPosts[1].lane, 'hubs');
   assert.ok(bPosts[1].tags.includes('hub-intake'));
+
+  // Partner pop-up: track + name + email required; website/phone optional; emails the team.
+  assert.ok(validatePartner({ name: 'Bo Li', email: 'bo@x.co' }).error, 'track required');
+  assert.ok(validatePartner({ track: 'managed', email: 'bo@x.co' }).error, 'name required');
+  assert.ok(validatePartner({ track: 'managed', name: 'Bo Li' }).error, 'email required');
+  const pv = validatePartner({ track: 'free-hub', name: 'Bo Li', email: 'BO@x.co' });
+  assert.strictEqual(pv.value.website, null);
+  assert.strictEqual(pv.value.email, 'bo@x.co');
+  assert.ok(validatePartner({ track: 'other', name: 'Bo Li', email: 'bo@x.co', phone: 'call me' }).error);
+  const pCalls = [];
+  const pRes = await processIntake('partner', { track: 'managed', name: 'Bo Li', email: 'bo@gym.com', website: 'gym.com', phone: '416 555 0100', message: 'Hi <there>' }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_RESEND_API_KEY: 're_test', CJ_ALERT_EMAILS: 'a@x.co, b@y.co' }, ip: '8.8.8.4',
+    fetchImpl: async (url, init) => { pCalls.push({ url, body: JSON.parse(init.body), auth: init.headers.Authorization }); return { ok: true, status: 200 }; },
+  });
+  assert.strictEqual(pRes.status, 200);
+  assert.strictEqual(pCalls.length, 2, 'friday + email, no Scale copy');
+  const pf = pCalls.find((c) => c.url.includes('fridayapp'));
+  assert.strictEqual(pf.body.source, 'calmjoints_partner');
+  assert.deepStrictEqual(pf.body.tags, ['calmjoints', 'partner', 'track:managed']);
+  assert.strictEqual(pf.body.meta.phone, '416 555 0100');
+  const pm = pCalls.find((c) => c.url.includes('resend'));
+  assert.deepStrictEqual(pm.body.to, ['a@x.co', 'b@y.co']);
+  assert.strictEqual(pm.body.reply_to, 'bo@gym.com');
+  assert.strictEqual(pm.auth, 'Bearer re_test');
+  assert.match(pm.body.subject, /New partner request: Bo Li/);
+  assert.match(pm.body.html, /CJ Managed Services/);
+  assert.match(pm.body.html, /Hi &lt;there&gt;/);
+  const nCalls = [];
+  await processIntake('newsletter', { email: 'n@x.co' }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_RESEND_API_KEY: 're_test', CJ_ALERT_EMAILS: 'a@x.co' }, ip: '8.8.8.5',
+    fetchImpl: async (url) => { nCalls.push(url); return { ok: true, status: 200 }; },
+  });
+  assert.ok(!nCalls.some((u) => u.includes('resend')), 'no email for newsletter');
 
   fs.rmSync(store, { force: true });
   console.log('intake tests ok');
