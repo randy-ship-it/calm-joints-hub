@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+// Monthly partner payout: match a Jane billing export to emails captured on /p/<slug>.
+// Share = 25% of net billing, where net = billed amount minus physiotherapist pay.
+// Jane's export columns vary, so every column name is a flag.
+//
+//   node scripts/partner-payout.js --billing jane.csv --from-blob --month 2026-10 \
+//     --email-col "Patient Email" --amount-col "Total" --date-col "Date" \
+//     (--labour-col "Practitioner Pay" | --labour-pct 60 | --labour-flat 60) [--share 25] [--out payout.csv]
+//
+//   --leads leads.csv  instead of --from-blob: a CSV with slug,email,at columns.
+// A patient is credited to the FIRST partner that captured their email, and only for
+// visits billed on or after that capture date.
+'use strict';
+const fs = require('fs');
+
+function args(argv) {
+  const o = {};
+  for (let i = 2; i < argv.length; i++) {
+    const a = argv[i];
+    if (!a.startsWith('--')) continue;
+    const k = a.slice(2), n = argv[i + 1];
+    if (n === undefined || n.startsWith('--')) o[k] = true; else { o[k] = n; i++; }
+  }
+  return o;
+}
+
+function parseCsv(text) {
+  const rows = []; let row = [], cur = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(cur); cur = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cur); rows.push(row); row = []; cur = ''; }
+    else cur += c;
+  }
+  if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+  const head = (rows.shift() || []).map((h) => h.replace(/^\uFEFF/, '').trim());
+  return rows.filter((r) => r.some((v) => v.trim() !== '')).map((r) => Object.fromEntries(head.map((h, i) => [h, (r[i] || '').trim()])));
+}
+
+function money(v) { const n = parseFloat(String(v || '').replace(/[^0-9.\-]/g, '')); return Number.isFinite(n) ? n : 0; }
+function csvCell(v) { const s = String(v == null ? '' : v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }
+function day(v) { const d = new Date(v); return Number.isNaN(d.getTime()) ? null : d; }
+
+async function leadsFromBlob(token) {
+  const { list, get } = require('@vercel/blob');
+  const out = []; let cursor;
+  do {
+    const page = await list({ prefix: 'qr-leads/', cursor, token, limit: 1000 });
+    for (const b of page.blobs) {
+      if (!/\/email\//.test(b.pathname)) continue;
+      const r = await get(b.pathname, { access: 'private', token });
+      if (r && r.stream) out.push(JSON.parse(await new Response(r.stream).text()));
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return out;
+}
+
+function firstTouch(leads) {
+  const m = new Map();
+  for (const l of leads) {
+    const e = String(l.email || '').toLowerCase().trim(); const at = day(l.at);
+    if (!e || !l.slug || !at) continue;
+    const prev = m.get(e);
+    if (!prev || at < prev.at) m.set(e, { slug: l.slug, at });
+  }
+  return m;
+}
+
+function compute(billing, touch, o) {
+  const share = (o.share ? parseFloat(o.share) : 25) / 100;
+  const ec = o['email-col'] || 'Email', ac = o['amount-col'] || 'Amount', dc = o['date-col'] || 'Date';
+  const lines = [], totals = {};
+  for (const r of billing) {
+    const email = String(r[ec] || '').toLowerCase().trim();
+    const t = touch.get(email); if (!t) continue;
+    const when = day(r[dc]);
+    if (o.month && (!when || when.toISOString().slice(0, 7) !== o.month)) continue;
+    if (when && when < new Date(t.at.toISOString().slice(0, 10))) continue;
+    const billed = money(r[ac]);
+    const labour = o['labour-col'] ? money(r[o['labour-col']]) : o['labour-pct'] ? billed * parseFloat(o['labour-pct']) / 100 : money(o['labour-flat']);
+    const net = Math.max(0, billed - labour);
+    const pay = Math.round(net * share * 100) / 100;
+    lines.push({ slug: t.slug, email, date: r[dc] || '', billed, labour: Math.round(labour * 100) / 100, net: Math.round(net * 100) / 100, partner_share: pay });
+    const T = totals[t.slug] || (totals[t.slug] = { slug: t.slug, visits: 0, billed: 0, net: 0, partner_share: 0 });
+    T.visits++; T.billed += billed; T.net += net; T.partner_share += pay;
+  }
+  return { lines, totals: Object.values(totals).map((t) => ({ ...t, billed: +t.billed.toFixed(2), net: +t.net.toFixed(2), partner_share: +t.partner_share.toFixed(2) })) };
+}
+
+async function main() {
+  const o = args(process.argv);
+  if (!o.billing || (!o.leads && !o['from-blob'])) {
+    console.error('Usage: partner-payout.js --billing jane.csv (--leads leads.csv | --from-blob) [--month YYYY-MM] [--email-col] [--amount-col] [--date-col] [--labour-col | --labour-pct | --labour-flat] [--share 25] [--out file.csv]');
+    process.exit(2);
+  }
+  if (!o['labour-col'] && !o['labour-pct'] && !o['labour-flat']) console.warn('Warning: no physio pay given, so net = full billed amount.');
+  const billing = parseCsv(fs.readFileSync(o.billing, 'utf8'));
+  const leads = o.leads ? parseCsv(fs.readFileSync(o.leads, 'utf8')) : await leadsFromBlob(process.env.BLOB_READ_WRITE_TOKEN);
+  const { lines, totals } = compute(billing, firstTouch(leads), o);
+  const cols = ['slug', 'email', 'date', 'billed', 'labour', 'net', 'partner_share'];
+  const csv = [cols.join(','), ...lines.map((l) => cols.map((c) => csvCell(l[c])).join(','))].join('\n') + '\n';
+  if (o.out) fs.writeFileSync(o.out, csv); else process.stdout.write(csv);
+  console.error(`\n${billing.length} billing rows, ${leads.length} captured leads, ${lines.length} matched visits`);
+  for (const t of totals) console.error(`  ${t.slug}: ${t.visits} visits, billed $${t.billed}, net $${t.net}, partner $${t.partner_share}`);
+}
+
+if (require.main === module) main().catch((e) => { console.error(e.message); process.exit(1); });
+module.exports = { parseCsv, firstTouch, compute };

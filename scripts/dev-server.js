@@ -6,6 +6,8 @@ const apply = require('../api/apply');
 const question = require('../api/question');
 const intake = require('../api/intake');
 const careers = require('../api/careers');
+const qrPartner = require('../api/qr-partner');
+const qrLead = require('../api/qr-lead');
 
 const root = path.join(__dirname, '..');
 const port = Number(process.env.PORT || 4173);
@@ -29,6 +31,9 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/question') return question(req, res);
   if (url.pathname === '/api/intake') return intake(req, res);
   if (url.pathname === '/api/careers') return careers(req, res);
+  if (url.pathname === '/api/qr-partner') return qrPartner(req, res);
+  if (url.pathname === '/api/qr-lead') return qrLead(req, res);
+  if (url.pathname.startsWith('/p/')) { req.url = '/p.html?slug=' + url.pathname.slice(3); }
 
   let rel = decodeURIComponent(url.pathname);
   if (rel === '/' || rel.endsWith('/')) rel = '/index.html';
