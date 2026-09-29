@@ -75,3 +75,11 @@ Site routes stay `POST /api/newsletter` and `POST /api/apply`.
 ## Clinic desk blogs (2026-09-28 evening)
 
 Added `#desk` “From the clinic desk” section with six externally linked education pieces (CPA, APA, MedlinePlus ×2, OrthoInfo AAOS ×2). URLs verified HTTP 200. No invented medical claims — blurbs describe the linked pages only. Contact remains `info@calmjoints.org`; canonical domain `calmjoints.org`.
+
+## Lean landing + new logo + team alerts (2026-09-29 AM)
+
+- Page is now: hero, hub carousel, physio hiring (team + application), a short Questions form, and a footer with a Partnership opportunities link. How-it-works, reading list, product/store copy and the newsletter panel are gone.
+- Carousel is three hub pages (DR-HO’S, Jill Health, Jack Health), each recaptured at 1600×800 webp with the same 2:1 crop. Roll Recovery and Sole slides were removed because their images showed products.
+- New logo: a knee joint (two limbs, joint node) with a range-of-motion arc on a green rounded square; wordmark text is outlined DM Sans Bold paths. Favicon PNG, apple-touch PNG, 512 icon and a new OG image were generated from it.
+- New `POST /api/question` (kind `question`): Friday `kind: form`, source `calmjoints_question`, tags `calmjoints`, `question` (+ `newsletter` when the box is ticked).
+- Team alerts: every accepted newsletter, question or application posts a short Slack message when `CJ_ALERT_SLACK_WEBHOOK_URL` (a Slack incoming webhook) is set on Vercel. Friday already writes an in-app notification to workspace admins for each physio application.

@@ -23,7 +23,8 @@
 <meta name="twitter:description" content="Virtual physiotherapy, booked right from the brands you already use.">
 <meta name="twitter:image" content="https://calmjoints.org/media/og.jpg">
 <link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/media/apple-touch-icon.svg">
+<link rel="icon" href="/media/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
@@ -54,7 +55,7 @@
   /* nav */
   .nav { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
-  .brand img { height: 34px; width: auto; }
+  .brand img { height: 36px; width: auto; }
   .nav-links { display: flex; align-items: center; gap: 1.4rem; font-size: .95rem; }
   .nav-links a:not(.btn) { text-decoration: none; color: var(--mute); } .nav-links a:not(.btn):hover { color: var(--ink); }
   .nav-links .btn { padding: .6rem 1.1rem; }
@@ -73,7 +74,7 @@
   .frame { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -38px rgba(11,29,22,.45); }
   .bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #FAFBFA; }
   .bar i { width: 9px; height: 9px; border-radius: 50%; background: #DCE3DF; }
-  .frame img { width: 100%; height: auto; aspect-ratio: 16 / 8; object-fit: cover; object-position: top center; }
+  .frame img { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; object-position: top center; background: #F6F4F0; }
   .cap { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; padding: 1rem .25rem 0; }
   .cap strong { font-size: 1.15rem; }
   .cap p { flex-basis: 100%; margin: 0; color: var(--mute); font-size: .95rem; }
@@ -96,7 +97,7 @@
   .steps div::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #DCFCE7; color: var(--green); font-weight: 700; font-size: .85rem; margin-bottom: .7rem; }
   .steps strong { display: block; } .steps span { color: var(--mute); font-size: .95rem; }
   .team { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  @media (min-width: 1000px) { .team { grid-template-columns: repeat(6, 1fr); } }
+  @media (min-width: 1000px) { .team { grid-template-columns: repeat(5, 1fr); } }
   .person { margin: 0; }
   .person img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 16px; background: var(--soft); }
   .person figcaption { padding: .75rem .1rem 0; display: grid; gap: .1rem; }
@@ -112,6 +113,10 @@
   .two { display: grid; gap: 2rem; }
   @media (min-width: 900px) { .two { grid-template-columns: 1fr 1fr; gap: 3rem; } }
   .panel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.3rem, 3vw, 2rem); }
+  .apply-panel { margin-top: 2rem; max-width: 760px; }
+  .narrow { max-width: 760px; }
+  .check { display: flex; align-items: center; gap: .5rem; font-weight: 500; }
+  .check input { width: auto; margin: 0; accent-color: var(--green); }
   .panel h2 { font-size: 1.5rem; } .panel > p { color: var(--mute); margin: .5rem 0 1.2rem; }
   label { display: block; font-size: .85rem; font-weight: 600; }
   label input, label textarea { margin-top: .3rem; }
@@ -139,7 +144,7 @@
   .is-loading .spin { display: inline-block; } @keyframes sp { to { transform: rotate(360deg); } }
   footer { border-top: 1px solid var(--line); padding: 2.2rem 0 6rem; font-size: .88rem; color: var(--mute); }
   .foot { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; align-items: center; }
-  .foot img { height: 28px; width: auto; }
+  .foot img { height: 30px; width: auto; }
   .foot nav { display: flex; gap: 1.2rem; flex-wrap: wrap; } .foot nav a { text-decoration: none; } .foot nav a:hover { color: var(--ink); }
   .sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: none; gap: .6rem; padding: .7rem var(--pad) calc(.7rem + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); }
   .sticky .btn { flex: 1; }
@@ -152,12 +157,11 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="178" height="40"></a>
+    <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#hubs">Hubs</a>
-      <a href="#team">Team</a>
-      <a href="#reading">Reading</a>
       <a href="#join">Physios</a>
+      <a href="#ask">Questions</a>
       <a class="btn btn-primary" id="nav-book" href="#" data-book>Book a visit</a>
     </nav>
   </div>
@@ -168,34 +172,25 @@
     <div class="wrap">
       <p class="kicker">Virtual physiotherapy · Canada</p>
       <h1>The clinic behind the brands you already use.</h1>
-      <p class="lede">Customers book a registered physiotherapist right from the brand’s own site. We handle the visit, the plan and the receipt.</p>
+      <p class="lede">Book a registered physiotherapist right from a brand’s own site.</p>
       <div class="ctas">
         <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
-        <a class="btn btn-ghost" href="mailto:info@calmjoints.org?subject=Bring%20Calm%20Joints%20to%20our%20brand">Bring us to your brand</a>
+        <a class="btn btn-ghost" href="#join">Physios, join us</a>
       </div>
-      <p class="fine">No referral needed · Receipts for eligible benefits</p>
     </div>
     <div class="carousel" aria-roledescription="carousel" aria-label="Brand hubs we run care for">
       <div class="track" id="track" tabindex="0">
         <a class="slide" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer" aria-label="DR-HO’S, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho.jpg" width="960" height="490" alt="DR-HO’S recovery hub with a featured physiotherapist and virtual assessment" decoding="async"></div>
-          <div class="cap"><strong>DR-HO’S</strong><span class="tag live">Live</span><p>Recovery hub with a 1:1 physio assessment</p></div>
+          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho.webp" width="1600" height="800" alt="DR-HO’S hub page with a featured physiotherapist" decoding="async"></div>
+          <div class="cap"><strong>DR-HO’S</strong><span class="tag live">Live</span></div>
         </a>
         <a class="slide" href="https://www.scalehealth.ca/jillhealth" target="_blank" rel="noopener noreferrer" aria-label="Jill Health, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health.jpg" width="1200" height="374" alt="Jill Health page: Feel balanced, move better, live stronger" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Jill Health</strong><span class="tag">Launching</span><p>Virtual physio booked from the Jill site</p></div>
+          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health.webp" width="1600" height="800" alt="Jill Health hub page" decoding="async" loading="lazy"></div>
+          <div class="cap"><strong>Jill Health</strong><span class="tag">Launching</span></div>
         </a>
         <a class="slide" href="https://www.scalehealth.ca/jackhealth" target="_blank" rel="noopener noreferrer" aria-label="Jack Health, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health.jpg" width="1200" height="374" alt="Jack Health page: Feel stronger, move better, recover faster" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Jack Health</strong><span class="tag">Launching</span><p>Virtual physio booked from the Jack site</p></div>
-        </a>
-        <a class="slide" href="https://www.scalehealth.ca/roll-recovery" target="_blank" rel="noopener noreferrer" aria-label="Roll Recovery, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery.jpg" width="1200" height="600" alt="Roll Recovery member marketplace with featured products" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Roll Recovery</strong><span class="tag">Launching</span><p>Member pricing plus physio care</p></div>
-        </a>
-        <a class="slide" href="https://www.scalehealth.ca/sole" target="_blank" rel="noopener noreferrer" aria-label="Sole, opens their hub">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole.jpg" width="500" height="280" alt="Sole orthotic insoles" decoding="async" loading="lazy"></div>
-          <div class="cap"><strong>Sole</strong><span class="tag">Launching</span><p>Insoles with a physio behind them</p></div>
+          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health.webp" width="1600" height="800" alt="Jack Health hub page" decoding="async" loading="lazy"></div>
+          <div class="cap"><strong>Jack Health</strong><span class="tag">Launching</span></div>
         </a>
       </div>
       <div class="controls">
@@ -204,72 +199,20 @@
         <button class="arrow" type="button" id="next" aria-label="Next hub">→</button>
       </div>
       <p class="sr" id="live" aria-live="polite"></p>
-      <div class="logos wrap" aria-label="Brands">
-        <span>DR-HO’S</span><span>Jill Health</span><span>Jack Health</span><span>Roll Recovery</span><span>Sole</span>
-      </div>
     </div>
   </section>
 
-  <section class="block soft" id="how">
+  <section class="block soft" id="join">
     <div class="wrap">
-      <div class="head"><h2>How it works</h2></div>
-      <div class="steps">
-        <div><strong>Book from the brand</strong><span>Pick a time on the brand’s hub, or book with us directly.</span></div>
-        <div><strong>Meet your physio</strong><span>A one-to-one video visit with a registered physiotherapist.</span></div>
-        <div><strong>Keep moving</strong><span>A home plan, follow-ups when you want them, and a receipt for benefits.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="team">
-    <div class="wrap">
-      <div class="head"><p class="kicker">Team</p><h2>The people behind your visit</h2></div>
+      <div class="head"><p class="kicker">We’re hiring</p><h2>Physios, join us</h2><p>Registered anywhere in Canada? See patients by video with a small, friendly team.</p></div>
       <div class="team">
-        <figure class="person"><img src="/media/team/mark.webp" width="480" height="480" alt="Mark Rukavina" loading="lazy" decoding="async"><figcaption><strong>Mark Rukavina</strong><span>Registered Physiotherapist</span><em>Half Ironman and marathon finisher</em></figcaption></figure>
-        <figure class="person"><img src="/media/team/chris.webp" width="480" height="480" alt="Chris Percy" loading="lazy" decoding="async"><figcaption><strong>Chris Percy</strong><span>Clinic growth</span><em>B.Sc. Math &amp; Statistics, U of T</em></figcaption></figure>
-        <figure class="person"><img src="/media/team/alison.webp" width="480" height="480" alt="Alison Golanski" loading="lazy" decoding="async"><figcaption><strong>Alison Golanski</strong><span>Partner success</span><em>B.Sc. Neuroscience, Laurentian</em></figcaption></figure>
-        <figure class="person"><img src="/media/team/kate.webp" width="480" height="480" alt="Kate Tailor" loading="lazy" decoding="async"><figcaption><strong>Kate Tailor</strong><span>Clinic operations</span><em>B.Sc. Kinesiology, U of T</em></figcaption></figure>
-        <figure class="person"><img src="/media/team/jayden.webp" width="480" height="480" alt="Jayden Grewal" loading="lazy" decoding="async"><figcaption><strong>Jayden Grewal</strong><span>Partner launches</span><em>Former pro athlete</em></figcaption></figure>
-        <div class="person join"><a href="#join">More physios joining soon.<br>Want in? →</a></div>
+        <figure class="person"><img src="/media/team/mark.webp" width="480" height="480" alt="Mark Rukavina" loading="lazy" decoding="async"><figcaption><strong>Mark Rukavina</strong><span>Registered Physiotherapist</span></figcaption></figure>
+        <figure class="person"><img src="/media/team/chris.webp" width="480" height="480" alt="Chris Percy" loading="lazy" decoding="async"><figcaption><strong>Chris Percy</strong><span>Clinic growth</span></figcaption></figure>
+        <figure class="person"><img src="/media/team/alison.webp" width="480" height="480" alt="Alison Golanski" loading="lazy" decoding="async"><figcaption><strong>Alison Golanski</strong><span>Partner success</span></figcaption></figure>
+        <figure class="person"><img src="/media/team/kate.webp" width="480" height="480" alt="Kate Tailor" loading="lazy" decoding="async"><figcaption><strong>Kate Tailor</strong><span>Clinic operations</span></figcaption></figure>
+        <figure class="person"><img src="/media/team/jayden.webp" width="480" height="480" alt="Jayden Grewal" loading="lazy" decoding="async"><figcaption><strong>Jayden Grewal</strong><span>Partner launches</span></figcaption></figure>
       </div>
-    </div>
-  </section>
-
-  <section class="block soft" id="reading">
-    <div class="wrap">
-      <div class="head"><p class="kicker">Reading</p><h2>Good physio reading</h2><p>Trusted pages from physiotherapy associations and public health libraries.</p></div>
-      <div class="reads">
-        <a class="read-item" href="https://physiotherapy.ca/about-physiotherapy/" target="_blank" rel="noopener noreferrer"><span>Canadian Physiotherapy Association</span><strong>About physiotherapy</strong></a>
-        <a class="read-item" href="https://www.choose.physio/what-is-physio" target="_blank" rel="noopener noreferrer"><span>Australian Physiotherapy Association</span><strong>What is physio?</strong></a>
-        <a class="read-item" href="https://medlineplus.gov/telehealth.html" target="_blank" rel="noopener noreferrer"><span>MedlinePlus</span><strong>Telehealth</strong></a>
-        <a class="read-item" href="https://medlineplus.gov/exerciseandphysicalfitness.html" target="_blank" rel="noopener noreferrer"><span>MedlinePlus</span><strong>Exercise and physical fitness</strong></a>
-        <a class="read-item" href="https://orthoinfo.aaos.org/en/staying-healthy/starting-an-exercise-program/" target="_blank" rel="noopener noreferrer"><span>OrthoInfo (AAOS)</span><strong>Starting an exercise program</strong></a>
-        <a class="read-item" href="https://orthoinfo.aaos.org/en/diseases--conditions/arthritis-of-the-knee/" target="_blank" rel="noopener noreferrer"><span>OrthoInfo (AAOS)</span><strong>Arthritis of the knee</strong></a>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="join">
-    <div class="wrap two">
-      <div class="panel" id="newsletter">
-        <h2>Clinic notes</h2>
-        <p>A short email when there’s something worth reading. No spam.</p>
-        <form id="news-form" novalidate>
-          <div class="fields">
-            <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@domain.com" maxlength="254"></label>
-            <label>Name <span class="hint">optional</span><input name="name" type="text" autocomplete="name" maxlength="80"></label>
-            <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
-            <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Subscribe</span></button>
-          </div>
-          <div class="status" id="news-status" role="status" aria-live="polite"></div>
-        </form>
-      </div>
-
-      <div class="panel" id="apply">
-        <h2>Physios, join us</h2>
-        <p>Registered anywhere in Canada? Tell us a bit about you and we’ll be in touch.</p>
-        <details class="apply" id="apply-details">
-          <summary class="btn btn-ghost">Open the form</summary>
+      <div class="panel apply-panel" id="apply">
           <form id="apply-form" novalidate>
             <div class="fields">
               <div class="pair">
@@ -283,51 +226,68 @@
               <fieldset>
                 <legend>Where you’re registered</legend>
                 <div class="provinces" id="provinces">
-              <label class="prov"><input type="checkbox" name="provinces" value="AB"><span>Alberta</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="BC"><span>British Columbia</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="MB"><span>Manitoba</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="NB"><span>New Brunswick</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="NL"><span>Newfoundland &amp; Labrador</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="NS"><span>Nova Scotia</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="NT"><span>Northwest Territories</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="NU"><span>Nunavut</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="ON"><span>Ontario</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="PE"><span>Prince Edward Island</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="QC"><span>Quebec</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="SK"><span>Saskatchewan</span></label>
-              <label class="prov"><input type="checkbox" name="provinces" value="YT"><span>Yukon</span></label>
-            </div>
+                  <label class="prov"><input type="checkbox" name="provinces" value="AB"><span>Alberta</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="BC"><span>British Columbia</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="MB"><span>Manitoba</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="NB"><span>New Brunswick</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="NL"><span>Newfoundland &amp; Labrador</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="NS"><span>Nova Scotia</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="NT"><span>Northwest Territories</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="NU"><span>Nunavut</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="ON"><span>Ontario</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="PE"><span>Prince Edward Island</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="QC"><span>Quebec</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="SK"><span>Saskatchewan</span></label>
+                  <label class="prov"><input type="checkbox" name="provinces" value="YT"><span>Yukon</span></label>
+                </div>
               </fieldset>
               <div class="pair">
                 <label>Registration # <span class="hint">optional</span><input name="registration_number" type="text" maxlength="60"></label>
                 <label>LinkedIn<input name="linkedin" type="text" required maxlength="200" placeholder="linkedin.com/in/…"></label>
               </div>
-              <label>About you<textarea name="bio" maxlength="800" required placeholder="Who you like helping and how you work."></textarea></label>
-              <label>Availability <span class="hint">optional</span><input name="availability" type="text" maxlength="400" placeholder="Evenings, weekends, bilingual…"></label>
+              <label>About you<textarea name="bio" maxlength="800" required placeholder="Who you like helping and when you’re free."></textarea></label>
               <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
-              <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Send</span></button>
+              <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Send application</span></button>
             </div>
             <div class="status" id="apply-status" role="status" aria-live="polite"></div>
           </form>
-        </details>
       </div>
+    </div>
+  </section>
+
+  <section class="block" id="ask">
+    <div class="wrap narrow">
+      <div class="head"><h2>Questions?</h2><p>Ask us anything. A person writes back.</p></div>
+      <form id="ask-form" novalidate>
+        <div class="fields">
+          <div class="pair">
+            <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@domain.com" maxlength="254"></label>
+            <label>Name <span class="hint">optional</span><input name="name" type="text" autocomplete="name" maxlength="80"></label>
+          </div>
+          <label>Your question<textarea name="message" maxlength="1200" required></textarea></label>
+          <label class="check"><input type="checkbox" name="notes" value="on"> <span>Send me clinic notes now and then</span></label>
+          <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
+          <button class="btn btn-primary" type="submit"><span class="spin" aria-hidden="true"></span><span class="label">Send</span></button>
+        </div>
+        <div class="status" id="ask-status" role="status" aria-live="polite"></div>
+      </form>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap foot">
-    <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="125" height="28">
+    <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="110" height="30">
     <nav aria-label="Footer">
-      <a href="#hubs">Hubs</a><a href="#team">Team</a><a href="#reading">Reading</a><a href="#join">Physios</a>
+      <a href="mailto:info@calmjoints.org?subject=Partnership%20with%20Calm%20Joints">Partnership opportunities</a>
       <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>
     </nav>
-    <p style="flex-basis:100%;margin:0">Calm Joints is a trade name of Clairvoyant Holdings Inc. Care is provided by registered physiotherapists. The reading links are general education, not personal medical advice.</p>
+    <p style="flex-basis:100%;margin:0">Calm Joints is a trade name of Clairvoyant Holdings Inc. Care is provided by registered physiotherapists.</p>
   </div>
 </footer>
 
 <div class="sticky" aria-label="Quick actions">
-  <a class="btn btn-ghost" href="#hubs">Hubs</a>
+  <a class="btn btn-ghost" href="#join">Join us</a>
   <a class="btn btn-primary" id="sticky-book" href="#" data-book>Book a visit</a>
 </div>
 
@@ -397,10 +357,6 @@
   window.addEventListener('load', function () { go(0); });
   mark(); restart();
 
-  var details = document.getElementById('apply-details');
-  document.querySelectorAll('a[href="#join"]').forEach(function (a) {
-    a.addEventListener('click', function () { if (details && a.closest('.person, .ctas')) details.open = true; });
-  });
 
   function setStatus(box, kind, message) {
     var icon = kind === 'ok' ? '✓' : kind === 'err' ? '!' : '…';
@@ -458,6 +414,7 @@
         else if (bad.type === 'email') hint = 'That email doesn’t look quite right. Try once more?';
         else if (bad.name === 'name') hint = 'What should we call you?';
         else if (bad.name === 'linkedin') hint = 'Add a LinkedIn handle or linkedin.com link so we can find you.';
+        else if (bad.name === 'message') hint = 'Add a line or two so we know how to help.';
         else if (bad.name === 'bio') hint = 'A sentence or two about you is plenty — just not a blank box.';
         else if (bad.name === 'provinces') hint = 'Pick at least one province or territory where you’re registered.';
         setStatus(box, 'err', hint);
@@ -503,7 +460,7 @@
       el.addEventListener('input', function () { el.classList.remove('is-invalid'); });
     });
   }
-  wireForm('news-form', '/api/newsletter', 'news-status');
+  wireForm('ask-form', '/api/question', 'ask-status');
   wireForm('apply-form', '/api/apply', 'apply-status');
 })();
 </script>
