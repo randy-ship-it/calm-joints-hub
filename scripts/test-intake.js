@@ -55,6 +55,7 @@ async function main() {
     externalId: 'cj-news-fixed',
     email: 'ada@example.com',
     site: 'calmjoints.org',
+    org: 'calmjoints',
     source: 'calmjoints_newsletter',
     path: '/newsletter',
     kind: 'form',
@@ -145,6 +146,7 @@ async function main() {
         externalId: 'cj-news-bea',
         email: 'bea@example.com',
         site: 'calmjoints.org',
+        org: 'calmjoints',
         source: 'calmjoints_newsletter',
         path: '/newsletter',
         kind: 'form',
@@ -159,6 +161,7 @@ async function main() {
   assert.strictEqual(fridayCalls, 1);
   assert.strictEqual(readLines().length, before, 'Friday success should not also write the fallback file');
 
+  let scaleCopies = 0;
   const viaApply = await processIntake('apply', {
     name: 'Priya Shah',
     email: 'priya@example.com',
@@ -175,6 +178,17 @@ async function main() {
       fridayCalls += 1;
       assert.strictEqual(url, 'https://fridayapp.org/api/intake');
       const body = JSON.parse(init.body);
+      if (body.org === 'scalehealth') {
+        scaleCopies += 1;
+        assert.strictEqual(body.externalId, 'scale-cj-physio-priya');
+        assert.strictEqual(body.site, 'scalehealth.ca');
+        assert.strictEqual(body.lane, 'fulfillment-ca');
+        assert.strictEqual(body.company, 'Calm Joints');
+        assert.deepStrictEqual(body.tags, ['calmjoints', 'calmjoints-staff', 'physio-apply']);
+        assert.strictEqual(body.email, 'priya@example.com');
+        return { ok: true, status: 201 };
+      }
+      assert.strictEqual(body.org, 'calmjoints');
       assert.strictEqual(body.externalId, 'cj-physio-priya');
       assert.strictEqual(body.source, 'calmjoints_physio_apply');
       assert.strictEqual(body.site, 'calmjoints.org');
@@ -192,6 +206,7 @@ async function main() {
     },
   });
   assert.strictEqual(viaApply.status, 200);
+  assert.strictEqual(scaleCopies, 1, 'physio apply should mirror once into Scale');
   assert.strictEqual(readLines().length, before, 'Friday apply success should not write the fallback file');
 
   const fallback = await processIntake('newsletter', { email: 'cy@example.com', name: 'Cy' }, {
