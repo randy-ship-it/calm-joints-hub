@@ -1,19 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Calm Joints">
-  <defs>
-    <linearGradient id="cjg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22C55E"/>
-      <stop offset="1" stop-color="#15803D"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="20" fill="url(#cjg)"/>
-  <rect x="2" y="2" width="60" height="60" rx="18" stroke="#D3F8DF" stroke-opacity=".55" stroke-width="2"/>
-  <!-- soft highlight -->
-  <ellipse cx="22" cy="16" rx="16" ry="10" fill="#fff" fill-opacity=".14"/>
-  <!-- C -->
-  <path d="M28.2 18.4c-7.1 1.35-11.4 6.7-11.4 13.1 0 6.5 4.3 11.85 11.4 13.2" stroke="#fff" stroke-width="5.2" stroke-linecap="round"/>
-  <!-- J -->
-  <path d="M44.6 16.2v17.2c0 6.6-4.55 10.7-10.5 10.7" stroke="#fff" stroke-width="5.2" stroke-linecap="round"/>
-  <!-- cute joint dot -->
-  <circle cx="44.6" cy="13.4" r="2.7" fill="#D3F8DF"/>
-  <circle cx="44.6" cy="13.4" r="1.15" fill="#fff"/>
+  <rect width="64" height="64" rx="16" fill="#15803D"/>
+  <path d="M31.07 23.57A11 11 0 1 0 31.07 40.43" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M44 21V35A6 6 0 0 1 38 41" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
