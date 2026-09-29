@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const newsletter = require('../api/newsletter');
 const apply = require('../api/apply');
+const question = require('../api/question');
 
 const root = path.join(__dirname, '..');
 const port = Number(process.env.PORT || 4173);
@@ -23,6 +24,7 @@ const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://127.0.0.1:${port}`);
   if (url.pathname === '/api/newsletter') return newsletter(req, res);
   if (url.pathname === '/api/apply') return apply(req, res);
+  if (url.pathname === '/api/question') return question(req, res);
 
   let rel = decodeURIComponent(url.pathname);
   if (rel === '/' || rel.endsWith('/')) rel = '/index.html';

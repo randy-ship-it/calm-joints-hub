@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { validateNewsletter, validateApply, processIntake, PROVINCES, FRIDAY_INTAKE_URL, fridayBody } = require('../lib/intake');
+const { validateNewsletter, validateApply, validateQuestion, alertText, processIntake, PROVINCES, FRIDAY_INTAKE_URL, fridayBody } = require('../lib/intake');
 
 const store = path.join(os.tmpdir(), `cj-intake-${process.pid}.jsonl`);
 const env = { INTAKE_STORE_PATH: store };
@@ -236,6 +236,30 @@ async function main() {
     rate: { store: rateStore, limit: 8, windowMs: 60000 },
   });
   assert.strictEqual(limited.status, 429);
+
+  // Questions: validated, tagged, and alerted to Slack when a webhook is set.
+  assert.ok(validateQuestion({ email: 'q@example.com', message: 'hi' }).error);
+  const q = validateQuestion({ email: 'Q@Example.com', name: 'Quinn Ray', message: 'Do you take benefits receipts?', notes: 'on' });
+  assert.strictEqual(q.value.email, 'q@example.com');
+  const qBody = fridayBody('question', q.value, 'cj-question-fixed');
+  assert.strictEqual(qBody.source, 'calmjoints_question');
+  assert.strictEqual(qBody.kind, 'form');
+  assert.strictEqual(qBody.firstName, 'Quinn');
+  assert.deepStrictEqual(qBody.tags, ['calmjoints', 'question', 'newsletter']);
+  assert.match(alertText('question', qBody), /New question/);
+  const alerts = [];
+  const qRes = await processIntake('question', { email: 'q2@example.com', message: 'Can I book for my dad?' }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_ALERT_SLACK_WEBHOOK_URL: 'https://hooks.slack.test/x' },
+    ip: '7.7.7.7',
+    fetchImpl: async (url, init) => {
+      if (String(url).startsWith('https://hooks.slack.test')) alerts.push(JSON.parse(init.body));
+      return { ok: true, status: 200 };
+    },
+  });
+  assert.strictEqual(qRes.status, 200);
+  assert.strictEqual(alerts.length, 1);
+  assert.match(alerts[0].text, /New question/);
+  assert.match(alerts[0].text, /q2@example.com/);
 
   fs.rmSync(store, { force: true });
   console.log('intake tests ok');
