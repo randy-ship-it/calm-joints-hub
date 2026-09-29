@@ -7,7 +7,7 @@ window.CALM_JOINTS = {
   brand: {
     name: 'Calm Joints',
     owner: 'Clairvoyant Holdings Inc. (CHI)',
-    contact: 'info@calmjoints.ca',
+    contact: 'info@calmjoints.org',
     tradeNameNote: 'Calm Joints is a CHI trade name. Clinical care is delivered by Align physiotherapists via Scale.',
   },
   booking: {
