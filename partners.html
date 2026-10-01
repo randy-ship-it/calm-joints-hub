@@ -126,12 +126,6 @@
   .foot{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between}
   .foot nav{display:flex;flex-wrap:wrap;gap:1.2rem}.foot a{text-decoration:none}
   html,body{overflow-x:clip}
-  .tk{background:var(--deep);color:#fff;text-align:center}.tk .kicker{color:#86EFAC}.tk h2{margin:0 auto;max-width:22ch}
-  .tk-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-  .tk-s{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:.3rem;padding:1.3rem 1rem;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);transition:background .2s,border-color .2s}
-  .tk-s b{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1;letter-spacing:-.02em}.tk-s span{font-size:.92rem;color:#CFE7DA}
-  .tk-s:hover,.tk-s.on,.tk-s:focus-visible{background:rgba(255,255,255,.12);border-color:#86EFAC}
-  .tk .tip-out{color:#CFE7DA;margin:1rem auto 0;max-width:34rem}
   .uc-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
   .uc-flip .uc-art{order:2}
   .uc-art{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(10,61,34,.35)}
@@ -144,7 +138,40 @@
   .tip-out:empty{opacity:0}
   .uc .ctas{margin-top:1.1rem}
   @media (max-width:900px){.uc-grid{grid-template-columns:1fr;gap:1.4rem}.uc-flip .uc-art{order:0}}
-  @media (max-width:640px){.tk-stats{grid-template-columns:1fr;gap:.6rem;margin-top:1.4rem}.tk-s{flex-direction:row;align-items:baseline;justify-content:center;gap:.6rem;padding:1rem}.uc-art{border-radius:16px}.tips{gap:.45rem}.tip{font-size:.88rem;padding:.48rem .85rem}.uc .ctas{display:flex;flex-direction:column;gap:.6rem}.uc .ctas .btn{width:100%}}
+  @media (max-width:640px){.uc-art{border-radius:16px}.tips{gap:.45rem}.tip{font-size:.88rem;padding:.48rem .85rem}.uc .ctas{display:flex;flex-direction:column;gap:.6rem}.uc .ctas .btn{width:100%}}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+  .bt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:.25rem;padding:1.3rem;border-radius:20px;border:1px solid var(--line);background:#fff;transition:border-color .2s,box-shadow .2s,transform .2s}
+  .bt svg{width:42px;height:42px;padding:9px;border-radius:12px;background:var(--mint);fill:none;stroke:var(--deep);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.6rem}
+  .bt b{font-size:1.08rem;letter-spacing:-.01em}.bt span{font-size:.9rem;color:var(--mute)}
+  .bt:hover,.bt.on,.bt:focus-visible{border-color:var(--green);box-shadow:0 18px 40px -26px rgba(10,61,34,.45);transform:translateY(-2px)}
+  .why{padding-top:clamp(1.5rem,4vw,2.5rem)}.why .tip-out{text-align:center}
+  .paths{background:var(--soft)}
+  .path-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:2rem;align-items:stretch}
+  .path{display:flex;flex-direction:column;padding:1.6rem;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 30px 60px -44px rgba(10,61,34,.4)}
+  .path .btn{margin-top:auto;align-self:flex-start}
+  .path-tag{margin:0 0 .9rem;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  .path-tag em{font-style:normal;letter-spacing:.06em;background:#86EFAC;color:var(--deep);padding:.2rem .55rem;border-radius:999px}
+  .path h3{font-size:clamp(1.6rem,3vw,2rem)}
+  .path-line{margin:.35rem 0 0;font-size:1.08rem;color:var(--mute)}
+  .path .tips{margin-top:1.1rem}.path .tip-out{margin-bottom:.6rem}
+  .path-full{background:linear-gradient(160deg,#0E4D2B 0,var(--deep) 100%);color:#fff;border-color:transparent;box-shadow:0 40px 70px -40px rgba(10,61,34,.75)}
+  .path-full .path-tag{color:#86EFAC}.path-full .path-line,.path-full .tip-out{color:#CFE7DA}
+  .path-full .tip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#fff}
+  .path-full .tip:hover,.path-full .tip.on,.path-full .tip:focus-visible{background:#86EFAC;border-color:#86EFAC;color:var(--deep)}
+  .path-full .btn-primary{background:#86EFAC;color:var(--deep)}.path-full .btn-primary:hover{background:#A7F3C0}
+  .path-up{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;transform:rotate(180deg);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+  .path-up span{display:flex;align-items:center;gap:.5rem}.path-up span:after{content:"\2190";font-size:1rem;color:var(--green)}
+  .path-note{text-align:center;margin-top:1.2rem}
+  .proof{padding:clamp(2rem,5vw,3rem) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .proof-in{text-align:center}
+  .proof-line{margin:0 auto;max-width:40rem;color:var(--mute)}.proof-line b{color:var(--ink)}
+  .tk-stats{display:flex;justify-content:center;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+  .tk-s{all:unset;cursor:pointer;display:inline-flex;align-items:baseline;gap:.45rem;padding:.55rem 1rem;border-radius:999px;border:1px solid #CFD9D3;background:#fff;transition:border-color .2s,background .2s}
+  .tk-s b{font-size:1.05rem;color:var(--deep)}.tk-s span{font-size:.88rem;color:var(--mute)}
+  .tk-s:hover,.tk-s.on,.tk-s:focus-visible{border-color:var(--green);background:var(--mint)}
+  .proof .tip-out{margin:.7rem auto 0;max-width:34rem}
+  @media (max-width:900px){.why-grid{grid-template-columns:1fr 1fr}.path-grid{grid-template-columns:1fr}.path-up{writing-mode:horizontal-tb;transform:none;padding:.1rem 0}.path-up span:after{content:"\2193"}}
+  @media (max-width:640px){.why-grid{gap:.6rem;margin-top:1.4rem}.bt{padding:1rem;border-radius:16px}.bt svg{width:36px;height:36px;padding:7px;margin-bottom:.4rem}.bt b{font-size:.98rem}.bt span{font-size:.84rem}.path{padding:1.3rem;border-radius:20px}.path .btn{width:100%;align-self:stretch}.tk-s{padding:.5rem .85rem}}
 </style>
 </head>
 <body>
@@ -166,11 +193,11 @@
     <div class="wrap hero-grid">
       <div>
         <p class="kicker">Partnerships · 100% turnkey</p>
-        <h1>Physio care for your customers. Hands-off for you.</h1>
-        <p class="lede">Put up your QR code. Your customers see a physio by video. We do the rest, and you share the profit.</p>
+        <h1>Give your people physio. Hands-off for you.</h1>
+        <p class="lede">A turnkey perk your audience will love. Earn from it, and see what they need.</p>
         <div class="ctas">
-          <a class="btn btn-primary" href="#kit">Build your QR kit</a>
-          <a class="btn btn-ghost" href="#how">How it works</a>
+          <a class="btn btn-primary" href="#paths">Pick your path</a>
+          <a class="btn btn-ghost" href="#kit">Build your QR kit</a>
         </div>
         <ul class="chips" aria-label="Good fits">
           <li>Sports arenas and rinks</li><li>Volleyball and pickleball clubs</li><li>Gyms and studios</li><li>Leagues and tournaments</li><li>Recovery studios</li><li>Hotels and resorts</li>
@@ -178,6 +205,57 @@
         <p class="xref">Selling recovery or sports products? A QR card in your box works too. <a href="/#in-box">Go to Brands →</a></p>
       </div>
       <div class="hero-art" style="background:#2F5D3A"><img src="/media/partners/scenes/private-club-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR poster in a private club locker room"></div>
+    </div>
+  </section>
+
+  <section id="why" class="why">
+    <div class="wrap">
+      <p class="kicker">Why partners do it</p>
+      <h2>Something great for your people. Nothing for you to run.</h2>
+      <div class="tips why-grid">
+        <button type="button" class="bt" data-tip="Quick access to a registered physio, by video anywhere or in person."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg><b>Keep them safer</b><span>Physio when they need it</span></button>
+        <button type="button" class="bt" data-tip="We handle booking, care, records and billing. You put up a sign."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l4 4h8l4-6-3-1-3 3"/><path d="M9 9V5a1.5 1.5 0 013 0v4"/><path d="M12 9V4a1.5 1.5 0 013 0v5"/></svg><b>Totally hands-off</b><span>Zero staff time</span></button>
+        <button type="button" class="bt" data-tip="No upfront cost. You share in the profit from your audience."><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.5-.8-1.5-1.2-2.8-1.2-1.6 0-2.8.8-2.8 2s1.2 1.7 2.8 2 2.8.8 2.8 2-1.2 2-2.8 2c-1.3 0-2.3-.4-2.8-1.2M12 6.5v11"/></svg><b>New revenue</b><span>Passive, no upfront cost</span></button>
+        <button type="button" class="bt" data-tip="Anonymous, combined insights on what your people deal with. You never see anyone’s health details."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V9M16 16v-6"/></svg><b>Know your audience</b><span>Anonymous insights</span></button>
+      </div>
+      <p class="tip-out" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="paths" class="paths">
+    <div class="wrap">
+      <p class="kicker">Two ways to partner</p>
+      <h2>Pick your path. Both are free to start.</h2>
+      <div class="path-grid">
+        <article class="path">
+          <p class="path-tag">Any audience size</p>
+          <h3>Perk</h3>
+          <p class="path-line">Physio for your people.</p>
+          <div class="tips">
+            <button type="button" class="tip" data-tip="Registered physio by video, plus in person through our partner clinics.">Physio only</button>
+            <button type="button" class="tip" data-tip="Your own QR code and a co-branded Calm Joints page.">Your QR and page</button>
+            <button type="button" class="tip" data-tip="Share in the profit from physio visits through your code.">Earn on visits</button>
+            <button type="button" class="tip" data-tip="Anonymous, combined insights. Never anyone’s health details.">Insights</button>
+          </div>
+          <p class="tip-out" aria-live="polite"></p>
+          <a class="btn btn-ghost" href="#kit">Start with Perk</a>
+        </article>
+        <div class="path-up" aria-hidden="true"><span>Move up anytime</span></div>
+        <article class="path path-full">
+          <p class="path-tag">Minimum audience size <em>Most revenue</em></p>
+          <h3>Full monetization</h3>
+          <p class="path-line">Your own recovery store.</p>
+          <div class="tips">
+            <button type="button" class="tip" data-tip="Everything in Perk, plus recovery products picked for your audience.">Physio and products</button>
+            <button type="button" class="tip" data-tip="Vetted partner services, added to your store.">Service partners</button>
+            <button type="button" class="tip" data-tip="We run the whole store. You just share it.">Fully turnkey</button>
+            <button type="button" class="tip" data-tip="Earn on physio visits, products and partner services.">Earn on everything</button>
+          </div>
+          <p class="tip-out" aria-live="polite"></p>
+          <a class="btn btn-primary" href="mailto:info@calmjoints.org?subject=Calm%20Joints%20full%20monetization">Ask about Full</a>
+        </article>
+      </div>
+      <p class="fine path-note">No upfront cost on either path. Full needs a minimum audience size. We’ll confirm yours.</p>
     </div>
   </section>
 
@@ -207,18 +285,6 @@
     </div>
   </section>
 
-  <section id="turnkey" class="tk">
-    <div class="wrap">
-      <p class="kicker">Turnkey for athletic directors and GMs</p>
-      <h2>Registered physio, without building it.</h2>
-      <div class="tk-stats">
-        <button type="button" class="tk-s" data-tip="Our team has opened and scaled hundreds of successful clinics."><b>100s</b><span>clinics opened and scaled</span></button>
-        <button type="button" class="tk-s" data-tip="We manage a portfolio of 80+ partner clinic locations."><b>80+</b><span>partner clinic locations</span></button>
-        <button type="button" class="tk-s" data-tip="Video visits anywhere, plus in-person options across Canada through our partner clinics."><b>Canada-wide</b><span>in-person coverage</span></button>
-      </div>
-      <p class="tip-out" aria-live="polite"></p>
-    </div>
-  </section>
 
   <section id="hotels" class="uc" style="background:var(--soft)">
     <div class="wrap uc-grid">
@@ -229,7 +295,7 @@
         <p class="lede">Stiff after the flight? Guests scan and book.</p>
         <div class="tips" role="list">
           <button type="button" class="tip" data-tip="A registered physio by video, from the room, on their own phone.">By video, anywhere</button>
-          <button type="button" class="tip" data-tip="In-person visits through our 80+ partner clinic locations across Canada.">In person, Canada-wide</button>
+          <button type="button" class="tip" data-tip="In-person visits through our partner clinics across Canada.">In person, Canada-wide</button>
           <button type="button" class="tip" data-tip="We handle booking, care and billing. Your staff just point to the code.">Zero staff time</button>
         </div>
         <p class="tip-out" aria-live="polite"></p>
@@ -268,6 +334,19 @@
         <div class="step"><h3>See your numbers</h3><p>Your own dashboard of scans, bookings and your share.</p></div>
       </div>
           </div>
+  </section>
+
+
+  <section id="turnkey" class="proof">
+    <div class="wrap proof-in">
+      <p class="proof-line"><b>No registered services to build.</b> Our crew has opened and scaled hundreds of clinics.</p>
+      <div class="tk-stats">
+        <button type="button" class="tk-s" data-tip="Our team has opened and scaled hundreds of successful clinics."><b>100s</b><span>clinics opened</span></button>
+        <button type="button" class="tk-s" data-tip="We manage a portfolio of 80+ partner clinic locations."><b>80+</b><span>partner locations</span></button>
+        <button type="button" class="tk-s" data-tip="Video visits anywhere, plus in-person options across Canada through our partner clinics."><b>Canada-wide</b><span>in person</span></button>
+      </div>
+      <p class="tip-out" aria-live="polite"></p>
+    </div>
   </section>
 
   <section class="earn" id="earn">
