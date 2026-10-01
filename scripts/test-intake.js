@@ -360,7 +360,6 @@ async function main() {
     fetchImpl: async (url) => { nCalls.push(url); return { ok: true, status: 200 }; },
   });
   assert.ok(nCalls.some((u) => u.includes('resend')), 'email alert for newsletter signup');
-  const { validateApply } = require('../lib/intake');
   for (const li of ['linkedin.com/in/jane-doe', 'www.linkedin.com/in/jane', 'ca.linkedin.com/in/jane/']) {
     assert.ok(!validateApply({ name: 'Jane Doe', email: 'j@x.co', provinces: ['ON'], linkedin: li, bio: 'Physio for ten years' }).error, `linkedin ${li}`);
   }
