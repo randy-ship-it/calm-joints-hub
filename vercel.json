@@ -21,5 +21,11 @@
       "source": "/p/:slug",
       "destination": "/p?slug=:slug"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/partner-events",
+      "schedule": "17 14 * * *"
+    }
   ]
 }
