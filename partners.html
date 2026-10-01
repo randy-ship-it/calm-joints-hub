@@ -74,6 +74,7 @@
   .step:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--mint);color:var(--deep);font-weight:700;margin-bottom:.8rem}
   .step p{margin:.4rem 0 0;color:var(--mute);font-size:.95rem}
   @media (max-width:900px){.steps{grid-template-columns:1fr 1fr}} @media (max-width:560px){.steps{grid-template-columns:1fr}}
+  .steps.pts{grid-template-columns:repeat(3,1fr)} .steps.pts .step:before{display:none} @media (max-width:900px){.steps.pts{grid-template-columns:1fr}}
   .earn{background:var(--deep);color:#fff}
   .earn .kicker{color:#86EFAC} .earn .lede{color:#CFE7DA}
   .calc label{display:block;font-weight:600;color:#E6F4EC;margin-bottom:.5rem}
@@ -151,7 +152,7 @@
           <a class="btn btn-ghost" href="#how">How it works</a>
         </div>
         <ul class="chips" aria-label="Good fits">
-          <li>Sports arenas and rinks</li><li>Volleyball and pickleball clubs</li><li>Gyms and studios</li><li>Leagues and tournaments</li><li>Recovery studios</li>
+          <li>Sports arenas and rinks</li><li>Volleyball and pickleball clubs</li><li>Gyms and studios</li><li>Leagues and tournaments</li><li>Recovery studios</li><li>Hotels and resorts</li>
         </ul>
       </div>
       <div class="hero-art" style="background:#2F5D3A"><img src="/media/partners/scenes/private-club-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR poster in a private club locker room"></div>
@@ -181,6 +182,35 @@
       </div>
       <p class="fine" style="margin-top:1rem">Four print-ready sizes: sticker, table tent, 18 × 24 poster and 3 × 6 ft banner.</p>
     </div>
+    </div>
+  </section>
+
+  <section id="hotels">
+    <div class="wrap">
+      <p class="kicker">Hotels and resorts</p>
+      <h2>Physio at your guests’ fingertips.</h2>
+      <p class="lede">A stiff back after the flight or a sore knee after the trail. Guests scan the code in their room or at the front desk and book a registered physio by video.</p>
+      <div class="steps pts">
+        <div class="step"><h3>By video, anywhere</h3><p>From the room, on their own phone.</p></div>
+        <div class="step"><h3>In person in Ontario</h3><p>Across the GTA and most of Ontario.</p></div>
+        <div class="step"><h3>Nothing for your staff</h3><p>We handle booking, care and billing.</p></div>
+      </div>
+      <div class="ctas" style="margin-top:1.2rem"><a class="btn btn-primary" href="#kit">Build your hotel’s QR kit</a></div>
+    </div>
+  </section>
+
+  <section id="events" style="background:var(--soft)">
+    <div class="wrap">
+      <p class="kicker">Calm Joints events team</p>
+      <h2>We bring the physio tent to your event.</h2>
+      <p class="lede">Our team sets up a branded tent with registered physios and a treatment table, right where your crowd is. It's a perk people remember, and it costs you nothing to run.</p>
+      <div class="steps pts">
+        <div class="step"><h3>We come to you</h3><p>A one-time event or a regular spot on your calendar.</p></div>
+        <div class="step"><h3>QR-powered physio</h3><p>Guests scan to book by video, on the day or after.</p></div>
+        <div class="step"><h3>Your own co-branded hub</h3><p>A full Calm Joints page made for your audience.</p></div>
+      </div>
+      <p class="fine" style="margin-top:1rem">Fully passive revenue for you, plus anonymous, combined insights about what your audience needs. You never see anyone's health details.</p>
+      <div class="ctas" style="margin-top:1.2rem"><a class="btn btn-primary" href="mailto:info@calmjoints.org?subject=Calm%20Joints%20events%20team">Book the events team</a><a class="btn btn-ghost" href="#kit">Build your QR kit</a></div>
     </div>
   </section>
 
@@ -231,6 +261,7 @@
             <option value="gym">Gym or fitness studio</option>
             <option value="recovery">Recovery or wellness studio</option>
             <option value="event">Events and tournaments</option>
+            <option value="hotel">Hotel or resort</option>
             <option value="other">Something else</option>
           </select>
           <label>Your logo (optional)</label>
