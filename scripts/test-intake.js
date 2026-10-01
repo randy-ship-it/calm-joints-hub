@@ -359,7 +359,12 @@ async function main() {
     env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_RESEND_API_KEY: 're_test', CJ_ALERT_EMAILS: 'a@x.co' }, ip: '8.8.8.5',
     fetchImpl: async (url) => { nCalls.push(url); return { ok: true, status: 200 }; },
   });
-  assert.ok(!nCalls.some((u) => u.includes('resend')), 'no email for newsletter');
+  assert.ok(nCalls.some((u) => u.includes('resend')), 'email alert for newsletter signup');
+  const { validateApply } = require('../lib/intake');
+  for (const li of ['linkedin.com/in/jane-doe', 'www.linkedin.com/in/jane', 'ca.linkedin.com/in/jane/']) {
+    assert.ok(!validateApply({ name: 'Jane Doe', email: 'j@x.co', provinces: ['ON'], linkedin: li, bio: 'Physio for ten years' }).error, `linkedin ${li}`);
+  }
+  assert.ok(validateApply({ name: 'Jane Doe', email: 'j@x.co', provinces: ['ON'], linkedin: 'evil.com/in/x', bio: 'Physio for ten years' }).error);
 
   fs.rmSync(store, { force: true });
   console.log('intake tests ok');
