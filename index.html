@@ -311,15 +311,21 @@
   .po-undec { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.8rem 1.2rem; align-items:center; justify-content:space-between; border-top:1px solid var(--line); padding-top:1.2rem; }
   .po-undec p { margin:0; color:var(--mute); }
   .pc-car { position:relative; }
-  .pc-track { display:flex; align-items:flex-start; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:.2rem 0 1rem; outline:none; }
-  .pc-track::-webkit-scrollbar { display:none; }
-  .pc-slide { margin:0; flex:none; scroll-snap-align:start; display:flex; flex-direction:column; gap:.55rem; }
-  .pc-slide img { height:min(460px,62vh); width:auto; max-width:82vw; object-fit:contain; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:0 24px 50px -36px rgba(11,29,22,.45); }
+  .pc-track { display:grid; outline:none; padding:.2rem 0 .6rem; touch-action:pan-y; }
+  .pc-slide { grid-area:1/1; margin:0; display:flex; flex-direction:column; align-items:flex-start; gap:.55rem; opacity:0; visibility:hidden; transform:translateX(18px); transition:opacity .55s ease, transform .55s ease, visibility 0s linear .55s; }
+  .pc-slide.is-on { opacity:1; visibility:visible; transform:none; transition:opacity .55s ease, transform .55s ease, visibility 0s; }
+  .pc-frame { position:relative; display:inline-block; max-width:100%; }
+  .pc-slide img.shot { display:block; height:min(460px,62vh); width:auto; max-width:100%; object-fit:contain; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:0 24px 50px -36px rgba(11,29,22,.45); }
+  .pc-frame .sticker { top:12px; width:clamp(52px,12%,100px); height:clamp(22px,5.5%,38px); padding:4px 8px; border-radius:10px; }
   .pc-slide figcaption { font-size:.9rem; color:var(--mute); } .pc-slide figcaption b { display:block; color:var(--ink); font-size:1rem; }
-  .pc-ctl { display:flex; gap:.5rem; justify-content:flex-end; }
+  .pc-dots { display:flex; gap:.45rem; align-items:center; margin-right:auto; }
+  .pc-dots button { width:9px; height:9px; padding:0; border-radius:50%; border:0; background:#CFD9D3; cursor:pointer; transition:width .25s, background .25s; }
+  .pc-dots button[aria-current="true"] { width:24px; border-radius:999px; background:var(--green); }
+  @media (prefers-reduced-motion: reduce) { .pc-slide, .pc-slide.is-on { transition:none; transform:none; } }
+  .pc-ctl { display:flex; gap:.5rem; justify-content:flex-end; align-items:center; }
   .po-open { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.8rem 1.1rem; align-items:center; } .po-open span { color:var(--mute); }
   .po-more { margin-top:1.6rem; } .po-card .tags { display:flex; gap:.4rem; flex-wrap:wrap; } .po-card .tag2.qr { background:var(--deep); color:#fff; }
-  @media (max-width:700px) { .pc-slide { width:84vw; } .pc-slide img { height:auto; width:100%; max-width:100%; } .pc-ctl { margin-top:-.4rem; } }
+  @media (max-width:700px) { .pc-slide, .pc-frame { width:100%; } .pc-slide img.shot { width:100%; height:calc((100vw - 2.5rem) * .52); object-fit:cover; object-position:top center; } }
 </style>
 </head>
 <body>
@@ -400,13 +406,13 @@
     <div class="wrap">
       <div class="head"><p class="kicker">Partner with Calm Joints</p><h2>Your brand, with a recovery store and a physio.</h2><p>Here’s what a member hub looks like when it sells your products, partner deals and digital physio visits in one place.</p></div>
       <div class="pc-car">
-        <div class="pc-track" id="pc-track" tabindex="0" aria-label="Partner hub examples">
-          <figure class="pc-slide"><img src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Example member hub with digital physio booking, a recovery store with member pricing, partner deals and perks" decoding="async" loading="lazy"><figcaption><b>Example member hub</b>Digital physio, a recovery store, partner deals and perks</figcaption></figure>
-          <figure class="pc-slide wide"><img src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO'S hub, live now" decoding="async" loading="lazy"><figcaption><b>DR-HO’S</b>Live now</figcaption></figure>
-          <figure class="pc-slide wide"><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health hub" decoding="async" loading="lazy"><figcaption><b>Jill Health</b>Coming soon</figcaption></figure>
-          <figure class="pc-slide wide"><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery hub" decoding="async" loading="lazy"><figcaption><b>Roll Recovery</b>Coming soon</figcaption></figure>
+        <div class="pc-track" id="pc-track" tabindex="0" aria-roledescription="carousel" aria-label="Partner hub examples">
+          <figure class="pc-slide is-on" aria-roledescription="slide"><div class="pc-frame"><img class="shot" src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Example member hub with digital physio booking, a recovery store with member pricing, partner deals and perks" decoding="async"></div><figcaption><b>Example member hub</b>Digital physio, a recovery store, partner deals and perks</figcaption></figure>
+          <figure class="pc-slide" aria-roledescription="slide"><div class="pc-frame"><img class="shot" src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO’S hub, live now" decoding="async" loading="lazy"><a class="sticker" href="https://drhonow.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the DR-HO’S website"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S logo" decoding="async"></a></div><figcaption><b>DR-HO’S</b>Live now</figcaption></figure>
+          <figure class="pc-slide" aria-roledescription="slide"><div class="pc-frame"><img class="shot" src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health hub" decoding="async" loading="lazy"><a class="sticker" href="https://jill.health/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Jill Health website"><img src="/media/logos/jill.png" alt="Jill Health logo" decoding="async"></a></div><figcaption><b>Jill Health</b>Coming soon</figcaption></figure>
+          <figure class="pc-slide" aria-roledescription="slide"><div class="pc-frame"><img class="shot" src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery hub" decoding="async" loading="lazy"><a class="sticker" href="https://rollrecovery.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Roll Recovery website"><img src="/media/logos/roll-recovery.png" alt="Roll Recovery logo" decoding="async"></a></div><figcaption><b>Roll Recovery</b>Coming soon</figcaption></figure>
         </div>
-        <div class="pc-ctl"><button class="arrow" type="button" id="pc-prev" aria-label="Previous example">←</button><button class="arrow" type="button" id="pc-next" aria-label="Next example">→</button></div>
+        <div class="pc-ctl"><div class="pc-dots" id="pc-dots" aria-label="Choose an example"></div><button class="arrow" type="button" id="pc-prev" aria-label="Previous example">←</button><button class="arrow" type="button" id="pc-next" aria-label="Next example">→</button></div>
       </div>
       <div class="po-open"><button class="btn btn-primary" type="button" id="po-toggle" aria-expanded="false" aria-controls="po-more">See partner options</button><span>Two ways to go live, both QR activated.</span></div>
       <div class="po-more" id="po-more" hidden>
@@ -850,8 +856,27 @@
   var tg = document.getElementById('po-toggle'), more = document.getElementById('po-more');
   if (tg && more) tg.addEventListener('click', function () { var o = more.hidden; more.hidden = !o; tg.setAttribute('aria-expanded', o ? 'true' : 'false'); tg.textContent = o ? 'Hide partner options' : 'See partner options'; if (o) more.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
   var pt = document.getElementById('pc-track');
-  function step(d) { var sl = pt.querySelector('.pc-slide'); pt.scrollBy({ left: d * ((sl ? sl.clientWidth : 300) + 16), behavior: 'smooth' }); }
-  if (pt) { document.getElementById('pc-prev').addEventListener('click', function () { step(-1); }); document.getElementById('pc-next').addEventListener('click', function () { step(1); }); }
+  if (pt) (function () {
+    var sl = [].slice.call(pt.querySelectorAll('.pc-slide')), i = 0, timer = null, dots = document.getElementById('pc-dots');
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    sl.forEach(function (s, k) { var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Example ' + (k + 1)); b.addEventListener('click', function () { go(k); restart(); }); dots.appendChild(b); });
+    function go(n) {
+      i = (n + sl.length) % sl.length;
+      sl.forEach(function (s, k) { var on = k === i; s.classList.toggle('is-on', on); s.setAttribute('aria-hidden', on ? 'false' : 'true'); s.querySelectorAll('a').forEach(function (a) { a.tabIndex = on ? 0 : -1; }); var im = s.querySelector('img.shot'); if (on && im) im.loading = 'eager'; });
+      [].forEach.call(dots.children, function (d, k) { d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      var nx = sl[(i + 1) % sl.length].querySelector('img.shot'); if (nx) nx.loading = 'eager';
+    }
+    function restart() { if (timer) clearInterval(timer); timer = null; if (!still) timer = setInterval(function () { go(i + 1); }, 5000); }
+    function pause() { if (timer) clearInterval(timer); timer = null; }
+    document.getElementById('pc-prev').addEventListener('click', function () { go(i - 1); restart(); });
+    document.getElementById('pc-next').addEventListener('click', function () { go(i + 1); restart(); });
+    pt.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { go(i + 1); restart(); } if (e.key === 'ArrowLeft') { go(i - 1); restart(); } });
+    var car = pt.parentNode; car.addEventListener('mouseenter', pause); car.addEventListener('mouseleave', restart);
+    var x0 = null; pt.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; pause(); }, { passive: true });
+    pt.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1)); x0 = null; restart(); }, { passive: true });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); else restart(); });
+    go(0); restart();
+  })();
   var r = document.getElementById('po-r'), n = document.getElementById('po-n'); if (!r || !n) return;
   var MAX = 300, per = 6 * 100 * 0.5 * 0.25 * 1.2;
   function money(v) { return '$' + Math.round(v).toLocaleString('en-CA'); }
