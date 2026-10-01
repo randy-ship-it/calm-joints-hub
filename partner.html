@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Calm Joints | Partner dashboard</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#15803D">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--soft:#F1FBF4;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font:16px/1.55 var(--sans);background:linear-gradient(180deg,#F1FBF4,#fff 50%);-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:860px;margin:0 auto;padding:1.4rem 1.1rem 3rem}
+  header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.4rem}
+  header img{height:34px;width:auto} header a{color:var(--mute);font-size:.9rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:1.5rem;box-shadow:0 30px 70px -40px rgba(10,61,34,.35)}
+  .login{max-width:440px;margin:6vh auto 0}
+  h1{font-size:1.7rem;line-height:1.15;letter-spacing:-.015em;margin:0}
+  h2{font-size:1.05rem;margin:0 0 .6rem}
+  p{color:var(--mute);margin:.5rem 0 0}
+  .kick{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+  input{width:100%;margin-top:1rem;padding:.9rem 1rem;border:1px solid #CFD9D3;border-radius:12px;font:inherit}
+  input:focus{outline:2px solid #86EFAC;border-color:var(--green)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:.85rem 1.3rem;border-radius:999px;font:700 1rem var(--sans);border:0;cursor:pointer;background:var(--green);color:#fff;text-decoration:none}
+  .btn.full{width:100%;margin-top:.9rem} .btn:hover{background:#116A32} .btn[disabled]{opacity:.65;cursor:default}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid #CFD9D3}
+  .msg{min-height:1.2em;margin:.6rem 0 0;font-size:.9rem;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1rem 0}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem}
+  .stat b{display:block;font-size:1.6rem;letter-spacing:-.01em} .stat span{color:var(--mute);font-size:.85rem}
+  .bal{display:grid;grid-template-columns:1.3fr 1fr;gap:1rem;margin-top:1rem}
+  .big{font-size:2.6rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+  .bar{height:14px;background:#E8F3EC;border-radius:999px;overflow:hidden;margin:1rem 0 .4rem}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#22C55E,#15803D);border-radius:999px;width:0;transition:width .8s ease}
+  .chip{display:inline-block;background:var(--soft);color:var(--green);border:1px solid #CDEBD6;border-radius:999px;padding:.2rem .7rem;font-size:.8rem;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;margin-top:.4rem} td{padding:.55rem 0;border-top:1px solid var(--line)} td:last-child{text-align:right;font-weight:600}
+  .safe{display:flex;gap:.6rem;align-items:flex-start;background:var(--soft);border-radius:14px;padding:.8rem 1rem;margin-top:1rem;font-size:.88rem;color:var(--mute)}
+  .hide{display:none}
+  @media (max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}.bal{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="124" height="34"><a href="/partners">Partner program</a></header>
+
+  <form class="card login" id="login" novalidate>
+    <div class="kick">Partner dashboard</div>
+    <h1>See your scans, bookings and share</h1>
+    <p>Enter the email you signed up with. We’ll send you a secure sign-in link. No password needed.</p>
+    <input type="email" id="email" autocomplete="email" placeholder="you@yourvenue.com" aria-label="Email">
+    <button class="btn full" id="send" type="submit">Email me a sign-in link</button>
+    <p class="msg" id="lmsg" role="status" aria-live="polite"></p>
+  </form>
+
+  <main id="dash" class="hide">
+    <div class="kick" id="d-kick">Partner dashboard</div>
+    <h1 id="d-venue">Your venue</h1>
+    <p><span class="chip" id="d-product"></span> &nbsp;Your QR goes to <a id="d-landing" href="#" target="_blank" rel="noopener"></a></p>
+
+    <div class="grid">
+      <div class="stat"><b id="s-scans">0</b><span>QR scans</span></div>
+      <div class="stat"><b id="s-clicks">0</b><span>Went to booking</span></div>
+      <div class="stat"><b id="s-bookings">0</b><span>Bookings</span></div>
+      <div class="stat"><b id="s-visits">0</b><span>Completed visits</span></div>
+    </div>
+
+    <div class="bal">
+      <section class="card">
+        <h2>Your balance</h2>
+        <div class="big" id="b-owed">$0.00</div>
+        <p id="b-line">Your share builds here as visits are completed.</p>
+        <div class="bar" aria-hidden="true"><i id="b-bar"></i></div>
+        <p id="b-next" style="font-size:.88rem"></p>
+        <table>
+          <tr><td>Earned to date</td><td id="b-earned">$0.00</td></tr>
+          <tr><td>Expected from upcoming bookings</td><td id="b-pending">$0.00</td></tr>
+          <tr><td>Paid out to date</td><td id="b-paid">$0.00</td></tr>
+        </table>
+      </section>
+      <section class="card">
+        <h2>Payout setup</h2>
+        <p id="p-status">Not started yet.</p>
+        <button class="btn full" id="p-go" type="button">Set up my payout</button>
+        <p class="msg" id="pmsg" role="status" aria-live="polite"></p>
+        <div class="safe"><span aria-hidden="true">🔒</span><span>Your bank details go straight to our payment provider’s secure page, never through this site. We will never ask for them by email, text or phone.</span></div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:1rem">
+      <h2>Recent activity</h2>
+      <table id="recent"><tr><td>No bookings yet. They’ll show here as they come in.</td><td></td></tr></table>
+      <p style="font-size:.8rem">Counts and amounts only. You never see patient names or health details.</p>
+    </section>
+    <p style="text-align:center;margin-top:1.4rem"><button class="btn ghost" type="button" id="out">Sign out</button></p>
+  </main>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) { return '$' + Number(n || 0).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  var q = new URLSearchParams(location.search);
+  var t = q.get('t');
+  if (t) { sessionStorage.setItem('cjp', t); history.replaceState(null, '', '/partner'); }
+  t = sessionStorage.getItem('cjp');
+
+  $('login').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = $('email').value.trim(); var m = $('lmsg'); m.style.color = '#B42318';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { m.textContent = 'That email doesn’t look quite right.'; return; }
+    $('send').disabled = true; m.textContent = '';
+    try {
+      var r = await fetch('/api/partner-portal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'login', email: email }) });
+      var j = await r.json(); m.style.color = r.ok ? '#15803D' : '#B42318'; m.textContent = j.message || 'Try again in a minute.';
+    } catch (_) { m.textContent = 'Couldn’t reach us. Try again in a minute.'; }
+    $('send').disabled = false;
+  });
+  $('out').addEventListener('click', function () { sessionStorage.removeItem('cjp'); location.href = '/partner'; });
+
+  var STATUS = { not_started: 'Not started yet. Set it up now so we can pay you as soon as your balance is ready.', requested: 'Requested. Watch your inbox for a secure invite from our payment provider.', invited: 'Invite sent. Open the email from our payment provider to add your bank details there.', ready: 'All set. Payouts go to the account you added.' };
+  function render(d) {
+    $('login').classList.add('hide'); $('dash').classList.remove('hide');
+    $('d-venue').textContent = d.venue; $('d-product').textContent = d.product;
+    $('d-landing').href = d.landing_url; $('d-landing').textContent = d.landing_url.replace('https://', '');
+    $('s-scans').textContent = d.scans; $('s-clicks').textContent = d.booking_clicks; $('s-bookings').textContent = d.bookings; $('s-visits').textContent = d.visits;
+    $('b-owed').textContent = fmt(d.owed); $('b-earned').textContent = fmt(d.earned); $('b-pending').textContent = fmt(d.pending); $('b-paid').textContent = fmt(d.paid);
+    var pct = Math.min(100, Math.round((d.owed / d.payout_min) * 100));
+    setTimeout(function () { $('b-bar').style.width = Math.max(pct, d.owed > 0 ? 3 : 0) + '%'; }, 60);
+    $('b-next').textContent = d.payout_due ? 'Your next payout is on its way.' : fmt(d.to_next_payout) + ' to go until your next payout.';
+    var st = (d.payout_setup && d.payout_setup.status) || 'not_started';
+    $('p-status').textContent = STATUS[st] || STATUS.not_started;
+    if (st !== 'not_started') { $('p-go').disabled = true; $('p-go').textContent = st === 'ready' ? 'Payout set up' : 'Setup requested'; }
+    var rows = (d.recent || []).map(function (e) {
+      var label = e.type === 'visit' ? 'Visit completed' : e.type === 'booking' ? 'New booking' : 'Payout sent';
+      var amt = e.share == null ? '' : (e.share < 0 ? '−' + fmt(-e.share) : (e.type === 'booking' ? '~' : '+') + fmt(e.share));
+      return '<tr><td>' + label + ' · ' + new Date(e.at).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }) + '</td><td>' + amt + '</td></tr>';
+    });
+    if (rows.length) $('recent').innerHTML = rows.join('');
+  }
+  $('p-go').addEventListener('click', async function () {
+    $('p-go').disabled = true; var m = $('pmsg'); m.textContent = '';
+    try {
+      var r = await fetch('/api/partner-portal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'payout_setup', t: t }) });
+      var j = await r.json();
+      if (r.ok) { $('p-status').textContent = STATUS.requested; $('p-go').textContent = 'Setup requested'; m.style.color = '#15803D'; m.textContent = 'Done. Your secure invite is on its way.'; }
+      else { m.style.color = '#B42318'; m.textContent = j.message || 'Try again in a minute.'; $('p-go').disabled = false; }
+    } catch (_) { m.style.color = '#B42318'; m.textContent = 'Couldn’t reach us. Try again.'; $('p-go').disabled = false; }
+  });
+  if (t) {
+    fetch('/api/partner-portal?t=' + encodeURIComponent(t)).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (x) {
+      if (x.ok && x.j.dashboard) render(x.j.dashboard);
+      else { sessionStorage.removeItem('cjp'); $('lmsg').style.color = '#B42318'; $('lmsg').textContent = x.j.message || 'That link has expired. Ask for a new one.'; }
+    }).catch(function () { $('lmsg').textContent = 'Couldn’t load your dashboard. Try again.'; });
+  }
+})();
+</script>
+</body>
+</html>

@@ -3,6 +3,7 @@
 const { Readable } = require('stream');
 const { createPartner, getPartner, publicPartner } = require('../lib/qr-partners');
 const { clientIp, send, readRaw, rateLimit } = require('../lib/intake');
+const { welcome } = require('../lib/partner-ledger');
 
 function sameOrigin(req) {
   const origin = req.headers.origin;
@@ -49,6 +50,10 @@ module.exports = async function handler(req, res) {
   if (!body || typeof body !== 'object') { send(res, 400, { ok: false, message: 'We couldn’t read that. Try once more?' }); return; }
   try {
     const out = await createPartner(body, process.env);
+    if (out.status === 200 && out.json.partner) {
+      const full = await getPartner(out.json.partner.slug, process.env).catch(() => null);
+      await welcome(full, process.env).catch(() => null);
+    }
     send(res, out.status, out.json);
   } catch (err) {
     console.error('[qr-partner] create failed', err && err.message);

@@ -151,8 +151,31 @@
   .anchor-alias { position: relative; top: -80px; display: block; height: 0; }
   #brands, #hubs, #join { scroll-margin-top: 72px; }
   .brands-grid { display: grid; gap: 2.5rem; align-items: start; }
-  @media (min-width: 900px) { .brands-grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 390px); align-items: center; gap: clamp(2rem, 4.5vw, 3.5rem); } }
+  @media (min-width: 900px) { .brands-grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 390px); align-items: start; gap: clamp(2rem, 4.5vw, 3.5rem); } .brands-grid .brands-hub { position: sticky; top: 92px; margin-top: .4rem; } }
   .brands-form .head { margin-bottom: 1.5rem; }
+  .xref { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin: 1rem 0 0; padding: .7rem 1rem; border: 1px solid #CDEBD6; background: #F1FBF4; border-radius: 14px; font-size: .92rem; color: var(--mute); }
+  .xref a { font-weight: 700; color: var(--green); text-decoration: none; white-space: nowrap; } .xref a:hover { text-decoration: underline; }
+  .bx { margin-top: clamp(3rem, 6vw, 4.5rem); display: grid; gap: 2.2rem; align-items: center; }
+  @media (min-width: 900px) { .bx { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 5vw, 4rem); } }
+  .bx h2 { margin: 0; } .bx .lede { color: var(--mute); margin: .7rem 0 0; }
+  .bx-cards { display: grid; gap: .8rem; margin-top: 1.4rem; }
+  .bx-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.15rem; display: grid; grid-template-columns: 36px 1fr; gap: .2rem .9rem; align-items: start; }
+  .bx-card i { grid-row: span 2; width: 36px; height: 36px; border-radius: 10px; background: #DCFCE7; color: var(--green); display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 1.05rem; }
+  .bx-card strong { display: block; } .bx-card span { color: var(--mute); font-size: .95rem; }
+  .bx-card.next { border-color: #CDEBD6; background: linear-gradient(180deg, #F6FCF8, #fff); }
+  .bx-ctas { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.3rem; }
+  .bx-art { position: relative; aspect-ratio: 5/4; border-radius: 22px; background: radial-gradient(120% 90% at 30% 10%, #F1FBF4, #E3F3E9 60%, #D4EBDD); overflow: hidden; }
+  .bx-box { position: absolute; left: 9%; bottom: 10%; width: 56%; height: 52%; background: linear-gradient(160deg, #1F2A24, #0E1713); border-radius: 10px; box-shadow: 0 30px 50px -25px rgba(6,30,18,.55); }
+  .bx-box::before { content: ""; position: absolute; left: 0; right: 0; top: -14%; height: 16%; background: linear-gradient(180deg, #2B3832, #1A241F); border-radius: 10px 10px 4px 4px; transform: perspective(300px) rotateX(38deg); transform-origin: bottom; }
+  .bx-box b { position: absolute; left: 8%; bottom: 10%; color: #fff; font-size: clamp(.8rem, 1.6vw, 1.05rem); letter-spacing: .14em; text-transform: uppercase; opacity: .9; }
+  .bx-box small { position: absolute; left: 8%; bottom: 3%; color: #9FB5A8; font-size: clamp(.55rem, 1vw, .7rem); letter-spacing: .08em; text-transform: uppercase; }
+  .bx-insert { position: absolute; right: 9%; top: 12%; width: 40%; background: #fff; border-radius: 14px; padding: 4% 4% 5%; box-shadow: 0 24px 46px -20px rgba(6,30,18,.45); transform: rotate(6deg); text-align: center; }
+  .bx-insert img.mk { height: clamp(14px, 2.2vw, 22px); width: auto; display: block; margin: 0 auto 6%; }
+  .bx-insert p { margin: 0; font-weight: 700; font-size: clamp(.7rem, 1.45vw, .98rem); line-height: 1.2; color: var(--ink); }
+  .bx-insert img.qr { width: 72%; height: auto; display: block; margin: 7% auto 5%; }
+  .bx-insert span { display: block; font-size: clamp(.5rem, .95vw, .68rem); color: var(--mute); line-height: 1.3; }
+  .bx-tag { position: absolute; left: 7%; top: 8%; background: #fff; border: 1px solid #CDEBD6; color: var(--green); font-weight: 700; font-size: .78rem; border-radius: 999px; padding: .3rem .75rem; }
+
   .brands-form .fields { display: grid; gap: .9rem; }
   .pd { padding: 0; border: 0; background: transparent; max-width: min(560px, calc(100vw - 24px)); width: 100%; max-height: calc(100dvh - 24px); overflow: visible; }
   .pd::backdrop { background: rgba(6, 30, 18, .55); backdrop-filter: blur(3px); }
@@ -305,7 +328,7 @@
   <div class="wrap nav-inner">
     <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#brands">Brand Partners</a>
+      <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
@@ -449,7 +472,7 @@
         <figcaption><b>Booking, made simple.</b> Your customers pick what’s sore, a day and a time, and they’re booked with a registered physio in a few taps.</figcaption>
       </figure>
       <div class="brands-form">
-        <div class="head"><p class="kicker">For brands, gyms and clinics</p><h2>Put a physio on your site.</h2><p>Send us your website. We’ll show you what a Calm Joints physio and a member hub look like on your brand. A real person writes back.</p></div>
+        <div class="head"><p class="kicker">For brands, gyms and clinics</p><h2>Put a physio on your site.</h2><p>Send us your website. We’ll show you what a Calm Joints physio and a member hub look like on your brand. A real person writes back.</p><p class="xref">Have a venue, team, league or event instead? <a href="/partners">Go to Partnerships →</a></p></div>
         <form id="talk-form" novalidate>
           <div class="fields">
             <fieldset class="who"><legend>You are a</legend>
@@ -470,6 +493,24 @@
         </form>
       </div>
 
+    </div>
+    <div class="wrap bx" id="in-box">
+      <div>
+        <p class="kicker">For recovery and sports brands</p>
+        <h2>A physio in every box.</h2>
+        <p class="lede">Sell recovery gear, braces or equipment for sports where people get hurt? Drop a Calm Joints QR card in the box. When a customer is sore or injured, they scan it and book a registered physio by video in minutes.</p>
+        <div class="bx-cards">
+          <div class="bx-card"><i aria-hidden="true">▣</i><strong>A QR card in the box</strong><span>We design a co-branded insert for your packaging, with your logo next to ours. Your customers get a physio right when they need one.</span></div>
+          <div class="bx-card"><i aria-hidden="true">$</i><strong>Earn on every visit</strong><span>Visits booked through your code earn your brand a share, and you can watch it build in your own partner dashboard.</span></div>
+          <div class="bx-card next"><i aria-hidden="true">↗</i><strong>Grow into your own hub</strong><span>With enough volume, we host your own co-branded hub: your store, with physio built in.</span></div>
+        </div>
+        <div class="bx-ctas"><a class="btn btn-primary" href="#brands" data-po="QR insert in our product packaging">Get a QR insert</a><a class="btn btn-ghost" href="/partners">Venues and events: Partnerships</a></div>
+      </div>
+      <figure class="bx-art" aria-label="Example: a product box with a Calm Joints QR insert card">
+        <span class="bx-tag">Example insert</span>
+        <div class="bx-box" aria-hidden="true"><b>Your brand</b><small>Knee support · Size M</small></div>
+        <div class="bx-insert"><img class="mk" src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="88" height="24"><p>Sore or injured? See a physio from home.</p><img class="qr" src="/media/partners/qr/insert-sample-qr.svg" alt="Sample QR code" width="120" height="120"><span>Scan to book a video visit with a registered physiotherapist.</span></div>
+      </figure>
     </div>
   </section>
 </main>
