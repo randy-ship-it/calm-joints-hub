@@ -126,6 +126,25 @@
   .foot{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between}
   .foot nav{display:flex;flex-wrap:wrap;gap:1.2rem}.foot a{text-decoration:none}
   html,body{overflow-x:clip}
+  .tk{background:var(--deep);color:#fff;text-align:center}.tk .kicker{color:#86EFAC}.tk h2{margin:0 auto;max-width:22ch}
+  .tk-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+  .tk-s{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:.3rem;padding:1.3rem 1rem;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);transition:background .2s,border-color .2s}
+  .tk-s b{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1;letter-spacing:-.02em}.tk-s span{font-size:.92rem;color:#CFE7DA}
+  .tk-s:hover,.tk-s.on,.tk-s:focus-visible{background:rgba(255,255,255,.12);border-color:#86EFAC}
+  .tk .tip-out{color:#CFE7DA;margin:1rem auto 0;max-width:34rem}
+  .uc-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
+  .uc-flip .uc-art{order:2}
+  .uc-art{margin:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(10,61,34,.35)}
+  .uc-art img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+  .uc-copy h2{margin:0}.uc-copy .lede{margin-top:.7rem}
+  .tips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.3rem}
+  .tip{font:600 .92rem var(--sans);color:var(--ink);background:#fff;border:1px solid #CFD9D3;border-radius:999px;padding:.5rem .95rem;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+  .tip:hover,.tip.on,.tip:focus-visible{border-color:var(--green);background:var(--mint);color:var(--deep);outline:none}
+  .tip-out{min-height:1.55em;margin:.8rem 0 0;font-size:.95rem;color:var(--mute);transition:opacity .2s}
+  .tip-out:empty{opacity:0}
+  .uc .ctas{margin-top:1.1rem}
+  @media (max-width:900px){.uc-grid{grid-template-columns:1fr;gap:1.4rem}.uc-flip .uc-art{order:0}}
+  @media (max-width:640px){.tk-stats{grid-template-columns:1fr;gap:.6rem;margin-top:1.4rem}.tk-s{flex-direction:row;align-items:baseline;justify-content:center;gap:.6rem;padding:1rem}.uc-art{border-radius:16px}.tips{gap:.45rem}.tip{font-size:.88rem;padding:.48rem .85rem}.uc .ctas{display:flex;flex-direction:column;gap:.6rem}.uc .ctas .btn{width:100%}}
 </style>
 </head>
 <body>
@@ -188,32 +207,53 @@
     </div>
   </section>
 
-  <section id="hotels">
+  <section id="turnkey" class="tk">
     <div class="wrap">
-      <p class="kicker">Hotels and resorts</p>
-      <h2>Physio at your guests’ fingertips.</h2>
-      <p class="lede">A stiff back after the flight or a sore knee after the trail. Guests scan the code in their room or at the front desk and book a registered physio by video.</p>
-      <div class="steps pts">
-        <div class="step"><h3>By video, anywhere</h3><p>From the room, on their own phone.</p></div>
-        <div class="step"><h3>In person in Ontario</h3><p>Across the GTA and most of Ontario.</p></div>
-        <div class="step"><h3>Nothing for your staff</h3><p>We handle booking, care and billing.</p></div>
+      <p class="kicker">Turnkey for athletic directors and GMs</p>
+      <h2>Registered physio, without building it.</h2>
+      <div class="tk-stats">
+        <button type="button" class="tk-s" data-tip="Our team has opened and scaled hundreds of successful clinics."><b>100s</b><span>clinics opened and scaled</span></button>
+        <button type="button" class="tk-s" data-tip="We manage a portfolio of 80+ partner clinic locations."><b>80+</b><span>partner clinic locations</span></button>
+        <button type="button" class="tk-s" data-tip="Video visits anywhere, plus in-person options across Canada through our partner clinics."><b>Canada-wide</b><span>in-person coverage</span></button>
       </div>
-      <div class="ctas" style="margin-top:1.2rem"><a class="btn btn-primary" href="#kit">Build your hotel’s QR kit</a></div>
+      <p class="tip-out" aria-live="polite"></p>
     </div>
   </section>
 
-  <section id="events" style="background:var(--soft)">
-    <div class="wrap">
-      <p class="kicker">Calm Joints events team</p>
-      <h2>We bring the physio tent to your event.</h2>
-      <p class="lede">Our team sets up a branded tent with registered physios and a treatment table, right where your crowd is. It's a perk people remember, and it costs you nothing to run.</p>
-      <div class="steps pts">
-        <div class="step"><h3>We come to you</h3><p>A one-time event or a regular spot on your calendar.</p></div>
-        <div class="step"><h3>QR-powered physio</h3><p>Guests scan to book by video, on the day or after.</p></div>
-        <div class="step"><h3>Your own co-branded hub</h3><p>A full Calm Joints page made for your audience.</p></div>
+  <section id="hotels" class="uc" style="background:var(--soft)">
+    <div class="wrap uc-grid">
+      <figure class="uc-art"><img src="/media/partners/scenes/hotel-desk-photo.webp" width="1600" height="900" loading="lazy" alt="Example: a Calm Joints QR table sign at a hotel front desk"></figure>
+      <div class="uc-copy">
+        <p class="kicker">Hotels and resorts</p>
+        <h2>Physio at your guests’ fingertips.</h2>
+        <p class="lede">Stiff after the flight? Guests scan and book.</p>
+        <div class="tips" role="list">
+          <button type="button" class="tip" data-tip="A registered physio by video, from the room, on their own phone.">By video, anywhere</button>
+          <button type="button" class="tip" data-tip="In-person visits through our 80+ partner clinic locations across Canada.">In person, Canada-wide</button>
+          <button type="button" class="tip" data-tip="We handle booking, care and billing. Your staff just point to the code.">Zero staff time</button>
+        </div>
+        <p class="tip-out" aria-live="polite"></p>
+        <div class="ctas"><a class="btn btn-primary" href="#kit">Build your hotel’s QR kit</a></div>
       </div>
-      <p class="fine" style="margin-top:1rem">Fully passive revenue for you, plus anonymous, combined insights about what your audience needs. You never see anyone's health details.</p>
-      <div class="ctas" style="margin-top:1.2rem"><a class="btn btn-primary" href="mailto:info@calmjoints.org?subject=Calm%20Joints%20events%20team">Book the events team</a><a class="btn btn-ghost" href="#kit">Build your QR kit</a></div>
+    </div>
+  </section>
+
+  <section id="events" class="uc uc-flip">
+    <div class="wrap uc-grid">
+      <figure class="uc-art"><img src="/media/partners/scenes/event-tent-photo.webp" width="1600" height="900" loading="lazy" alt="Example: the Calm Joints events team treating a runner in a branded physio tent at a race"></figure>
+      <div class="uc-copy">
+        <p class="kicker">Calm Joints events team</p>
+        <h2>We bring the physio tent.</h2>
+        <p class="lede">Registered physios, right where your crowd is.</p>
+        <div class="tips" role="list">
+          <button type="button" class="tip" data-tip="A one-time event or a regular spot on your calendar.">We come to you</button>
+          <button type="button" class="tip" data-tip="Guests scan to book by video, on the day or after.">Scan to book</button>
+          <button type="button" class="tip" data-tip="A full Calm Joints page made for your audience.">Your co-branded hub</button>
+          <button type="button" class="tip" data-tip="Fully passive revenue, plus anonymous, combined insights. You never see anyone’s health details.">Passive revenue</button>
+        </div>
+        <p class="tip-out" aria-live="polite"></p>
+        <div class="ctas"><a class="btn btn-primary" href="mailto:info@calmjoints.org?subject=Calm%20Joints%20events%20team">Book the events team</a><a class="btn btn-ghost" href="#kit">Build your QR kit</a></div>
+      </div>
     </div>
   </section>
 
@@ -446,6 +486,12 @@
     }
   });
 })();
+</script>
+<script>
+(()=>{document.querySelectorAll('.tips,.tk-stats').forEach(g=>{const out=g.parentElement.querySelector('.tip-out');const btns=g.querySelectorAll('[data-tip]');let pinned=null;
+const show=b=>{btns.forEach(x=>x.classList.toggle('on',x===b));out.textContent=b?b.dataset.tip:'';};
+btns.forEach(b=>{b.addEventListener('mouseenter',()=>show(b));b.addEventListener('focus',()=>show(b));b.addEventListener('click',()=>{pinned=pinned===b?null:b;show(pinned);});});
+g.addEventListener('mouseleave',()=>show(pinned));});})();
 </script>
 </body>
 </html>
