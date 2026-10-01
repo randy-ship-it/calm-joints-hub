@@ -262,6 +262,24 @@
   .pop .msg.ok { color:var(--green); } .pop .msg.err { color:#B42318; }
   .pop .hp { position:absolute; left:-5000px; }
   @media (max-width:760px){ .pop { left:.75rem; right:.75rem; bottom:5.2rem; width:auto; } }
+  .po { background:#fff; }
+  .po-grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+  .po-card { display:flex; flex-direction:column; gap:.5rem; background:#fff; border:1px solid var(--line); border-radius:18px; padding:1.3rem 1.3rem 1.2rem; }
+  .po-card.full { border-color:#B7E4C7; box-shadow:0 20px 40px -30px rgba(21,128,61,.55); }
+  .po-card .tag2 { align-self:flex-start; font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--green); background:#EAF7EF; border-radius:999px; padding:.25rem .6rem; }
+  .po-card h3 { margin:.2rem 0 0; font-size:1.15rem; }
+  .po-card p { margin:0; color:var(--mute); font-size:.95rem; line-height:1.5; flex:1; }
+  .po-card .btn { margin-top:.6rem; align-self:flex-start; }
+  .po-est { margin-top:1.6rem; display:grid; gap:1.4rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); align-items:center; background:var(--soft); border:1px solid var(--line); border-radius:18px; padding:clamp(1.2rem,3vw,1.8rem); }
+  .po-est h3 { margin:0 0 .4rem; font-size:1.25rem; } .po-est .note { margin:0; color:var(--mute); font-size:.95rem; }
+  .po-calc label { display:block; font-weight:600; font-size:.95rem; margin-bottom:.5rem; }
+  .po-in { display:flex; gap:.8rem; align-items:center; } .po-in input[type=range] { flex:1; accent-color:var(--green); }
+  .po-in input[type=number] { width:5.5rem; padding:.45rem .6rem; border:1px solid #CFD9D3; border-radius:10px; font:600 1rem var(--sans); }
+  .po-calc .row { display:flex; justify-content:space-between; padding:.55rem 0; border-bottom:1px solid var(--line); font-size:.98rem; }
+  .po-calc .row b { font-size:1.1rem; color:var(--deep); }
+  .po-calc small { display:block; margin-top:.7rem; color:var(--mute); font-size:.78rem; line-height:1.45; }
+  .po-undec { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.8rem 1.2rem; align-items:center; justify-content:space-between; border-top:1px solid var(--line); padding-top:1.2rem; }
+  .po-undec p { margin:0; color:var(--mute); }
 </style>
 </head>
 <body>
@@ -335,6 +353,29 @@
         <button class="arrow" type="button" id="next" aria-label="Next brand">→</button>
       </div>
       <p class="sr" id="live" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="block po" id="partner-options">
+    <div class="wrap">
+      <div class="head"><p class="kicker">Partner with Calm Joints</p><h2>Pick how your hub goes live.</h2><p>Every hub above started the same way. Choose the setup that fits your brand, see what your patient flow could be worth, or just ask us.</p></div>
+      <div class="po-grid">
+        <div class="po-card"><span class="tag2">Option 1</span><h3>Co-branded physio</h3><p>Physio only, through Calm Joints. A physio page with your brand on it, where your customers book video visits with our registered physios. We handle booking, records and billing.</p><a class="btn btn-ghost" href="#brands" data-po="Co-branded physio">Start with this</a></div>
+        <div class="po-card"><span class="tag2">Option 2</span><h3>Standalone Calm Joints care</h3><p>Send your customers to Calm Joints. They book with us directly under the Calm Joints name, and every visit that comes from your link is tracked to you.</p><a class="btn btn-ghost" href="#brands" data-po="Standalone Calm Joints care">Start with this</a></div>
+        <div class="po-card full"><span class="tag2">Full store</span><h3>Full store monetizer</h3><p>The whole hub. A physio, member perks and partner deals in one branded hub, so every visitor has more ways to buy from you.</p><a class="btn btn-primary" href="#brands" data-po="Full store monetizer">Start with this</a></div>
+      </div>
+      <div class="po-est">
+        <div><h3>Patient flow estimator</h3><p class="note">Slide to the number of new patients a month you could send us, and see your share.</p></div>
+        <div class="po-calc" aria-label="Patient flow estimator">
+          <label for="po-n">New patients a month from your brand</label>
+          <div class="po-in"><input type="range" id="po-r" min="0" max="100" step="1" aria-label="New patients a month"><input type="number" id="po-n" min="0" max="300" value="25" inputmode="numeric"></div>
+          <div class="row"><span>Per patient</span><b id="po-per">$90</b></div>
+          <div class="row"><span>Per month</span><b id="po-mo">$2,250</b></div>
+          <div class="row"><span>Per year</span><b id="po-yr">$27,000</b></div>
+          <small>Estimate only. Assumes each patient averages 6 visits at $100, about half of billing is left after physiotherapist pay, a proposed 25% partner share, plus about 20% more from product royalties we share back. Real results vary, and we don’t promise any number of visits or earnings.</small>
+        </div>
+      </div>
+      <div class="po-undec"><p>Not sure which fits? Send us your site and we’ll suggest one.</p><a class="btn btn-primary" href="#brands" data-po="Not sure yet">Ask us</a></div>
     </div>
   </section>
 
@@ -729,6 +770,25 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('on')) close(); });
   cjForm(document.getElementById('popform'), '/api/newsletter', function () { done(); setTimeout(close, 2200); });
   if (!seen()) setTimeout(function () { if (!seen()) { pop.classList.add('on'); pop.setAttribute('aria-hidden','false'); } }, 8000);
+})();
+</script>
+<script>
+(function () {
+  var r = document.getElementById('po-r'), n = document.getElementById('po-n'); if (!r || !n) return;
+  var MAX = 300, per = 6 * 100 * 0.5 * 0.25 * 1.2;
+  function money(v) { return '$' + Math.round(v).toLocaleString('en-CA'); }
+  function upd(v) { v = Math.max(0, Math.min(MAX, parseInt(v, 10) || 0));
+    document.getElementById('po-per').textContent = money(per); document.getElementById('po-mo').textContent = money(v * per); document.getElementById('po-yr').textContent = money(v * per * 12); return v; }
+  function toN(x) { var v = Math.round(MAX * Math.pow(x / 100, 2)); return v < 50 ? v : Math.round(v / 5) * 5; }
+  function toX(v) { return Math.round(100 * Math.sqrt(Math.min(v, MAX) / MAX)); }
+  r.addEventListener('input', function () { var v = toN(+r.value); n.value = v; upd(v); });
+  n.addEventListener('input', function () { r.value = toX(upd(n.value)); });
+  n.addEventListener('change', function () { n.value = upd(n.value); });
+  r.value = toX(+n.value); upd(n.value);
+  document.querySelectorAll('[data-po]').forEach(function (a) { a.addEventListener('click', function () {
+    var f = document.getElementById('talk-form'); if (!f) return; var m = f.querySelector('textarea[name=message]');
+    if (m && !m.value.trim()) m.value = 'Interested in: ' + a.getAttribute('data-po');
+    setTimeout(function () { var w = f.querySelector('input[name=website]'); if (w) w.focus({ preventScroll: true }); }, 450); }); });
 })();
 </script>
 </body>

@@ -206,7 +206,7 @@
       </div>
       <div class="math calc" aria-label="Partner earnings calculator">
         <label for="c-n">New customers a month from your QR code</label>
-        <div class="c-in"><input type="range" id="c-r" min="0" max="100" step="1" value="30" aria-label="New customers a month"><input type="number" id="c-n" min="0" max="100000" value="25" inputmode="numeric"></div>
+        <div class="c-in"><input type="range" id="c-r" min="0" max="100" step="1" value="30" aria-label="New customers a month"><input type="number" id="c-n" min="0" max="300" value="25" inputmode="numeric"></div>
         <div class="row"><span>Per customer</span><span id="c-per">$90</span></div>
         <div class="row"><span>Per month</span><span id="c-mo">$2,250</span></div>
         <div class="row"><span>Per year</span><span id="c-yr">$27,000</span></div>
@@ -338,11 +338,11 @@
 (function () {
   var r = document.getElementById('c-r'), n = document.getElementById('c-n');
   function money(v) { return '$' + Math.round(v).toLocaleString('en-CA'); }
-  function upd(v) { v = Math.max(0, Math.min(100000, parseInt(v, 10) || 0)); var per = 6 * 100 * 0.5 * 0.25 * 1.2;
+  function upd(v) { v = Math.max(0, Math.min(300, parseInt(v, 10) || 0)); var per = 6 * 100 * 0.5 * 0.25 * 1.2;
     document.getElementById('c-per').textContent = money(per); document.getElementById('c-mo').textContent = money(v * per); document.getElementById('c-yr').textContent = money(v * per * 12); return v; }
-  function toN(x) { return Math.round(5000 * Math.pow(x / 100, 2.5)); }
-  function toX(v) { return Math.min(100, Math.round(100 * Math.pow(Math.min(v, 5000) / 5000, 1 / 2.5))); }
-  r.addEventListener('input', function () { var v = toN(+r.value); v = v < 50 ? v : v < 500 ? Math.round(v / 5) * 5 : Math.round(v / 50) * 50; n.value = v; upd(v); });
+  function toN(x) { return Math.round(300 * Math.pow(x / 100, 2)); }
+  function toX(v) { return Math.round(100 * Math.sqrt(Math.min(v, 300) / 300)); }
+  r.addEventListener('input', function () { var v = toN(+r.value); v = v < 50 ? v : Math.round(v / 5) * 5; n.value = v; upd(v); });
   n.addEventListener('input', function () { r.value = toX(upd(n.value)); });
   r.value = toX(+n.value);
   upd(n.value);
