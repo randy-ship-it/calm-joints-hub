@@ -74,9 +74,13 @@
   .slide { flex: 0 0 min(92vw, 800px); scroll-snap-align: center; text-decoration: none; transition: opacity .35s, transform .35s; opacity: .45; transform: scale(.96); }
   .slide.is-active { opacity: 1; transform: none; }
   .frame { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -38px rgba(11,29,22,.45); }
-  .frame { position: relative; }
-  .sticker { position: absolute; left: clamp(10px, 2.5%, 22px); bottom: clamp(10px, 3%, 24px); width: clamp(124px, 25%, 200px); height: clamp(48px, 10%, 76px); display: flex; align-items: center; justify-content: center; padding: 10px 16px; box-sizing: border-box; background: #fff; border-radius: 14px; border: 1px solid rgba(11,29,22,.08); box-shadow: 0 10px 24px -10px rgba(11,29,22,.45), 0 2px 6px rgba(11,29,22,.12); transform: rotate(-3deg); pointer-events: none; }
-  .frame .sticker img { width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; object-position: center; background: transparent; }
+  .slide { position: relative; }
+  .slide-link { display: block; text-decoration: none; color: inherit; }
+  .sticker { position: absolute; z-index: 2; left: 50%; top: calc(30px + clamp(8px, 3%, 22px)); width: clamp(124px, 25%, 200px); height: clamp(48px, 10%, 76px); display: flex; align-items: center; justify-content: center; padding: 10px 16px; box-sizing: border-box; background: #fff; border-radius: 14px; border: 1px solid rgba(11,29,22,.08); box-shadow: 0 10px 24px -10px rgba(11,29,22,.45), 0 2px 6px rgba(11,29,22,.12); transform: translateX(-50%) rotate(-3deg); transition: transform .2s, box-shadow .2s; }
+  .sticker:hover { transform: translateX(-50%) rotate(-3deg) translateY(-2px); box-shadow: 0 14px 28px -10px rgba(11,29,22,.5), 0 3px 8px rgba(11,29,22,.14); }
+  .sticker:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+  .sticker img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+  .soon { z-index: 3; }
   .bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #FAFBFA; }
   .bar i { width: 9px; height: 9px; border-radius: 50%; background: #DCE3DF; }
   .frame img { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: contain; object-position: center; background: #F6F4F0; }
@@ -279,34 +283,41 @@
     <p class="trust-lbl">Trusted by the brands we power</p>
     <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
       <div class="track" id="track" tabindex="0">
-        <a class="slide" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer" aria-label="DR-HO’S, see their patient deals">
-          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO’S page with a featured physiotherapist" decoding="async"><span class="sticker"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S logo" decoding="async"></span></div>
+        <div class="slide"><a class="slide-link" href="https://www.scalehealth.ca/dr-ho" target="_blank" rel="noopener noreferrer" aria-label="DR-HO’S, see their patient deals">
+          <div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/dr-ho-v2.webp" width="1600" height="800" alt="DR-HO’S page with a featured physiotherapist" decoding="async"></div>
           <div class="cap"><strong>DR-HO’S</strong><span class="tag live">Live</span></div>
         </a>
+          <a class="sticker" href="https://drhonow.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the DR-HO’S website"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S logo" decoding="async"></a>
+        </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jill Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health page" decoding="async" loading="lazy"><span class="sticker"><img src="/media/logos/jill.png" alt="Jill Health logo" decoding="async"></span></div></button>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jill Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jill-health-v2.webp" width="1600" height="800" alt="Jill Health page" decoding="async" loading="lazy"></div></button>
           <div class="soon" role="group" aria-label="Jill Health is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Jill Health</strong><span class="tag">Coming soon</span></div>
+          <a class="sticker" href="https://jill.health/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Jill Health website"><img src="/media/logos/jill.png" alt="Jill Health logo" decoding="async"></a>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jack Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health-v2.webp" width="1600" height="800" alt="Jack Health page" decoding="async" loading="lazy"><span class="sticker"><img src="/media/logos/jack.png" alt="Jack Health logo" decoding="async"></span></div></button>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Jack Health, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/jack-health-v2.webp" width="1600" height="800" alt="Jack Health page" decoding="async" loading="lazy"></div></button>
           <div class="soon" role="group" aria-label="Jack Health is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Jack Health</strong><span class="tag">Coming soon</span></div>
+          <a class="sticker" href="https://jack.health/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Jack Health website"><img src="/media/logos/jack.png" alt="Jack Health logo" decoding="async"></a>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Effortless Admin, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/effortless-v3.webp" width="1600" height="800" alt="Effortless Admin page" decoding="async" loading="lazy"><span class="sticker"><img src="/media/logos/effortless-admin.png" alt="Effortless Admin logo" decoding="async"></span></div></button>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Effortless Admin, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/effortless-v3.webp" width="1600" height="800" alt="Effortless Admin page" decoding="async" loading="lazy"></div></button>
           <div class="soon" role="group" aria-label="Effortless Admin is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Effortless Admin</strong><span class="tag">Coming soon</span></div>
+          <a class="sticker" href="https://effortlessadmin.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Effortless Admin website"><img src="/media/logos/effortless-admin.png" alt="Effortless Admin logo" decoding="async"></a>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Roll Recovery, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery page" decoding="async" loading="lazy"><span class="sticker"><img src="/media/logos/roll-recovery.png" alt="Roll Recovery logo" decoding="async"></span></div></button>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Roll Recovery, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/roll-recovery-v2.webp" width="1600" height="800" alt="Roll Recovery page" decoding="async" loading="lazy"></div></button>
           <div class="soon" role="group" aria-label="Roll Recovery is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Roll Recovery</strong><span class="tag">Coming soon</span></div>
+          <a class="sticker" href="https://rollrecovery.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Roll Recovery website"><img src="/media/logos/roll-recovery.png" alt="Roll Recovery logo" decoding="async"></a>
         </div>
         <div class="slide soon-slide">
-          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Sole, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole-v2.webp" width="1600" height="800" alt="Sole page" decoding="async" loading="lazy"><span class="sticker"><img src="/media/logos/sole.png" alt="Sole logo" decoding="async"></span></div></button>
+          <button class="soonbtn" type="button" aria-expanded="false" aria-label="Sole, coming soon"><div class="frame"><div class="bar"><i></i><i></i><i></i></div><img src="/media/hubs/sole-v2.webp" width="1600" height="800" alt="Sole page" decoding="async" loading="lazy"></div></button>
           <div class="soon" role="group" aria-label="Sole is coming soon"><strong>Coming soon</strong><p>Deals from this brand aren’t open to patients yet.</p><div class="soon-links"><a href="#brands">Partner with us</a><a href="/careers#apply">Apply as a provider</a></div><button class="soon-x" type="button" aria-label="Close">×</button></div>
           <div class="cap"><strong>Sole</strong><span class="tag">Coming soon</span></div>
+          <a class="sticker" href="https://yoursole.com/ca" target="_blank" rel="noopener noreferrer" aria-label="Visit the Sole website"><img src="/media/logos/sole.png" alt="Sole logo" decoding="async"></a>
         </div>
       </div>
       <div class="controls">
