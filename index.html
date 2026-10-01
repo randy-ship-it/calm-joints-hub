@@ -76,11 +76,20 @@
   .frame { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -38px rgba(11,29,22,.45); }
   .slide { position: relative; }
   .slide-link { display: block; text-decoration: none; color: inherit; }
-  .sticker { position: absolute; z-index: 2; left: 50%; top: calc(30px + clamp(8px, 3%, 22px)); width: clamp(124px, 25%, 200px); height: clamp(48px, 10%, 76px); display: flex; align-items: center; justify-content: center; padding: 10px 16px; box-sizing: border-box; background: #fff; border-radius: 14px; border: 1px solid rgba(11,29,22,.08); box-shadow: 0 10px 24px -10px rgba(11,29,22,.45), 0 2px 6px rgba(11,29,22,.12); transform: translateX(-50%) rotate(-3deg); transition: transform .2s, box-shadow .2s; }
+  .sticker { position: absolute; z-index: 2; left: 50%; top: calc(30px + clamp(8px, 3%, 22px)); width: clamp(104px, 20%, 164px); height: clamp(40px, 8%, 62px); display: flex; align-items: center; justify-content: center; padding: 10px 16px; box-sizing: border-box; background: #fff; border-radius: 14px; border: 1px solid rgba(11,29,22,.08); box-shadow: 0 10px 24px -10px rgba(11,29,22,.45), 0 2px 6px rgba(11,29,22,.12); transform: translateX(-50%) rotate(-3deg); transition: transform .2s, box-shadow .2s; }
   .sticker:hover { transform: translateX(-50%) rotate(-3deg) translateY(-2px); box-shadow: 0 14px 28px -10px rgba(11,29,22,.5), 0 3px 8px rgba(11,29,22,.14); }
   .sticker:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
   .sticker img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
   .soon { z-index: 3; }
+  .hubpop { width: min(96vw, 1180px); max-height: 94vh; padding: 0; border: 0; border-radius: 18px; background: #fff; box-shadow: 0 40px 90px -30px rgba(11,29,22,.6); overflow: auto; }
+  .hubpop::backdrop { background: rgba(8,24,17,.72); }
+  .hubpop img { display: block; width: 100%; height: auto; background: #F6F4F0; }
+  .hubpop .pop-body { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.2rem 1.4rem 1.4rem; }
+  .hubpop .pop-body h3 { margin: 0 0 .25rem; font-size: clamp(1.15rem, 2.4vw, 1.5rem); letter-spacing: -.02em; }
+  .hubpop .pop-body p { margin: 0; color: var(--mute); }
+  .hubpop .pop-ctas { display: flex; gap: .6rem; flex-wrap: wrap; }
+  .hubpop .pop-x { position: sticky; top: 10px; float: right; margin: 10px 10px -54px 0; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.95); box-shadow: 0 4px 14px rgba(0,0,0,.2); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+  .soonbtn { cursor: zoom-in; }
   .bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #FAFBFA; }
   .bar i { width: 9px; height: 9px; border-radius: 50%; background: #DCE3DF; }
   .frame img { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: contain; object-position: center; background: #F6F4F0; }
@@ -457,6 +466,14 @@
   <a class="btn btn-primary" id="sticky-book" href="#" data-book>Book a visit</a>
 </div>
 
+<dialog class="hubpop" id="hubpop" aria-labelledby="hubpop-title">
+  <button class="pop-x" type="button" aria-label="Close">×</button>
+  <img id="hubpop-img" src="" alt="">
+  <div class="pop-body">
+    <div><h3 id="hubpop-title">Coming soon</h3><p>We’re staffing this hub now. Registered physios anywhere in Canada can apply to see its patients by video.</p></div>
+    <div class="pop-ctas"><a class="btn btn-primary" href="/careers#apply">Apply as a physio</a><a class="btn btn-ghost" href="#brands" data-pop-close>Partner with us</a></div>
+  </div>
+</dialog>
 <script>
 (function () {
   var cfg = window.CALM_JOINTS || {};
@@ -551,6 +568,26 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSoon(); });
   document.addEventListener('click', function (e) { if (openSoon && !openSoon.contains(e.target)) closeSoon(); });
 
+
+  var pop = document.getElementById('hubpop');
+  if (pop && typeof pop.showModal === 'function') {
+    var popImg = document.getElementById('hubpop-img'), popTitle = document.getElementById('hubpop-title');
+    function closePop() { if (pop.open) pop.close(); }
+    pop.addEventListener('close', function () { paused = false; });
+    pop.querySelector('.pop-x').addEventListener('click', closePop);
+    pop.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closePop); });
+    pop.addEventListener('click', function (e) { if (e.target === pop) closePop(); });
+    slides.forEach(function (sl) {
+      var btn = sl.querySelector('.soonbtn'); if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopImmediatePropagation();
+        var img = btn.querySelector('img'), name = sl.querySelector('.cap strong').textContent;
+        popImg.src = img.currentSrc || img.src; popImg.alt = img.alt;
+        popTitle.textContent = name + ' hub, coming soon';
+        paused = true; pop.showModal();
+      }, true);
+    });
+  }
   document.getElementById('prev').addEventListener('click', function () { go(current - 1); restart(); });
   document.getElementById('next').addEventListener('click', function () { go(current + 1); restart(); });
   track.addEventListener('keydown', function (e) {
