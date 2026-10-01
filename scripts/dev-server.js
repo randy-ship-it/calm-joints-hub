@@ -18,6 +18,8 @@ const types = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.png': 'image/png',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.webp': 'image/webp',
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml',
