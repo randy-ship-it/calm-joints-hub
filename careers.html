@@ -169,6 +169,31 @@
   .pills-note { flex-basis:100%; margin:.3rem 0 0; font-size:.88rem; color:#5b6b61; }
   .two { display:grid; gap:0 1rem; grid-template-columns:1fr 1fr; } @media (max-width:520px) { .two { grid-template-columns:1fr; } }
   .opt { font-weight:400; color:var(--mute); }
+  .tesla { position:relative; overflow:hidden; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); align-items:center; }
+  .tesla .tx { display:grid; gap:1.1rem; }
+  .tesla .car { margin:0 -1.5rem -1rem 0; filter:drop-shadow(0 30px 40px rgba(0,0,0,.45)); border-radius:22px; overflow:hidden; }
+  .tesla .car img { width:100%; height:auto; border-radius:22px; }
+  .tchips { display:flex; flex-wrap:wrap; gap:.5rem; list-style:none; margin:0; padding:0; }
+  .tchips li { font-size:.82rem; font-weight:700; padding:.4rem .8rem; border-radius:999px; border:1px solid rgba(126,226,168,.45); color:#E6F7EC; background:rgba(255,255,255,.06); }
+  .tchips li b { color:#7EE2A8; }
+  .tesla .fine { font-size:.8rem; color:#9FC7AF; }
+  @media (max-width:760px) { .tesla { grid-template-columns:1fr; } .tesla .car { margin:.4rem -.4rem -.4rem; } }
+  .pills .perk { display:inline-block; margin-left:.35rem; padding:.1rem .45rem; border-radius:999px; background:#0B1D16; color:#7EE2A8; font-size:.68rem; font-weight:700; letter-spacing:.04em; vertical-align:1px; }
+  .pills input:checked + label .perk { background:rgba(255,255,255,.18); color:#fff; }
+  .drive { display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(-6px); transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1), opacity .35s, transform .45s, margin .45s; margin:0; }
+  .drive > div { overflow:hidden; min-height:0; }
+  form:has(#r2:checked) .drive { grid-template-rows:1fr; opacity:1; transform:none; margin:-.2rem 0 1.2rem; }
+  .drive .dc { position:relative; display:grid; grid-template-columns:44% 1fr; align-items:center; gap:1rem; padding:.9rem 1.1rem .9rem .9rem; border-radius:20px; color:#fff; background:radial-gradient(120% 140% at 0% 100%,#15803D 0%,#0A3D22 45%,#0B1D16 100%); box-shadow:inset 0 0 0 1px rgba(126,226,168,.25); }
+  .drive .dc::after { content:""; position:absolute; inset:0; border-radius:20px; background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.10) 45%,transparent 60%); transform:translateX(-100%); pointer-events:none; }
+  form:has(#r2:checked) .drive .dc::after { animation:sheen 1.6s .35s ease-out 1; }
+  @keyframes sheen { to { transform:translateX(100%); } }
+  .drive img { width:100%; height:auto; border-radius:12px; filter:drop-shadow(0 10px 14px rgba(0,0,0,.4)); }
+  .drive .k { margin:0 0 .2rem; font-size:.68rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#7EE2A8; }
+  .drive h3 { margin:0 0 .25rem; font-size:1.08rem; line-height:1.15; letter-spacing:-.02em; }
+  .drive h3 span { color:#7EE2A8; white-space:nowrap; }
+  .drive p.s { margin:0; font-size:.8rem; line-height:1.35; color:#BFE0CB; }
+  @media (max-width:520px) { .drive .dc { grid-template-columns:1fr; } }
+  @media (prefers-reduced-motion:reduce) { .drive, .drive .dc::after { transition:none; animation:none !important; } }
 </style>
 </head>
 <body>
@@ -199,7 +224,7 @@
   <div class="wrap paths-h"><h2>Three ways to work</h2><p>Pick one, or mix them. You can change your mind later.</p></div>
   <div class="wrap roles paths">
     <article class="role"><span class="n">01</span><h2>Fully digital</h2><p>See patients by video from anywhere in Canada.</p><ul><li>Open as few or as many hours as you like</li><li>Want in-person time too? Tell us which partner locations you'd like.</li></ul><span class="tag">Work from home</span></article>
-    <article class="role"><span class="n">02</span><h2>In-home visits</h2><p>Opt in and we use geo-tagging to book patients near you. Your car is the clinic.</p><ul><li>Set how far you'll travel</li><li>Focused on home visits? You get access to a Tesla Model Y for your rounds</li></ul><span class="tag">Tesla Model Y access</span></article>
+    <article class="role"><span class="n">02</span><h2>In-home visits</h2><p>Opt in and we use geo-tagging to book patients near you. Your car is the clinic.</p><ul><li>Set how far you'll travel</li><li>Focused on home visits? You get access to a Tesla Model Y and a 407 ETR pass for your rounds, based on availability and how much you drive</li></ul><span class="tag">Model Y + 407 pass</span></article>
     <article class="role"><span class="n">03</span><h2>On site</h2><p>Pick up easy on-site hours at 100+ in-person locations run by our partners.</p><ul><li>Each location owner is vetted by us</li><li>Great for digital clinicians who want more hours</li></ul><span class="tag">100+ partner locations</span></article>
   </div>
   <div class="wrap"><div class="more">
@@ -224,8 +249,13 @@
     <div class="mq rev"><ul><li><b>Momentus</b><span>Sports nutrition</span></li><li><b>Hyperice Canada</b><span>Recovery equipment</span></li><li><b>Garmin</b><span>Wearable tech</span></li><li><b>Snap Supplements</b><span>Supplements</span></li><li><b>Bionic Gym</b><span>Exercise equipment</span></li><li><b>kGoal</b><span>Pelvic health</span></li><li><b>No Days Wasted</b><span>Recovery supplements</span></li><li><b>Medistick</b><span>Topical pain relief</span></li><li><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li><b>Bet Jet</b><span>Functional nutrition</span></li><li><b>Sierra Sil</b><span>Mineral supplements</span></li><li><b>Sensate</b><span>HRV device</span></li><li aria-hidden="true"><b>Momentus</b><span>Sports nutrition</span></li><li aria-hidden="true"><b>Hyperice Canada</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>Garmin</b><span>Wearable tech</span></li><li aria-hidden="true"><b>Snap Supplements</b><span>Supplements</span></li><li aria-hidden="true"><b>Bionic Gym</b><span>Exercise equipment</span></li><li aria-hidden="true"><b>kGoal</b><span>Pelvic health</span></li><li aria-hidden="true"><b>No Days Wasted</b><span>Recovery supplements</span></li><li aria-hidden="true"><b>Medistick</b><span>Topical pain relief</span></li><li aria-hidden="true"><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li aria-hidden="true"><b>Bet Jet</b><span>Functional nutrition</span></li><li aria-hidden="true"><b>Sierra Sil</b><span>Mineral supplements</span></li><li aria-hidden="true"><b>Sensate</b><span>HRV device</span></li></ul></div>
   </section>
   <div class="wrap"><div class="tesla">
-    <p class="big">Do in-home visits. <span>Drive a <i class="nw">Tesla Model Y.</i></span></p>
-    <p>Clinicians focused on home visits get access to a Tesla Model Y to get around.</p>
+    <div class="tx">
+      <p class="big">Do in-home visits. <span>Drive a <i class="nw">Tesla Model Y.</i></span></p>
+      <p>Clinicians focused on home visits get access to a Calm Joints Model Y and a 407 ETR pass to skip the traffic between visits.</p>
+      <ul class="tchips"><li><b>Tesla</b> Model Y</li><li><b>407</b> ETR pass</li></ul>
+      <p class="fine">Based on availability and how much you drive.</p>
+    </div>
+    <div class="car"><img src="/media/careers/cj-model-y.webp" alt="White Tesla Model Y with Calm Joints branding and a booking QR code" width="1200" height="533" loading="lazy"></div>
   </div></div>
   <section class="wrap benefits" id="benefits" aria-labelledby="benefits-h">
     <details id="benefits-d">
@@ -234,7 +264,7 @@
     <h3>Health benefits · with minimum hours</h3>
     <ul class="bgrid"><li>Prescription drugs</li><li>Dental</li><li>Vision</li><li>Paramedical</li><li>Mental health</li><li>Virtual care</li><li>Travel coverage</li><li>Life insurance</li></ul>
     <h3>Perks</h3>
-    <ul class="bgrid perks"><li>Tesla Model Y access<small>For home-visit clinicians</small></li><li>Work from home<small>Fully digital hours</small></li><li>Accommodations<small>Just ask, no diagnosis needed</small></li><li>Easy enrolment<small>No medical questionnaire</small></li></ul>
+    <ul class="bgrid perks"><li>Model Y + 407 pass<small>For home-visit clinicians, based on availability</small></li><li>Work from home<small>Fully digital hours</small></li><li>Accommodations<small>Just ask, no diagnosis needed</small></li><li>Easy enrolment<small>No medical questionnaire</small></li></ul>
     <p class="bnote">Benefits start once you reach the minimum hours. The exact minimums and plan details come with your offer.</p>
       </div>
     </details>
@@ -252,11 +282,17 @@
       <h2>Apply</h2>
       <fieldset class="pills"><legend>How do you want to work? <span class="opt">(pick all that fit)</span></legend>
         <input type="checkbox" name="roles" id="r1" value="digital" checked><label for="r1" class="lead-pill">Fully digital <span class="badge">Our focus</span></label>
-        <input type="checkbox" name="roles" id="r2" value="in-home"><label for="r2">In-home</label>
+        <input type="checkbox" name="roles" id="r2" value="in-home"><label for="r2">In-home <span class="perk">+ car perk</span></label>
         <input type="checkbox" name="roles" id="r3" value="on-site"><label for="r3">On site</label>
         <input type="checkbox" name="roles" id="r4" value="accessibility"><label for="r4">Accessibility role</label>
         <p class="pills-note">Calm Joints is a digital clinic, so video visits come first. Add in-home or on site if you want more hours.</p>
       </fieldset>
+      <div class="drive" aria-live="polite"><div>
+        <div class="dc">
+          <img src="/media/careers/cj-model-y-sm.webp" alt="Calm Joints branded Tesla Model Y" width="600" height="267" loading="lazy">
+          <div><p class="k">In-home perk</p><h3>Tesla Model Y <span>+ 407 ETR pass</span></h3><p class="s">For home-visit clinicians, based on availability and how much you drive.</p></div>
+        </div>
+      </div></div>
       <div class="two">
         <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
         <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
