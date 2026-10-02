@@ -238,6 +238,15 @@
   .bk-perk b { color: var(--green); }
   .bk-go { display: flex; gap: .6rem; flex-wrap: wrap; }
   .bk-go .btn { flex: 1 1 200px; justify-content: center; }
+  .bk-offers { display: grid; gap: .7rem; }
+  .bk-opt { display: grid; grid-template-columns: 1fr auto; gap: .2rem .9rem; align-items: center; padding: 1rem 1.1rem; border: 1.5px solid var(--line); border-radius: 16px; color: var(--ink); text-decoration: none; background: #fff; }
+  .bk-opt:hover, .bk-opt:focus-visible { border-color: var(--green); }
+  .bk-opt.main { border-color: var(--green); background: #F0FDF4; }
+  .bk-opt b { font-size: 1.05rem; }
+  .bk-opt .pr { grid-row: span 2; font-size: 1.5rem; font-weight: 800; color: var(--green); }
+  .bk-opt small { color: var(--mute); font-size: .9rem; }
+  .bk-cj [data-drho] { display: none; } #book-dlg:not(.bk-cj) [data-cj] { display: none; }
+  .offer-note { margin: .8rem 0 0; color: var(--mute); font-size: .95rem; }
   @media (max-width: 560px) {
     .pd { max-width: 100vw; margin: auto 0 0; max-height: 100dvh; }
     .pd-card { border-radius: 22px 22px 0 0; max-height: 94dvh; }
@@ -374,9 +383,10 @@
       <h1>100% digital physio.</h1>
       <p class="lede">See a registered physiotherapist by video from home. In-home visits and 100+ partner locations across Canada when you need hands-on care.</p>
       <div class="ctas">
-        <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
+        <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a $29 consult</a>
         <a class="btn btn-ghost" href="#join">Physios, join us</a>
       </div>
+      <p class="offer-note" data-offer-note hidden>15-minute consult for $29, a 40-minute visit for $99, or a full assessment for $129. Your $29 consult counts toward the full assessment.</p>
     </div>
     <p class="trust-lbl">Trusted by the brands we power</p>
     <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
@@ -590,9 +600,19 @@
   <div class="pd-card">
     <div class="bk-head">
       <button class="pd-x" type="button" data-close aria-label="Close">&times;</button>
-      <div class="bk-logos"><img class="cj" src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="125" height="34"><span class="x" aria-hidden="true">&times;</span><img class="dh" src="/media/partners/dr-hos-logo.png" alt="DR-HO’S" width="94" height="40"></div>
+      <div class="bk-logos"><img class="cj" src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="125" height="34"><span class="x" aria-hidden="true" data-drho>&times;</span><img class="dh" data-drho src="/media/partners/dr-hos-logo.png" alt="DR-HO’S" width="94" height="40"></div>
     </div>
-    <div class="bk-body">
+    <div class="bk-body" data-cj>
+      <h2 id="bk-title-cj">Pick your physio visit</h2>
+      <p>Every visit is with a registered physiotherapist. Your $29 consult counts toward the full assessment.</p>
+      <div class="bk-offers">
+        <a class="bk-opt main" id="bk-consult" href="#" target="_blank" rel="noopener noreferrer"><b>15-min physio consult</b><span class="pr">$29</span><small>Quick video chat, advice and next steps.</small></a>
+        <a class="bk-opt" id="bk-visit" href="#" target="_blank" rel="noopener noreferrer"><b>40-min physio visit</b><span class="pr">$99</span><small>A longer one-on-one session with a physio.</small></a>
+        <a class="bk-opt" id="bk-assess" href="#" target="_blank" rel="noopener noreferrer"><b>Full assessment</b><span class="pr">$129</span><small>Full exam and treatment plan. $100 more after your consult.</small></a>
+      </div>
+      <button class="btn btn-ghost" type="button" data-close>Not now</button>
+    </div>
+    <div class="bk-body" data-drho>
       <h2 id="bk-title">You’ll book through our partner clinic</h2>
       <p>While we finalize our team’s calendars, we’re booking you through a brand partner clinic: DR-HO’S. You’ll pick a time on their booking page.</p>
       <div class="bk-perk"><span aria-hidden="true">★</span><span><b>Insider deals</b> when you sign in. DR-HO’S members get partner perks alongside their physio visit.</span></div>
@@ -657,16 +677,28 @@
   var bk = document.getElementById('book-dlg');
   var bkOk = document.getElementById('bk-ok');
   if (bkOk && url) bkOk.href = url;
+  var of = (cfg.booking && cfg.booking.offers) || {};
+  var cU = of.consult && of.consult.url, vU = of.visit && of.visit.url, aU = of.assess && of.assess.url;
+  if (bk && cU && vU && aU) {
+    bk.classList.add('bk-cj');
+    bk.setAttribute('aria-labelledby', 'bk-title-cj');
+    document.getElementById('bk-consult').href = cU;
+    document.getElementById('bk-visit').href = vU;
+    document.getElementById('bk-assess').href = aU;
+    var note = document.querySelector('[data-offer-note]'); if (note) note.hidden = false;
+  } else {
+    var hb = document.getElementById('hero-book'); if (hb) hb.textContent = 'Book a visit';
+  }
   if (bk) {
     bk.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function () { bk.close(); }); });
     bk.addEventListener('click', function (e) { if (e.target === bk) bk.close(); });
-    if (bkOk) bkOk.addEventListener('click', function () {
+    [bkOk, document.getElementById('bk-consult'), document.getElementById('bk-visit'), document.getElementById('bk-assess')].forEach(function (b) { if (b) b.addEventListener('click', function () {
       try {
         var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
         if (r && r.slug && Date.now() - r.at < 30 * 864e5) fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: r.slug, event: 'book', email: r.email || '', src: 'home' }), keepalive: true }).catch(function () {});
       } catch (e) {}
       setTimeout(function () { bk.close(); }, 50);
-    });
+    }); });
   }
   document.querySelectorAll('[data-book]').forEach(function (el) {
     if (url) { el.href = url; el.target = '_blank'; el.rel = 'noopener noreferrer'; }

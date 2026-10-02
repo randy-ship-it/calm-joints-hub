@@ -14,6 +14,13 @@ window.CALM_JOINTS = {
     providerListApi: null,
     status: 'partner-clinic-drho',
     label: 'Book a physiotherapist',
+    // $29 15-min consult, credited toward the $129 full assessment ($100 more).
+    // Set all three to the CHI Jane treatment URLs. While null, the popup keeps the DR-HO'S partner routing.
+    offers: {
+      consult: { url: null, price: 29, minutes: 15 },
+      visit: { url: null, price: 99, minutes: 40 },
+      assess: { url: null, price: 129 },
+    },
   },
   theme: {
     primary: '#15A34A',
