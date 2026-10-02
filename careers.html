@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Careers · Calm Joints</title>
-<meta name="description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 80+ partner locations. Hiring across Canada. We hire people with disabilities.">
+<meta name="description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 100+ partner locations. Hiring across Canada. We hire people with disabilities.">
 <meta name="theme-color" content="#15803D">
 <link rel="canonical" href="https://calmjoints.org/careers">
 <meta property="og:site_name" content="Calm Joints">
 <meta property="og:title" content="Careers · Calm Joints">
-<meta property="og:description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 80+ partner locations. Hiring across Canada. We hire people with disabilities.">
+<meta property="og:description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 100+ partner locations. Hiring across Canada. We hire people with disabilities.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calmjoints.org/careers">
 <meta property="og:image" content="https://calmjoints.org/media/og.jpg">
@@ -32,8 +32,13 @@
   .top nav a { text-decoration:none; font-weight:600; font-size:.95rem; color:var(--mute); margin-left:1.4rem; display:inline-flex; align-items:center; min-height:44px; padding:0 .4rem; }
   .top nav a:hover { color:var(--ink); }
   label { display:block; font-size:.86rem; font-weight:600; margin:0 0 .35rem; }
+  select { width:100%; font:16px/1.4 var(--sans); color:var(--ink); background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235b6b61' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 1rem center; border:1.5px solid var(--line); border-radius:14px; padding:.85rem 2.4rem .85rem 1rem; outline:none; -webkit-appearance:none; appearance:none; }
+  .regchk { display:flex; align-items:center; gap:.7rem; border:1.5px solid var(--line); border-radius:14px; padding:.85rem 1rem; cursor:pointer; background:#fff; font-weight:600; }
+  .regchk input { width:20px; height:20px; padding:0; flex:0 0 20px; accent-color:var(--green); margin:0; }
+  .regchk:has(input:checked) { border-color:var(--green); background:#F1FBF4; }
+  .two .field.chk { display:flex; flex-direction:column; justify-content:flex-end; }
   input, textarea { width:100%; font:16px/1.4 var(--sans); color:var(--ink); background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:.85rem 1rem; outline:none; transition:border-color .15s, box-shadow .15s; }
-  input:focus, textarea:focus { border-color:var(--green); box-shadow:0 0 0 4px rgba(21,128,61,.12); }
+  input:focus, textarea:focus, select:focus { border-color:var(--green); box-shadow:0 0 0 4px rgba(21,128,61,.12); }
   textarea { min-height:112px; resize:vertical; }
   .field { margin-bottom:1rem; }
   .flabel { display:block; font-size:.86rem; font-weight:600; margin:0 0 .35rem; }
@@ -122,7 +127,13 @@
   .brands { background:#0B1D16; color:#fff; margin:clamp(3rem,8vw,5rem) 0 0; padding:clamp(3rem,8vw,4.6rem) 0; overflow:hidden; }
   .brands .kick { margin-bottom:.8rem; }
   .brands h2 { margin:0 0 .8rem; font-size:clamp(1.8rem,4.4vw,2.8rem); line-height:1.02; letter-spacing:-.035em; max-width:18ch; }
-  .brands p.lead { margin:0 0 2.2rem; color:#CDEFD9; max-width:36rem; }
+  .brands p.lead { margin:0 0 1.3rem; color:#CDEFD9; max-width:36rem; }
+  .brands h2 span { color:#7EE2A8; }
+  .bchips { list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:.5rem; }
+  .bchips button { font:600 .9rem var(--sans, inherit); color:#fff; background:rgba(255,255,255,.07); border:1px solid rgba(126,226,168,.45); border-radius:999px; padding:.5rem .85rem; cursor:pointer; transition:background .2s,color .2s; }
+  .bchips button:hover, .bchips button[aria-pressed="true"] { background:#7EE2A8; color:#0B1D16; border-color:#7EE2A8; }
+  .brands p.btip { min-height:2.9em; margin:.75rem 0 1.6rem; color:#E6F7EC; font-size:.95rem; max-width:36rem; }
+  .brands .kick.sub { color:#9FC7AF; margin-bottom:1rem; }
   .mq { overflow:hidden; border-top:1px solid rgba(255,255,255,.09); -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); }
   .mq:last-child { border-bottom:1px solid rgba(255,255,255,.09); }
   .mq ul { list-style:none; margin:0; padding:0; display:flex; width:max-content; animation:mq 70s linear infinite; }
@@ -189,17 +200,25 @@
   <div class="wrap roles paths">
     <article class="role"><span class="n">01</span><h2>Fully digital</h2><p>See patients by video from anywhere in Canada.</p><ul><li>Open as few or as many hours as you like</li><li>Want in-person time too? Tell us which partner locations you'd like.</li></ul><span class="tag">Work from home</span></article>
     <article class="role"><span class="n">02</span><h2>In-home visits</h2><p>Opt in and we use geo-tagging to book patients near you. Your car is the clinic.</p><ul><li>Set how far you'll travel</li><li>Focused on home visits? You get access to a Tesla Model Y for your rounds</li></ul><span class="tag">Tesla Model Y access</span></article>
-    <article class="role"><span class="n">03</span><h2>On site</h2><p>Pick up easy on-site hours at 80+ in-person locations run by our partners.</p><ul><li>Each location owner is vetted by us</li><li>Great for digital clinicians who want more hours</li></ul><span class="tag">80+ partner locations</span></article>
+    <article class="role"><span class="n">03</span><h2>On site</h2><p>Pick up easy on-site hours at 100+ in-person locations run by our partners.</p><ul><li>Each location owner is vetted by us</li><li>Great for digital clinicians who want more hours</li></ul><span class="tag">100+ partner locations</span></article>
   </div>
   <div class="wrap"><div class="more">
-    <div class="num">80+</div>
-    <div><h3>Want more hours and in-person care?</h3><p>There are plenty of ways onto locations we trust. We've already built a network of over 80 through our partners, and we vet the owners ourselves. Tell us where you'd like to work and we'll help you get there.</p></div>
+    <div class="num">100+</div>
+    <div><h3>Want more hours and in-person care?</h3><p>There are plenty of ways onto locations we trust. We've built a network of 100+ through our partners, heading past 200 across Canada, with the US coming in Q4 2026. We vet the owners ourselves. Tell us where you'd like to work and we'll help you get there.</p></div>
   </div></div>
   <section class="brands" aria-labelledby="brands-h">
     <div class="wrap">
       <p class="kick">Where our patients come from</p>
-      <h2 id="brands-h">Patients sent by brands they already trust.</h2>
-      <p class="lead">People find us through the recovery and wellness brands in our patient store. You spend your time treating people who want to get better, not chasing leads.</p>
+      <h2 id="brands-h">Patients come to you. <span>Demand is on us.</span></h2>
+      <p class="lead">Calm Joints carries the patient flow across Canada, so you spend your time treating people, not chasing leads.</p>
+      <ul class="bchips" aria-label="How we bring patients in">
+        <li><button type="button" data-tip="Our supply partners bring over $50M a year in recurring customer volume, all curated in one place.">$50M+ customer volume</button></li>
+        <li><button type="button" data-tip="Patients book across Canada, and Calm Joints shoulders most of the demand flow for you.">Canada-wide patient demand</button></li>
+        <li><button type="button" data-tip="The brands below supply our patient store, and many stand up their own hubs with Calm Joints physio built in.">Supply partners with hubs</button></li>
+        <li><button type="button" data-tip="That volume powers curated display space for targeted ads to high-value customers, managed through Birch Reserve.">Targeted ads, managed</button></li>
+      </ul>
+      <p class="btip" id="btip" aria-live="polite">Tap to see how patients find you.</p>
+      <p class="kick sub">Some of our supply partners</p>
     </div>
     <div class="mq "><ul><li><b>Dr. Ho</b><span>Recovery equipment</span></li><li><b>360 Athletics</b><span>Exercise equipment</span></li><li><b>Airwaav</b><span>Performance equipment</span></li><li><b>Viome</b><span>Personalized health</span></li><li><b>Kalaya</b><span>Topical pain relief</span></li><li><b>Magnum Supps</b><span>Sports nutrition</span></li><li><b>Fresh Prep</b><span>Meal delivery</span></li><li><b>Manduka</b><span>Yoga equipment</span></li><li><b>LyfeFuel</b><span>Nutrition</span></li><li><b>Renpho</b><span>Recovery equipment</span></li><li><b>Flora Health</b><span>Supplements and herbal</span></li><li><b>Resolve Sleep</b><span>Sleep care</span></li><li aria-hidden="true"><b>Dr. Ho</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>360 Athletics</b><span>Exercise equipment</span></li><li aria-hidden="true"><b>Airwaav</b><span>Performance equipment</span></li><li aria-hidden="true"><b>Viome</b><span>Personalized health</span></li><li aria-hidden="true"><b>Kalaya</b><span>Topical pain relief</span></li><li aria-hidden="true"><b>Magnum Supps</b><span>Sports nutrition</span></li><li aria-hidden="true"><b>Fresh Prep</b><span>Meal delivery</span></li><li aria-hidden="true"><b>Manduka</b><span>Yoga equipment</span></li><li aria-hidden="true"><b>LyfeFuel</b><span>Nutrition</span></li><li aria-hidden="true"><b>Renpho</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>Flora Health</b><span>Supplements and herbal</span></li><li aria-hidden="true"><b>Resolve Sleep</b><span>Sleep care</span></li></ul></div>
     <div class="mq rev"><ul><li><b>Momentus</b><span>Sports nutrition</span></li><li><b>Hyperice Canada</b><span>Recovery equipment</span></li><li><b>Garmin</b><span>Wearable tech</span></li><li><b>Snap Supplements</b><span>Supplements</span></li><li><b>Bionic Gym</b><span>Exercise equipment</span></li><li><b>kGoal</b><span>Pelvic health</span></li><li><b>No Days Wasted</b><span>Recovery supplements</span></li><li><b>Medistick</b><span>Topical pain relief</span></li><li><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li><b>Bet Jet</b><span>Functional nutrition</span></li><li><b>Sierra Sil</b><span>Mineral supplements</span></li><li><b>Sensate</b><span>HRV device</span></li><li aria-hidden="true"><b>Momentus</b><span>Sports nutrition</span></li><li aria-hidden="true"><b>Hyperice Canada</b><span>Recovery equipment</span></li><li aria-hidden="true"><b>Garmin</b><span>Wearable tech</span></li><li aria-hidden="true"><b>Snap Supplements</b><span>Supplements</span></li><li aria-hidden="true"><b>Bionic Gym</b><span>Exercise equipment</span></li><li aria-hidden="true"><b>kGoal</b><span>Pelvic health</span></li><li aria-hidden="true"><b>No Days Wasted</b><span>Recovery supplements</span></li><li aria-hidden="true"><b>Medistick</b><span>Topical pain relief</span></li><li aria-hidden="true"><b>Apollo Neuro</b><span>Stress and wearable tech</span></li><li aria-hidden="true"><b>Bet Jet</b><span>Functional nutrition</span></li><li aria-hidden="true"><b>Sierra Sil</b><span>Mineral supplements</span></li><li aria-hidden="true"><b>Sensate</b><span>HRV device</span></li></ul></div>
@@ -242,6 +261,10 @@
         <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
         <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
       </div>
+      <div class="two">
+        <div class="field"><label for="c-prov">Province you're registered in</label><select id="c-prov" name="province" required><option value="">Choose a province</option><option value="ON">Ontario</option><option value="AB">Alberta</option><option value="BC">British Columbia</option><option value="MB">Manitoba</option><option value="NB">New Brunswick</option><option value="NL">Newfoundland and Labrador</option><option value="NS">Nova Scotia</option><option value="NT">Northwest Territories</option><option value="NU">Nunavut</option><option value="PE">Prince Edward Island</option><option value="QC">Quebec</option><option value="SK">Saskatchewan</option><option value="YT">Yukon</option><option value="none">Not registered yet</option></select></div>
+        <div class="field chk"><label class="regchk" for="c-reg"><input type="checkbox" id="c-reg" name="registered" value="yes">I'm a registered practitioner</label></div>
+      </div>
       <div class="field"><label for="c-link">LinkedIn or website <span class="opt">(optional)</span></label><input id="c-link" name="link" inputmode="url" placeholder="linkedin.com/in/you"></div>
       <div class="field"><span class="flabel">Resume <span class="opt">(optional)</span></span><input class="file-in" id="c-resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><label class="file-drop" for="c-resume"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg><span><b>Upload your resume</b><span class="file-hint">PDF or Word, up to 3 MB</span><span class="file-name"></span></span></label></div>
       <div class="field"><label for="c-msg">A bit about you <span class="opt">(optional)</span></label><textarea id="c-msg" name="message" rows="3"></textarea></div>
@@ -258,5 +281,9 @@
 <script src="/form.js"></script>
 <script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers'); document.getElementById('c-resume').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.closest('.field').querySelector('.file-name').textContent = f ? f.name : ''; });</script>
 <script>(function(){function o(){if(location.hash==="#benefits"){var d=document.getElementById("benefits-d");if(d)d.open=true;}}o();addEventListener("hashchange",o);})();</script>
+<script>
+(function(){var t=document.getElementById('btip');if(!t)return;var bs=document.querySelectorAll('.bchips button');function sh(b){bs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});t.textContent=b.getAttribute('data-tip');}
+bs.forEach(function(b){b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){sh(b)});b.addEventListener('mouseenter',function(){if(matchMedia('(hover:hover)').matches)sh(b)})});})();
+</script>
 </body>
 </html>
