@@ -175,6 +175,31 @@
   .bx-insert img.qr { width: 72%; height: auto; display: block; margin: 7% auto 5%; }
   .bx-insert span { display: block; font-size: clamp(.5rem, .95vw, .68rem); color: var(--mute); line-height: 1.3; }
   .bx-tag { position: absolute; left: 7%; top: 8%; background: #fff; border: 1px solid #CDEBD6; color: var(--green); font-weight: 700; font-size: .78rem; border-radius: 999px; padding: .3rem .75rem; }
+  .bf { margin-top: clamp(2.5rem, 6vw, 4rem); display: grid; gap: 1.8rem; align-items: center; background: linear-gradient(140deg, #0B1D16, #0A3D22 65%, #13703A); color: #fff; border-radius: 28px; padding: clamp(1.3rem, 4.5vw, 3rem); }
+  @media (min-width: 900px) { .bf { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(2rem, 4vw, 3.5rem); } }
+  .bf-art { position: relative; margin: 0; }
+  .bf-art img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 34px 60px -30px rgba(0,0,0,.65); }
+  .bf-tag { position: absolute; left: 12px; bottom: 12px; background: #7EE2A8; color: #0B1D16; font-weight: 700; font-size: .75rem; border-radius: 999px; padding: .3rem .75rem; }
+  .bf .kicker { color: #7EE2A8; }
+  .bf h2 { margin: 0; color: #fff; } .bf h2 span { color: #7EE2A8; }
+  .bf .lede { margin: .7rem 0 0; color: #CDEFD9; max-width: 32rem; }
+  .bf-chips { list-style: none; padding: 0; margin: 1.2rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .bf-chips button { font: 600 .9rem var(--sans); color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(126,226,168,.45); border-radius: 999px; padding: .5rem .85rem; cursor: pointer; transition: background .2s, border-color .2s; }
+  .bf-chips button:hover, .bf-chips button[aria-pressed="true"] { background: #7EE2A8; color: #0B1D16; border-color: #7EE2A8; }
+  .bf-tip { min-height: 2.9em; margin: .7rem 0 0; color: #E6F7EC; font-size: .95rem; }
+  .bf-form { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1rem; }
+  .bf-form input[type=email] { flex: 1 1 14rem; min-width: 0; font: 400 1rem var(--sans); padding: .8rem 1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.3); background: #fff; color: var(--ink); }
+  .bf-form input.is-invalid { border-color: #FCA5A5; box-shadow: 0 0 0 3px rgba(252,165,165,.35); }
+  .bf-form .btn { flex: 0 0 auto; background: #7EE2A8; color: #0B1D16; } .bf-form .btn:hover { background: #A7F0C4; }
+  .bf-status { margin: .6rem 0 0; font-size: .88rem; color: #CDEFD9; }
+  .bf-status.err { color: #FECACA; }
+  .bf-go { display: none; margin-top: 1rem; gap: .6rem; align-items: center; flex-wrap: wrap; }
+  .bf.done .bf-form { display: none; } .bf.done .bf-go { display: flex; }
+  .bf-go .btn { background: #7EE2A8; color: #0B1D16; }
+  .bf-foot { display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; margin-top: 1.1rem; font-size: .82rem; color: #9FC7AF; }
+  .bf-foot a { color: #CDEFD9; }
+  .bf-foot img { height: 22px; width: auto; background: #fff; border-radius: 6px; padding: 3px 6px; }
+  @media (max-width: 520px) { .bf-form .btn { flex: 1 1 100%; } .bf { border-radius: 22px; } }
 
   .brands-form .fields { display: grid; gap: .9rem; }
   .pd { padding: 0; border: 0; background: transparent; max-width: min(560px, calc(100vw - 24px)); width: 100%; max-height: calc(100dvh - 24px); overflow: visible; }
@@ -517,6 +542,32 @@
         <div class="bx-box" aria-hidden="true"><b>Your brand</b><small>Knee support · Size M</small></div>
         <div class="bx-insert"><img class="mk" src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="88" height="24"><p>Sore or injured? See a physio from home.</p><img class="qr" src="/media/partners/qr/insert-sample-qr.svg" alt="Sample QR code" width="120" height="120"><span>Scan to book a video visit with a registered physiotherapist.</span></div>
       </figure>
+    </div>
+    <div class="wrap bf" id="brands-full" aria-labelledby="bf-h">
+      <figure class="bf-art"><span class="bf-tag">Scale Hub example</span><img src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Example Scale Hub for a brand: digital physio booking, a recovery store with member pricing, partner deals and perks" loading="lazy" decoding="async"></figure>
+      <div class="bf-copy">
+        <p class="kicker">Optional: Full monetization</p>
+        <h2 id="bf-h">Go all in with a <span>Scale Hub.</span></h2>
+        <p class="lede">We handle the physio. The products and services are already picked, so your brand launches a full recovery suite with a real clinical layer.</p>
+        <ul class="bf-chips" aria-label="What a Scale Hub includes">
+          <li><button type="button" data-tip="Registered physios see your customers by video. We handle booking and care.">Physio by Calm Joints</button></li>
+          <li><button type="button" data-tip="Recovery products already curated, with member pricing. Your products sit front and centre.">Curated store</button></li>
+          <li><button type="button" data-tip="Vetted service partners and perks drop right in.">Partner services</button></li>
+          <li><button type="button" data-tip="A full clinical layer behind your brand from day one, without hiring anyone.">Legit from day one</button></li>
+          <li><button type="button" data-tip="You earn on visits, products and services, not just the physio.">Earn on everything</button></li>
+        </ul>
+        <p class="bf-tip" id="bf-tip" aria-live="polite">Tap a chip to see what’s included.</p>
+        <form class="bf-form" id="bf-form" novalidate>
+          <input type="hidden" name="src" value="cj-brands-full">
+          <label class="sr" for="bf-email">Work email</label>
+          <input id="bf-email" name="email" type="email" required autocomplete="email" placeholder="you@yourbrand.com" maxlength="254">
+          <button class="btn" type="submit">See Scale Hubs</button>
+          <label class="hp">Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label>
+        </form>
+        <div class="bf-go"><a class="btn" id="bf-link" href="https://www.scalehealth.ca/clinichubs?utm_source=calmjoints&amp;utm_medium=brands_full" target="_blank" rel="noopener noreferrer">Open Scale Hubs ↗</a><span>Thanks, we’ve got your email. We’ll follow up.</span></div>
+        <p class="bf-status" id="bf-status" role="status" aria-live="polite">No upfront cost. Full needs a minimum audience size.</p>
+        <div class="bf-foot"><a href="https://www.scalehealth.ca/clinichubs?utm_source=calmjoints&amp;utm_medium=brands_full_skip" target="_blank" rel="noopener noreferrer" id="bf-skip">Just browse</a><span>Hubs by our partners at</span><img src="/media/partners/scale-health-logo.png" width="144" height="28" alt="Scale Health" loading="lazy"></div>
+      </div>
     </div>
   </section>
 </main>
@@ -892,6 +943,26 @@
     var f = document.getElementById('talk-form'); if (!f) return; var m = f.querySelector('textarea[name=message]');
     if (m && !m.value.trim()) m.value = 'Interested in: ' + a.getAttribute('data-po');
     setTimeout(function () { var w = f.querySelector('input[name=website]'); if (w) w.focus({ preventScroll: true }); }, 450); }); });
+})();
+</script>
+<script>
+(function () {
+  var wrap = document.getElementById('brands-full'); if (!wrap) return;
+  var tip = document.getElementById('bf-tip'), btns = wrap.querySelectorAll('.bf-chips button');
+  function show(b) { btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); tip.textContent = b.getAttribute('data-tip'); }
+  btns.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', function () { show(b); }); b.addEventListener('mouseenter', function () { if (matchMedia('(hover:hover)').matches) show(b); }); });
+  var form = document.getElementById('bf-form'), st = document.getElementById('bf-status'), em = document.getElementById('bf-email');
+  em.addEventListener('input', function () { em.classList.remove('is-invalid'); st.classList.remove('err'); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = em.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { em.classList.add('is-invalid'); st.classList.add('err'); st.textContent = v ? 'That email doesn’t look quite right. Try once more?' : 'Add your email and we’ll open Scale Hubs for you.'; em.focus(); return; }
+    var btn = form.querySelector('button[type=submit]'); btn.disabled = true; st.classList.remove('err'); st.textContent = 'One sec…';
+    fetch('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v, src: 'cj-brands-full', company: form.company.value }) })
+      .then(function (r) { if (!r.ok) throw new Error(); wrap.classList.add('done'); st.textContent = 'No upfront cost. Full needs a minimum audience size.'; document.getElementById('bf-link').focus(); })
+      .catch(function () { st.classList.add('err'); st.textContent = 'We couldn’t save that just now. Email info@calmjoints.org, or just browse below.'; })
+      .finally(function () { btn.disabled = false; });
+  });
 })();
 </script>
 </body>
