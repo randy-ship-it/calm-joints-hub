@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calm Joints | Sales</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<style>
+  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8}
+  *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#F6FAF7}
+  main{max-width:1100px;margin:0 auto;padding:1.5rem}
+  h1{font-size:1.4rem;margin:0 0 1rem} h2{font-size:1.05rem;margin:1.8rem 0 .6rem}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem} .tile b{display:block;font-size:1.5rem} .tile span{color:var(--mute);font-size:.85rem}
+  .latest{background:var(--green);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1rem;font-weight:600}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:top} th{background:#EDFAF4;font-weight:600}
+  td.n,th.n{text-align:right} .mute{color:var(--mute)} .codes{font-size:.8rem;color:var(--mute)}
+  form{display:flex;gap:.5rem;max-width:420px} input{flex:1;padding:.7rem;border:1px solid #CFD9D3;border-radius:10px;font:inherit} button{padding:.7rem 1rem;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:700;cursor:pointer}
+  .err{color:#B42318;font-weight:600}
+</style>
+</head>
+<body>
+<main>
+  <h1>Calm Joints sales</h1>
+  <form id="login" hidden><input type="password" id="key" placeholder="Admin key" autocomplete="current-password" aria-label="Admin key"><button>Open</button></form>
+  <p id="msg" class="mute" role="status"></p>
+  <div id="out" hidden>
+    <div class="latest" id="latest"></div>
+    <div class="tiles" id="tiles"></div>
+    <h2>Where sales came from</h2>
+    <table><thead><tr><th>Channel</th><th class="n">Bookings</th><th class="n">Paid visits</th><th class="n">Billed</th></tr></thead><tbody id="chan"></tbody></table>
+    <h2>Latest sales</h2>
+    <table><thead><tr><th>When</th><th>Type</th><th>Came from</th><th class="n">Billed</th></tr></thead><tbody id="recent"></tbody></table>
+    <h2>QR partners</h2>
+    <table><thead><tr><th>Partner</th><th class="n">Signs</th><th class="n">Scans</th><th class="n">Emails</th><th class="n">Booking clicks</th><th class="n">Bookings</th><th class="n">Paid visits</th><th class="n">Billed</th></tr></thead><tbody id="partners"></tbody></table>
+  </div>
+</main>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var cad = function (n) { return n == null ? '' : '$' + Number(n).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  var when = function (t) { return new Date(t).toLocaleString('en-CA', { timeZone: 'America/Toronto', dateStyle: 'medium', timeStyle: 'short' }) + ' ET'; };
+  var label = function (x) { return x.channel === 'qr_partner' ? 'QR partner: ' + x.via + (x.code ? ' (sign ' + x.code + ')' : '') : x.channel.replace(/^brand:/, 'Brand: '); };
+  function load() {
+    var key = sessionStorage.getItem('cj_admin_key');
+    if (!key) { $('login').hidden = false; return; }
+    fetch('/api/cj-sales', { headers: { Authorization: 'Bearer ' + key } }).then(function (r) { return r.json().then(function (j) { return { r: r, j: j }; }); }).then(function (o) {
+      if (o.r.status === 401) { sessionStorage.removeItem('cj_admin_key'); $('login').hidden = false; $('msg').className = 'err'; $('msg').textContent = 'That key didn’t work.'; return; }
+      if (!o.j.ok) throw new Error(o.j.message || 'Could not load sales.');
+      var d = o.j; $('login').hidden = true; $('out').hidden = false; $('msg').className = 'mute'; $('msg').textContent = 'Updated ' + when(d.as_of) + '. Refreshes every minute.';
+      var ls = d.latest_sale;
+      $('latest').textContent = ls ? 'Latest: ' + (ls.type === 'visit' ? 'paid visit' : 'booking') + (ls.billed ? ' ' + cad(ls.billed) : '') + ' from ' + label(ls) + ', ' + when(ls.at) : 'No sales recorded yet.';
+      var t = d.totals;
+      $('tiles').innerHTML = [[t.sales, 'Paid visits'], [cad(t.billed), 'Billed'], [t.bookings, 'Open bookings'], [t.partners, 'QR partners'], [t.downloads, 'Signs downloaded'], [t.scans, 'QR scans']].map(function (x) { return '<div class="tile"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join('');
+      $('chan').innerHTML = Object.keys(d.by_channel).map(function (k) { var c = d.by_channel[k]; return '<tr><td>' + esc(k === 'qr_partner' ? 'QR partners' : k.replace(/^brand:/, 'Brand: ')) + '</td><td class="n">' + c.bookings + '</td><td class="n">' + c.visits + '</td><td class="n">' + cad(c.billed) + '</td></tr>'; }).join('') || '<tr><td colspan="4" class="mute">Nothing yet.</td></tr>';
+      $('recent').innerHTML = d.recent.map(function (x) { return '<tr><td>' + esc(when(x.at)) + '</td><td>' + (x.type === 'visit' ? 'Paid visit' : 'Booking') + '</td><td>' + esc(label(x)) + '</td><td class="n">' + cad(x.billed) + '</td></tr>'; }).join('') || '<tr><td colspan="4" class="mute">No sales yet.</td></tr>';
+      $('partners').innerHTML = d.partners.map(function (p) {
+        var codes = p.by_code.map(function (c) { return esc(c.code) + ' ' + esc(c.size || '') + ': ' + c.scans + ' scans, ' + c.visits + ' visits'; }).join(' · ');
+        return '<tr><td>' + esc(p.venue) + (p.city ? ' <span class="mute">' + esc(p.city) + '</span>' : '') + (codes ? '<div class="codes">' + codes + '</div>' : '') + '</td><td class="n">' + p.downloads + '</td><td class="n">' + p.scans + '</td><td class="n">' + p.emails + '</td><td class="n">' + p.booking_clicks + '</td><td class="n">' + p.bookings + '</td><td class="n">' + p.visits + '</td><td class="n">' + cad(p.billed) + '</td></tr>';
+      }).join('') || '<tr><td colspan="8" class="mute">No partners yet.</td></tr>';
+    }).catch(function (e) { $('msg').className = 'err'; $('msg').textContent = e.message; });
+  }
+  $('login').addEventListener('submit', function (e) { e.preventDefault(); var k = $('key').value.trim(); if (!k) return; sessionStorage.setItem('cj_admin_key', k); load(); });
+  load(); setInterval(function () { if (sessionStorage.getItem('cj_admin_key')) load(); }, 60000);
+})();
+</script>
+</body>
+</html>

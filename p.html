@@ -44,17 +44,18 @@
   var qs = new URLSearchParams(location.search);
   var slug = (qs.get('slug') || (location.pathname.split('/p/')[1] || '')).replace(/\/.*/, '').toLowerCase();
   var src = (qs.get('src') || 'qr').slice(0, 20);
+  var c = (qs.get('c') || '').toLowerCase(); if (!/^[a-f0-9]{6}$/.test(c)) c = '';
   var bookUrl = (window.CALM_JOINTS && window.CALM_JOINTS.booking && window.CALM_JOINTS.booking.primaryUrl) || '/#book';
   var ok = /^[a-z0-9-]{3,48}$/.test(slug);
   function post(body) {
     try { return fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(function () {}); }
     catch (e) { return Promise.resolve(); }
   }
-  function remember(email) { try { localStorage.setItem('cj_ref', JSON.stringify({ slug: slug, email: email || null, at: Date.now() })); } catch (e) {} }
+  function remember(email) { try { localStorage.setItem('cj_ref', JSON.stringify({ slug: slug, c: c || null, email: email || null, at: Date.now() })); } catch (e) {} }
   function go(email) { remember(email); location.href = ok ? '/?ref=' + encodeURIComponent('partner:' + slug) + '#book' : bookUrl; }
   if (!ok) { go(); return; }
-  try { var k = 'cj-visit-' + slug; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src }); } }
-  catch (e) { post({ slug: slug, event: 'visit', src: src }); }
+  try { var k = 'cj-visit-' + slug + c; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src, c: c }); } }
+  catch (e) { post({ slug: slug, event: 'visit', src: src, c: c }); }
   document.getElementById('skip').addEventListener('click', function () { go(); });
   document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -62,7 +63,7 @@
     if (!email) { go(); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { document.getElementById('msg').textContent = 'That email doesn’t look quite right.'; return; }
     var b = document.getElementById('go'); b.disabled = true; b.textContent = 'Connecting…';
-    Promise.race([post({ slug: slug, event: 'email', email: email, src: src }), new Promise(function (r) { setTimeout(r, 2000); })]).then(function () { go(email); });
+    Promise.race([post({ slug: slug, event: 'email', email: email, src: src, c: c }), new Promise(function (r) { setTimeout(r, 2000); })]).then(function () { go(email); });
   });
 })();
 </script>

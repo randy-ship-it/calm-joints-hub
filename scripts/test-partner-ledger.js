@@ -68,6 +68,39 @@ const L = require('../lib/partner-ledger');
   for (const [k, v] of store) assert.ok(!/account_number|transit|routing|institution/i.test(v.toString()), `no bank data in ${k}`);
   // every partner email warns about bank details by email
   assert.ok(mails.every((m) => /never ask for your bank details by email/.test(m.text)));
+  // per-sign QR codes: each download mints a code; scans, emails and sales carry it
+  const Q = require('../lib/qr-partners');
+  const fridayPosts = [];
+  global.fetch = async (url, opts) => { if (String(url).includes('fridayapp')) fridayPosts.push(JSON.parse(opts.body)); return fakeFetch(url, opts); };
+  const d1 = await Q.recordLead({ slug: 'maple-tennis-club', event: 'download', size: 'poster' }, env);
+  const d2 = await Q.recordLead({ slug: 'maple-tennis-club', event: 'download', size: 'sticker' }, env);
+  assert.ok(/^[a-f0-9]{6}$/.test(d1.json.code) && d1.json.code !== d2.json.code, 'each download gets its own code');
+  assert.ok(d1.json.url.endsWith(`/p/maple-tennis-club?src=qr&c=${d1.json.code}`));
+  await Q.recordLead({ slug: 'maple-tennis-club', event: 'visit', c: d1.json.code }, env);
+  await Q.recordLead({ slug: 'maple-tennis-club', event: 'visit', c: d1.json.code }, env);
+  await Q.recordLead({ slug: 'maple-tennis-club', event: 'email', email: 'sam@example.com', c: d2.json.code }, env);
+  r = await L.recordEvent({ type: 'visit', patient_email: 'sam@example.com', ref: 'jane-2001', billed: 95, net: 60, source: 'jane' }, env);
+  assert.strictEqual(r.json.slug, 'maple-tennis-club');
+  ({ s } = await L.summary('maple-tennis-club', env));
+  const c1 = s.by_code.find((c) => c.code === d1.json.code), c2 = s.by_code.find((c) => c.code === d2.json.code);
+  assert.strictEqual(s.downloads, 2); assert.strictEqual(c1.scans, 2); assert.strictEqual(c1.size, 'poster'); assert.strictEqual(c2.emails, 1); assert.strictEqual(c2.visits, 1);
+  const sale = fridayPosts.find((x) => x.externalId && x.externalId.startsWith('cj-sale-') && x.tags.includes(`qr:${d2.json.code}`));
+  assert.ok(sale && sale.value === 95 && sale.tags.includes('sale'), 'sale goes to Friday with value and sign code');
+  // a sale with no partner is still kept, with its channel
+  r = await L.recordEvent({ type: 'visit', patient_email: 'walkin@example.com', ref: 'jane-3001', billed: 110, channel: 'brand:drho' }, env);
+  assert.strictEqual(r.json.attributed, false);
+  const direct = [...store.keys()].filter((k) => k.startsWith('cj-sales/direct/'));
+  assert.strictEqual(direct.length, 2, 'the earlier unattributed booking is kept too'); assert.ok(direct.some((k) => JSON.parse(store.get(k)).channel === 'brand:drho'));
+  assert.ok(fridayPosts.some((x) => x.tags.includes('channel:brand:drho') && x.value === 110));
+  // admin sales feed
+  const sales = require('../api/cj-sales');
+  const call = (auth) => new Promise((ok) => { const res = { headers: {}, setHeader(k, v) { this.headers[k] = v; }, writeHead(c) { this.statusCode = c; }, end(b) { ok({ code: this.statusCode, body: JSON.parse(b) }); } }; sales({ method: 'GET', headers: auth ? { authorization: auth } : {} }, res); });
+  process.env.CJ_ADMIN_KEY = 'admin-key-xyz';
+  assert.strictEqual((await call('Bearer nope')).code, 401);
+  const feed = (await call('Bearer admin-key-xyz')).body;
+  assert.ok(feed.ok); assert.strictEqual(feed.by_channel['brand:drho'].visits, 1); assert.ok(feed.by_channel.qr_partner.visits >= 3);
+  assert.strictEqual(feed.partners[0].downloads, 2);
+  global.fetch = fakeFetch;
   console.log(`partner-ledger: all checks passed (${mails.length} emails)`);
 
   if (process.env.PREVIEW) {
