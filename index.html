@@ -663,7 +663,7 @@
     if (bkOk) bkOk.addEventListener('click', function () {
       try {
         var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
-        if (r && r.slug && Date.now() - r.at < 30 * 864e5) fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: r.slug, event: 'book', email: r.email || '', src: 'home' }), keepalive: true }).catch(function () {});
+        if (r && r.slug && Date.now() - r.at < 30 * 864e5) fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: r.slug, event: 'book', email: r.email || '', src: 'home', c: r.c || '' }), keepalive: true }).catch(function () {});
       } catch (e) {}
       setTimeout(function () { bk.close(); }, 50);
     });

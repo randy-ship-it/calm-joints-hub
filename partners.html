@@ -531,17 +531,36 @@
     };
     r.readAsDataURL(f);
   });
-  function fname(size) {
+  function fname(size, code) {
     var v = (document.getElementById('k-venue').value || 'calm-joints').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    return 'calm-joints-' + (v || 'partner') + '-' + size + '.png';
+    return 'calm-joints-' + (v || 'partner') + '-' + size + '-' + code + '.png';
   }
-  document.getElementById('k-dl').addEventListener('click', function () { draw().then(function (c) { CJKit.download(c, fname(state.size)); }); });
+  // Every download gets its own tracked code, so we can see which sign each scan came from.
+  async function mint(size) {
+    var res = await fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: state.slug, event: 'download', size: size }) });
+    var j = await res.json().catch(function () { return {}; });
+    if (!res.ok || !j.code) throw new Error(j.message || 'We couldn’t make that code just now. Try again?');
+    state.url = j.url; return j.code;
+  }
+  function needCode() {
+    if (state.slug) return false;
+    msg.className = 'msg err'; msg.textContent = 'Fill in the form and tap “Get my own QR code” first. Then every download gets its own tracked code.';
+    return true;
+  }
+  document.getElementById('k-dl').addEventListener('click', async function () {
+    if (needCode()) return;
+    try { var code = await mint(state.size); var c = await draw(); CJKit.download(c, fname(state.size, code)); }
+    catch (err) { msg.className = 'msg err'; msg.textContent = err.message; }
+  });
   document.getElementById('k-dl-all').addEventListener('click', async function () {
+    if (needCode()) return;
     var keep = state.size;
-    for (var s of ['poster', 'banner', 'tent', 'sticker']) {
-      state.size = s; await draw(); CJKit.download(canvas, fname(s));
-      await new Promise(function (ok) { setTimeout(ok, 450); });
-    }
+    try {
+      for (var s of ['poster', 'banner', 'tent', 'sticker']) {
+        state.size = s; var code = await mint(s); await draw(); CJKit.download(canvas, fname(s, code));
+        await new Promise(function (ok) { setTimeout(ok, 450); });
+      }
+    } catch (err) { msg.className = 'msg err'; msg.textContent = err.message; }
     state.size = keep; draw();
   });
   document.getElementById('kit-form').addEventListener('submit', async function (e) {
