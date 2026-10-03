@@ -170,6 +170,7 @@
   .two { display:grid; gap:0 1rem; grid-template-columns:1fr 1fr; } @media (max-width:520px) { .two { grid-template-columns:1fr; } }
   .opt { font-weight:400; color:var(--mute); }
 </style>
+<link rel="stylesheet" href="/css/calm-extras.css">
 </head>
 <body>
 <section class="hero">
@@ -276,7 +277,7 @@
 </main>
 <footer class="foot">
   <span>© <span id="yr">2026</span> Calm Joints</span>
-  <span><a href="/careers">Careers</a> &nbsp;·&nbsp; <a href="mailto:info@calmjoints.org">info@calmjoints.org</a></span>
+  <span><a href="/careers">Careers</a> &nbsp;·&nbsp; <a href="mailto:info@calmjoints.org">info@calmjoints.org</a> &nbsp;·&nbsp; <a href="#cookies" data-cookie-settings>Cookie settings</a></span>
 </footer>
 <script src="/form.js"></script>
 <script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers'); document.getElementById('c-resume').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.closest('.field').querySelector('.file-name').textContent = f ? f.name : ''; });</script>
@@ -285,5 +286,6 @@
 (function(){var t=document.getElementById('btip');if(!t)return;var bs=document.querySelectorAll('.bchips button');function sh(b){bs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});t.textContent=b.getAttribute('data-tip');}
 bs.forEach(function(b){b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){sh(b)});b.addEventListener('mouseenter',function(){if(matchMedia('(hover:hover)').matches)sh(b)})});})();
 </script>
+<script src="/js/consent.js"></script>
 </body>
 </html>

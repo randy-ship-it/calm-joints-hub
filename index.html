@@ -293,23 +293,6 @@
   @media (max-width: 760px) { .sticky { display: flex; } }
   @media (min-width: 761px) { footer { padding-bottom: 2.4rem; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
-  /* email pop */
-  .pop { position:fixed; right:1rem; bottom:1rem; width:min(380px, calc(100vw - 2rem)); background:#fff; color:var(--ink); border:1px solid var(--line); border-top:4px solid var(--green); border-radius:20px; padding:1.3rem 1.3rem 1rem; box-shadow:0 24px 60px -18px rgba(10,61,34,.35); visibility:hidden; transform:translateY(16px); transition:transform .3s ease, visibility 0s linear .3s; z-index:50; }
-  .pop.on { visibility:visible; transform:none; transition:transform .3s ease; }
-  .pop h2 { margin:0 2rem .35rem 0; font-size:1.2rem; line-height:1.25; letter-spacing:-.01em; color:var(--ink); }
-  .pop p { margin:0 0 .9rem; color:#3F5147; font-size:.95rem; line-height:1.45; }
-  .pop .row { display:flex; flex-direction:column; gap:.55rem; }
-  .pop input { width:100%; font:16px/1.4 var(--sans); color:var(--ink); background:#fff; border:1.5px solid #C9D6CE; border-radius:12px; outline:none; padding:.8rem .9rem; }
-  .pop input::placeholder { color:#6B7C72; }
-  .pop input:focus { border-color:var(--green); box-shadow:0 0 0 4px rgba(21,128,61,.12); }
-  .pop .btn { width:100%; border:0; border-radius:12px; color:#fff; font:700 1rem var(--sans); cursor:pointer; background:var(--green); padding:.85rem 1rem; }
-  .pop .btn:hover { background:#116A32; }
-  .pop .x { position:absolute; top:.55rem; right:.6rem; width:2.2rem; height:2.2rem; background:none; border:0; color:#3F5147; font-size:1.5rem; line-height:1; cursor:pointer; border-radius:50%; }
-  .pop .x:hover { background:var(--soft); color:var(--ink); }
-  .pop .msg { min-height:1.2em; margin:.6rem 0 0; font-size:.9rem; font-weight:600; }
-  .pop .msg.ok { color:var(--green); } .pop .msg.err { color:#B42318; }
-  .pop .hp { position:absolute; left:-5000px; }
-  @media (max-width:760px){ .pop { left:.75rem; right:.75rem; bottom:5.2rem; width:auto; } }
   .po { background:#fff; }
   .po-grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
   .po-card { display:flex; flex-direction:column; gap:.5rem; background:#fff; border:1px solid var(--line); border-radius:18px; padding:1.3rem 1.3rem 1.2rem; }
@@ -352,8 +335,9 @@
   .po-more { margin-top:1.6rem; } .po-card .tags { display:flex; gap:.4rem; flex-wrap:wrap; } .po-card .tag2.qr { background:var(--deep); color:#fff; }
   @media (max-width:700px) { .pc-slide, .pc-frame { width:100%; } .pc-slide img.shot { width:100%; height:calc((100vw - 2.5rem) * .52); object-fit:cover; object-position:top center; } }
 </style>
+<link rel="stylesheet" href="/css/calm-extras.css">
 </head>
-<body>
+<body data-calming-pop="popup">
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
@@ -460,6 +444,8 @@
       </div>
     </div>
   </section>
+
+  <section data-calming="inline" id="calming-newsletters"></section>
 
   <section class="block soft" id="join">
     <div class="wrap">
@@ -573,6 +559,7 @@
 </main>
 
 <footer>
+  <div class="wrap"><div data-calming="footer"></div></div>
   <div class="wrap foot">
     <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="110" height="30">
     <nav aria-label="Footer">
@@ -581,6 +568,7 @@
       <a href="/careers">Careers</a>
       <a href="#partner" data-partner>Partnership opportunities</a>
       <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>
+      <a href="#cookies" data-cookie-settings>Cookie settings</a>
     </nav>
     <p style="flex-basis:100%;margin:0">Calm Joints is a trade name of Clairvoyant Holdings Inc. Care is provided by registered physiotherapists.</p>
   </div>
@@ -879,29 +867,8 @@
   wireForm('partner-form', '/api/partner', 'partner-status');
 })();
 </script>
-<aside class="pop" id="pop" role="dialog" aria-labelledby="pop-h" aria-hidden="true">
-  <button class="x" type="button" aria-label="Close">×</button>
-  <h2 id="pop-h">Get tips for sore joints</h2>
-  <p>A short email now and then from our physios. No spam, and you can unsubscribe anytime.</p>
-  <form id="popform" novalidate>
-    <div class="row"><label class="sr" for="pop-email">Email</label><input id="pop-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required><button class="btn" type="submit">Send me tips</button></div>
-    <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <p class="msg" role="status" aria-live="polite"></p>
-  </form>
-</aside>
-<script src="/form.js"></script>
-<script>
-(function () {
-  var KEY = 'cj-pop-done', pop = document.getElementById('pop');
-  function done(){ try { localStorage.setItem(KEY,'1'); } catch (e) {} }
-  function seen(){ try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
-  function close(){ pop.classList.remove('on'); pop.setAttribute('aria-hidden','true'); done(); }
-  pop.querySelector('.x').addEventListener('click', close);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('on')) close(); });
-  cjForm(document.getElementById('popform'), '/api/newsletter', function () { done(); setTimeout(close, 2200); });
-  if (!seen()) setTimeout(function () { if (!seen()) { pop.classList.add('on'); pop.setAttribute('aria-hidden','false'); } }, 8000);
-})();
-</script>
+<script src="/js/consent.js"></script>
+<script src="/js/calming.js"></script>
 <script>
 (function () {
   var tg = document.getElementById('po-toggle'), more = document.getElementById('po-more');
