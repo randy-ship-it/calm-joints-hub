@@ -41,3 +41,11 @@ This site does not call `/api/webhooks/calmjoints/*`.
 If Friday is unconfigured or returns non-2xx, the handler still writes a local JSONL row and, when a database URL is set, a Neon row, then returns the same friendly success. The stored envelope is `{ "type", "source": "calmjoints.org", "payload": <Friday body>, "received_at", "notify_email": "info@calmjoints.org" }`. `/tmp` on Vercel is ephemeral — Neon (`NEON_DATABASE_URL`, `DATABASE_URL`, or `POSTGRES_URL`, table `calm_joints_intakes`) is the durable copy when Friday is down. `INTAKE_STORE_PATH` overrides the JSONL file (default `data/intakes.jsonl` off Vercel).
 
 Booking still uses the interim Jane calendar in `config.js` until Align sends a live embed URL.
+
+## Cookies, analytics and Calming Newsletters
+
+- `js/consent.js` shows the cookie banner (Accept / Reject / Manage) on public pages and stores the choice in the first-party `cj_consent` cookie for 180 days. Nothing optional loads before a yes. Footer "Cookie settings" links reopen it.
+- Analytics yes loads Vercel Web Analytics and Speed Insights (cookieless; turn both on in the Vercel project's Analytics / Speed Insights tabs). GA4 and Meta pixel hooks are wired but empty: set `ga4Id` / `metaPixelId` at the top of `js/consent.js` (or `window.CALM_JOINTS.analytics` in `config.js`) once real IDs exist.
+- `js/calming.js` renders the Calming Newsletters popup, the mid-page band and the footer signup. Popup: exit intent on desktop, ~45s or 50% scroll on mobile, at most once per 14 days, never after a signup, never while the cookie banner or any dialog (booking, partner) is open.
+- Signups use the existing `POST /api/newsletter` → Friday (`fridayapp.org/api/intake`) with `source`/tag `cj-calming-newsletter`, a placement tag, and the CASL express-consent text stored in `meta.consent`. The checkbox is required server side.
+- QA: add `?cjqa=1` to a page URL and signups from that tab are tagged `test` in Friday (externalId `cj-news-test-…`) and skip the team Slack/email alert.
