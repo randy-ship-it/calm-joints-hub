@@ -1,6 +1,6 @@
 /**
  * Calm Joints hub — runtime config.
- * Booking: for now routes through the DR-HO'S partner clinic on Jane (popup confirms first).
+ * Booking goes straight to the CHI Calm Joints location on Jane (no partner popup).
  */
 window.CALM_JOINTS = {
   brand: {
@@ -9,10 +9,10 @@ window.CALM_JOINTS = {
     contact: 'info@calmjoints.org',
   },
   booking: {
-    primaryUrl: 'https://scalehealth.janeapp.com/locations/scale-health-x-dr-ho/book#/staff_member/91/treatment/346',
+    primaryUrl: 'https://calmjoints.janeapp.com/locations/calm-joints/book#/list',
     embedUrl: null,
     providerListApi: null,
-    status: 'partner-clinic-drho',
+    status: 'jane-chi',
     label: 'Book a physiotherapist',
   },
   theme: {

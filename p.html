@@ -46,14 +46,18 @@
   var slug = (qs.get('slug') || (location.pathname.split('/p/')[1] || '')).replace(/\/.*/, '').toLowerCase();
   var src = (qs.get('src') || 'qr').slice(0, 20);
   var c = (qs.get('c') || '').toLowerCase(); if (!/^[a-f0-9]{6}$/.test(c)) c = '';
-  var bookUrl = (window.CALM_JOINTS && window.CALM_JOINTS.booking && window.CALM_JOINTS.booking.primaryUrl) || '/#book';
+  var bookUrl = (window.CALM_JOINTS && window.CALM_JOINTS.booking && window.CALM_JOINTS.booking.primaryUrl) || '';
   var ok = /^[a-z0-9-]{3,48}$/.test(slug);
   function post(body) {
     try { return fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(function () {}); }
     catch (e) { return Promise.resolve(); }
   }
   function remember(email) { try { localStorage.setItem('cj_ref', JSON.stringify({ slug: slug, c: c || null, email: email || null, at: Date.now() })); } catch (e) {} }
-  function go(email) { remember(email); location.href = ok ? '/?ref=' + encodeURIComponent('partner:' + slug) + '#book' : bookUrl; }
+  function go(email) {
+    remember(email);
+    if (ok) post({ slug: slug, event: 'book', email: email || '', src: src, c: c });
+    location.href = bookUrl || '/';
+  }
   if (!ok) { go(); return; }
   try { var k = 'cj-visit-' + slug + c; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src, c: c }); } }
   catch (e) { post({ slug: slug, event: 'visit', src: src, c: c }); }

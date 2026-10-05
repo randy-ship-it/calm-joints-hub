@@ -8,7 +8,7 @@
  *
  * Popup rules: exit intent on desktop; on mobile after ~45s or 50% scroll,
  * whichever comes first. Shown at most once per 14 days, never after a signup,
- * never while the cookie banner, the booking popup or any other dialog is open.
+ * never while the cookie banner or any other dialog is open.
  *
  * Signups go to the site's existing POST /api/newsletter (Friday CRM at
  * fridayapp.org) with src 'cj-calming-newsletter' and an explicit CASL opt-in.
@@ -87,7 +87,7 @@
   function capped() { var t = +get(K_SHOWN) || 0; return t && Date.now() - t < CAP_MS; }
   function eligible() { return !shown && !subscribed() && !capped(); }
   function blocked() {
-    if (document.querySelector('dialog[open]')) return true;                       // booking, partner, hub popups
+    if (document.querySelector('dialog[open]')) return true;                       // partner, hub, or other dialogs
     if (window.CJConsent && (window.CJConsent.visible() || !window.CJConsent.decided())) return true; // cookie banner first
     var a = document.activeElement;                                                 // don't interrupt typing
     if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && !(pop && pop.contains(a))) return true;

@@ -192,7 +192,7 @@
       <a href="/partners" aria-current="page">Partnerships</a>
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
-      <a class="btn btn-primary" href="/#book">Book a visit</a>
+      <a class="btn btn-primary" href="/#book" data-book>Book a visit</a>
     </nav>
   </div>
 </header>
@@ -605,6 +605,8 @@ const show=b=>{btns.forEach(x=>x.classList.toggle('on',x===b));out.textContent=b
 btns.forEach(b=>{b.addEventListener('mouseenter',()=>show(b));b.addEventListener('focus',()=>show(b));b.addEventListener('click',()=>{pinned=pinned===b?null:b;show(pinned);});});
 g.addEventListener('mouseleave',()=>show(pinned));});})();
 </script>
+<script src="/config.js"></script>
+<script src="/js/book.js"></script>
 <script src="/js/consent.js"></script>
 </body>
 </html>
