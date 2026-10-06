@@ -36,11 +36,11 @@
   function loadGuide(cb) {
     if (window.CJGuide) { cb && cb(); return; }
     if (!document.querySelector('link[data-cjg]')) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=1'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=2'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
     }
     var s = document.querySelector('script[data-cjg]');
     if (!s) {
-      s = document.createElement('script'); s.src = '/js/guide.js?v=1'; s.async = true; s.setAttribute('data-cjg', '');
+      s = document.createElement('script'); s.src = '/js/guide.js?v=2'; s.async = true; s.setAttribute('data-cjg', '');
       s.addEventListener('error', function () { s.setAttribute('data-failed', '1'); });
       document.head.appendChild(s);
     }
