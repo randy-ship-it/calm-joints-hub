@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Talk with Calm Joints</title>
+<meta name="description" content="Ask the Calm Joints guide about common knee, hip, back, neck or shoulder pain in plain language, or book a video visit with a registered physiotherapist.">
+<link rel="canonical" href="https://calmjoints.org/chat">
+<meta property="og:title" content="Talk with Calm Joints">
+<meta property="og:description" content="Plain-language answers about joint pain, and a fast way to book a video visit with a registered physiotherapist.">
+<meta property="og:url" content="https://calmjoints.org/chat">
+<meta name="theme-color" content="#15A34A">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="icon" href="/media/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/guide.css?v=1">
+<style>
+  html, body { margin: 0; height: 100%; background: #EDFAF4; }
+  body { display: flex; align-items: center; justify-content: center; min-height: 100dvh; }
+  #cj-guide { width: 100%; height: 100dvh; }
+  .cj-home { position: absolute; left: 16px; top: 14px; display: none; color: #15803D; font: 600 .9rem "DM Sans", system-ui, sans-serif; text-decoration: none; }
+  @media (min-width: 640px) {
+    body { padding: 28px 16px; box-sizing: border-box; }
+    #cj-guide { width: min(480px, 100%); height: min(820px, calc(100dvh - 56px)); border-radius: 22px; overflow: hidden; box-shadow: 0 24px 70px rgba(4, 36, 20, .16); border: 1px solid #D3F8DF; }
+    .cj-home { display: inline-block; }
+  }
+</style>
+</head>
+<body>
+<a class="cj-home" href="/">&larr; calmjoints.org</a>
+<main id="cj-guide" aria-label="Calm Joints guide"></main>
+<noscript><p style="padding:1rem;font-family:system-ui">Turn on JavaScript to chat, or <a href="https://calmjoints.org/?intent=book">book a video visit</a>. You’ll book through our partner clinic.</p></noscript>
+<script src="/config.js"></script>
+<script src="/js/guide.js?v=1"></script>
+<script>
+  (function () {
+    var g = window.CJGuide.mountPage(document.getElementById('cj-guide'), { leadOpen: false });
+    // QR visitors: warm up the guide so Chat opens instantly after the gate.
+    if (window.CJGuide.ctx.src === 'qr') window.CJGuide.preload().catch(function () {});
+  })();
+</script>
+</body>
+</html>

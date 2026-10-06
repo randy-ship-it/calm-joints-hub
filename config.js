@@ -1,19 +1,22 @@
 /**
  * Calm Joints hub — runtime config.
- * Booking goes straight to the CHI Calm Joints location on Jane (no partner popup).
+ * Booking goes straight to the partner clinic booking page.
  */
 window.CALM_JOINTS = {
   brand: {
     name: 'Calm Joints',
-    owner: 'Clairvoyant Holdings Inc. (CHI)',
     contact: 'info@calmjoints.org',
   },
   booking: {
     primaryUrl: 'https://calmjoints.janeapp.com/locations/calm-joints/book#/list',
     embedUrl: null,
     providerListApi: null,
-    status: 'jane-chi',
+    status: 'partner-clinic',
     label: 'Book a physiotherapist',
+  },
+  guide: {
+    // ElevenLabs Agents: Calm Joints Guide (chat + voice). Public agent id, no secret.
+    agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8',
   },
   theme: {
     primary: '#15A34A',

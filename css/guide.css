@@ -1,0 +1,68 @@
+/* Calm Joints guide — gate, chat, voice. White + greens, DM Sans. */
+.cjg{--g:#15803D;--g2:#15A34A;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--soft:#F5F8F6;--mint:#D3F8DF;font:16px/1.5 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;display:flex;flex-direction:column;min-height:0;-webkit-font-smoothing:antialiased}
+.cjg *{box-sizing:border-box}
+.cjg [hidden]{display:none!important}
+.cjg-head{display:flex;align-items:center;gap:.55rem;padding:.85rem 1rem;border-bottom:1px solid var(--line);flex:0 0 auto}
+.cjg-head img{width:30px;height:30px;border-radius:8px}
+.cjg-head b{font-weight:700;font-size:1rem}
+.cjg-head .cjg-x{margin-left:auto;width:38px;height:38px;border-radius:999px;border:0;background:var(--soft);font-size:1.3rem;line-height:1;cursor:pointer;color:var(--ink)}
+.cjg-body{flex:1 1 auto;overflow-y:auto;padding:1.1rem 1.1rem 1rem;min-height:0}
+.cjg h2{font-size:1.45rem;line-height:1.2;margin:0 0 .6rem;font-weight:700}
+.cjg p{margin:0 0 .75rem}
+.cjg .cjg-911{background:#FFF4F2;border:1px solid #F6D4CE;border-radius:12px;padding:.7rem .85rem;color:#7A1F12;font-size:.95rem}
+.cjg-actions{display:grid;gap:.55rem;margin:1rem 0 .4rem}
+.cjg-btn{display:flex;align-items:center;justify-content:center;gap:.45rem;width:100%;padding:.85rem 1rem;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:600;font-size:1rem;line-height:1.2;font-family:inherit;cursor:pointer;text-decoration:none;min-height:48px}
+.cjg-btn:hover{border-color:var(--g2)}
+.cjg-btn.pri{background:var(--g2);border-color:var(--g2);color:#fff}
+.cjg-btn.pri:hover{background:var(--g)}
+.cjg-btn.soft{background:var(--mint);border-color:var(--mint);color:#0A3D22}
+.cjg-btn svg{width:18px;height:18px;flex:0 0 auto}
+.cjg-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.cjg-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.45rem .8rem;font-weight:600;font-size:.86rem;font-family:inherit;color:var(--ink);cursor:pointer;text-decoration:none}
+.cjg-chip.pri{background:var(--g2);color:#fff;border-color:var(--g2)}
+.cjg details{margin-top:1rem;border:1px solid var(--line);border-radius:14px;padding:.75rem .9rem;background:var(--soft)}
+.cjg summary{cursor:pointer;font-weight:700;list-style:none}
+.cjg summary::-webkit-details-marker{display:none}
+.cjg summary::after{content:"+";float:right;color:var(--g)}
+.cjg details[open] summary::after{content:"–"}
+.cjg form{display:grid;gap:.55rem;margin-top:.7rem}
+.cjg label{font-size:.85rem;font-weight:600;color:var(--mute);display:grid;gap:.2rem}
+.cjg input,.cjg select,.cjg textarea{font-size:16px;font-family:inherit;padding:.65rem .75rem;border:1px solid #CFD9D3;border-radius:10px;background:#fff;color:var(--ink);width:100%}
+.cjg input:focus,.cjg select:focus,.cjg textarea:focus{outline:2px solid var(--g2);outline-offset:1px}
+.cjg .cjg-2{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.cjg .cjg-check{display:flex;gap:.5rem;align-items:flex-start;font-weight:500;color:var(--ink)}
+.cjg .cjg-check input{width:auto;margin-top:.25rem}
+.cjg .cjg-note{font-size:.82rem;color:var(--mute)}
+.cjg .cjg-msg{font-size:.9rem;font-weight:600}
+.cjg .cjg-msg.ok{color:var(--g)}.cjg .cjg-msg.err{color:#A3261A}
+.cjg-log{display:flex;flex-direction:column;gap:.6rem}
+.cjg-b{max-width:88%;padding:.65rem .85rem;border-radius:16px;font-size:.98rem;line-height:1.45;word-wrap:break-word;overflow-wrap:anywhere}
+.cjg-b p{margin:0 0 .5rem}.cjg-b p:last-child{margin:0}
+.cjg-b a{color:var(--g);font-weight:600}
+.cjg-b.ai{background:var(--soft);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:6px}
+.cjg-b.me{background:var(--g2);color:#fff;align-self:flex-end;border-bottom-right-radius:6px}
+.cjg-b.sys{align-self:center;background:transparent;color:var(--mute);font-size:.85rem;padding:.2rem}
+.cjg-b.card{background:#fff;border:1px solid var(--mint);box-shadow:0 2px 10px rgba(10,61,34,.07)}
+.cjg-typing{align-self:flex-start;color:var(--mute);font-size:.88rem;padding:.2rem .3rem}
+.cjg form.cjg-compose{margin:0;display:flex;gap:.5rem;padding:.65rem .8rem;border-top:1px solid var(--line);flex:0 0 auto;background:#fff}
+.cjg-compose input{flex:1;border-radius:999px;padding:.7rem 1rem}
+.cjg-compose button{border:0;border-radius:999px;background:var(--g2);color:#fff;font-weight:600;font-size:.95rem;font-family:inherit;padding:0 1.1rem;cursor:pointer;min-width:64px}
+.cjg-compose button:disabled{opacity:.5;cursor:default}
+.cjg-tools{display:flex;gap:.4rem;flex-wrap:wrap;padding:.5rem .8rem 0;flex:0 0 auto}
+.cjg-orb{width:132px;height:132px;border-radius:50%;margin:1rem auto .7rem;background:radial-gradient(circle at 35% 30%,#fff 0,#D3F8DF 30%,#15A34A 75%,#0A3D22 100%);box-shadow:0 0 0 0 rgba(21,163,74,.35);transition:transform .15s}
+.cjg-orb.speaking{animation:cjgPulse 1.2s ease-in-out infinite}
+.cjg-orb.listening{box-shadow:0 0 0 10px rgba(21,163,74,.12)}
+@keyframes cjgPulse{0%,100%{box-shadow:0 0 0 0 rgba(21,163,74,.35)}50%{box-shadow:0 0 0 18px rgba(21,163,74,0)}}
+.cjg-status{text-align:center;font-weight:600;color:var(--mute);margin-bottom:.6rem}
+.cjg-foot{flex:0 0 auto;padding:.6rem 1rem;border-top:1px solid var(--line);background:#F5F8F6;font-size:.8rem;line-height:1.35;color:var(--mute);text-align:center}
+.cjg-foot a{color:var(--g);font-weight:600}
+/* Pop-up */
+dialog.cjg-dlg{border:0;padding:0;border-radius:22px;width:min(460px,calc(100vw - 24px));max-height:min(760px,calc(100dvh - 24px));overflow:hidden;box-shadow:0 30px 80px rgba(4,36,20,.35)}
+dialog.cjg-dlg::backdrop{background:rgba(4,36,20,.45)}
+dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
+@media (max-width:560px){dialog.cjg-dlg{width:100vw;max-width:100vw;max-height:100dvh;height:100dvh;margin:0;border-radius:0}dialog.cjg-dlg .cjg{height:100dvh}}
+/* Corner launcher (desktop) */
+.cjg-launch{position:fixed;right:20px;bottom:20px;z-index:60;display:none;align-items:center;gap:.5rem;padding:.7rem 1rem .7rem .75rem;border-radius:999px;border:1px solid #D3F8DF;background:#fff;color:#0B1D16;font:600 .95rem "DM Sans",system-ui,sans-serif;box-shadow:0 10px 30px rgba(4,36,20,.18);cursor:pointer}
+.cjg-launch img{width:26px;height:26px;border-radius:7px}
+@media (min-width:900px){.cjg-launch{display:inline-flex}}
+.cjg-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
