@@ -19,6 +19,7 @@
     e911: 'If you have chest pain, trouble breathing, sudden weakness, new bowel or bladder changes, or pain after a major fall, stop and call 911 or go to emergency.',
     foot: 'Not a physio. Not official advice. Book a registered physiotherapist at <a href="https://calmjoints.org" target="_blank" rel="noopener">calmjoints.org</a>.',
     consent: 'Voice stays in this session. We don’t keep it as a health record. You can switch to text anytime.',
+    openingEmma: 'Hi, I’m Emma, the Calm Joints guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
     opening: 'Hi, I’m the Calm Joints guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
     qrAdd: ' You can book from here. You’ll book through our partner clinic.',
     bookLine: 'You’ll book through our partner clinic.',
@@ -55,6 +56,28 @@
   var SID = (function () { try { var s = sessionStorage.getItem('cj_guide_sid'); if (!s) { s = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); sessionStorage.setItem('cj_guide_sid', s); } return s; } catch (e) { return String(Date.now()); } })();
   var leadSaved = null; // last lead fields sent this session
 
+  // ---- guide picker (Randy default, Emma optional). Same tools, rules and lead flow; only the agent, voice and avatar differ. ----
+  var GUIDES = {};
+  var GCFG = (CFG.guide && CFG.guide.guides) || {};
+  Object.keys(GCFG).forEach(function (k) { if (GCFG[k] && GCFG[k].agentId) GUIDES[k] = GCFG[k]; });
+  if (!GUIDES.randy) GUIDES.randy = { name: 'Randy', agentId: AGENT_ID, avatar: '/media/cj-guide-avatar.webp' };
+  var GUIDE_KEYS = Object.keys(GUIDES);
+  var DEFAULT_GUIDE = GUIDES[(CFG.guide && CFG.guide.defaultGuide) || ''] ? CFG.guide.defaultGuide : 'randy';
+  var PICK = (function () {
+    var q = slug(qs.get('guide'), 12);
+    if (GUIDES[q]) { try { sessionStorage.setItem('cj_guide_pick', q); } catch (e) {} return q; }
+    try { var s = sessionStorage.getItem('cj_guide_pick'); if (GUIDES[s]) return s; } catch (e) {}
+    return DEFAULT_GUIDE;
+  })();
+  function guide() { return GUIDES[PICK] || GUIDES.randy; }
+  function guideAv(k) { return esc((GUIDES[k] || guide()).avatar || '/media/cj-guide-avatar.webp'); }
+  function pickerHtml() {
+    if (GUIDE_KEYS.length < 2) return '';
+    return '<div class="cjg-pick" role="radiogroup" aria-label="Choose your guide">' + GUIDE_KEYS.map(function (k) {
+      return '<button type="button" class="cjg-pk" role="radio" data-a="pick" data-g="' + esc(k) + '" aria-checked="' + (k === PICK) + '"><img src="' + guideAv(k) + '" alt="" width="40" height="40"><span>Talk with ' + esc(GUIDES[k].name) + '</span></button>';
+    }).join('') + '</div>';
+  }
+
   function bookingUrl(area, province) {
     var p = new URLSearchParams({ intent: 'book', area: slug(area, 20) || '', province: String(province || '').toUpperCase().slice(0, 2), src: CTX.src || '', venue: CTX.venue || '' });
     return BOOK_BASE + '?' + p.toString();
@@ -72,7 +95,7 @@
   }
 
   function postLead(fields) {
-    var body = Object.assign({ kind: 'guide-triage', src: CTX.src, venue: CTX.venue, session_id: SID, page: location.pathname }, fields);
+    var body = Object.assign({ kind: 'guide-triage', src: CTX.src, venue: CTX.venue, session_id: SID, page: location.pathname, guide: PICK }, fields);
     if (/(\+test@|@example\.(com|org)$)/i.test(body.email || '') || qs.get('cjtest') === '1') body.test = true;
     return fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true })
       .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
@@ -102,7 +125,8 @@
       '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><b>Calm Joints</b>' +
       (o.onClose ? '<button type="button" class="cjg-x" aria-label="Close">&times;</button>' : '') + '</div>' +
       '<div class="cjg-body" data-s="gate">' +
-        '<div class="cjg-card"><span class="cjg-av"><img src="/media/cj-guide-avatar.webp" alt="" width="64" height="64"></span><span class="cjg-card-t"><span class="cjg-badge">Calm Joints guide</span><b>Ask me about your injury</b><small>AI guide · not a physiotherapist</small></span></div>' +
+        pickerHtml() +
+        '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="" width="64" height="64" data-gav></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>Ask me about your injury</b><small>AI guide · not a physiotherapist</small></span></div>' +
         '<h2 id="cjg-title">' + T.title + '</h2><p>' + T.body + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="chat">' + ICON.chat + 'Chat</button>' +
         '<button type="button" class="cjg-btn" data-a="voice">' + ICON.mic + 'Voice</button>' +
@@ -113,14 +137,14 @@
       '</div>' +
       '<div class="cjg-body" data-s="consent" hidden><h2>Voice</h2><p>' + T.consent + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="voice-go">' + ICON.mic + 'Start voice</button><button type="button" class="cjg-btn" data-a="chat">' + ICON.chat + 'Use text instead</button></div></div>' +
-      '<div class="cjg-body" data-s="voice" hidden><div class="cjg-orb" aria-hidden="true"><img src="/media/cj-guide-avatar.webp" alt="" width="132" height="132"></div><div class="cjg-badge" style="display:table;margin:0 auto .5rem">Calm Joints guide</div><div class="cjg-status" aria-live="polite">Connecting…</div>' +
-        '<div class="cjg-row" style="justify-content:center;margin-bottom:.8rem"><button type="button" class="cjg-chip" data-a="voice-end">End voice</button><button type="button" class="cjg-chip" data-a="chat">Switch to text</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
+      '<div class="cjg-body" data-s="voice" hidden><div class="cjg-orb" aria-hidden="true"><img src="' + guideAv() + '" alt="" width="132" height="132" data-gav></div><div class="cjg-badge" style="display:table;margin:0 auto .5rem" data-gname>' + esc(this.badge()) + '</div><div class="cjg-status" aria-live="polite">Connecting…</div>' +
+        '<div class="cjg-row" style="justify-content:center;margin-bottom:.8rem"><button type="button" class="cjg-chip" data-a="voice-end">End voice</button><button type="button" class="cjg-chip" data-a="chat">Switch to text</button>' + this.swapChip() + '<a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
         '<div class="cjg-log" data-log="voice" aria-live="polite"></div></div>' +
       '<div class="cjg-body" data-s="callback" hidden><h2>Get a call back</h2><p>' + T.cbIntro + '</p>' + this.callbackForm() +
         '<div class="cjg-row" style="margin-top:.9rem"><button type="button" class="cjg-chip" data-a="chat">Chat instead</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
         '<p class="cjg-note cjg-911" style="margin-top:.9rem"><strong>Emergency?</strong> Call 911. Don’t wait for a call back.</p></div>' +
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
-      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button><button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button></div>' +
+      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button></div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
       '<div class="cjg-foot">' + T.foot + '</div>';
     this.root.addEventListener('click', function (e) {
@@ -134,13 +158,45 @@
       else if (act === 'voice-end') self.endVoice();
       else if (act === 'lead') self.showLead();
       else if (act === 'callback') { self.stop(); self.track('callback'); self.show('callback'); }
+      else if (act === 'pick') self.setGuide(a.getAttribute('data-g'));
+      else if (act === 'swap') self.setGuide(self.otherGuide());
     });
+    this.paintGuide();
     var x = this.root.querySelector('.cjg-x'); if (x) x.addEventListener('click', function () { self.close(); });
     this.root.querySelector('[data-s="compose"]').addEventListener('submit', function (e) { e.preventDefault(); self.send(); });
     this.bindLead(this.root.querySelector('[data-lead] form'));
     this.bindCallback(this.root.querySelector('[data-cbform]'));
     var showCb = function () { self.root.querySelectorAll('[data-cb]').forEach(function (b) { b.hidden = false; }); };
     if (CALLBACK.preview) showCb(); else callbackStatus().then(function (on) { if (on) showCb(); });
+  };
+  Guide.prototype.badge = function () { return guide().name + ' · Calm Joints guide'; };
+  Guide.prototype.otherGuide = function () { var i = GUIDE_KEYS.indexOf(PICK); return GUIDE_KEYS[(i + 1) % GUIDE_KEYS.length]; };
+  Guide.prototype.swapChip = function () {
+    if (GUIDE_KEYS.length < 2) return '';
+    var o = this.otherGuide();
+    return '<button type="button" class="cjg-chip cjg-swap" data-a="swap" data-gswap aria-label="Talk with ' + esc(GUIDES[o].name) + ' instead"><img src="' + guideAv(o) + '" alt="" width="22" height="22"><span>' + esc(GUIDES[o].name) + '</span></button>';
+  };
+  Guide.prototype.paintGuide = function () {
+    var g = guide(), self = this;
+    this.root.setAttribute('data-guide', PICK);
+    this.root.querySelectorAll('[data-gav]').forEach(function (i) { i.src = g.avatar || '/media/cj-guide-avatar.webp'; });
+    this.root.querySelectorAll('[data-gname]').forEach(function (b) { b.textContent = self.badge(); });
+    this.root.querySelectorAll('.cjg-pk').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-g') === PICK)); });
+    var o = this.otherGuide();
+    this.root.querySelectorAll('[data-gswap]').forEach(function (b) { b.setAttribute('aria-label', 'Talk with ' + GUIDES[o].name + ' instead'); b.querySelector('img').src = GUIDES[o].avatar || '/media/cj-guide-avatar.webp'; b.querySelector('span').textContent = GUIDES[o].name; });
+  };
+  Guide.prototype.setGuide = function (k) {
+    if (!GUIDES[k] || k === PICK) { this.paintGuide(); return; }
+    PICK = k;
+    try { sessionStorage.setItem('cj_guide_pick', k); } catch (e) {}
+    this.paintGuide(); this.track('pick');
+    // Mid-conversation switch: end the current session and reconnect with the other guide in the same mode.
+    var live = this.screen === 'chat' || this.screen === 'voice';
+    if (!live) return;
+    var self = this, voice = this.screen === 'voice';
+    this.add('sys', 'You’re now talking with ' + esc(guide().name) + '.');
+    var ended = this.stop(); this.conv = null; this.mode = null; this.starting = false; this.typing(false);
+    Promise.resolve(ended).catch(function () {}).then(function () { if (voice) self.startVoice(); else self.startChat(); });
   };
   Guide.prototype.callbackForm = function () {
     return '<form novalidate data-cbform>' +
@@ -206,7 +262,7 @@
       var k = el.getAttribute('data-s');
       el.hidden = !(k === s || (chat && (k === 'chat-tools' || k === 'compose')));
     });
-    this.screen = s;
+    this.screen = s; this.paintGuide();
     if (chat) { var i = this.root.querySelector('#cjg-in'); if (i && window.matchMedia('(min-width: 700px)').matches) i.focus(); }
   };
   Guide.prototype.log = function () { return this.root.querySelector('[data-log="' + (this.mode === 'voice' ? 'voice' : 'chat') + '"]'); };
@@ -217,12 +273,12 @@
   };
   Guide.prototype.typing = function (on) {
     var log = this.log(); var t = log.querySelector('.cjg-typing');
-    if (on && !t) { t = document.createElement('div'); t.className = 'cjg-typing'; t.innerHTML = '<img src="/media/cj-guide-avatar.webp" alt="" width="22" height="22">Calm Joints guide is typing…'; log.appendChild(t); }
+    if (on && !t) { t = document.createElement('div'); t.className = 'cjg-typing'; t.innerHTML = '<img src="' + guideAv() + '" alt="" width="22" height="22">' + esc(guide().name) + ' is typing…'; log.appendChild(t); }
     else if (!on && t) t.remove();
     var body = log.closest('.cjg-body'); body.scrollTop = body.scrollHeight;
   };
   Guide.prototype.track = function (ev) {
-    try { if (window.gtag) window.gtag('event', 'cj_guide_' + ev, { src: CTX.src, venue: CTX.venue }); } catch (e) {}
+    try { if (window.gtag) window.gtag('event', 'cj_guide_' + ev, { src: CTX.src, venue: CTX.venue, guide: PICK }); } catch (e) {}
   };
   Guide.prototype.tools = function () {
     var self = this;
@@ -250,24 +306,26 @@
   };
   Guide.prototype.session = function (voice) {
     var self = this;
-    var first = T.opening + (CTX.src === 'qr' ? T.qrAdd : '');
+    var g = guide();
+    var first = (PICK === 'emma' ? T.openingEmma : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
     if (voice && this.hadChat) first = 'I’m listening. What’s sore, or would you like to book a video visit?';
+    var tok = this.tok = (this.tok || 0) + 1; // ignore late events from a session we already ended (guide switch)
     return loadSdk().then(function (SDK) {
       var cfg = {
-        agentId: AGENT_ID,
+        agentId: g.agentId || AGENT_ID,
         connectionType: voice ? 'webrtc' : 'websocket',
         dynamicVariables: { src: CTX.src || 'site', venue: CTX.venue || 'none', mode: voice ? 'voice' : 'chat' },
         overrides: { agent: { firstMessage: first }, conversation: { textOnly: !voice } },
         clientTools: self.tools(),
         onMessage: function (m) {
-          if (!m || !m.message) return;
+          if (!m || !m.message || tok !== self.tok) return;
           if (m.source === 'ai' || m.role === 'agent') { self.typing(false); self.add('ai', fmt(m.message)); }
           else if (voice) self.add('me', fmt(m.message));
         },
-        onModeChange: function (m) { if (voice) self.voiceState(m.mode); },
+        onModeChange: function (m) { if (voice && tok === self.tok) self.voiceState(m.mode); },
         onStatusChange: function (s) { if (voice && s.status === 'connecting') self.voiceStatus('Connecting…'); },
         onError: function (msg) { console.warn('[cj-guide]', msg); },
-        onDisconnect: function () { self.conv = null; self.typing(false); if (voice && self.mode === 'voice') self.voiceStatus('Voice ended. You can switch to text or book a visit.'); },
+        onDisconnect: function () { if (tok !== self.tok) return; self.conv = null; self.typing(false); if (voice && self.mode === 'voice') self.voiceStatus('Voice ended. You can switch to text or book a visit.'); },
       };
       if (!voice) cfg.textOnly = true;
       return SDK.Conversation.startSession(cfg);
@@ -353,6 +411,6 @@
     document.body.appendChild(b);
   }
 
-  window.CJGuide = { open: openPopup, mountPage: mountPage, bookingUrl: bookingUrl, ctx: CTX, preload: loadSdk };
+  window.CJGuide = { open: openPopup, mountPage: mountPage, bookingUrl: bookingUrl, ctx: CTX, preload: loadSdk, guide: function () { return { key: PICK, name: guide().name, agentId: guide().agentId }; } };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', launcher); else launcher();
 })();
