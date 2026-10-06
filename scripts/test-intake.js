@@ -272,14 +272,14 @@ async function main() {
   assert.deepStrictEqual(ib.tags, ['calmjoints', 'intake']);
   assert.match(alertText('intake', ib), /New intake/);
   assert.ok(validateCareers({ name: 'Ann', email: 'a@b.co', role: 'nope' }).error);
-  const cv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', role: 'mobile-physio', link: 'linkedin.com/in/ann' });
+  const cv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', role: 'digital', province: 'ON', link: 'linkedin.com/in/ann' });
   const cb = fridayBody('careers', cv.value, 'cj-careers-x');
   assert.strictEqual(cb.kind, 'providers');
-  assert.deepStrictEqual(cb.tags, ['calmjoints', 'careers', 'role:mobile-physio']);
-  const ab = fridayBody('careers', validateCareers({ name: 'Ann', email: 'a@b.co', role: 'accessibility' }).value, 'x');
+  assert.deepStrictEqual(cb.tags, ['calmjoints', 'careers', 'provider', 'provider-ontario', 'role:digital', 'province:ON']);
+  const ab = fridayBody('careers', validateCareers({ name: 'Ann', email: 'a@b.co', role: 'accessibility', province: 'ON' }).value, 'x');
   assert.strictEqual(ab.kind, 'form');
   const posts = [];
-  const cRes = await processIntake('careers', { name: 'Ann Lee', email: 'c@example.com', role: 'accessibility' }, {
+  const cRes = await processIntake('careers', { name: 'Ann Lee', email: 'c@example.com', role: 'accessibility', province: 'ON' }, {
     env: { INTAKE_WEBHOOK_SECRET: 'k' }, ip: '8.8.8.1',
     fetchImpl: async (url, init) => { posts.push(JSON.parse(init.body)); return { ok: true, status: 200 }; },
   });
@@ -295,7 +295,7 @@ async function main() {
   assert.strictEqual(cleanResume({ name: 'My CV (2026).pdf', data: pdf }).value.name, 'My-CV-2026-.pdf');
   const puts = [];
   const rPosts = [];
-  const rRes = await processIntake('careers', { name: 'Ann Lee', email: 'r@example.com', role: 'digital', resume: { name: 'cv.pdf', type: 'application/pdf', data: pdf } }, {
+  const rRes = await processIntake('careers', { name: 'Ann Lee', email: 'r@example.com', role: 'digital', province: 'ON', resume: { name: 'cv.pdf', type: 'application/pdf', data: pdf } }, {
     env: { INTAKE_WEBHOOK_SECRET: 'k' }, ip: '8.8.8.2', externalId: 'cj-careers-t1',
     blobPut: async (pathname, buf, opts) => { puts.push({ pathname, opts, len: buf.length }); return { pathname }; },
     fetchImpl: async (url, init) => { rPosts.push(JSON.parse(init.body)); return { ok: true, status: 200 }; },
@@ -310,10 +310,10 @@ async function main() {
   assert.strictEqual(rPosts[1].meta.resume_url, rPosts[0].meta.resume_url);
 
   // Careers multi-select and brands form routing to Scale's hub lane.
-  const mv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: ['digital', 'in-home', 'digital'] });
+  const mv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: ['digital', 'in-home', 'digital'], province: 'ON' });
   assert.deepStrictEqual(mv.value.roles, ['digital', 'in-home']);
   const mb = fridayBody('careers', mv.value, 'cj-careers-m');
-  assert.deepStrictEqual(mb.tags, ['calmjoints', 'careers', 'role:digital', 'role:in-home']);
+  assert.deepStrictEqual(mb.tags, ['calmjoints', 'careers', 'provider', 'provider-ontario', 'role:digital', 'role:in-home', 'province:ON']);
   assert.strictEqual(mb.kind, 'providers');
   assert.ok(validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: [] }).error);
   const bPosts = [];
