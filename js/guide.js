@@ -23,7 +23,16 @@
     qrAdd: ' You can book from here. You’ll book through our partner clinic.',
     bookLine: 'You’ll book through our partner clinic.',
     tips: 'Get tips for sore joints — short notes from the clinic, unsubscribe anytime.',
+    cbConsent: 'I agree to receive a call from the Calm Joints AI guide about my request.',
+    cbIntro: 'Leave your first name and number. The Calm Joints AI guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
   };
+  // "Get a call back": hidden unless the server says it's switched on (?callback=preview shows it for checks).
+  var CALLBACK = { on: false, preview: /(^|&)callback=preview(&|$)/.test(location.search.slice(1)) };
+  var cbStatus = null;
+  function callbackStatus() {
+    if (!cbStatus) cbStatus = fetch('/api/qr-lead?kind=guide-callback', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) { CALLBACK.on = !!(j && j.enabled); return CALLBACK.on; }, function () { return false; });
+    return cbStatus;
+  }
   var PROVS = [['', 'Province or territory'], ['AB', 'Alberta'], ['BC', 'British Columbia'], ['MB', 'Manitoba'], ['NB', 'New Brunswick'], ['NL', 'Newfoundland and Labrador'], ['NS', 'Nova Scotia'], ['NT', 'Northwest Territories'], ['NU', 'Nunavut'], ['ON', 'Ontario'], ['PE', 'Prince Edward Island'], ['QC', 'Quebec'], ['SK', 'Saskatchewan'], ['YT', 'Yukon']];
   var AREAS = [['', 'What’s sore?'], ['knee', 'Knee'], ['hip', 'Hip'], ['back', 'Back'], ['neck', 'Neck'], ['shoulder', 'Shoulder'], ['other', 'Other']];
   var DAYS = [['', 'Any day'], ['Mon', 'Monday'], ['Tue', 'Tuesday'], ['Wed', 'Wednesday'], ['Thu', 'Thursday'], ['Fri', 'Friday'], ['Sat', 'Saturday'], ['Sun', 'Sunday']];
@@ -31,6 +40,7 @@
   var ICON = {
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>',
     mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
     cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>',
   };
 
@@ -92,20 +102,25 @@
       '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><b>Calm Joints</b>' +
       (o.onClose ? '<button type="button" class="cjg-x" aria-label="Close">&times;</button>' : '') + '</div>' +
       '<div class="cjg-body" data-s="gate">' +
+        '<div class="cjg-card"><span class="cjg-av"><img src="/media/cj-guide-avatar.webp" alt="" width="64" height="64"></span><span class="cjg-card-t"><span class="cjg-badge">Calm Joints guide</span><b>Ask me about your injury</b><small>AI guide · not a physiotherapist</small></span></div>' +
         '<h2 id="cjg-title">' + T.title + '</h2><p>' + T.body + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="chat">' + ICON.chat + 'Chat</button>' +
         '<button type="button" class="cjg-btn" data-a="voice">' + ICON.mic + 'Voice</button>' +
-        '<a class="cjg-btn soft" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">' + ICON.cal + 'Book a video visit</a></div>' +
+        '<a class="cjg-btn soft" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">' + ICON.cal + 'Book a video visit</a>' +
+        '<button type="button" class="cjg-btn" data-a="callback" data-cb hidden>' + ICON.phone + 'Get a call back</button></div>' +
         '<p class="cjg-note" style="text-align:center">' + T.bookLine + '</p>' +
         '<details' + (o.leadOpen ? ' open' : '') + ' data-lead><summary>Quick triage by email</summary>' + this.leadForm() + '</details>' +
       '</div>' +
       '<div class="cjg-body" data-s="consent" hidden><h2>Voice</h2><p>' + T.consent + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="voice-go">' + ICON.mic + 'Start voice</button><button type="button" class="cjg-btn" data-a="chat">' + ICON.chat + 'Use text instead</button></div></div>' +
-      '<div class="cjg-body" data-s="voice" hidden><div class="cjg-orb" aria-hidden="true"></div><div class="cjg-status" aria-live="polite">Connecting…</div>' +
+      '<div class="cjg-body" data-s="voice" hidden><div class="cjg-orb" aria-hidden="true"><img src="/media/cj-guide-avatar.webp" alt="" width="132" height="132"></div><div class="cjg-badge" style="display:table;margin:0 auto .5rem">Calm Joints guide</div><div class="cjg-status" aria-live="polite">Connecting…</div>' +
         '<div class="cjg-row" style="justify-content:center;margin-bottom:.8rem"><button type="button" class="cjg-chip" data-a="voice-end">End voice</button><button type="button" class="cjg-chip" data-a="chat">Switch to text</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
         '<div class="cjg-log" data-log="voice" aria-live="polite"></div></div>' +
+      '<div class="cjg-body" data-s="callback" hidden><h2>Get a call back</h2><p>' + T.cbIntro + '</p>' + this.callbackForm() +
+        '<div class="cjg-row" style="margin-top:.9rem"><button type="button" class="cjg-chip" data-a="chat">Chat instead</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
+        '<p class="cjg-note cjg-911" style="margin-top:.9rem"><strong>Emergency?</strong> Call 911. Don’t wait for a call back.</p></div>' +
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
-      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button><button type="button" class="cjg-chip" data-a="lead">Email me a link</button></div>' +
+      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button><button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button></div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
       '<div class="cjg-foot">' + T.foot + '</div>';
     this.root.addEventListener('click', function (e) {
@@ -118,10 +133,44 @@
       else if (act === 'voice-go') self.startVoice();
       else if (act === 'voice-end') self.endVoice();
       else if (act === 'lead') self.showLead();
+      else if (act === 'callback') { self.stop(); self.track('callback'); self.show('callback'); }
     });
     var x = this.root.querySelector('.cjg-x'); if (x) x.addEventListener('click', function () { self.close(); });
     this.root.querySelector('[data-s="compose"]').addEventListener('submit', function (e) { e.preventDefault(); self.send(); });
     this.bindLead(this.root.querySelector('[data-lead] form'));
+    this.bindCallback(this.root.querySelector('[data-cbform]'));
+    var showCb = function () { self.root.querySelectorAll('[data-cb]').forEach(function (b) { b.hidden = false; }); };
+    if (CALLBACK.preview) showCb(); else callbackStatus().then(function (on) { if (on) showCb(); });
+  };
+  Guide.prototype.callbackForm = function () {
+    return '<form novalidate data-cbform>' +
+      '<label>First name<input name="first_name" autocomplete="given-name" maxlength="40" required></label>' +
+      '<label>Mobile or home phone<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="416 555 0123" required></label>' +
+      '<label class="cjg-check"><input type="checkbox" name="consent" value="yes" required><span>' + T.cbConsent + '</span></label>' +
+      '<input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
+      '<button type="submit" class="cjg-btn pri">' + ICON.phone + 'Call me back</button>' +
+      '<p class="cjg-note" style="margin:0">One call about your request. Canada and US numbers. No health history needed.</p>' +
+      '<p class="cjg-msg" role="status" aria-live="polite"></p></form>';
+  };
+  Guide.prototype.bindCallback = function (form) {
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = new FormData(form), msg = form.querySelector('.cjg-msg'), btn = form.querySelector('button[type=submit]');
+      if (f.get('company')) return;
+      var name = String(f.get('first_name') || '').trim(), phone = String(f.get('phone') || '').replace(/\D/g, '');
+      var err = !name ? 'Add your first name so the guide knows who to ask for.'
+        : (phone.length !== 10 && !(phone.length === 11 && phone[0] === '1')) ? 'Enter a 10-digit phone number, like 416 555 0123.'
+        : !f.get('consent') ? 'Tick the box so we know it’s okay to call you.' : '';
+      if (err) { msg.className = 'cjg-msg err'; msg.textContent = err; return; }
+      btn.disabled = true; msg.className = 'cjg-msg'; msg.textContent = 'Requesting your call…';
+      fetch('/api/qr-lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'guide-callback', first_name: name, phone: f.get('phone'), consent: true, src: CTX.src, venue: CTX.venue, page: location.pathname, session_id: SID }) })
+        .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
+        .then(function (j) {
+          if (j && j.ok) { msg.className = 'cjg-msg ok'; msg.textContent = j.message || 'Thanks. The Calm Joints guide will call you shortly.'; form.reset(); }
+          else { btn.disabled = false; msg.className = 'cjg-msg err'; msg.textContent = (j && j.message) || 'We couldn’t start the call just now. You can chat or book a video visit instead.'; }
+        }).catch(function () { btn.disabled = false; msg.className = 'cjg-msg err'; msg.textContent = 'We couldn’t start the call just now. You can chat or book a video visit instead.'; });
+    });
   };
   Guide.prototype.leadForm = function () {
     return '<form novalidate data-leadform><p class="cjg-note" style="margin:0">Leave your email and we’ll send a link to book a video visit. Only what’s below. No health history.</p>' +
@@ -168,7 +217,7 @@
   };
   Guide.prototype.typing = function (on) {
     var log = this.log(); var t = log.querySelector('.cjg-typing');
-    if (on && !t) { t = document.createElement('div'); t.className = 'cjg-typing'; t.textContent = 'Calm Joints guide is typing…'; log.appendChild(t); }
+    if (on && !t) { t = document.createElement('div'); t.className = 'cjg-typing'; t.innerHTML = '<img src="/media/cj-guide-avatar.webp" alt="" width="22" height="22">Calm Joints guide is typing…'; log.appendChild(t); }
     else if (!on && t) t.remove();
     var body = log.closest('.cjg-body'); body.scrollTop = body.scrollHeight;
   };
@@ -180,16 +229,21 @@
     return {
       open_booking: function (p) {
         p = p || {};
-        var url = bookingUrl(p.area, p.province);
+        // A real slot link from get_next_availability opens that day on the partner clinic's booking page.
+        var slot = String(p.book_url || '');
+        var url = /^https:\/\/calmjoints\.janeapp\.com\/locations\/calm-joints\/book#\/[a-z0-9_\/-]+$/i.test(slot) ? slot : bookingUrl(p.area, p.province);
         self.track('book_tool'); noteBookClick(p.area, p.province);
         var w = null; try { w = window.open(url, '_blank', 'noopener'); } catch (e) {}
-        self.add('ai', '<p><strong>Book a video visit</strong><br>' + T.bookLine + ' You’ll pick a time on their booking page.</p><p><a class="cjg-btn pri" style="color:#fff;margin-top:.4rem" href="' + esc(url) + '" target="_blank" rel="noopener" data-a="book">Open booking page</a></p>', 'card');
+        self.add('ai', '<p><strong>Book a video visit' + (p.slot_label ? ' — ' + esc(p.slot_label) : '') + '</strong><br>' + T.bookLine + (p.slot_label ? ' Tap the ' + esc(String(p.slot_label).replace(/^.* at /, '')) + ' time to confirm it.' : ' You’ll pick a time on their booking page.') + '</p><p><a class="cjg-btn pri" style="color:#fff;margin-top:.4rem" href="' + esc(url) + '" target="_blank" rel="noopener" data-a="book">Open booking page</a></p>', 'card');
         return 'Booking page ' + (w ? 'opened in a new tab' : 'link shown as a button') + ': ' + url;
       },
       save_lead: function (p) {
         p = p || {};
-        return postLead({ via: self.mode === 'voice' ? 'voice' : 'chat', first_name: p.first_name, email: p.email, phone: p.phone, province: p.province, area: p.area, day_time: p.day_time, clicked_book: !!p.clicked_book, newsletter_opt_in: !!p.newsletter_opt_in })
-          .then(function (j) { return j && j.ok ? 'Saved. Tell them: Got it. We’ll email you a link to book.' : 'Could not save (' + ((j && j.message) || 'error') + '). Offer the booking link instead.'; })
+        var lt = String(p.lead_type || '').toLowerCase(); lt = (lt === 'business' || lt === 'provider') ? lt : '';
+        var biz = !!lt;
+        return postLead({ via: self.mode === 'voice' ? 'voice' : 'chat', first_name: p.first_name, email: p.email, phone: p.phone, province: p.province, area: p.area, day_time: p.day_time, clicked_book: !!p.clicked_book, newsletter_opt_in: !!p.newsletter_opt_in,
+          lead_type: lt, profession: p.profession, audience: !!p.audience, hours_available: p.hours_available, work_mode: p.work_mode, city: p.city, business_type: p.business_type, interest: p.interest, company: p.company, role: p.role, note: p.note, callback_requested: !!p.callback_requested })
+          .then(function (j) { return j && j.ok ? (biz ? 'Saved. Tell them the team will be in touch (by email, or a call back if they asked).' : 'Saved. Tell them: Got it. We’ll email you a link to book.') : 'Could not save (' + ((j && j.message) || 'error') + '). Offer info@calmjoints.org instead.'; })
           .catch(function () { return 'Could not save right now. Offer the booking link instead.'; });
       },
     };

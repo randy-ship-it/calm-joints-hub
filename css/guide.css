@@ -66,3 +66,19 @@ dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
 .cjg-launch img{width:26px;height:26px;border-radius:7px}
 @media (min-width:900px){.cjg-launch{display:inline-flex}}
 .cjg-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* Character card: the Calm Joints guide (illustrated, clinic frame) */
+.cjg-card{display:flex;align-items:center;gap:.8rem;margin:0 0 1rem;padding:.7rem .85rem;border:1px solid var(--mint);border-radius:16px;background:linear-gradient(135deg,#F3FDF6 0,#fff 70%)}
+.cjg-av{position:relative;flex:0 0 auto;width:64px;height:64px;border-radius:50%;padding:3px;background:linear-gradient(135deg,var(--g2),#0A3D22);box-shadow:0 4px 14px rgba(10,61,34,.18)}
+.cjg-av img{display:block;width:58px;height:58px;border-radius:50%;border:2px solid #fff;background:var(--mint)}
+.cjg-av::after{content:"";position:absolute;right:1px;bottom:3px;width:13px;height:13px;border-radius:50%;background:#22C55E;border:2px solid #fff}
+.cjg-card-t{display:grid;gap:.1rem;min-width:0}
+.cjg-card-t b{font-size:1.02rem;line-height:1.25}
+.cjg-card-t small{font-size:.8rem;color:var(--mute)}
+.cjg-badge{display:inline-block;justify-self:start;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#0A3D22;background:var(--mint);border:1px solid #B5EDC8;border-radius:999px;padding:.12rem .55rem}
+.cjg-orb{display:flex;align-items:center;justify-content:center;padding:5px;background:linear-gradient(135deg,var(--g2),#0A3D22)}
+.cjg-orb img{width:100%;height:100%;border-radius:50%;border:3px solid #fff;background:var(--mint);object-fit:cover}
+.cjg-orb.speaking img{animation:cjgTalk .5s ease-in-out infinite alternate}
+@keyframes cjgTalk{from{transform:translateY(0) scale(1)}to{transform:translateY(-2px) scale(1.025)}}
+.cjg-typing{display:flex;align-items:center;gap:.4rem}
+.cjg-typing img{border-radius:50%;background:var(--mint)}
+@media (prefers-reduced-motion:reduce){.cjg-orb.speaking,.cjg-orb.speaking img{animation:none}}
