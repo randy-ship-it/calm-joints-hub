@@ -5,8 +5,6 @@
 .cjg-head{display:flex;align-items:center;gap:.55rem;padding:.85rem 1rem;border-bottom:1px solid var(--line);flex:0 0 auto}
 .cjg-head img{width:30px;height:30px;border-radius:8px}
 .cjg-head b{font-weight:700;font-size:1rem}
-.cjg-brand{display:flex;flex-direction:column;justify-content:center;line-height:1.05}
-.cjg-brand small{font-size:.68rem;font-weight:600;letter-spacing:.02em;color:var(--green,#15803D);margin-top:1px}
 .cjg-head .cjg-x{margin-left:auto;width:38px;height:38px;border-radius:999px;border:0;background:var(--soft);font-size:1.3rem;line-height:1;cursor:pointer;color:var(--ink)}
 .cjg-body{flex:1 1 auto;overflow-y:auto;padding:1.1rem 1.1rem 1rem;min-height:0}
 .cjg h2{font-size:1.45rem;line-height:1.2;margin:0 0 .6rem;font-weight:700}
