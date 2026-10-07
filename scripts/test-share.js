@@ -31,7 +31,7 @@ assert.deepStrictEqual(Object.keys(pl), ['text']);
 assert.strictEqual(pl.text, S.message);
 assert.strictEqual(pl.text.split('https://').length, 2);
 // Text Glen line
-assert.ok(S.html().includes('href="sms:+16476926575"') && S.html().includes('Text Glen: <b>(647) 692-6575</b>'));
+assert.ok(S.html().includes('href="tel:+16476926575"') && S.html().includes('Call or text Glen: <a href="tel:+16476926575"') && S.html().includes('href="sms:+16476926575">Text</a>') && S.html().includes('AI guide, not a physio · msg rates may apply'));
 assert.ok(!S.html({ textGuide: false }).includes('data-cjs-textguide'));
 assert.ok(S.isIOS('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)', 5));
 assert.ok(S.isIOS('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', 5), 'iPadOS desktop UA');

@@ -112,6 +112,9 @@ dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
 .cjs-text a b{color:var(--g);white-space:nowrap}
 .cjs-text svg{width:18px;height:18px;flex:0 0 auto;color:var(--g)}
 .cjs-text small{font-size:.75rem;color:var(--mute)}
+.cjs-text .cjs-call{font-weight:600;font-size:.95rem;line-height:1.35;color:var(--ink)}
+.cjs-text .cjs-call a{display:inline;min-height:0;padding:0;border:0;border-radius:0;background:none;color:var(--g);font-weight:700;font-size:inherit;text-decoration:underline}
+.cjs-text .cjs-call a.cjs-sms{font-size:.8em;font-weight:600;margin-left:.35rem}
 .cjs-msg{font-size:.85rem;font-weight:600;color:var(--g);overflow-wrap:anywhere}
 .cjg-share{margin:1rem 0 .2rem;padding:.8rem .85rem;border:1px solid var(--mint);border-radius:16px;background:#fff}
 .cjg-b.card .cjs-lead{text-align:left}

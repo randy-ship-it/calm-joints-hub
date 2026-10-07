@@ -43,7 +43,6 @@
       try { document.execCommand('copy') ? res() : rej(new Error('copy failed')); } catch (e) { rej(e); } finally { t.remove(); }
     });
   }
-  var SMS_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
   var ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>';
 
   // Markup: a "Send them this link" button plus a fallback row (Text it / Copy link) shown when there is no share sheet.
@@ -58,10 +57,13 @@
       (o.textGuide === false ? '' : textGuideHtml()) +
       '</div>';
   }
-  // "Text Glen: (xxx) xxx-xxxx" — opens Messages to the guide's own number.
+  // "Call or text Glen: (xxx) xxx-xxxx" — number dials, small Text link opens Messages.
   function textGuideHtml() {
     if (!SMS_CFG || !SMS_CFG.number || !SMS_CFG.label) return '';
-    return '<p class="cjs-text"><a href="sms:' + SMS_CFG.number + '" data-cjs-textguide>' + SMS_ICON + '<span>Text ' + (SMS_CFG.name || 'Glen') + ': <b>' + SMS_CFG.label + '</b></span></a><small>Canada · AI guide, not a physio · msg rates may apply</small></p>';
+    var name = SMS_CFG.name || 'Glen';
+    var num = String(SMS_CFG.number);
+    var tel = num.charAt(0) === '+' ? num : '+' + num;
+    return '<p class="cjs-text"><span class="cjs-call">Call or text ' + name + ': <a href="tel:' + tel + '" data-cjs-textguide><b>' + SMS_CFG.label + '</b></a> <a class="cjs-sms" href="sms:' + tel + '">Text</a></span><small>Canada · AI guide, not a physio · msg rates may apply</small></p>';
   }
   function bind(root) {
     if (!root || root.__cjs) return; root.__cjs = true;
