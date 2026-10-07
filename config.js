@@ -27,6 +27,8 @@ window.CALM_JOINTS = {
     aliases: { randy: 'glen', emma: 'gwen' },
     // One-tap share (js/share.js). Shares are tracked as src=share.
     shareUrl: 'https://calmjoints.org/chat?src=share',
+    // "Text Glen": SMS chat with the Glen guide (Canadian numbers; api/sms). Remove to hide the line.
+    sms: { number: '+16476926575', label: '(647) 692-6575', name: 'Glen' },
   },
   theme: {
     primary: '#15A34A',
