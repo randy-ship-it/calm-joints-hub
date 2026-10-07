@@ -69,27 +69,11 @@
 @media (max-width:760px) { .cn-pop { left:.6rem; right:.6rem; width:auto; bottom:calc(5rem + env(safe-area-inset-bottom)); } }
 @media (prefers-reduced-motion:reduce) { .cn-pop, .cn-pop.on { transition:none; } }
 
-/* ---------- "Calmer joints" tagline under the header wordmark (no extra header height) ---------- */
-.brand-lockup { position:relative; display:inline-flex; align-items:center; text-decoration:none; }
-.brand-lockup .cj-tagline { position:absolute; left:28.6%; top:72%; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:11px; line-height:1; font-weight:600; letter-spacing:.02em; color:#15803D; white-space:nowrap; pointer-events:none; }
-@media (max-width:760px) { .brand-lockup .cj-tagline { font-size:9.5px; top:74%; } }
-
-/* ---------- jingle play control (tap to play, never autoplays) ---------- */
-.cj-jingle { display:inline-flex; align-items:center; gap:.5rem; margin:1rem auto 0; padding:.45rem .95rem .45rem .5rem; border:1px solid #CFE9D8; border-radius:999px; background:#F2FBF5; color:#116A32; font:600 .9rem/1.2 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif; cursor:pointer; -webkit-tap-highlight-color:transparent; min-height:44px; }
-.cj-jingle:hover { border-color:#15803D; }
-.cj-jingle:focus-visible { outline:3px solid #86EFAC; outline-offset:2px; }
-.cj-jingle .cj-jingle-i { display:grid; place-items:center; width:30px; height:30px; border-radius:999px; background:#15803D; color:#fff; flex:0 0 auto; }
-.cj-jingle .cj-jingle-i svg { width:14px; height:14px; fill:currentColor; }
-.cj-jingle .cj-pause { display:none; }
-.cj-jingle[aria-pressed="true"] .cj-play { display:none; }
-.cj-jingle[aria-pressed="true"] .cj-pause { display:block; }
-.cj-jingle[aria-pressed="true"] .cj-jingle-i { animation:cjPulse 1.2s ease-in-out infinite; }
-@keyframes cjPulse { 50% { box-shadow:0 0 0 6px rgba(21,128,61,.18); } }
-@media (prefers-reduced-motion: reduce) { .cj-jingle[aria-pressed="true"] .cj-jingle-i { animation:none; } }
-/* Blog headers on phones: keep the wordmark + tagline readable (same treatment as the home page: Partnerships + Book only). */
+/* Blog headers on phones: keep the wordmark readable (same treatment as the home page: Partnerships + Book only). */
+.nav-inner > a.blog-brand { display:inline-flex; align-items:center; }
 @media (max-width:760px) {
-  .nav-inner > a.brand-lockup:not(.brand) { flex:0 0 auto; }
-  .nav-inner > a.brand-lockup:not(.brand) img { width:118px; height:auto; }
-  a.brand-lockup:not(.brand) + .nav-links { gap:.6rem; }
-  a.brand-lockup:not(.brand) + .nav-links a[href="/blog"], a.brand-lockup:not(.brand) + .nav-links a[href="/careers"] { display:none; }
+  .nav-inner > a.blog-brand { flex:0 0 auto; }
+  .nav-inner > a.blog-brand img { width:118px; height:auto; }
+  a.blog-brand + .nav-links { gap:.6rem; }
+  a.blog-brand + .nav-links a[href="/blog"], a.blog-brand + .nav-links a[href="/careers"] { display:none; }
 }
