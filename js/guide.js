@@ -127,7 +127,7 @@
     var self = this, o = this.o;
     this.root.classList.add('cjg');
     this.root.innerHTML =
-      '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><b>Calm Joints</b>' +
+      '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><span class="cjg-brand"><b>Calm Joints</b><small aria-hidden="true">Calmer joints</small></span>' +
       (window.CJShare ? '<button type="button" class="cjg-hshare" data-a="hshare" aria-label="Share the Calm Joints guide with somebody who has an injury"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share</button>' : '') +
       (o.onClose ? '<button type="button" class="cjg-x" aria-label="Close">&times;</button>' : '') + '</div>' +
       '<div class="cjg-body" data-s="gate">' +
