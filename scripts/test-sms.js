@@ -133,6 +133,10 @@ const sms = require('../lib/guide-sms');
   // Burst: 7th text inside 2 minutes is dropped
   const burst = Array.from({ length: 6 }, (_, i) => ({ from: P, to: env.CJ_SMS_NUMBER, body: 'm' + i, t: NOW - (i + 1) * 10e3 }));
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'again' }, env, deps(burst, [])); assert.strictEqual(r.log.step, 'burst-drop');
+  // Tool preamble ("Let me check...") waits for the follow-up answer
+  class ToolWS extends FakeWS { send(raw) { const m = JSON.parse(raw); if (m.type === 'user_message') { setTimeout(() => this.emit('message', JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: "Let me check what's available right now." } })), 10); setTimeout(() => this.emit('message', JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: 'Tomorrow at 8:00 AM is open. Want it?' } })), 1500); } } }
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'can I book?' }, env, { fetch: fakeFetch(log, []), WebSocket: ToolWS });
+  assert.ok(r.reply.endsWith('Tomorrow at 8:00 AM is open. Want it?'), r.reply);
   // TwiML escaping
   assert.ok(sms.twiml('a < b & c').includes('<Message>a &lt; b &amp; c</Message>'));
   assert.ok(sms.twiml('').includes('<Response></Response>'));

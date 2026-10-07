@@ -19,9 +19,11 @@ for (const h of [ios, android]) {
   const dec = decodeURIComponent(body);
   assert.ok(/24\/7/.test(dec));
   assert.strictEqual(dec.split('https://calmjoints.org/chat?src=share').length, 2, 'link appears exactly once');
-  assert.ok(dec.startsWith('Hey, sending you this in case it helps.'), dec);
-  assert.ok(dec.endsWith(' Or text Glen at (647) 692-6575.'), dec);
-  assert.ok(!/(guarantee|diagnos|cure)/i.test(dec), 'no guarantee/diagnosis claims');
+  assert.ok(dec.startsWith('Thought of you'), dec);
+  assert.ok(dec.endsWith(' (or text Glen at (647) 692-6575)'), dec);
+  assert.ok(dec.length <= 230, 'share text ~220 chars: ' + dec.length);
+  assert.ok(/free 24\/7 AI injury guide/.test(dec));
+  assert.ok(!/(guarantee|diagnos|cure|best|expert|specialist)/i.test(dec), 'no guarantee/diagnosis/superiority claims');
 }
 // Web Share: text only (link once), no url field (doubles on iOS/Android), no title (stray text in Messages).
 const pl = JSON.parse(JSON.stringify(S.payload()));
@@ -45,7 +47,16 @@ assert.strictEqual(g.guides.glen.agentId, 'agent_8401m48tn2g5ehwsa0p84e8pnaf8');
 assert.strictEqual(g.guides.gwen.agentId, 'agent_8701m49rk5stf07avtka9ef8nvs0');
 assert.deepStrictEqual(JSON.parse(JSON.stringify(g.aliases)), { randy: 'glen', emma: 'gwen' });
 
-for (const f of ['chat.html', 'js/guide.js', 'css/guide.css', 'js/share.js']) {
+// Post-help share (js/helped.js)
+vm.runInContext(fs.readFileSync('js/helped.js', 'utf8'), ctx);
+const H = ctx.window.CJHelped;
+assert.strictEqual(H.url, 'https://calmjoints.org/chat?src=helped');
+assert.strictEqual(H.shareText('Gwen').split('https://').length, 2);
+assert.ok(H.shareText('Glen').startsWith('Glen helped me make sense of my aches today'));
+assert.ok(H.xHref('Glen').startsWith('https://x.com/intent/post?text=') && H.xHref('Glen').includes('url=https%3A%2F%2Fcalmjoints.org%2Fchat%3Fsrc%3Dhelped'));
+assert.ok(H.html({ name: 'Gwen', key: 'gwen' }).includes('Gwen helped? Pass it on'));
+assert.ok(!/(book|diagnos|cure|guarantee|physiotherapist said|recovered)/i.test(H.shareText('Glen') + H.html({ name: 'Glen' }).replace(/not a physio/g, '')), 'helped card: AI guide only');
+for (const f of ['chat.html', 'js/guide.js', 'css/guide.css', 'js/share.js', 'js/helped.js']) {
   const src = fs.readFileSync(f, 'utf8');
   assert.ok(!/Talk with (Randy|Emma)|I’m (Randy|Emma)/.test(src), f + ' still shows an old guide name');
   assert.ok(!/\b(CHI|Clairvoyant|Align|Jane|Scale|Birch|BirchReserve|Silver Birch)\b/.test(src), f + ' has a name that must not reach visitors');

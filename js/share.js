@@ -14,8 +14,9 @@
   var CFG = (window.CALM_JOINTS && window.CALM_JOINTS.guide) || {};
   var URL_ = CFG.shareUrl || 'https://calmjoints.org/chat?src=share';
   var SMS_CFG = CFG.sms || null; // { number: '+1…', label: '(xxx) xxx-xxxx', name: 'Glen' } when texting is live
-  var MSG = 'Hey, sending you this in case it helps. Calm Joints has a 24/7 AI injury guide. Tell it what hurts and it helps you figure out next steps and when to see a physio: ' + URL_ +
-    (SMS_CFG && SMS_CFG.number && SMS_CFG.label ? ' Or text ' + (SMS_CFG.name || 'Glen') + ' at ' + SMS_CFG.label + '.' : '');
+  // Written to the friend who receives it (~225 chars with the text line). Link appears once. No claims beyond "AI guide".
+  var MSG = 'Thought of you \u2014 if something\u2019s hurting, Glen is Calm Joints\u2019 free 24/7 AI injury guide. Tell him what\u2019s going on and he\u2019ll help you figure out next steps: ' + URL_ +
+    (SMS_CFG && SMS_CFG.number && SMS_CFG.label ? ' (or text ' + (SMS_CFG.name || 'Glen') + ' at ' + SMS_CFG.label + ')' : '');
   var TEXT = MSG, SMS_TEXT = MSG; // kept for older callers
   function payload() { return { text: MSG }; }
 

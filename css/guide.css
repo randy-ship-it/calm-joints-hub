@@ -119,3 +119,10 @@ dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
 .cjg-hshare svg{width:16px;height:16px}
 .cjg-hshare + .cjg-x{margin-left:.4rem}
 .cjg-hshare:focus-visible{outline:2px solid var(--g2);outline-offset:2px}
+.cjh{display:grid;gap:.6rem;font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.cjh-t{margin:0;display:grid;gap:.15rem}.cjh-t b{font-size:1rem;color:#0B1D16}.cjh-t span{font-size:.82rem;color:#4B5E54}
+.cjh-prev{display:flex;justify-content:center}.cjh-prev img{width:min(216px,60vw);height:auto;aspect-ratio:4/5;border-radius:14px;border:1px solid #E6ECE8;background:#EDFAF4;box-shadow:0 14px 30px -22px rgba(11,29,22,.5)}
+.cjh-row{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center}
+.cjh-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:.45rem 1rem;border-radius:999px;border:1px solid #E6ECE8;background:#fff;color:#0B1D16;font:600 .9rem "DM Sans",system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.cjh-btn.pri{background:#15A34A;border-color:#15A34A;color:#fff}
+.cjh-btn:focus-visible{outline:2px solid #15A34A;outline-offset:2px}
