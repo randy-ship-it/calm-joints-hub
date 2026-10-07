@@ -153,6 +153,18 @@ const sms = require('../lib/guide-sms');
   class ToolWS extends FakeWS { send(raw) { const m = JSON.parse(raw); if (m.type === 'user_message') { setTimeout(() => this.emit('message', JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: "Let me check what's available right now." } })), 10); setTimeout(() => this.emit('message', JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: 'Tomorrow at 8:00 AM is open. Want it?' } })), 1500); } } }
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'can I book?' }, env, { fetch: fakeFetch(log, []), WebSocket: ToolWS });
   assert.ok(r.reply.endsWith('Tomorrow at 8:00 AM is open. Want it?'), r.reply);
+  // "let me open that" preamble + open_booking client tool: waits for the follow-up with the link
+  const AR = (w, a) => w.emit('message', JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: a } }));
+  const TC = (w) => w.emit('message', JSON.stringify({ type: 'client_tool_call', client_tool_call: { tool_name: 'open_booking', tool_call_id: 't1', parameters: { book_url: 'https://calmjoints.janeapp.com/locations/calm-joints/book#/staff_member/1' } } }));
+  class OpenWS extends FakeWS { send(raw) { const m = JSON.parse(raw); if (m.type === 'user_message') { setTimeout(() => AR(this, 'Great, let me open that for you now.'), 10); setTimeout(() => TC(this), 1500); }
+    if (m.type === 'client_tool_result') setTimeout(() => AR(this, "You'll book that with Calm Joints: https://calmjoints.janeapp.com/locations/calm-joints/book#/staff_member/1 Tap the 8:00 AM time."), 1200); } }
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'the 8 AM works' }, env, { fetch: fakeFetch(log, []), WebSocket: OpenWS });
+  assert.ok(r.reply.includes("You'll book that with Calm Joints: https://calmjoints.janeapp.com/locations/calm-joints/book#/staff_member/1"), r.reply);
+  // ...and if the follow-up never comes, we add the link ourselves
+  class OpenNoFollowWS extends FakeWS { send(raw) { const m = JSON.parse(raw); if (m.type === 'user_message') { setTimeout(() => AR(this, 'Great, let me open that for you now.'), 10); setTimeout(() => TC(this), 300); } } }
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'the 8 AM works' }, { ...env, CJ_SMS_BUDGET_MS: 9000 }, { fetch: fakeFetch(log, []), WebSocket: OpenNoFollowWS });
+  assert.ok(r.reply.endsWith("You'll book with Calm Joints here: https://calmjoints.janeapp.com/locations/calm-joints/book#/staff_member/1"), r.reply);
+  assert.ok(!/partner clinic/i.test(r.reply));
   // TwiML escaping
   assert.ok(sms.twiml('a < b & c').includes('<Message>a &lt; b &amp; c</Message>'));
   assert.ok(sms.twiml('').includes('<Response></Response>'));
