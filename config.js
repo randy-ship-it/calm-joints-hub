@@ -20,8 +20,8 @@ window.CALM_JOINTS = {
     agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8',
     defaultGuide: 'glen',
     guides: {
-      glen: { name: 'Glen', agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8', avatar: '/media/cj-guide-avatar.webp', alt: 'Glen, the Calm Joints AI guide (illustration)' },
-      gwen: { name: 'Gwen', agentId: 'agent_8701m49rk5stf07avtka9ef8nvs0', avatar: '/media/cj-guide-emma.webp', alt: 'Gwen, the Calm Joints AI guide (illustration)' },
+      glen: { name: 'Glen', agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8', avatar: '/media/cj-guide-glen.webp', alt: 'Glen, the Calm Joints AI guide (illustration)' },
+      gwen: { name: 'Gwen', agentId: 'agent_8701m49rk5stf07avtka9ef8nvs0', avatar: '/media/cj-guide-gwen.webp', alt: 'Gwen, the Calm Joints AI guide (illustration)' },
     },
     // Old links keep working: ?guide=randy -> Glen, ?guide=emma -> Gwen.
     aliases: { randy: 'glen', emma: 'gwen' },
