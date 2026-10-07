@@ -24,6 +24,7 @@
     qrAdd: ' I can help you book a visit with a Calm Joints physio from here.',
     bookLine: 'You’ll book with Calm Joints, with a College-registered physio.',
     tips: 'Get tips for sore joints — short notes from the clinic, unsubscribe anytime.',
+    prefill: 'Start my intake with this (name, contact, what’s sore, preferred time). No symptoms or chat history. Your physio reviews it at booking.',
     cbConsent: 'I agree to receive a call from the Calm Joints AI guide about my request.',
     cbIntro: 'Leave your first name and number. The Calm Joints AI guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
   };
@@ -247,6 +248,7 @@
       '<div class="cjg-2"><label>What’s sore<select name="area">' + opts(AREAS) + '</select></label><label>Preferred day<select name="day">' + opts(DAYS) + '</select></label></div>' +
       '<label>Time window<select name="win">' + opts(WINDOWS) + '</select></label>' +
       '<label class="cjg-check"><input type="checkbox" name="newsletter_opt_in" value="yes"><span>' + T.tips + '</span></label>' +
+      '<label class="cjg-check"><input type="checkbox" name="intake_prefill" value="yes"><span>' + T.prefill + '</span></label>' +
       '<input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
       '<button type="submit" class="cjg-btn pri">Email me a booking link</button><p class="cjg-msg" role="status" aria-live="polite"></p></form>';
   };
@@ -260,10 +262,10 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.className = 'cjg-msg err'; msg.textContent = 'That email doesn’t look quite right. Try once more?'; return; }
       var dt = [f.get('day'), f.get('win')].filter(Boolean).join(' ');
       btn.disabled = true; msg.className = 'cjg-msg'; msg.textContent = 'Sending…';
-      postLead({ via: 'form', first_name: f.get('first_name'), email: email, phone: f.get('phone'), province: f.get('province'), area: f.get('area'), day_time: dt, newsletter_opt_in: !!f.get('newsletter_opt_in') })
+      postLead({ via: 'form', first_name: f.get('first_name'), email: email, phone: f.get('phone'), province: f.get('province'), area: f.get('area'), day_time: dt, newsletter_opt_in: !!f.get('newsletter_opt_in'), intake_prefill: !!f.get('intake_prefill') })
         .then(function (j) {
           btn.disabled = false;
-          if (j && j.ok) { msg.className = 'cjg-msg ok'; msg.innerHTML = 'Got it. We’ll email you a link to book. Or <a href="' + esc(bookingUrl(f.get('area'), f.get('province'))) + '" target="_blank" rel="noopener" data-a="book">book a video visit now</a>.'; }
+          if (j && j.ok) { msg.className = 'cjg-msg ok'; var line = j.message || 'Got it. We’ll email you a link to book.'; msg.innerHTML = esc(line) + ' Or <a href="' + esc(bookingUrl(f.get('area'), f.get('province'))) + '" target="_blank" rel="noopener" data-a="book">book a video visit now</a>.'; }
           else { msg.className = 'cjg-msg err'; msg.textContent = (j && j.message) || 'We couldn’t save that just now. Email info@calmjoints.org.'; }
         }).catch(function () { btn.disabled = false; msg.className = 'cjg-msg err'; msg.textContent = 'We couldn’t save that just now. Email info@calmjoints.org.'; });
     });
@@ -309,9 +311,9 @@
         p = p || {};
         var lt = String(p.lead_type || '').toLowerCase(); lt = (lt === 'business' || lt === 'provider') ? lt : '';
         var biz = !!lt;
-        return postLead({ via: self.mode === 'voice' ? 'voice' : 'chat', first_name: p.first_name, email: p.email, phone: p.phone, province: p.province, area: p.area, day_time: p.day_time, clicked_book: !!p.clicked_book, newsletter_opt_in: !!p.newsletter_opt_in,
+        return postLead({ via: self.mode === 'voice' ? 'voice' : 'chat', first_name: p.first_name, email: p.email, phone: p.phone, province: p.province, area: p.area, day_time: p.day_time, clicked_book: !!p.clicked_book, newsletter_opt_in: !!p.newsletter_opt_in, intake_prefill: !!(p.intake_prefill || p.intake_opt_in),
           lead_type: lt, profession: p.profession, audience: !!p.audience, hours_available: p.hours_available, work_mode: p.work_mode, city: p.city, business_type: p.business_type, interest: p.interest, company: p.company, role: p.role, note: p.note, callback_requested: !!p.callback_requested })
-          .then(function (j) { return j && j.ok ? (biz ? 'Saved. Tell them the team will be in touch (by email, or a call back if they asked).' : 'Saved. Tell them: Got it. We’ll email you a link to book.') : 'Could not save (' + ((j && j.message) || 'error') + '). Offer info@calmjoints.org instead.'; })
+          .then(function (j) { return j && j.ok ? (biz ? 'Saved. Tell them the team will be in touch (by email, or a call back if they asked).' : ('Saved. Tell them: ' + (j.message || 'Got it. We’ll email you a link to book.'))) : 'Could not save (' + ((j && j.message) || 'error') + '). Offer info@calmjoints.org instead.'; })
           .catch(function () { return 'Could not save right now. Offer the booking link instead.'; });
       },
     };
