@@ -19,7 +19,7 @@
     e911: 'If you have chest pain, trouble breathing, sudden weakness, new bowel or bladder changes, or pain after a major fall, stop and call 911 or go to emergency.',
     foot: 'Not a physio. Not official advice. Book a registered physiotherapist at <a href="https://calmjoints.org" target="_blank" rel="noopener">calmjoints.org</a>.',
     consent: 'Voice stays in this session. We don’t keep it as a health record. You can switch to text anytime.',
-    openingEmma: 'Hi, I’m Emma, the Calm Joints guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
+    openingNamed: 'Hi, I’m {name}, the Calm Joints AI guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
     opening: 'Hi, I’m the Calm Joints guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
     qrAdd: ' You can book from here. You’ll book through our partner clinic.',
     bookLine: 'You’ll book through our partner clinic.',
@@ -50,27 +50,32 @@
   function slug(v, n) { return String(v || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, n || 60); }
   var CTX = { src: slug(qs.get('src'), 40) || (location.pathname.replace(/\/$/, '') === '/chat' ? 'chat' : 'site'), venue: slug(qs.get('venue')) || '' };
   try {
-    if (CTX.src === 'qr' || CTX.venue) sessionStorage.setItem('cj_guide_ctx', JSON.stringify(CTX));
+    if (CTX.src === 'qr' || CTX.src === 'share' || CTX.venue) sessionStorage.setItem('cj_guide_ctx', JSON.stringify(CTX));
     else { var saved = JSON.parse(sessionStorage.getItem('cj_guide_ctx') || 'null'); if (saved && saved.src) CTX = saved; }
   } catch (e) {}
   var SID = (function () { try { var s = sessionStorage.getItem('cj_guide_sid'); if (!s) { s = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); sessionStorage.setItem('cj_guide_sid', s); } return s; } catch (e) { return String(Date.now()); } })();
   var leadSaved = null; // last lead fields sent this session
 
-  // ---- guide picker (Randy default, Emma optional). Same tools, rules and lead flow; only the agent, voice and avatar differ. ----
+  // ---- guide picker (Glen default, Gwen optional). Same tools, rules and lead flow; only the agent, voice and avatar differ. ----
   var GUIDES = {};
   var GCFG = (CFG.guide && CFG.guide.guides) || {};
   Object.keys(GCFG).forEach(function (k) { if (GCFG[k] && GCFG[k].agentId) GUIDES[k] = GCFG[k]; });
-  if (!GUIDES.randy) GUIDES.randy = { name: 'Randy', agentId: AGENT_ID, avatar: '/media/cj-guide-avatar.webp' };
+  if (!GUIDES.glen) GUIDES.glen = { name: 'Glen', agentId: AGENT_ID, avatar: '/media/cj-guide-avatar.webp' };
   var GUIDE_KEYS = Object.keys(GUIDES);
-  var DEFAULT_GUIDE = GUIDES[(CFG.guide && CFG.guide.defaultGuide) || ''] ? CFG.guide.defaultGuide : 'randy';
+  // Old links and saved picks: ?guide=randy -> glen, ?guide=emma -> gwen.
+  var ALIASES = Object.assign({ randy: 'glen', emma: 'gwen' }, (CFG.guide && CFG.guide.aliases) || {});
+  function guideKey(v) { v = slug(v, 12); if (GUIDES[v]) return v; return GUIDES[ALIASES[v]] ? ALIASES[v] : ''; }
+  var DEFAULT_GUIDE = guideKey(CFG.guide && CFG.guide.defaultGuide) || 'glen';
   var PICK = (function () {
-    var q = slug(qs.get('guide'), 12);
-    if (GUIDES[q]) { try { sessionStorage.setItem('cj_guide_pick', q); } catch (e) {} return q; }
-    try { var s = sessionStorage.getItem('cj_guide_pick'); if (GUIDES[s]) return s; } catch (e) {}
+    var q = guideKey(qs.get('guide'));
+    if (q) { try { sessionStorage.setItem('cj_guide_pick', q); } catch (e) {} return q; }
+    try { var s = guideKey(sessionStorage.getItem('cj_guide_pick')); if (s) return s; } catch (e) {}
     return DEFAULT_GUIDE;
   })();
-  function guide() { return GUIDES[PICK] || GUIDES.randy; }
+  function guide() { return GUIDES[PICK] || GUIDES[DEFAULT_GUIDE] || GUIDES[GUIDE_KEYS[0]]; }
   function guideAv(k) { return esc((GUIDES[k] || guide()).avatar || '/media/cj-guide-avatar.webp'); }
+  function guideAlt(k) { var g = GUIDES[k] || guide(); return esc(g.alt || (g.name + ', the Calm Joints AI guide (illustration)')); }
+  function shareHtml(o) { return window.CJShare ? '<div class="cjg-share">' + window.CJShare.html(o) + '</div>' : ''; }
   function pickerHtml() {
     if (GUIDE_KEYS.length < 2) return '';
     return '<div class="cjg-pick" role="radiogroup" aria-label="Choose your guide">' + GUIDE_KEYS.map(function (k) {
@@ -123,16 +128,18 @@
     this.root.classList.add('cjg');
     this.root.innerHTML =
       '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><b>Calm Joints</b>' +
+      (window.CJShare ? '<button type="button" class="cjg-hshare" data-a="hshare" aria-label="Share the Calm Joints guide with somebody who has an injury"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share</button>' : '') +
       (o.onClose ? '<button type="button" class="cjg-x" aria-label="Close">&times;</button>' : '') + '</div>' +
       '<div class="cjg-body" data-s="gate">' +
         pickerHtml() +
-        '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="" width="64" height="64" data-gav></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>Ask me about your injury</b><small>AI guide · not a physiotherapist</small></span></div>' +
+        '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="' + guideAlt() + '" width="64" height="64" data-gav data-galt></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>Ask me about your injury</b><small>AI guide · not a physiotherapist</small></span></div>' +
         '<h2 id="cjg-title">' + T.title + '</h2><p>' + T.body + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="chat">' + ICON.chat + 'Chat</button>' +
         '<button type="button" class="cjg-btn" data-a="voice">' + ICON.mic + 'Voice</button>' +
         '<a class="cjg-btn soft" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">' + ICON.cal + 'Book a video visit</a>' +
         '<button type="button" class="cjg-btn" data-a="callback" data-cb hidden>' + ICON.phone + 'Get a call back</button></div>' +
         '<p class="cjg-note" style="text-align:center">' + T.bookLine + '</p>' +
+        shareHtml() +
         '<details' + (o.leadOpen ? ' open' : '') + ' data-lead><summary>Quick triage by email</summary>' + this.leadForm() + '</details>' +
       '</div>' +
       '<div class="cjg-body" data-s="consent" hidden><h2>Voice</h2><p>' + T.consent + '</p>' +
@@ -144,7 +151,7 @@
         '<div class="cjg-row" style="margin-top:.9rem"><button type="button" class="cjg-chip" data-a="chat">Chat instead</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
         '<p class="cjg-note cjg-911" style="margin-top:.9rem"><strong>Emergency?</strong> Call 911. Don’t wait for a call back.</p></div>' +
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
-      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button></div>' +
+      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button></div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
       '<div class="cjg-foot">' + T.foot + '</div>';
     this.root.addEventListener('click', function (e) {
@@ -160,11 +167,14 @@
       else if (act === 'callback') { self.stop(); self.track('callback'); self.show('callback'); }
       else if (act === 'pick') self.setGuide(a.getAttribute('data-g'));
       else if (act === 'swap') self.setGuide(self.otherGuide());
+      else if (act === 'share') self.showShare();
+      else if (act === 'hshare') self.headerShare();
     });
     this.paintGuide();
     var x = this.root.querySelector('.cjg-x'); if (x) x.addEventListener('click', function () { self.close(); });
     this.root.querySelector('[data-s="compose"]').addEventListener('submit', function (e) { e.preventDefault(); self.send(); });
     this.bindLead(this.root.querySelector('[data-lead] form'));
+    if (window.CJShare) this.root.querySelectorAll('[data-cjs]').forEach(function (el) { window.CJShare.bind(el); });
     this.bindCallback(this.root.querySelector('[data-cbform]'));
     var showCb = function () { self.root.querySelectorAll('[data-cb]').forEach(function (b) { b.hidden = false; }); };
     if (CALLBACK.preview) showCb(); else callbackStatus().then(function (on) { if (on) showCb(); });
@@ -180,6 +190,7 @@
     var g = guide(), self = this;
     this.root.setAttribute('data-guide', PICK);
     this.root.querySelectorAll('[data-gav]').forEach(function (i) { i.src = g.avatar || '/media/cj-guide-avatar.webp'; });
+    this.root.querySelectorAll('[data-galt]').forEach(function (i) { i.alt = g.alt || (g.name + ', the Calm Joints AI guide (illustration)'); });
     this.root.querySelectorAll('[data-gname]').forEach(function (b) { b.textContent = self.badge(); });
     this.root.querySelectorAll('.cjg-pk').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-g') === PICK)); });
     var o = this.otherGuide();
@@ -307,7 +318,7 @@
   Guide.prototype.session = function (voice) {
     var self = this;
     var g = guide();
-    var first = (PICK === 'emma' ? T.openingEmma : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
+    var first = (g.name ? T.openingNamed.replace('{name}', g.name) : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
     if (voice && this.hadChat) first = 'I’m listening. What’s sore, or would you like to book a video visit?';
     var tok = this.tok = (this.tok || 0) + 1; // ignore late events from a session we already ended (guide switch)
     return loadSdk().then(function (SDK) {
@@ -376,6 +387,20 @@
     var card = this.add('ai', this.leadForm(), 'card');
     card.style.maxWidth = '100%';
     this.bindLead(card.querySelector('form'));
+  };
+  // Header "Share": same one-tap flow. On the gate it uses the share block (fallback row shows there); in chat it adds a share card.
+  Guide.prototype.headerShare = function () {
+    if (this.screen === 'chat' || this.screen === 'voice') return this.showShare();
+    if (this.screen !== 'gate') this.show('gate');
+    var box = this.root.querySelector('[data-s="gate"] [data-cjs]'); if (!box) return this.showShare();
+    var b = box.querySelector('[data-cjs-share]'); if (b) b.click();
+    try { box.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+  };
+  Guide.prototype.showShare = function () {
+    this.track('share');
+    var card = this.add('ai', shareHtml() || ('<p>Know somebody with an injury? Send them this link: ' + fmt('https://calmjoints.org/chat?src=share') + '</p>'), 'card');
+    card.style.maxWidth = '100%';
+    var el = card.querySelector('[data-cjs]'); if (el && window.CJShare) { window.CJShare.bind(el); var b = el.querySelector('[data-cjs-share]'); if (b) b.click(); }
   };
   Guide.prototype.close = function () { this.stop(); if (this.o.onClose) this.o.onClose(); };
 

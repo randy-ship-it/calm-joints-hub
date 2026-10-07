@@ -16,13 +16,17 @@ window.CALM_JOINTS = {
   },
   guide: {
     // ElevenLabs Agents: Calm Joints Guide (chat + voice). Public agent ids, no secret.
-    // agentId = the default guide (Randy). /chat shows a picker for the guides below.
+    // agentId = the default guide (Glen). /chat shows a picker for the guides below.
     agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8',
-    defaultGuide: 'randy',
+    defaultGuide: 'glen',
     guides: {
-      randy: { name: 'Randy', agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8', avatar: '/media/cj-guide-avatar.webp' },
-      emma: { name: 'Emma', agentId: 'agent_8701m49rk5stf07avtka9ef8nvs0', avatar: '/media/cj-guide-emma.webp' },
+      glen: { name: 'Glen', agentId: 'agent_8401m48tn2g5ehwsa0p84e8pnaf8', avatar: '/media/cj-guide-avatar.webp', alt: 'Glen, the Calm Joints AI guide (illustration)' },
+      gwen: { name: 'Gwen', agentId: 'agent_8701m49rk5stf07avtka9ef8nvs0', avatar: '/media/cj-guide-emma.webp', alt: 'Gwen, the Calm Joints AI guide (illustration)' },
     },
+    // Old links keep working: ?guide=randy -> Glen, ?guide=emma -> Gwen.
+    aliases: { randy: 'glen', emma: 'gwen' },
+    // One-tap share (js/share.js). Shares are tracked as src=share.
+    shareUrl: 'https://calmjoints.org/chat?src=share',
   },
   theme: {
     primary: '#15A34A',
