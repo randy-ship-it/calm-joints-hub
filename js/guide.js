@@ -15,10 +15,10 @@
 
   var T = {
     title: 'Talk with Calm Joints',
-    body: 'I’m a Calm Joints guide, not a physiotherapist. This is general education, not an assessment, diagnosis, or treatment plan. A registered physiotherapist provides your care.',
+    body: 'General info, not a diagnosis. Chats may be saved to help us improve, but they’re not your medical record or intake. Think of me as a well-read front desk.',
     e911: 'If you have chest pain, trouble breathing, sudden weakness, new bowel or bladder changes, or pain after a major fall, stop and call 911 or go to emergency.',
     foot: 'Not a physio. Not official advice. Book a registered physiotherapist at <a href="https://calmjoints.org" target="_blank" rel="noopener">calmjoints.org</a>.',
-    consent: 'Voice stays in this session. We don’t keep it as a health record. You can switch to text anytime.',
+    consent: 'Voice chats may be saved to help us improve, but not as a health record. You can switch to text anytime.',
     openingNamed: 'Hi, I’m {name}, Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
     opening: 'Hi, I’m Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
     qrAdd: ' You can book from here. You’ll book through our partner clinic.',

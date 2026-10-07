@@ -89,7 +89,23 @@ const sms = require('../lib/guide-sms');
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'my back went and now I cannot control my bladder', MessageSid: 'SMrf' }, env, deps(log, []));
   assert.strictEqual(r.reply, sms.EMERGENCY_LINE); assert.strictEqual(r.log.step, 'red-flag-red');
   // Keywords: Twilio handles STOP/HELP/START, we stay silent
-  for (const k of ['STOP', 'help', 'Start', 'unsubscribe']) { r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: k }, env, deps([], [])); assert.strictEqual(r.reply, ''); }
+  for (const k of ['STOP', 'Start', 'unsubscribe', 'END']) { r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: k }, env, deps([], [])); assert.strictEqual(r.reply, ''); }
+  // HELP/INFO: one info line with the privacy note (Twilio also sends its default); max 2/day; not to non-CA
+  for (const k of ['help', 'INFO']) { r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: k }, env, deps([], [])); assert.strictEqual(r.reply, sms.HELP_LINE); }
+  assert.ok(/saved/.test(sms.HELP_LINE) && /not part of your medical record or intake/.test(sms.HELP_LINE) && /not a physio/.test(sms.HELP_LINE) && /911/.test(sms.HELP_LINE) && /STOP/.test(sms.HELP_LINE));
+  assert.ok(sms.HELP_LINE.length <= 306 && /^[\x20-\x7e]+$/.test(sms.HELP_LINE), 'HELP fits 2 GSM segments');
+  const helped2 = [0, 1].map((i) => ({ from: env.CJ_SMS_NUMBER, to: P, body: sms.HELP_LINE, t: NOW - (i + 1) * 60e3 }));
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'HELP' }, env, deps(helped2, [])); assert.strictEqual(r.log.step, 'help-capped');
+  r = await sms.handleSms({ From: '+12125550100', FromCountry: 'US', Body: 'HELP' }, env, deps([], [])); assert.strictEqual(r.reply, '');
+  // Privacy questions: fixed answer, no LLM; disclaimer still first on a new session; first-reply disclaimer unchanged
+  for (const q of ['Is this chat saved?', 'is this private', 'Do you keep my texts?', 'will this go in my medical record?', 'who can see these messages']) assert.ok(sms.isPrivacyQ(q), q);
+  for (const q of ['my knee hurts on stairs', 'I saved up for running shoes and now my heel hurts when I run', 'I keep getting back pain']) assert.ok(!sms.isPrivacyQ(q), q);
+  lastCtx = 'unchanged';
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'Is this chat saved?', MessageSid: 'SMpv' }, env2, deps([], []));
+  assert.strictEqual(r.reply, sms.DISCLAIMER + ' ' + sms.PRIVACY_LINE); assert.strictEqual(lastCtx, 'unchanged'); await r.later;
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'is this private?', MessageSid: 'SMpv2' }, env2, deps(log, []));
+  assert.strictEqual(r.reply, sms.PRIVACY_LINE);
+  assert.ok(!sms.DISCLAIMER.includes('saved'), 'first-reply disclaimer unchanged');
   // Too short / link only / spam / link-sender history
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'k' }, env, deps([], [])); assert.strictEqual(r.reply, '');
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'https://spam.example.com' }, env, deps([], [])); assert.strictEqual(r.reply, '');
