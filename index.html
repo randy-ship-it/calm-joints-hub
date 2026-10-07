@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
-<link rel="stylesheet" href="/css/guide.css?v=6" data-cjg>
+<link rel="stylesheet" href="/css/guide.css?v=7" data-cjg>
 <script src="/js/share.js?v=6" defer data-cjs></script>
 <style>
   :root {
@@ -338,13 +338,13 @@
     .pc-ctl { display: none; }
   }
 </style>
-<link rel="stylesheet" href="/css/calm-extras.css">
+<link rel="stylesheet" href="/css/calm-extras.css?v=2">
 </head>
 <body data-calming-pop="popup">
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"></a>
+    <a class="brand brand-lockup" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tagline" aria-hidden="true">Calmer joints</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
@@ -364,6 +364,7 @@
         <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
         <a class="btn btn-ghost" href="#join">Physios, join us</a>
       </div>
+      <button type="button" class="cj-jingle" data-jingle aria-pressed="false" aria-label="Play jingle: Calm-er joints with Calm Joints"><span class="cj-jingle-i" aria-hidden="true"><svg class="cj-play" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg><svg class="cj-pause" viewBox="0 0 16 16"><path d="M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z"/></svg></span>Calm-er joints with Calm Joints</button>
       <div class="hero-share" data-cjs-mount data-label="Send them the 24/7 guide"></div>
     </div>
     <p class="trust-lbl">Trusted by the brands we power</p>
@@ -898,5 +899,6 @@
   });
 })();
 </script>
+<script src="/js/jingle.js?v=1" defer></script>
 </body>
 </html>
