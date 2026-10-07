@@ -44,7 +44,7 @@ const sms = require('../lib/guide-sms');
       if (String(url).includes('fridayapp.org')) { friday.push(JSON.parse(opts.body)); return { ok: true, status: 200, json: async () => ({ ok: true }) }; }
       const q = new URL(url).searchParams;
       const msgs = log.filter((m) => (!q.get('From') || m.from === q.get('From')) && (!q.get('To') || m.to === q.get('To')))
-        .map((m, i) => ({ sid: 'SM' + i, body: m.body, date_sent: new Date(m.t).toUTCString(), status: m.from === env.CJ_SMS_NUMBER ? 'delivered' : 'received' }));
+        .map((m, i) => ({ sid: 'SM' + i, body: m.body, date_sent: new Date(m.t).toUTCString(), status: m.from === env.CJ_SMS_NUMBER ? 'delivered' : 'received', direction: m.from === env.CJ_SMS_NUMBER ? 'outbound-reply' : 'inbound' }));
       return { ok: true, json: async () => ({ messages: msgs }) };
     };
   }
@@ -125,6 +125,14 @@ const sms = require('../lib/guide-sms');
   class EndWS extends FakeWS { send(raw) { const m = JSON.parse(raw); if (m.type === 'user_message') setTimeout(() => { this.emit('message', JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: 'Take care!' } })); this.emit('close', 1000, Buffer.from('')); }, 10); } }
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'thanks bye' }, env, { fetch: fakeFetch(log, []), WebSocket: EndWS });
   assert.strictEqual(r.reply, 'Take care! ' + sms.RESET_TAIL);
+  // Test numbers: only prefixed texts are answered (loop guard vs another auto-responder)
+  r = await sms.handleSms({ From: '+16475550199', FromCountry: 'CA', Body: 'Okay, I understand. Are you offering services?' }, env, deps([], []));
+  assert.strictEqual(r.log.step, 'test-number-no-prefix');
+  r = await sms.handleSms({ From: '+16475550199', FromCountry: 'CA', Body: '[cjtest] my knee hurts' }, env, deps([], []));
+  assert.strictEqual(r.log.step, 'glen');
+  // Burst: 7th text inside 2 minutes is dropped
+  const burst = Array.from({ length: 6 }, (_, i) => ({ from: P, to: env.CJ_SMS_NUMBER, body: 'm' + i, t: NOW - (i + 1) * 10e3 }));
+  r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'again' }, env, deps(burst, [])); assert.strictEqual(r.log.step, 'burst-drop');
   // TwiML escaping
   assert.ok(sms.twiml('a < b & c').includes('<Message>a &lt; b &amp; c</Message>'));
   assert.ok(sms.twiml('').includes('<Response></Response>'));
