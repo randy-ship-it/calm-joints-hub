@@ -21,8 +21,8 @@
     consent: 'Voice chats may be saved to help us improve, but not as a health record. You can switch to text anytime.',
     openingNamed: 'Hi, I’m {name}, Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
     opening: 'Hi, I’m Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
-    qrAdd: ' You can book from here. You’ll book through our partner clinic.',
-    bookLine: 'You’ll book through our partner clinic.',
+    qrAdd: ' I can help you book a visit with a Calm Joints physio from here.',
+    bookLine: 'You’ll book with Calm Joints, with a College-registered physio.',
     tips: 'Get tips for sore joints — short notes from the clinic, unsubscribe anytime.',
     cbConsent: 'I agree to receive a call from the Calm Joints AI guide about my request.',
     cbIntro: 'Leave your first name and number. The Calm Joints AI guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
@@ -297,7 +297,7 @@
     return {
       open_booking: function (p) {
         p = p || {};
-        // A real slot link from get_next_availability opens that day on the partner clinic's booking page.
+        // A real slot link from get_next_availability opens that day on the Calm Joints booking page.
         var slot = String(p.book_url || '');
         var url = /^https:\/\/calmjoints\.janeapp\.com\/locations\/calm-joints\/book#\/[a-z0-9_\/-]+$/i.test(slot) ? slot : bookingUrl(p.area, p.province);
         self.track('book_tool'); noteBookClick(p.area, p.province);

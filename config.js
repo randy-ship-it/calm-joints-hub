@@ -1,6 +1,6 @@
 /**
  * Calm Joints hub — runtime config.
- * Booking goes straight to the partner clinic booking page.
+ * Booking goes straight to the Calm Joints booking page.
  */
 window.CALM_JOINTS = {
   brand: {

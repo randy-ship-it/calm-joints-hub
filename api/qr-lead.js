@@ -63,7 +63,7 @@ module.exports = async function handler(req, res) {
     const params = new URLSearchParams(q);
     if (params.get('kind') === 'guide-callback') { send(res, 200, { ok: true, enabled: callbackConfig(process.env).enabled }); return; }
     if (params.get('kind') === 'guide-availability') {
-      // Read-only: next real openings on the partner clinic's public booking calendar (agent tool).
+      // Read-only: next real openings on the Calm Joints public booking calendar (agent tool).
       if (!rateLimit(`avail:${clientIp(req)}`, { limit: 60 })) { send(res, 429, { ok: false }); return; }
       try { send(res, 200, await nextAvailability({ kind: params.get('visit') === 'followup' ? 'followup' : 'initial' })); }
       catch (err) { console.error('[guide-availability] failed', err && err.message); send(res, 200, { ok: false, message: 'Live availability could not be read right now. Offer today if available, otherwise the first available time, and open the booking page.' }); }
