@@ -15,14 +15,14 @@
 
   var T = {
     title: 'Talk with Calm Joints',
-    body: 'I’m a Calm Joints guide, not a physiotherapist. This is general education, not an assessment, diagnosis, or treatment plan. A registered physiotherapist provides your care.',
+    body: 'General info, not a diagnosis. Chats may be saved to help us improve, but they’re not your medical record or intake. Think of me as a well-read front desk.',
     e911: 'If you have chest pain, trouble breathing, sudden weakness, new bowel or bladder changes, or pain after a major fall, stop and call 911 or go to emergency.',
     foot: 'Not a physio. Not official advice. Book a registered physiotherapist at <a href="https://calmjoints.org" target="_blank" rel="noopener">calmjoints.org</a>.',
-    consent: 'Voice stays in this session. We don’t keep it as a health record. You can switch to text anytime.',
-    openingNamed: 'Hi, I’m {name}, the Calm Joints AI guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
-    opening: 'Hi, I’m the Calm Joints guide. I can explain common joint pain in plain language, or book you a video visit with a registered physiotherapist. I’m not a physio, and this isn’t a diagnosis.',
-    qrAdd: ' You can book from here. You’ll book through our partner clinic.',
-    bookLine: 'You’ll book through our partner clinic.',
+    consent: 'Voice chats may be saved to help us improve, but not as a health record. You can switch to text anytime.',
+    openingNamed: 'Hi, I’m {name}, Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
+    opening: 'Hi, I’m Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
+    qrAdd: ' I can help you book a visit with a Calm Joints physio from here.',
+    bookLine: 'You’ll book with Calm Joints, with a College-registered physio.',
     tips: 'Get tips for sore joints — short notes from the clinic, unsubscribe anytime.',
     cbConsent: 'I agree to receive a call from the Calm Joints AI guide about my request.',
     cbIntro: 'Leave your first name and number. The Calm Joints AI guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
@@ -50,7 +50,7 @@
   function slug(v, n) { return String(v || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, n || 60); }
   var CTX = { src: slug(qs.get('src'), 40) || (location.pathname.replace(/\/$/, '') === '/chat' ? 'chat' : 'site'), venue: slug(qs.get('venue')) || '' };
   try {
-    if (CTX.src === 'qr' || CTX.src === 'share' || CTX.venue) sessionStorage.setItem('cj_guide_ctx', JSON.stringify(CTX));
+    if (CTX.src === 'qr' || CTX.src === 'share' || CTX.src === 'helped' || CTX.venue) sessionStorage.setItem('cj_guide_ctx', JSON.stringify(CTX));
     else { var saved = JSON.parse(sessionStorage.getItem('cj_guide_ctx') || 'null'); if (saved && saved.src) CTX = saved; }
   } catch (e) {}
   var SID = (function () { try { var s = sessionStorage.getItem('cj_guide_sid'); if (!s) { s = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); sessionStorage.setItem('cj_guide_sid', s); } return s; } catch (e) { return String(Date.now()); } })();
@@ -151,7 +151,7 @@
         '<div class="cjg-row" style="margin-top:.9rem"><button type="button" class="cjg-chip" data-a="chat">Chat instead</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
         '<p class="cjg-note cjg-911" style="margin-top:.9rem"><strong>Emergency?</strong> Call 911. Don’t wait for a call back.</p></div>' +
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
-      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button></div>' +
+      '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button>' + (window.CJHelped ? '<button type="button" class="cjg-chip" data-a="helped">\uD83D\uDC4D This helped</button>' : '') + '</div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
       '<div class="cjg-foot">' + T.foot + '</div>';
     this.root.addEventListener('click', function (e) {
@@ -168,6 +168,7 @@
       else if (act === 'pick') self.setGuide(a.getAttribute('data-g'));
       else if (act === 'swap') self.setGuide(self.otherGuide());
       else if (act === 'share') self.showShare();
+      else if (act === 'helped') self.showHelped(true);
       else if (act === 'hshare') self.headerShare();
     });
     this.paintGuide();
@@ -296,7 +297,7 @@
     return {
       open_booking: function (p) {
         p = p || {};
-        // A real slot link from get_next_availability opens that day on the partner clinic's booking page.
+        // A real slot link from get_next_availability opens that day on the Calm Joints booking page.
         var slot = String(p.book_url || '');
         var url = /^https:\/\/calmjoints\.janeapp\.com\/locations\/calm-joints\/book#\/[a-z0-9_\/-]+$/i.test(slot) ? slot : bookingUrl(p.area, p.province);
         self.track('book_tool'); noteBookClick(p.area, p.province);
@@ -330,7 +331,11 @@
         clientTools: self.tools(),
         onMessage: function (m) {
           if (!m || !m.message || tok !== self.tok) return;
-          if (m.source === 'ai' || m.role === 'agent') { self.typing(false); self.add('ai', fmt(m.message)); }
+          if (m.source === 'ai' || m.role === 'agent') {
+            self.typing(false); self.add('ai', fmt(m.message));
+            // After ~4 exchanges in text chat, offer the post-help share once.
+            if (!voice && (self.turns || 0) >= 4 && !self.helpedShown) setTimeout(function () { self.showHelped(false); }, 1500);
+          }
           else if (voice) self.add('me', fmt(m.message));
         },
         onModeChange: function (m) { if (voice && tok === self.tok) self.voiceState(m.mode); },
@@ -359,7 +364,7 @@
   Guide.prototype.send = function () {
     var self = this, i = this.root.querySelector('#cjg-in'), text = (i.value || '').trim();
     if (!text) return;
-    i.value = ''; this.add('me', fmt(text)); this.typing(true);
+    i.value = ''; this.turns = (this.turns || 0) + 1; this.add('me', fmt(text)); this.typing(true);
     var go = function () { try { self.conv.sendUserMessage(text); } catch (e) { self.typing(false); self.add('sys', 'Message didn’t send. Try once more?'); } };
     if (this.conv) go();
     else this.session(false).then(function (c) { self.conv = c; setTimeout(go, 400); }).catch(function () { self.typing(false); self.add('sys', 'The guide couldn’t connect just now.'); });
@@ -401,6 +406,15 @@
     var card = this.add('ai', shareHtml() || ('<p>Know somebody with an injury? Send them this link: ' + fmt('https://calmjoints.org/chat?src=share') + '</p>'), 'card');
     card.style.maxWidth = '100%';
     var el = card.querySelector('[data-cjs]'); if (el && window.CJShare) { window.CJShare.bind(el); var b = el.querySelector('[data-cjs-share]'); if (b) b.click(); }
+  };
+  // "Glen helped? Pass it on" (js/helped.js): share card about the AI guide only, shared as src=helped.
+  Guide.prototype.showHelped = function (tapped) {
+    if (!window.CJHelped || this.helpedShown) return;
+    this.helpedShown = true; this.track(tapped ? 'helped_tap' : 'helped_prompt');
+    var g = guide(), card = this.add('ai', window.CJHelped.html({ name: g.name, key: PICK, avatar: g.avatar }), 'card');
+    card.style.maxWidth = '100%';
+    window.CJHelped.bind(card, { name: g.name, key: PICK, avatar: g.avatar });
+    var chip = this.root.querySelector('[data-a="helped"]'); if (chip) chip.hidden = true;
   };
   Guide.prototype.close = function () { this.stop(); if (this.o.onClose) this.o.onClose(); };
 

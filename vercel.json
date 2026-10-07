@@ -18,6 +18,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/sms",
+      "destination": "/api/qr-lead?kind=sms"
+    },
+    {
       "source": "/p/:slug",
       "destination": "/p?slug=:slug"
     }
@@ -27,5 +31,10 @@
       "path": "/api/partner-events",
       "schedule": "17 14 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/qr-lead.js": {
+      "maxDuration": 30
+    }
+  }
 }

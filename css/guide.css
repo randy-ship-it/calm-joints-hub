@@ -105,6 +105,13 @@ dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
 .cjs-alt{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;justify-content:center}
 .cjs-alt[hidden]{display:none!important}
 .cjs-chip{display:inline-flex;align-items:center;min-height:38px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:.4rem .9rem;font-family:inherit;font-weight:600;font-size:.88rem;line-height:1.2;color:var(--ink);cursor:pointer;text-decoration:none}
+.cjs-text{margin:.15rem 0 0;display:grid;justify-items:center;gap:.15rem;text-align:center}
+.cjs-text a{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:44px;padding:.45rem 1rem;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:.95rem;line-height:1.2;text-decoration:none;max-width:100%;box-sizing:border-box}
+.cjs-text a:hover{border-color:var(--g2)}
+.cjs-text a:focus-visible{outline:2px solid var(--g2);outline-offset:2px}
+.cjs-text a b{color:var(--g);white-space:nowrap}
+.cjs-text svg{width:18px;height:18px;flex:0 0 auto;color:var(--g)}
+.cjs-text small{font-size:.75rem;color:var(--mute)}
 .cjs-msg{font-size:.85rem;font-weight:600;color:var(--g);overflow-wrap:anywhere}
 .cjg-share{margin:1rem 0 .2rem;padding:.8rem .85rem;border:1px solid var(--mint);border-radius:16px;background:#fff}
 .cjg-b.card .cjs-lead{text-align:left}
@@ -112,3 +119,10 @@ dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
 .cjg-hshare svg{width:16px;height:16px}
 .cjg-hshare + .cjg-x{margin-left:.4rem}
 .cjg-hshare:focus-visible{outline:2px solid var(--g2);outline-offset:2px}
+.cjh{display:grid;gap:.6rem;font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.cjh-t{margin:0;display:grid;gap:.15rem}.cjh-t b{font-size:1rem;color:#0B1D16}.cjh-t span{font-size:.82rem;color:#4B5E54}
+.cjh-prev{display:flex;justify-content:center}.cjh-prev img{width:min(216px,60vw);height:auto;aspect-ratio:4/5;border-radius:14px;border:1px solid #E6ECE8;background:#EDFAF4;box-shadow:0 14px 30px -22px rgba(11,29,22,.5)}
+.cjh-row{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center}
+.cjh-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:.45rem 1rem;border-radius:999px;border:1px solid #E6ECE8;background:#fff;color:#0B1D16;font:600 .9rem "DM Sans",system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.cjh-btn.pri{background:#15A34A;border-color:#15A34A;color:#fff}
+.cjh-btn:focus-visible{outline:2px solid #15A34A;outline-offset:2px}

@@ -3,11 +3,13 @@
   "private": true,
   "description": "Calm Joints digital clinic landing and intake. CHI trade name, Align care, Scale hub.",
   "scripts": {
-    "test": "node scripts/test-guide.js && node scripts/test-share.js && node scripts/test-callback.js && node scripts/test-booking.js && node scripts/test-calming.js && node scripts/test-intake.js && node scripts/test-partner-ledger.js",
+    "test": "node scripts/test-guide.js && node scripts/test-share.js && node scripts/test-sms.js && node scripts/test-callback.js && node scripts/test-booking.js && node scripts/test-calming.js && node scripts/test-intake.js && node scripts/test-partner-ledger.js",
     "dev": "node scripts/dev-server.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
-    "@vercel/blob": "^2.8.0"
+    "@vercel/blob": "^2.8.0",
+    "@vercel/functions": "^3.9.11",
+    "ws": "^8.22.0"
   }
 }
