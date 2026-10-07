@@ -29,6 +29,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
+<link rel="stylesheet" href="/css/guide.css?v=4" data-cjg>
+<script src="/js/share.js?v=4" defer data-cjs></script>
 <style>
   :root {
     --green: #15803D; --green-2: #15A34A; --ink: #0B1D16; --mute: #4B5E54; --line: #E6ECE8;
@@ -65,6 +67,8 @@
   .hero { padding: clamp(3rem, 8vw, 5.5rem) 0 1.5rem; text-align: center; }
   .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
   .ctas { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
+  .hero-share { max-width: 360px; margin: 1.2rem auto 0; }
+  .hero-share:empty { display: none; }
   .fine { margin: .9rem 0 0; font-size: .88rem; color: var(--mute); }
   /* carousel */
   .trust-lbl { margin: 2.2rem 0 -1rem; text-align: center; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
@@ -348,6 +352,7 @@
         <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
         <a class="btn btn-ghost" href="#join">Physios, join us</a>
       </div>
+      <div class="hero-share" data-cjs-mount data-label="Send them the 24/7 guide"></div>
     </div>
     <p class="trust-lbl">Trusted by the brands we power</p>
     <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
