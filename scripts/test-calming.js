@@ -14,7 +14,8 @@ async function main() {
   assert.ok(calBody.tags.includes('placement:popup'));
   assert.ok(!calBody.tags.includes('test'));
   assert.strictEqual(calBody.meta.consent.type, 'express');
-  assert.match(calBody.meta.consent.text, /Unit 777, 2255B Queen St E, Toronto ON M4E 1G3/);
+  assert.match(calBody.meta.consent.text, /Subscribe/);
+  assert.match(calBody.meta.consent.sender, /Unit 777, 2255B Queen St E, Toronto ON M4E 1G3/);
   assert.ok(!/Beaufort/i.test(JSON.stringify(calBody)));
   const odd = validateNewsletter({ email: 'o@x.co', src: 'cj-calming-newsletter', consent: true, placement: '<script>', page: 'https://evil.example' });
   assert.strictEqual(odd.value.placement, 'other');

@@ -11,15 +11,17 @@
  * never while the cookie banner or any other dialog is open.
  *
  * Signups go to the site's existing POST /api/newsletter (Friday CRM at
- * fridayapp.org) with src 'cj-calming-newsletter' and an explicit CASL opt-in.
+ * fridayapp.org) with src 'cj-calming-newsletter'. Typing an email and pressing
+ * Subscribe is the express CASL opt-in (nothing pre-filled or pre-ticked).
  * Add ?cjqa=1 to a URL to mark signups from this tab as test entries.
  */
 (function () {
   var SRC = 'cj-calming-newsletter';
   var CAP_MS = 14 * 24 * 3600 * 1000, MOBILE_DELAY = 45000, SCROLL_AT = 0.5, ARM_DESKTOP = 4000;
   var K_SHOWN = 'cj-calming-pop-at', K_SUB = 'cj-calming-sub';
-  var CONSENT = 'Yes, email me Calming Newsletters from Calm Joints (Clairvoyant Holdings Inc.). I can unsubscribe anytime.';
-  var SENDER = 'Sent by Calm Joints, a trade name of Clairvoyant Holdings Inc., Unit 777, 2255B Queen St E, Toronto ON M4E 1G3 · <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>. Every email has an unsubscribe link.';
+  // Kept short on purpose: email + Subscribe + one line. Sender ID and the
+  // unsubscribe link live in every outbound email (CASL), not on the site.
+  var FINE = 'Unsubscribe anytime.';
   var uid = 0;
 
   try { if (/[?&]cjqa=1\b/.test(location.search)) sessionStorage.setItem('cj-qa', '1'); } catch (e) {}
@@ -33,8 +35,7 @@
       '<label class="cn-sr" for="' + id + '-e">Email</label>' +
       '<div class="cn-row"><input id="' + id + '-e" name="email" type="email" autocomplete="email" placeholder="you@email.com" maxlength="254" required>' +
       '<button class="cn-btn" type="submit">' + (cta || 'Subscribe') + '</button></div>' +
-      '<label class="cn-ok"><input type="checkbox" name="consent" required><span>' + CONSENT + '</span></label>' +
-      '<p class="cn-fine">' + SENDER + '</p>' +
+      '<p class="cn-fine">' + FINE + '</p>' +
       '<input class="cn-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">' +
       '<p class="cn-msg" role="status" aria-live="polite"></p>' +
     '</form>';
@@ -42,14 +43,13 @@
 
   function wire(form, onOk) {
     var msg = form.querySelector('.cn-msg'), btn = form.querySelector('.cn-btn');
-    var em = form.querySelector('input[type=email]'), ok = form.querySelector('input[name=consent]');
+    var em = form.querySelector('input[type=email]');
     em.addEventListener('input', function () { em.classList.remove('bad'); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var v = em.value.trim();
       msg.className = 'cn-msg';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { em.classList.add('bad'); msg.className = 'cn-msg err'; msg.textContent = v ? 'That email doesn’t look quite right.' : 'Add your email first.'; em.focus(); return; }
-      if (!ok.checked) { msg.className = 'cn-msg err'; msg.textContent = 'Tick the box so we know it’s OK to email you.'; ok.focus(); return; }
       btn.disabled = true; msg.textContent = 'One sec…';
       var body = { email: v, consent: true, src: SRC, placement: form.getAttribute('data-placement'), page: location.pathname, company: form.company.value };
       if (qa()) body.test = true;

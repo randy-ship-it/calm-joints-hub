@@ -39,8 +39,8 @@
 .cn-msg { margin:0; min-height:1.2em; font-size:.88rem; font-weight:600; }
 .cn-msg.ok { color:var(--cn-green); } .cn-msg.err { color:#B42318; }
 .cn-hp { position:absolute !important; left:-5000px !important; width:1px; height:1px; }
-.cn-done .cn-row, .cn-done .cn-ok { display:none; }
-@media (max-width:480px) { .cn-row { display:contents; } .cn-form input[type=email] { order:1; } .cn-ok { order:2; } .cn-btn { order:3; width:100%; } .cn-fine { order:4; } .cn-msg { order:5; } }
+.cn-done .cn-row, .cn-done .cn-fine { display:none; }
+@media (max-width:480px) { .cn-row { display:contents; } .cn-form input[type=email] { order:1; } .cn-btn { order:3; width:100%; } .cn-fine { order:4; } .cn-msg { order:5; } }
 
 /* inline (mid-page) */
 .cn-inline { padding:clamp(2.4rem,6vw,4rem) 0; background:linear-gradient(180deg,#EDFAF4 0,#fff 100%); }
