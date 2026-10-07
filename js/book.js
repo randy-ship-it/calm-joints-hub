@@ -36,11 +36,11 @@
   function loadGuide(cb) {
     if (window.CJGuide) { cb && cb(); return; }
     if (!document.querySelector('link[data-cjg]')) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=8'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=9'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
     }
     // One-tap share helper (js/share.js), used inside the guide.
     if (!window.CJShare && !document.querySelector('script[data-cjs]')) {
-      var sh = document.createElement('script'); sh.src = '/js/share.js?v=6'; sh.async = true; sh.setAttribute('data-cjs', ''); document.head.appendChild(sh);
+      var sh = document.createElement('script'); sh.src = '/js/share.js?v=7'; sh.async = true; sh.setAttribute('data-cjs', ''); document.head.appendChild(sh);
     }
     var s = document.querySelector('script[data-cjg]');
     if (!s) {
@@ -67,27 +67,42 @@
   });
 })();
 
-/* Text Glen: visible SMS line in header, hero CTA and footer (Glen is SMS-only). */
+/* Call or text Glen: header, under the hero, and footer. Phones hide the header line with the other plain nav links. */
 (function () {
-  var HREF = 'sms:+16476926575', TXT = 'Text Glen: (647) 692-6575';
-  function link(cls) { var a = document.createElement('a'); a.href = HREF; a.textContent = TXT; a.className = cls; a.setAttribute('data-text-glen', ''); return a; }
+  var TEL = 'tel:+16476926575', SMS = 'sms:+16476926575';
+  function glenLine(extra) {
+    var wrap = document.createElement('span');
+    wrap.className = 'tg-line' + (extra ? ' ' + extra : '');
+    wrap.setAttribute('data-text-glen', '');
+    wrap.appendChild(document.createTextNode('Call or text Glen: '));
+    var tel = document.createElement('a');
+    tel.href = TEL;
+    tel.textContent = '(647) 692-6575';
+    wrap.appendChild(tel);
+    var text = document.createElement('a');
+    text.href = SMS;
+    text.className = 'tg-sms';
+    text.textContent = 'Text';
+    wrap.appendChild(text);
+    return wrap;
+  }
   function run() {
     if (!document.querySelector || !document.getElementById || !document.head) return;
     if (document.querySelector('[data-text-glen]')) return;
     var st = document.createElement('style');
     // Header nav hides plain links on phones, so the hero and footer lines stay visible there.
-    st.textContent = '.tg-nav{font-weight:600;color:var(--green,#14803C);white-space:nowrap}.tg-hero{margin:1rem 0 0;text-align:center}.tg-hero a{font-weight:700;color:var(--green,#14803C);font-size:1.05rem}.tg-hero small{display:block;opacity:.75;font-size:.8rem;margin-top:.2rem}footer [data-text-glen]{font-weight:600;color:var(--green,#14803C)}@media (max-width:760px){.nav-links a.tg-nav{display:none}.tg-hero{display:block}footer [data-text-glen]{display:inline}}';
+    st.textContent = '.tg-line{font-weight:600;color:var(--green,#14803C)}.tg-line a{color:var(--green,#14803C);font-weight:700}.tg-sms{font-size:.8em;font-weight:600;margin-left:.4rem;text-decoration:underline}.tg-nav{white-space:nowrap}.tg-hero{margin:1rem 0 0;text-align:center}.tg-hero .tg-line{font-size:1.05rem}.tg-hero small{display:block;opacity:.75;font-size:.8rem;font-weight:400;margin-top:.2rem}footer [data-text-glen]{font-weight:600;color:var(--green,#14803C)}@media (max-width:760px){.nav-links .tg-nav{display:none}.tg-hero{display:block}footer [data-text-glen]{display:inline}}';
     document.head.appendChild(st);
     var nb = document.getElementById('nav-book');
-    if (nb && nb.parentNode) nb.parentNode.insertBefore(link('tg-nav'), nb);
+    if (nb && nb.parentNode) nb.parentNode.insertBefore(glenLine('tg-nav'), nb);
     var ctas = document.querySelector('.hero .ctas');
     if (ctas) {
-      var p = document.createElement('p'); p.className = 'tg-hero'; p.appendChild(link(''));
-      var s = document.createElement('small'); s.textContent = 'Glen is Calm Joints’ AI guide, not a physio. Text only. Msg & data rates may apply.';
+      var p = document.createElement('p'); p.className = 'tg-hero'; p.appendChild(glenLine(''));
+      var s = document.createElement('small'); s.textContent = 'AI guide, not a physio · msg rates may apply.';
       p.appendChild(s); ctas.parentNode.insertBefore(p, ctas.nextSibling);
     }
     var mail = document.querySelector('footer nav a[href^="mailto:"]');
-    if (mail) mail.parentNode.insertBefore(link(''), mail);
+    if (mail) mail.parentNode.insertBefore(glenLine(''), mail);
   }
   if (document.readyState === 'loading' && document.addEventListener) document.addEventListener('DOMContentLoaded', run); else run();
 })();
