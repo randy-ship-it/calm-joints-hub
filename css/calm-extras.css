@@ -77,3 +77,12 @@
   a.blog-brand + .nav-links { gap:.6rem; }
   a.blog-brand + .nav-links a[href="/blog"], a.blog-brand + .nav-links a[href="/careers"] { display:none; }
 }
+
+/* Slogan under the wordmark: small, muted, aligned with the "Calm Joints" letters (text starts at 28.9% of the SVG width). */
+.nav-inner > a.brand, .nav-inner > a.blog-brand { display:inline-flex; flex-direction:column; align-items:flex-start; text-decoration:none; line-height:1; }
+.cj-tag { display:block; margin:-9px 0 0 38px; font-size:11.5px; font-weight:500; line-height:1.2; letter-spacing:.005em; color:#6B7F75; white-space:nowrap; }
+/* Phones: the header has no spare width, so the slogan stacks in two short lines inside the wordmark's own width. */
+@media (max-width:760px) {
+  .nav-inner > a.brand, .nav-inner > a.blog-brand { min-width:0; }
+  .cj-tag { margin:-8px 0 0 34px; max-width:84px; font-size:10px; line-height:1.15; white-space:normal; }
+}

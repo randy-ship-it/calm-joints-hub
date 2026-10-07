@@ -76,9 +76,9 @@ assert.ok(!JSON.stringify(body).includes('dropped'), 'no symptoms or history eve
   assert.strictEqual(neonPayload.meta.intake_prefill, true);
   assert.ok(!JSON.stringify(neonPayload).includes('do not store'));
 
-  assert.ok(fs.readFileSync('chat.html', 'utf8').includes('/js/guide.js?v=11'));
+  assert.ok(fs.readFileSync('chat.html', 'utf8').includes('/js/guide.js?v=12'));
   assert.ok(fs.readFileSync('js/guide.js', 'utf8').includes('name="intake_prefill"'));
-  assert.ok(fs.readFileSync('js/book.js', 'utf8').includes('/js/guide.js?v=11'));
+  assert.ok(fs.readFileSync('js/book.js', 'utf8').includes('/js/guide.js?v=12'));
 
   const banned = /\b(CHI|Clairvoyant|Align|Jane|Scale|Birch|BirchReserve|Silver Birch)\b/;
   for (const f of ['chat.html', 'js/guide.js', 'css/guide.css', 'js/book.js']) {
