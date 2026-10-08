@@ -9,14 +9,14 @@ const GUIDES = {
   glen: { name: 'Glen', him: 'him', img: 'og-glen.jpg' },
   gwen: { name: 'Gwen', him: 'her', img: 'og-gwen.jpg' },
 };
-const OG_V = 1;
+const OG_V = 2;
 
 function build(src, key) {
   const g = GUIDES[key];
   const title = `Hurting? Ask ${g.name}, free 24/7`;
-  const desc = `${g.name} is Calm Joints’ AI recovery concierge. Tell ${g.him} what hurts and get clear next steps, any time. No app needed.`;
+  const desc = `${g.name} is Calm Joints’ recovery concierge. Tell ${g.him} what hurts and get clear next steps, any time. No app needed.`;
   const img = `https://calmjoints.org/media/${g.img}?v=${OG_V}`;
-  const alt = `${g.name}, the Calm Joints AI recovery concierge: Hurting? Ask ${g.name}, free 24/7`;
+  const alt = `${g.name}, Calm Joints’ recovery concierge: Hurting? Ask ${g.name}, free 24/7`;
   const url = `https://calmjoints.org/chat?guide=${key}`;
   const set = (s, re, val) => { if (!re.test(s)) throw new Error('chat.html is missing ' + re); return s.replace(re, val); };
   let s = src;

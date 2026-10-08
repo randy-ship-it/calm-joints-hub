@@ -159,3 +159,5 @@ dialog.cjg-dlg .cjg{height:min(760px,calc(100dvh - 24px))}
 .cjh-more summary{cursor:pointer;font-size:.86rem;font-weight:600;color:#15803D;padding:.25rem 0}
 .cjh-more[open] summary{margin-bottom:.5rem}
 .cjh-more .cjh-row{margin-top:.5rem}
+.cjg-disc{margin:.2rem 0 .7rem;font-size:.84rem;line-height:1.45;color:var(--mute)}
+.cjg-disc.in-log{align-self:stretch;max-width:100%;margin:.1rem 0 .5rem;padding:.5rem .7rem;border-radius:12px;background:var(--soft);font-size:.8rem;text-align:center}

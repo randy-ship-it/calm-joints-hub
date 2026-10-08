@@ -18,7 +18,7 @@ for (const g of ['glen', 'gwen']) {
   const url = S.urlFor(g);
   const msg = S.messageFor(g);
   assert.ok(msg.startsWith('Thought of you.'), msg);
-  assert.ok(msg.includes('ask ' + name + ', Calm Joints’ free 24/7 AI recovery concierge'), msg);
+  assert.ok(msg.includes('ask ' + name + ', Calm Joints’ free 24/7 recovery concierge'), msg);
   assert.ok(g === 'glen' ? /Tell him .* he’ll/.test(msg) : /Tell her .* she’ll/.test(msg), 'pronouns: ' + msg);
   assert.strictEqual(msg.split(url).length, 2, 'link appears exactly once');
   assert.strictEqual(msg.split('https://').length, 2);
@@ -39,14 +39,14 @@ for (const g of ['glen', 'gwen']) {
   assert.ok(S.mailHref(g).startsWith('mailto:?subject=') && decodeURIComponent(S.mailHref(g)).includes(url));
 }
 const H3 = S.html({ placement: 'home' });
-assert.ok(H3.includes('Share your AI recovery concierge'), 'headline');
+assert.ok(H3.includes('Share your recovery concierge'), 'headline');
 assert.ok(H3.includes('Send them Glen') && H3.includes('Send them Gwen'), 'picker');
 assert.ok(H3.includes('data-cjs-g="glen"') && H3.includes('data-cjs-g="gwen"') && H3.includes('/media/cj-guide-gwen.webp'));
 assert.ok(H3.includes('data-cjs-copy') && H3.includes('Copy link'), 'copy-link fallback');
 assert.ok(H3.includes('data-place="home"'));
 assert.ok(S.html({ first: 'gwen' }).indexOf('data-cjs-g="gwen"') < S.html({ first: 'gwen' }).indexOf('data-cjs-g="glen"'), 'first guide first');
 // Text Glen line
-assert.ok(S.html().includes('href="tel:+16476926575"') && S.html().includes('Call or text Glen: <a href="tel:+16476926575"') && S.html().includes('href="sms:+16476926575">Text</a>') && S.html().includes('AI guide, not a physio · msg rates may apply'));
+assert.ok(S.html().includes('href="tel:+16476926575"') && S.html().includes('Call or text Glen: <a href="tel:+16476926575"') && S.html().includes('href="sms:+16476926575">Text</a>') && S.html().includes('virtual guide, not a clinician · msg rates may apply'));
 assert.ok(!S.html({ textGuide: false }).includes('data-cjs-textguide'));
 assert.ok(S.isIOS('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)', 5));
 assert.ok(S.isIOS('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', 5), 'iPadOS desktop UA');
@@ -66,7 +66,7 @@ vm.runInContext(fs.readFileSync('js/helped.js', 'utf8'), ctx);
 const H = ctx.window.CJHelped;
 assert.strictEqual(H.url, 'https://calmjoints.org/chat?src=helped');
 assert.strictEqual(H.shareText('Gwen').split('https://').length, 2);
-assert.ok(H.shareText('Glen').startsWith('Glen helped me make sense of my aches today'));
+assert.ok(H.shareText('Glen').startsWith('Glen helped me make sense of my aches today') && !/\bAI\b/.test(H.shareText('Glen') + S.messageFor('gwen')));
 assert.ok(H.xHref('Glen').startsWith('https://x.com/intent/post?text=') && H.xHref('Glen').includes('url=https%3A%2F%2Fcalmjoints.org%2Fchat%3Fsrc%3Dhelped'));
 assert.ok(H.html({ name: 'Gwen', key: 'gwen' }).includes('Gwen helped? Pass her on'));
 assert.ok(H.html({ name: 'Glen', key: 'glen' }).includes('Glen helped? Pass him on'));

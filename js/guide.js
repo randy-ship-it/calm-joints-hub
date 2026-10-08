@@ -15,18 +15,19 @@
 
   var T = {
     title: 'Talk with Calm Joints',
-    body: 'General info, not a diagnosis. Chats may be saved to help us improve, but they’re not your medical record or intake. Think of me as a well-read front desk.',
-    e911: 'If you have chest pain, trouble breathing, sudden weakness, new bowel or bladder changes, or pain after a major fall, stop and call 911 or go to emergency.',
-    foot: 'Not a physio. Not official advice. Book a registered physiotherapist at <a href="https://calmjoints.org" target="_blank" rel="noopener">calmjoints.org</a>.',
+    // The one disclosure line: small on the gate, and once at the start of each chat or voice session.
+    disclose: '{name} is Calm Joints’ virtual guide, not a clinician. General info only, not medical advice. Chats may be saved. In an emergency, call 911.',
+    e911: 'Chest pain, trouble breathing, sudden weakness, new bowel or bladder changes, or a bad fall? Call 911 or go to emergency.',
+    foot: 'Virtual guide, not a clinician. General info only. <a href="https://calmjoints.org/?intent=book" target="_blank" rel="noopener">Book a registered physio</a>.',
     consent: 'Voice chats may be saved to help us improve, but not as a health record. You can switch to text anytime.',
-    openingNamed: 'Hi, I’m {name}, Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
-    opening: 'Hi, I’m Calm Joints’ AI guide, not a physio. What’s going on with your body today?',
+    openingNamed: 'Hi, I’m {name}, Calm Joints’ virtual guide. What’s going on with your body today?',
+    opening: 'Hi, I’m Calm Joints’ virtual guide. What’s going on with your body today?',
     qrAdd: ' I can help you book a visit with a Calm Joints physio from here.',
     bookLine: 'You’ll book with Calm Joints, with a College-registered physio.',
     tips: 'Get tips for sore joints — short notes from the clinic, unsubscribe anytime.',
     prefill: 'Start my intake with this (name, contact, what’s sore, preferred time). No symptoms or chat history. Your physio reviews it at booking.',
-    cbConsent: 'I agree to receive a call from the Calm Joints AI guide about my request.',
-    cbIntro: 'Leave your first name and number. The Calm Joints AI guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
+    cbConsent: 'I agree to receive a call from the Calm Joints virtual guide about my request.',
+    cbIntro: 'Leave your first name and number. The Calm Joints virtual guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
   };
   // "Get a call back": hidden unless the server says it's switched on (?callback=preview shows it for checks).
   var CALLBACK = { on: false, preview: /(^|&)callback=preview(&|$)/.test(location.search.slice(1)) };
@@ -74,9 +75,10 @@
     return DEFAULT_GUIDE;
   })();
   function guide() { return GUIDES[PICK] || GUIDES[DEFAULT_GUIDE] || GUIDES[GUIDE_KEYS[0]]; }
+  function disclose() { return T.disclose.replace('{name}', guide().name || 'Our guide'); }
   function guideAv(k) { return esc((GUIDES[k] || guide()).avatar || '/media/cj-guide-avatar.webp'); }
-  function guideAlt(k) { var g = GUIDES[k] || guide(); return esc(g.alt || (g.name + ', the Calm Joints AI guide (illustration)')); }
-  // Share your AI recovery concierge (js/share.js): Send them Glen / Send them Gwen, current guide first.
+  function guideAlt(k) { var g = GUIDES[k] || guide(); return esc(g.alt || (g.name + ', Calm Joints’ virtual guide (illustration)')); }
+  // Share your recovery concierge (js/share.js): Send them Glen / Send them Gwen, current guide first.
   function shareHtml(o) { return window.CJShare ? '<div class="cjg-share">' + window.CJShare.html(Object.assign({ compact: true, first: PICK }, o)) + '</div>' : ''; }
   function pickerHtml() {
     if (GUIDE_KEYS.length < 2) return '';
@@ -130,12 +132,12 @@
     this.root.classList.add('cjg');
     this.root.innerHTML =
       '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><span class="cjg-brand"><b>Calm Joints</b><small class="cj-tag-g">In the moment recovery care</small></span>' +
-      (window.CJShare ? '<button type="button" class="cjg-hshare" data-a="hshare" aria-label="Share your AI recovery concierge: send someone Glen or Gwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share</button>' : '') +
+      (window.CJShare ? '<button type="button" class="cjg-hshare" data-a="hshare" aria-label="Share your recovery concierge: send someone Glen or Gwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share</button>' : '') +
       (o.onClose ? '<button type="button" class="cjg-x" aria-label="Close">&times;</button>' : '') + '</div>' +
       '<div class="cjg-body" data-s="gate">' +
         pickerHtml() +
-        '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="' + guideAlt() + '" width="64" height="64" data-gav data-galt></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>' + (CTX.src === 'share' ? 'A friend sent you my way' : 'Ask me about your injury') + '</b><small>AI guide · not a physiotherapist</small></span></div>' +
-        '<h2 id="cjg-title">' + T.title + '</h2><p>' + T.body + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
+        '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="' + guideAlt() + '" width="64" height="64" data-gav data-galt></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>' + (CTX.src === 'share' ? 'A friend sent you my way' : 'Ask me about your injury') + '</b><small>Virtual guide · not a clinician</small></span></div>' +
+        '<h2 id="cjg-title">' + T.title + '</h2><p class="cjg-disc" data-gdisc>' + esc(disclose()) + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="chat">' + ICON.chat + 'Chat</button>' +
         '<button type="button" class="cjg-btn" data-a="voice">' + ICON.mic + 'Voice</button>' +
         '<a class="cjg-btn soft" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">' + ICON.cal + 'Book a video visit</a>' +
@@ -193,8 +195,9 @@
     var g = guide(), self = this;
     this.root.setAttribute('data-guide', PICK);
     this.root.querySelectorAll('[data-gav]').forEach(function (i) { i.src = g.avatar || '/media/cj-guide-avatar.webp'; });
-    this.root.querySelectorAll('[data-galt]').forEach(function (i) { i.alt = g.alt || (g.name + ', the Calm Joints AI guide (illustration)'); });
+    this.root.querySelectorAll('[data-galt]').forEach(function (i) { i.alt = g.alt || (g.name + ', Calm Joints’ virtual guide (illustration)'); });
     this.root.querySelectorAll('[data-gname]').forEach(function (b) { b.textContent = self.badge(); });
+    this.root.querySelectorAll('[data-gdisc]').forEach(function (b) { b.textContent = disclose(); });
     this.root.querySelectorAll('.cjg-pk').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-g') === PICK)); });
     var o = this.otherGuide();
     this.root.querySelectorAll('[data-gswap]').forEach(function (b) { b.setAttribute('aria-label', 'Talk with ' + GUIDES[o].name + ' instead'); b.querySelector('img').src = GUIDES[o].avatar || '/media/cj-guide-avatar.webp'; b.querySelector('span').textContent = GUIDES[o].name; });
@@ -328,7 +331,9 @@
     return loadSdk().then(function (SDK) {
       var cfg = {
         agentId: g.agentId || AGENT_ID,
-        connectionType: voice ? 'webrtc' : 'websocket',
+        // Voice and chat both use the WebSocket transport. WebRTC sessions were rejected at start-up
+        // (call_initialization_error, auth 'invalid' under the agent's origin allowlist) and hung up instantly.
+        connectionType: 'websocket',
         dynamicVariables: { src: CTX.src || 'site', venue: CTX.venue || 'none', mode: voice ? 'voice' : 'chat' },
         overrides: { agent: { firstMessage: first }, conversation: { textOnly: !voice } },
         clientTools: self.tools(),
@@ -344,7 +349,13 @@
         onModeChange: function (m) { if (voice && tok === self.tok) self.voiceState(m.mode); },
         onStatusChange: function (s) { if (voice && s.status === 'connecting') self.voiceStatus('Connecting…'); },
         onError: function (msg) { console.warn('[cj-guide]', msg); },
-        onDisconnect: function () { if (tok !== self.tok) return; self.conv = null; self.typing(false); if (voice && self.mode === 'voice') self.voiceStatus('Voice ended. You can switch to text or book a visit.'); },
+        onConnect: function () { if (tok === self.tok) self.connectedAt = Date.now(); },
+        onDisconnect: function (d) {
+          if (tok !== self.tok) return; self.conv = null; self.typing(false);
+          var early = self.connectedAt && Date.now() - self.connectedAt < 4000 && !(d && d.reason === 'user');
+          if (voice && self.mode === 'voice') self.voiceStatus(early ? 'Voice dropped right away. Tap Start voice to try again, or switch to text.' : 'Voice ended. You can switch to text or book a visit.');
+          if (voice && early) self.track('voice_early_end');
+        },
       };
       if (!voice) cfg.textOnly = true;
       return SDK.Conversation.startSession(cfg);
@@ -359,6 +370,7 @@
     var self = this;
     if (this.mode === 'chat' && this.conv) { this.show('chat'); return; }
     this.stop(); this.mode = 'chat'; this.hadChat = true; this.show('chat'); this.track('chat');
+    this.discloseOnce('chat');
     this.typing(true);
     var send = this.root.querySelector('.cjg-compose button'); send.disabled = true;
     this.session(false).then(function (c) { self.conv = c; send.disabled = false; })
@@ -372,6 +384,13 @@
     if (this.conv) go();
     else this.session(false).then(function (c) { self.conv = c; setTimeout(go, 400); }).catch(function () { self.typing(false); self.add('sys', 'The guide couldn’t connect just now.'); });
   };
+  // One short disclosure line at the start of each chat / voice log (not repeated on reconnects).
+  Guide.prototype.discloseOnce = function (mode) {
+    this.disclosed = this.disclosed || {};
+    if (this.disclosed[mode]) return; this.disclosed[mode] = true;
+    var log = this.root.querySelector('[data-log="' + mode + '"]'); if (!log) return;
+    var p = document.createElement('p'); p.className = 'cjg-disc in-log'; p.textContent = disclose(); log.appendChild(p);
+  };
   Guide.prototype.voiceStatus = function (t) { var s = this.root.querySelector('.cjg-status'); if (s) s.textContent = t; };
   Guide.prototype.voiceState = function (mode) {
     var orb = this.root.querySelector('.cjg-orb'); orb.className = 'cjg-orb ' + (mode || '');
@@ -382,6 +401,7 @@
     if (this.starting) return;
     this.starting = true;
     this.stop(); this.mode = 'voice'; this.show('voice'); this.voiceStatus('Connecting…'); this.track('voice');
+    this.discloseOnce('voice');
     this.session(true).then(function (c) { self.conv = c; self.starting = false; self.voiceState('listening'); })
       .catch(function (e) {
         self.starting = false; console.warn('[cj-guide] voice', e);
@@ -404,7 +424,7 @@
   };
   Guide.prototype.showShare = function () {
     this.track('share');
-    var card = this.add('ai', shareHtml({ placement: 'chat' }) || ('<p>Know someone who’s hurting? Send them the Calm Joints AI guide: ' + fmt('https://calmjoints.org/chat?guide=' + PICK + '&ref=share') + '</p>'), 'card');
+    var card = this.add('ai', shareHtml({ placement: 'chat' }) || ('<p>Know someone who’s hurting? Send them Glen or Gwen: ' + fmt('https://calmjoints.org/chat?guide=' + PICK + '&ref=share') + '</p>'), 'card');
     card.style.maxWidth = '100%';
     var el = card.querySelector('[data-cjs]'); if (el && window.CJShare) window.CJShare.bind(el);
   };

@@ -36,7 +36,7 @@
   function loadGuide(cb) {
     if (window.CJGuide) { cb && cb(); return; }
     if (!document.querySelector('link[data-cjg]')) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=12'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=13'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
     }
     // One-tap share helper (js/share.js), used inside the guide.
     if (!window.CJShare && !document.querySelector('script[data-cjs]')) {
@@ -44,7 +44,7 @@
     }
     var s = document.querySelector('script[data-cjg]');
     if (!s) {
-      s = document.createElement('script'); s.src = '/js/guide.js?v=13'; s.async = true; s.setAttribute('data-cjg', '');
+      s = document.createElement('script'); s.src = '/js/guide.js?v=15'; s.async = true; s.setAttribute('data-cjg', '');
       s.addEventListener('error', function () { s.setAttribute('data-failed', '1'); });
       document.head.appendChild(s);
     }
@@ -98,7 +98,7 @@
     var ctas = document.querySelector('.hero .ctas');
     if (ctas) {
       var p = document.createElement('p'); p.className = 'tg-hero'; p.appendChild(glenLine(''));
-      var s = document.createElement('small'); s.textContent = 'AI guide, not a physio · msg rates may apply.';
+      var s = document.createElement('small'); s.textContent = 'Virtual guide, not a clinician · msg rates may apply.';
       p.appendChild(s); ctas.parentNode.insertBefore(p, ctas.nextSibling);
     }
     var mail = document.querySelector('footer nav a[href^="mailto:"]');

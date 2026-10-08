@@ -1,5 +1,5 @@
 /*
- * Share your AI recovery concierge (v3): "Send them Glen" / "Send them Gwen".
+ * Share your recovery concierge (v3): "Send them Glen" / "Send them Gwen".
  * Each pick shares a guide-specific link, https://calmjoints.org/chat?guide=<glen|gwen>&ref=share,
  * which opens /chat with that guide pre-selected and has its own link preview (og image + text).
  * 1) Web Share API on phones (share sheet), 2) otherwise a panel with Copy link (auto-copied on
@@ -32,11 +32,11 @@
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
   function urlFor(g) { return BASE + '?guide=' + key(g) + '&ref=share'; }
-  // Written to the friend who receives it. Link appears once. No claims beyond "AI guide".
+  // Written to the friend who receives it. Link appears once. No clinical claims.
   function messageFor(g) {
     var G = GUIDES[key(g)];
     var textLine = (SMS_CFG && SMS_CFG.number && SMS_CFG.label && (SMS_CFG.name || 'Glen') === G.name) ? ' (or text ' + G.name + ' at ' + SMS_CFG.label + ')' : '';
-    return 'Thought of you. If something\u2019s hurting, ask ' + G.name + ', Calm Joints\u2019 free 24/7 AI recovery concierge. Tell ' + G.him + ' what\u2019s going on and ' + G.he + '\u2019ll help with next steps. No app needed: ' + urlFor(G.key) + textLine;
+    return 'Thought of you. If something\u2019s hurting, ask ' + G.name + ', Calm Joints\u2019 free 24/7 recovery concierge. Tell ' + G.him + ' what\u2019s going on and ' + G.he + '\u2019ll help with next steps. No app needed: ' + urlFor(G.key) + textLine;
   }
   function payload(g) { return { text: messageFor(g) }; }
   function mailHref(g) {
@@ -90,11 +90,11 @@
     var order = KEYS.slice();
     if (o.first && GUIDES[o.first]) order.sort(function (a, b) { return (b === o.first) - (a === o.first); });
     var head = o.lead === false ? '' :
-      '<p class="cjs-h">' + esc(o.title || 'Share your AI recovery concierge') + '</p>' +
+      '<p class="cjs-h">' + esc(o.title || 'Share your recovery concierge') + '</p>' +
       (o.compact ? '' : '<p class="cjs-sub">' + esc(o.sub || ('Know someone who\u2019s hurting? Send them ' + order.map(function (k) { return GUIDES[k].name; }).join(' or ') + '. Free and 24/7.')) + '</p>');
     var pick = '<div class="cjs-pick" role="group" aria-label="Pick a guide to send">' + order.map(function (k) {
       var G = GUIDES[k];
-      return '<button type="button" class="cjs-g" data-cjs-g="' + k + '"><img src="' + esc(G.avatar) + '" alt="" width="44" height="44" loading="lazy"><span class="cjs-gt"><b>Send them ' + esc(G.name) + '</b><small>AI concierge \u00B7 24/7</small></span>' + ICON + '</button>';
+      return '<button type="button" class="cjs-g" data-cjs-g="' + k + '"><img src="' + esc(G.avatar) + '" alt="" width="44" height="44" loading="lazy"><span class="cjs-gt"><b>Send them ' + esc(G.name) + '</b><small>Free \u00B7 24/7</small></span>' + ICON + '</button>';
     }).join('') + '</div>';
     var alt = '<div class="cjs-alt" data-cjs-alt hidden><p class="cjs-alt-t" data-cjs-alt-t></p>' +
       '<div class="cjs-link"><input type="text" readonly aria-label="Share link" data-cjs-url value=""><button type="button" class="cjs-copy" data-cjs-copy>Copy link</button></div>' +
@@ -108,7 +108,7 @@
     var name = SMS_CFG.name || 'Glen';
     var num = String(SMS_CFG.number);
     var tel = num.charAt(0) === '+' ? num : '+' + num;
-    return '<p class="cjs-text"><span class="cjs-call">Call or text ' + name + ': <a href="tel:' + tel + '" data-cjs-textguide><b>' + SMS_CFG.label + '</b></a> <a class="cjs-sms" href="sms:' + tel + '">Text</a></span><small>Canada \u00B7 AI guide, not a physio \u00B7 msg rates may apply</small></p>';
+    return '<p class="cjs-text"><span class="cjs-call">Call or text ' + name + ': <a href="tel:' + tel + '" data-cjs-textguide><b>' + SMS_CFG.label + '</b></a> <a class="cjs-sms" href="sms:' + tel + '">Text</a></span><small>Canada \u00B7 virtual guide, not a clinician \u00B7 msg rates may apply</small></p>';
   }
 
   function bind(root) {
@@ -156,7 +156,7 @@
   function openSheet(o) {
     o = o || {};
     if (!sheet) {
-      sheet = document.createElement('dialog'); sheet.className = 'cjs-sheet'; sheet.setAttribute('aria-label', 'Share your AI recovery concierge');
+      sheet = document.createElement('dialog'); sheet.className = 'cjs-sheet'; sheet.setAttribute('aria-label', 'Share your recovery concierge');
       sheet.innerHTML = '<button type="button" class="cjs-x" aria-label="Close">&times;</button><div data-cjs-sheet></div>';
       document.body.appendChild(sheet);
       sheet.querySelector('.cjs-x').addEventListener('click', function () { sheet.close(); });
