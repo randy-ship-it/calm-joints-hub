@@ -33,8 +33,21 @@
     }
   ],
   "functions": {
+    "api/*.js": {
+      "includeFiles": "lib/**"
+    },
     "api/qr-lead.js": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "includeFiles": "lib/**"
     }
-  }
+  },
+  "routes": [
+    { "src": "/lib(/.*)?", "status": 404 },
+    { "src": "/scripts(/.*)?", "status": 404 },
+    { "src": "/.*\\.md", "status": 404 },
+    { "src": "/package(-lock)?\\.json", "status": 404 },
+    { "src": "/vercel\\.json", "status": 404 },
+    { "src": "/\\..*", "status": 404 },
+    { "src": "/(br-loc-desk|hero-loc-desk)\\.png", "status": 404 }
+  ]
 }

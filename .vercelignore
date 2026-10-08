@@ -1,0 +1,4 @@
+# Docs and ops logs only. Serverless functions do not read these.
+# lib/ and scripts/ stay in the upload: functions import lib/ at build time,
+# and public access to both trees is denied in vercel.json routes.
+*.md
