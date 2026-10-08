@@ -47,12 +47,12 @@
     "api/resume.js": { "includeFiles": "lib/**" }
   },
   "routes": [
-    { "src": "/lib(/.*)?", "status": 404 },
-    { "src": "/scripts(/.*)?", "status": 404 },
-    { "src": "/.*\\.md", "status": 404 },
-    { "src": "/package(-lock)?\\.json", "status": 404 },
-    { "src": "/vercel\\.json", "status": 404 },
-    { "src": "/\\..*", "status": 404 },
-    { "src": "/(br-loc-desk|hero-loc-desk)\\.png", "status": 404 }
+    { "src": "/lib(/.*)?", "dest": "/api/blocked", "status": 404 },
+    { "src": "/scripts(/.*)?", "dest": "/api/blocked", "status": 404 },
+    { "src": "/.*\\.md", "dest": "/api/blocked", "status": 404 },
+    { "src": "/package(-lock)?\\.json", "dest": "/api/blocked", "status": 404 },
+    { "src": "/vercel\\.json", "dest": "/api/blocked", "status": 404 },
+    { "src": "/\\..*", "dest": "/api/blocked", "status": 404 },
+    { "src": "/(br-loc-desk|hero-loc-desk)\\.png", "dest": "/api/blocked", "status": 404 }
   ]
 }
