@@ -65,10 +65,15 @@
   @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
   @media (max-width: 760px) { .nav-links { gap: .7rem; } .nav-links a[href="/partners"] { display: inline-block; font-size: .88rem; font-weight: 600; color: var(--ink); padding: .45rem .75rem; border: 1px solid var(--line); border-radius: 999px; } .nav-links .btn { padding: .55rem .9rem; font-size: .9rem; } .brand img { width: 118px; height: auto; } }
   /* hero */
-  .hero { padding: clamp(3rem, 8vw, 5.5rem) 0 1.5rem; text-align: center; }
+  .hero { padding: clamp(.7rem, 1.6vw, 1.05rem) 0 .15rem; text-align: center; }
   .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
+  .hero .lede { margin-top: .45rem; }
   .ctas { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
-  .hero-share { max-width: 520px; margin: 1.6rem auto 0; padding: 1rem; border: 1px solid #D3F8DF; border-radius: 20px; background: linear-gradient(180deg,#F3FDF6 0,#fff 100%); box-shadow: 0 24px 50px -38px rgba(10,61,34,.5); scroll-margin-top: 90px; }
+  .hero .ctas { margin-top: .7rem; }
+  .hero-share { max-width: 520px; margin: .6rem auto 0; padding: .65rem .8rem .55rem; border: 1px solid #D3F8DF; border-radius: 20px; background: linear-gradient(180deg,#F3FDF6 0,#fff 100%); box-shadow: 0 24px 50px -38px rgba(10,61,34,.5); scroll-margin-top: 90px; }
+  .hero-share .cjs { gap: .3rem; }
+  .hero-share .cjs-sub { margin: 0; }
+  .hero-share .cjs-g { min-height: 52px; padding: .35rem .6rem .35rem .4rem; }
   .nav-share { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; color: var(--ink) !important; white-space: nowrap; padding: .35rem .75rem .35rem .4rem; border: 1px solid #D3F8DF; border-radius: 999px; background: #F3FDF6; }
   .nav-share:hover { border-color: var(--green-2); }
   @media (min-width: 1180px) { .nav-links .btn { white-space: nowrap; } }
@@ -86,8 +91,8 @@
   .btn-talk { background: var(--ink); color: #fff; } .btn-talk:hover { background: #1C3A2D; }
   .tk-av { display: inline-flex; margin-right: .15rem; } .tk-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); background: #DCFCE7; margin-left: -.55rem; } .tk-av img:first-child { margin-left: -.35rem; }
   .hero .ctas .btn { min-width: 15.5rem; padding: .95rem 1.5rem; font-size: 1.02rem; }
-  .hero-note { margin: .9rem auto 0; max-width: 34rem; font-size: .86rem; color: var(--mute); }
-  .hero-join { margin: .5rem 0 0; font-size: .92rem; } .hero-join a { color: var(--green); font-weight: 600; text-decoration: none; } .hero-join a:hover { text-decoration: underline; }
+  .hero-note { margin: .4rem auto 0; max-width: 34rem; font-size: .86rem; color: var(--mute); line-height: 1.4; }
+  .hero-join { margin: .1rem 0 0; font-size: .92rem; } .hero-join a { color: var(--green); font-weight: 600; text-decoration: none; } .hero-join a:hover { text-decoration: underline; }
   @media (max-width: 560px) { .hero .ctas { flex-direction: column; align-items: stretch; max-width: 22rem; margin-left: auto; margin-right: auto; } .hero .ctas .btn { min-width: 0; } }
   .nav-talk .tk-short { display: none; }
   @media (max-width: 1179px) { .nav-talk .tk-long { display: none; } .nav-talk .tk-short { display: inline; } }
@@ -98,8 +103,8 @@
   .sticky .tk-av img { width: 24px; height: 24px; }
   .fine { margin: .9rem 0 0; font-size: .88rem; color: var(--mute); }
   /* carousel */
-  .trust-lbl { margin: 2.2rem 0 -1rem; text-align: center; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
-  .carousel { position: relative; padding: 2rem 0 1rem; }
+  .trust-lbl { margin: .55rem 0 -.15rem; text-align: center; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
+  .carousel { position: relative; padding: .2rem 0 .6rem; }
   .track { display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: .5rem calc(50vw - min(46vw, 400px)) 1.5rem; }
   .track::-webkit-scrollbar { display: none; }
   .slide { flex: 0 0 min(92vw, 800px); scroll-snap-align: center; text-decoration: none; transition: opacity .35s, transform .35s; opacity: .45; transform: scale(.96); }
