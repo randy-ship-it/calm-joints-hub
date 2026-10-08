@@ -157,7 +157,7 @@
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
       '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button>' + (window.CJHelped ? '<button type="button" class="cjg-chip" data-a="helped">\uD83D\uDC4D This helped</button>' : '') + '</div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
-      '<div class="cjg-foot">' + T.foot + '</div>';
+      '<div class="cjg-foot" data-gdisc>' + esc(disclose()) + '</div>';
     this.root.addEventListener('click', function (e) {
       var a = e.target.closest('[data-a]'); if (!a || !self.root.contains(a)) return;
       var act = a.getAttribute('data-a');
@@ -327,6 +327,7 @@
     var g = guide();
     var first = (g.name ? T.openingNamed.replace('{name}', g.name) : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
     if (voice && this.hadChat) first = 'I’m listening. What’s sore, or would you like to book a video visit?';
+    this.connectedAt = 0;
     var tok = this.tok = (this.tok || 0) + 1; // ignore late events from a session we already ended (guide switch)
     return loadSdk().then(function (SDK) {
       var cfg = {
@@ -340,21 +341,23 @@
         onMessage: function (m) {
           if (!m || !m.message || tok !== self.tok) return;
           if (m.source === 'ai' || m.role === 'agent') {
+            if (voice) self.heard = true;
             self.typing(false); self.add('ai', fmt(m.message));
             // After ~4 exchanges in text chat, offer the post-help share once.
             if (!voice && (self.turns || 0) >= 4 && !self.helpedShown) setTimeout(function () { self.showHelped(false); }, 1500);
           }
           else if (voice) self.add('me', fmt(m.message));
         },
-        onModeChange: function (m) { if (voice && tok === self.tok) self.voiceState(m.mode); },
+        onModeChange: function (m) { if (voice && tok === self.tok) { if (m.mode === 'speaking') self.heard = true; self.voiceState(m.mode); } },
         onStatusChange: function (s) { if (voice && s.status === 'connecting') self.voiceStatus('Connecting…'); },
         onError: function (msg) { console.warn('[cj-guide]', msg); },
         onConnect: function () { if (tok === self.tok) self.connectedAt = Date.now(); },
         onDisconnect: function (d) {
           if (tok !== self.tok) return; self.conv = null; self.typing(false);
           var early = self.connectedAt && Date.now() - self.connectedAt < 4000 && !(d && d.reason === 'user');
-          if (voice && self.mode === 'voice') self.voiceStatus(early ? 'Voice dropped right away. Tap Start voice to try again, or switch to text.' : 'Voice ended. You can switch to text or book a visit.');
-          if (voice && early) self.track('voice_early_end');
+          if (voice) clearTimeout(self.voiceDog);
+          if (voice && early && self.mode === 'voice') { self.track('voice_early_end'); return self.voiceFallback('Voice dropped on this connection, so I switched you to text.'); }
+          if (voice && self.mode === 'voice') self.voiceStatus('Voice ended. You can switch to text or book a visit.');
         },
       };
       if (!voice) cfg.textOnly = true;
@@ -370,7 +373,6 @@
     var self = this;
     if (this.mode === 'chat' && this.conv) { this.show('chat'); return; }
     this.stop(); this.mode = 'chat'; this.hadChat = true; this.show('chat'); this.track('chat');
-    this.discloseOnce('chat');
     this.typing(true);
     var send = this.root.querySelector('.cjg-compose button'); send.disabled = true;
     this.session(false).then(function (c) { self.conv = c; send.disabled = false; })
@@ -396,20 +398,58 @@
     var orb = this.root.querySelector('.cjg-orb'); orb.className = 'cjg-orb ' + (mode || '');
     this.voiceStatus(mode === 'speaking' ? 'Speaking…' : 'Listening…');
   };
+  // iOS Safari: ask for the mic and unlock Web Audio inside the tap itself, before any async work,
+  // otherwise the agent's audio context can stay suspended and the session sits on "Listening…" in silence.
+  function primeAudio() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) {
+        var ac = primeAudio.ac || (primeAudio.ac = new AC());
+        if (ac.state !== 'running' && ac.resume) ac.resume();
+        var src = ac.createBufferSource(); src.buffer = ac.createBuffer(1, 1, 22050); src.connect(ac.destination); src.start(0);
+      }
+    } catch (e) {}
+    var md = navigator.mediaDevices;
+    if (!md || !md.getUserMedia) return Promise.reject(new Error('NotSupported: no microphone access in this browser'));
+    return md.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+  }
+  function stopStream(st) { try { st && st.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {} }
   Guide.prototype.startVoice = function () {
     var self = this;
     if (this.starting) return;
-    this.starting = true;
+    this.starting = true; this.heard = false;
     this.stop(); this.mode = 'voice'; this.show('voice'); this.voiceStatus('Connecting…'); this.track('voice');
-    this.discloseOnce('voice');
-    this.session(true).then(function (c) { self.conv = c; self.starting = false; self.voiceState('listening'); })
+    var pre = null;
+    primeAudio().then(function (st) { pre = st; return self.session(true); })
+      .then(function (c) {
+        self.conv = c; self.starting = false; self.voiceState('listening'); stopStream(pre);
+        // Watchdog: if the guide hasn't said anything within 10s, voice isn't getting through on this
+        // device. Move to text automatically so nobody is left staring at "Listening…".
+        var tok = self.tok;
+        clearTimeout(self.voiceDog);
+        self.voiceDog = setTimeout(function () {
+          if (tok === self.tok && self.mode === 'voice' && !self.heard) { self.track('voice_silent_fallback'); self.voiceFallback('Voice isn’t coming through on this device, so I switched you to text. ' + (guide().name || 'Your guide') + ' is right here.'); }
+        }, 10000);
+      })
       .catch(function (e) {
-        self.starting = false; console.warn('[cj-guide] voice', e);
+        self.starting = false; stopStream(pre); console.warn('[cj-guide] voice', e);
         var denied = e && /denied|NotAllowed|Permission/i.test(String(e.name || '') + String(e.message || e));
-        self.voiceStatus(denied ? 'Microphone is off. You can switch to text anytime.' : 'Voice couldn’t connect just now. You can switch to text.');
+        self.track(denied ? 'voice_mic_denied' : 'voice_connect_fail');
+        self.voiceFallback(denied ? 'Your microphone is off, so I switched you to text. You can type here instead.' : 'Voice couldn’t connect on this device, so I switched you to text.');
       });
   };
-  Guide.prototype.endVoice = function () { this.stop(); this.voiceStatus('Voice ended. You can switch to text or book a visit.'); var orb = this.root.querySelector('.cjg-orb'); orb.className = 'cjg-orb'; };
+  // Never leave anyone stuck in voice: end it, open text chat, and say why in one plain line.
+  Guide.prototype.voiceFallback = function (why) {
+    var self = this;
+    clearTimeout(this.voiceDog);
+    var orb = this.root.querySelector('.cjg-orb'); if (orb) orb.className = 'cjg-orb';
+    this.mode = null;
+    Promise.resolve(this.stop()).catch(function () {}).then(function () {
+      self.startChat();
+      self.add('sys', esc(why));
+    });
+  };
+  Guide.prototype.endVoice = function () { clearTimeout(this.voiceDog); this.stop(); this.voiceStatus('Voice ended. You can switch to text or book a visit.'); var orb = this.root.querySelector('.cjg-orb'); orb.className = 'cjg-orb'; };
   Guide.prototype.showLead = function () {
     var self = this;
     var card = this.add('ai', this.leadForm(), 'card');
