@@ -10,6 +10,7 @@ const { requestCallback, callbackConfig } = require('../lib/guide-callback');
 const { nextAvailability } = require('../lib/guide-availability');
 const { clientIp, send, readRaw, rateLimit } = require('../lib/intake');
 const sms = require('../lib/guide-sms');
+const { recordShareEvent, shareStats } = require('../lib/share-events');
 
 function sameSite(req) {
   const origin = req.headers.origin;
@@ -55,6 +56,20 @@ async function smsHandler(req, res) {
   xml(200, out.reply);
 }
 
+// "Share your AI recovery concierge" counts: sendBeacon posts text/plain JSON with kind=share-event.
+// Own rate limit so share taps never use up the lead budget.
+function asShareEvent(body) {
+  if (Buffer.isBuffer(body)) body = body.toString('utf8');
+  if (typeof body === 'string') { if (!body.includes('"share-event"')) return null; try { body = JSON.parse(body.slice(0, 1000)); } catch { return null; } }
+  return body && typeof body === 'object' && body.kind === 'share-event' ? body : null;
+}
+async function shareEventHandler(req, res, body) {
+  if (!sameSite(req)) { send(res, 403, { ok: false }); return; }
+  if (!rateLimit(`share:${clientIp(req)}`, { limit: 40 })) { send(res, 429, { ok: false }); return; }
+  const out = await recordShareEvent(body, process.env);
+  send(res, out.status, out.json);
+}
+
 module.exports = async function handler(req, res) {
   if (isSms(req)) return smsHandler(req, res);
   if (req.method === 'GET') {
@@ -69,12 +84,20 @@ module.exports = async function handler(req, res) {
       catch (err) { console.error('[guide-availability] failed', err && err.message); send(res, 200, { ok: false, message: 'Live availability could not be read right now. Offer today if available, otherwise the first available time, and open the booking page.' }); }
       return;
     }
+    if (params.get('kind') === 'share-stats') {
+      // Admin-only: share counts by guide / day / placement (anonymous events from js/share.js).
+      if (!adminOk(req)) { send(res, 403, { ok: false }); return; }
+      try { send(res, 200, await shareStats(process.env)); } catch (err) { console.error('[share] stats failed', err && err.message); send(res, 503, { ok: false }); }
+      return;
+    }
     send(res, 405, { ok: false }); return;
   }
   if (req.method !== 'POST') { send(res, 405, { ok: false }); return; }
-  if (!rateLimit(`qrl:${clientIp(req)}`, { limit: 20 })) { send(res, 429, { ok: false, message: 'Easy there. Try again in a few minutes.' }); return; }
   let body = req.body;
   if (body == null && typeof req.on === 'function') body = await readRaw(req);
+  const shareEv = asShareEvent(body);
+  if (shareEv) return shareEventHandler(req, res, shareEv);
+  if (!rateLimit(`qrl:${clientIp(req)}`, { limit: 20 })) { send(res, 429, { ok: false, message: 'Easy there. Try again in a few minutes.' }); return; }
   if (typeof body === 'string') { try { body = JSON.parse(body.slice(0, 4000)); } catch { body = null; } }
   if (!body || typeof body !== 'object') { send(res, 400, { ok: false }); return; }
   if ((body.kind === 'guide-triage' || body.kind === 'guide-callback') && !sameSite(req)) {

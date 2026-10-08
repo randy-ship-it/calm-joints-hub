@@ -29,8 +29,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
-<link rel="stylesheet" href="/css/guide.css?v=10" data-cjg>
-<script src="/js/share.js?v=7" defer data-cjs></script>
+<link rel="stylesheet" href="/css/guide.css?v=13" data-cjg>
+<script src="/js/share.js?v=8" defer data-cjs></script>
+<script src="/js/talk.js?v=1" defer></script>
 <style>
   :root {
     --green: #15803D; --green-2: #15A34A; --ink: #0B1D16; --mute: #4B5E54; --line: #E6ECE8;
@@ -67,8 +68,34 @@
   .hero { padding: clamp(3rem, 8vw, 5.5rem) 0 1.5rem; text-align: center; }
   .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
   .ctas { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
-  .hero-share { max-width: 360px; margin: 1.2rem auto 0; }
+  .hero-share { max-width: 520px; margin: 1.6rem auto 0; padding: 1rem; border: 1px solid #D3F8DF; border-radius: 20px; background: linear-gradient(180deg,#F3FDF6 0,#fff 100%); box-shadow: 0 24px 50px -38px rgba(10,61,34,.5); scroll-margin-top: 90px; }
+  .nav-share { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; color: var(--ink) !important; white-space: nowrap; padding: .35rem .75rem .35rem .4rem; border: 1px solid #D3F8DF; border-radius: 999px; background: #F3FDF6; }
+  .nav-share:hover { border-color: var(--green-2); }
+  @media (min-width: 1180px) { .nav-links .btn { white-space: nowrap; } }
+  @media (max-width: 1179px) { .nav-links a.nav-share { display: none; } }
+  .nav-share svg { width: 17px; height: 17px; color: var(--green); }
+  .nav-share img { width: 22px; height: 22px; border-radius: 50%; background: #D3F8DF; margin-left: -.55rem; border: 2px solid #fff; }
+  .nav-share img:first-of-type { margin-left: 0; }
+  .sticky .btn { white-space: nowrap; padding-left: .7rem; padding-right: .7rem; }
+  .sticky .sticky-share { flex: none; display: inline-flex; align-items: center; gap: .25rem; padding: .5rem .6rem .5rem .45rem; }
+  .sticky-share img { width: 26px; height: 26px; border-radius: 50%; background: #D3F8DF; border: 2px solid #fff; margin-left: -.6rem; }
+  .sticky-share img:first-child { margin-left: 0; }
+  .sticky-share svg { width: 18px; height: 18px; color: var(--green); }
   .hero-share:empty { display: none; }
+  /* Talk to Glen or Gwen: equal weight with Book now */
+  .btn-talk { background: var(--ink); color: #fff; } .btn-talk:hover { background: #1C3A2D; }
+  .tk-av { display: inline-flex; margin-right: .15rem; } .tk-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); background: #DCFCE7; margin-left: -.55rem; } .tk-av img:first-child { margin-left: -.35rem; }
+  .hero .ctas .btn { min-width: 15.5rem; padding: .95rem 1.5rem; font-size: 1.02rem; }
+  .hero-note { margin: .9rem auto 0; max-width: 34rem; font-size: .86rem; color: var(--mute); }
+  .hero-join { margin: .5rem 0 0; font-size: .92rem; } .hero-join a { color: var(--green); font-weight: 600; text-decoration: none; } .hero-join a:hover { text-decoration: underline; }
+  @media (max-width: 560px) { .hero .ctas { flex-direction: column; align-items: stretch; max-width: 22rem; margin-left: auto; margin-right: auto; } .hero .ctas .btn { min-width: 0; } }
+  .nav-talk .tk-short { display: none; }
+  @media (max-width: 1179px) { .nav-talk .tk-long { display: none; } .nav-talk .tk-short { display: inline; } }
+  @media (max-width: 760px) { .nav-links .nav-talk { display: none; } }
+  .nav-links .btn-talk { padding-left: 1rem; }
+  .sticky .btn-talk { flex: 1; }
+  .sticky .btn.sticky-share-ic { flex: 0 0 48px; width: 48px; padding: 0; }
+  .sticky .tk-av img { width: 24px; height: 24px; }
   .fine { margin: .9rem 0 0; font-size: .88rem; color: var(--mute); }
   /* carousel */
   .trust-lbl { margin: 2.2rem 0 -1rem; text-align: center; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
@@ -100,8 +127,8 @@
   .cap { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; padding: 1rem .25rem 0; }
   .cap strong { font-size: 1.15rem; }
   .cap p { flex-basis: 100%; margin: 0; color: var(--mute); font-size: .95rem; }
-  .tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; background: var(--soft); color: var(--mute); }
-  .tag.live { background: #DCFCE7; color: var(--green); }
+  .tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; background: var(--soft); color: #3E5047; }
+  .tag.live { background: #DCFCE7; color: #0F5E2C; }
   .soon-slide { position: relative; }
   .soonbtn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; font: inherit; color: inherit; border-radius: 16px; }
   .soonbtn:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
@@ -119,9 +146,9 @@
   .controls { display: flex; align-items: center; justify-content: center; gap: 1rem; }
   .arrow { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #CFD9D3; background: #fff; font-size: 1.1rem; cursor: pointer; color: var(--ink); }
   .arrow:hover { border-color: var(--ink); }
-  .dots { display: flex; gap: .45rem; }
-  .dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: #CFD9D3; cursor: pointer; transition: width .3s, background .3s; }
-  .dots button[aria-current="true"] { width: 24px; background: var(--green); }
+  .dots { display: flex; gap: 0; }
+  .dots button { width: 8px; height: 8px; padding: 8px; box-sizing: content-box; background-clip: content-box; border: 0; border-radius: 99px; background-color: #CFD9D3; cursor: pointer; transition: width .3s, background .3s; }
+  .dots button[aria-current="true"] { width: 24px; background-color: var(--green); }
   .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 2.2rem; margin: 2.2rem auto 0; color: #7A8B82; font-weight: 700; font-size: 1.05rem; letter-spacing: .01em; }
   /* sections */
   section.block { padding: clamp(3.5rem, 8vw, 5.5rem) 0; }
@@ -317,9 +344,9 @@
   .pc-slide img.shot { display:block; height:min(460px,62vh); width:auto; max-width:100%; object-fit:contain; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:0 24px 50px -36px rgba(11,29,22,.45); }
   .pc-frame .sticker { top:12px; width:clamp(52px,12%,100px); height:clamp(22px,5.5%,38px); padding:4px 8px; border-radius:10px; }
   .pc-slide figcaption { font-size:.9rem; color:var(--mute); } .pc-slide figcaption b { display:block; color:var(--ink); font-size:1rem; }
-  .pc-dots { display:flex; gap:.45rem; align-items:center; margin-right:auto; }
-  .pc-dots button { width:9px; height:9px; padding:0; border-radius:50%; border:0; background:#CFD9D3; cursor:pointer; transition:width .25s, background .25s; }
-  .pc-dots button[aria-current="true"] { width:24px; border-radius:999px; background:var(--green); }
+  .pc-dots { display:flex; gap:0; align-items:center; margin-right:auto; }
+  .pc-dots button { width:9px; height:9px; padding:7.5px; box-sizing:content-box; background-clip:content-box; border-radius:999px; border:0; background-color:#CFD9D3; cursor:pointer; transition:width .25s, background .25s; }
+  .pc-dots button[aria-current="true"] { width:24px; border-radius:999px; background-color:var(--green); }
   @media (prefers-reduced-motion: reduce) { .pc-slide, .pc-slide.is-on { transition:none; transform:none; } }
   .pc-ctl { display:flex; gap:.5rem; justify-content:flex-end; align-items:center; }
   .po-open { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.8rem 1.1rem; align-items:center; } .po-open span { color:var(--mute); }
@@ -344,13 +371,15 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
+    <a class="brand" href="#top" aria-label="Calm Joints: In the moment recovery care (home)"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
-      <a class="btn btn-primary" id="nav-book" href="#" data-book>Book a visit</a>
+      <a class="nav-share" href="#share" data-cjs-open="header" aria-label="Share your recovery concierge: send someone Glen or Gwen"><img src="/media/cj-guide-glen.webp" alt="" width="22" height="22"><img src="/media/cj-guide-gwen.webp" alt="" width="22" height="22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share</span></a>
+      <a class="btn btn-talk nav-talk" href="/chat" data-talk data-talk-place="header"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span><span class="tk-long">Talk to Glen or Gwen</span><span class="tk-short">Talk now</span></a>
+      <a class="btn btn-primary" id="nav-book" href="#" data-book data-book-direct>Book now</a>
     </nav>
   </div>
 </header>
@@ -361,10 +390,12 @@
       <h1>100% digital physio.</h1>
       <p class="lede">See a registered physiotherapist by video from home. In-home visits and 100+ partner locations across Canada when you need hands-on care.</p>
       <div class="ctas">
-        <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
-        <a class="btn btn-ghost" href="#join">Physios, join us</a>
+        <a class="btn btn-primary" id="hero-book" href="#" data-book data-book-direct>Book now</a>
+        <a class="btn btn-talk" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen</a>
       </div>
-      <div class="hero-share" data-cjs-mount data-label="Send them the 24/7 guide"></div>
+      <p class="hero-note">Talk it through now: free, 24/7, by chat, text or call. Glen and Gwen are Calm Joints’ virtual guides, not clinicians.</p>
+      <p class="hero-join"><a href="#join">Physio? Join us →</a></p>
+      <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
     </div>
     <p class="trust-lbl">Trusted by the brands we power</p>
     <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
@@ -607,13 +638,14 @@
 </dialog>
 
 <div class="sticky" aria-label="Quick actions">
-  <a class="btn btn-ghost" href="#join">Join us</a>
-  <a class="btn btn-primary" id="sticky-book" href="#" data-book>Book a visit</a>
+  <button type="button" class="btn btn-ghost sticky-share sticky-share-ic" data-cjs-open="sticky" aria-label="Share your recovery concierge: send someone Glen or Gwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg></button>
+  <a class="btn btn-talk" id="sticky-talk" href="/chat" data-talk data-talk-place="sticky"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk now</a>
+  <a class="btn btn-primary" id="sticky-book" href="#" data-book data-book-direct>Book now</a>
 </div>
 
 <dialog class="hubpop" id="hubpop" aria-labelledby="hubpop-title">
   <button class="pop-x" type="button" aria-label="Close">×</button>
-  <img id="hubpop-img" src="" alt="">
+  <img id="hubpop-img" alt="">
   <div class="pop-body">
     <div><h3 id="hubpop-title">Coming soon</h3><p>We’re staffing this hub now. Registered physios anywhere in Canada can apply to see its patients by video.</p></div>
     <div class="pop-ctas"><a class="btn btn-primary" href="/careers#apply">Apply as a physio</a><a class="btn btn-ghost" href="#brands" data-pop-close>Partner with us</a></div>
@@ -830,7 +862,7 @@
   wireForm('partner-form', '/api/partner', 'partner-status');
 })();
 </script>
-<script src="/js/book.js?v=2"></script>
+<script src="/js/book.js?v=4"></script>
 <script src="/js/consent.js"></script>
 <script src="/js/calming.js"></script>
 <script>

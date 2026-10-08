@@ -14,6 +14,15 @@
           "value": "strict-origin-when-cross-origin"
         }
       ]
+    },
+    {
+      "source": "/(js|css)/(.*)",
+      "has": [{ "type": "query", "key": "v" }],
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/media/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
     }
   ],
   "rewrites": [
@@ -47,6 +56,10 @@
     "api/resume.js": { "includeFiles": "lib/**" }
   },
   "routes": [
+    { "src": "/chat/?", "has": [{ "type": "query", "key": "guide", "value": "glen" }], "dest": "/chat-glen" },
+    { "src": "/chat/?", "has": [{ "type": "query", "key": "guide", "value": "gwen" }], "dest": "/chat-gwen" },
+    { "src": "/glen/?", "dest": "/chat-glen" },
+    { "src": "/gwen/?", "dest": "/chat-gwen" },
     { "src": "/lib(/.*)?", "dest": "/api/blocked", "status": 404 },
     { "src": "/scripts(/.*)?", "dest": "/api/blocked", "status": 404 },
     { "src": "/.*\\.md", "dest": "/api/blocked", "status": 404 },
