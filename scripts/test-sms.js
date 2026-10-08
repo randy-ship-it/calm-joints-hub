@@ -92,7 +92,7 @@ const sms = require('../lib/guide-sms');
   for (const k of ['STOP', 'Start', 'unsubscribe', 'END']) { r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: k }, env, deps([], [])); assert.strictEqual(r.reply, ''); }
   // HELP/INFO: one info line with the privacy note (Twilio also sends its default); max 2/day; not to non-CA
   for (const k of ['help', 'INFO']) { r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: k }, env, deps([], [])); assert.strictEqual(r.reply, sms.HELP_LINE); }
-  assert.ok(/saved/.test(sms.HELP_LINE) && /not part of your medical record or intake/.test(sms.HELP_LINE) && /not a physio/.test(sms.HELP_LINE) && /911/.test(sms.HELP_LINE) && /STOP/.test(sms.HELP_LINE));
+  assert.ok(/saved/.test(sms.HELP_LINE) && /not part of your medical record or intake/.test(sms.HELP_LINE) && /not a clinician/.test(sms.HELP_LINE) && /911/.test(sms.HELP_LINE) && /STOP/.test(sms.HELP_LINE));
   assert.ok(sms.HELP_LINE.length <= 306 && /^[\x20-\x7e]+$/.test(sms.HELP_LINE), 'HELP fits 2 GSM segments');
   const helped2 = [0, 1].map((i) => ({ from: env.CJ_SMS_NUMBER, to: P, body: sms.HELP_LINE, t: NOW - (i + 1) * 60e3 }));
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'HELP' }, env, deps(helped2, [])); assert.strictEqual(r.log.step, 'help-capped');
@@ -102,10 +102,12 @@ const sms = require('../lib/guide-sms');
   for (const q of ['my knee hurts on stairs', 'I saved up for running shoes and now my heel hurts when I run', 'I keep getting back pain']) assert.ok(!sms.isPrivacyQ(q), q);
   lastCtx = 'unchanged';
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'Is this chat saved?', MessageSid: 'SMpv' }, env2, deps([], []));
-  assert.strictEqual(r.reply, sms.DISCLAIMER + ' ' + sms.PRIVACY_LINE); assert.strictEqual(lastCtx, 'unchanged'); await r.later;
+  assert.strictEqual(r.reply, sms.DISCLAIMER + ' ' + sms.PRIVACY_AFTER_DISCLAIMER); assert.strictEqual(lastCtx, 'unchanged'); await r.later;
+  assert.ok(r.reply.length <= 306 && /^[\x20-\x7e]+$/.test(r.reply), 'privacy reply on a new session fits 2 GSM segments');
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'is this private?', MessageSid: 'SMpv2' }, env2, deps(log, []));
   assert.strictEqual(r.reply, sms.PRIVACY_LINE);
-  assert.ok(!sms.DISCLAIMER.includes('saved'), 'first-reply disclaimer unchanged');
+  assert.ok(/Chats may be saved\./.test(sms.DISCLAIMER) && /not a clinician/.test(sms.DISCLAIMER) && !/\bAI\b/.test(sms.DISCLAIMER) && /911/.test(sms.DISCLAIMER) && /STOP/.test(sms.DISCLAIMER), 'first reply: light privacy note (Randy 2026-10-06 rule)');
+  assert.ok(!/not (be )?saved|aren't saved|isn't saved|confidential/i.test(sms.DISCLAIMER + sms.PRIVACY_LINE + sms.PRIVACY_AFTER_DISCLAIMER + sms.HELP_LINE), 'never claim chats are not saved');
   // Too short / link only / spam / link-sender history
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'k' }, env, deps([], [])); assert.strictEqual(r.reply, '');
   r = await sms.handleSms({ From: P, FromCountry: 'CA', Body: 'https://spam.example.com' }, env, deps([], [])); assert.strictEqual(r.reply, '');
