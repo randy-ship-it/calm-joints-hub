@@ -43,7 +43,7 @@
     '.cjt-a svg{width:22px;height:22px;flex:none;color:#15803D}' +
     '.cjt-a b{display:block;font-size:1rem}.cjt-a small{display:block;color:#4B5E54;font-size:.84rem}' +
     '.cjt-a.pri{background:#15803D;border-color:#15803D;color:#fff}.cjt-a.pri svg,.cjt-a.pri small{color:#fff}.cjt-a.pri small{opacity:.9}.cjt-a.pri:hover{background:#116A32}' +
-    '.cjt-disc{margin:1rem 0 0;font-size:.78rem;line-height:1.45;color:#5F7068}' +
+    '.cjt-disc{margin:1rem 0 0;font-size:.78rem;line-height:1.45;color:#5F7068}.cjt-disc a{color:inherit;text-decoration:underline;text-underline-offset:2px}' +
     '@media (max-width:520px){.cjt{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:22px 22px 0 0;max-height:92dvh}.cjt-in{padding-bottom:calc(1.1rem + env(safe-area-inset-bottom))}}';
   var I = {
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',

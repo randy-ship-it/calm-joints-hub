@@ -36,7 +36,7 @@
   function loadGuide(cb) {
     if (window.CJGuide) { cb && cb(); return; }
     if (!document.querySelector('link[data-cjg]')) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=13'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=14'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
     }
     // One-tap share helper (js/share.js), used inside the guide.
     if (!window.CJShare && !document.querySelector('script[data-cjs]')) {
