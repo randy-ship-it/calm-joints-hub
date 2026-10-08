@@ -88,7 +88,7 @@
     dlg.querySelector('[data-n="chat"]').textContent = 'Chat with ' + G[pick].name;
     dlg.querySelector('[data-n="text"]').textContent = SMS.label + (pick === SMS.name.toLowerCase() ? ' from your phone' : ' · ' + SMS.name + ' replies by text');
     dlg.querySelector('[data-t="text"]').href = smsHref();
-    dlg.querySelector('[data-n="disc"]').textContent = disclose();
+    var dn = dlg.querySelector('[data-n="disc"]'), dl = disclose().split('Chats may be saved.'), pl = document.createElement('a'); pl.href = '/privacy'; pl.target = '_blank'; pl.rel = 'noopener'; pl.textContent = 'Chats may be saved.'; dn.textContent = dl[0]; dn.appendChild(pl); dn.appendChild(document.createTextNode(dl[1] || ''));
   }
   function close() { if (dlg && dlg.open) dlg.close(); else if (dlg) dlg.removeAttribute('open'); }
   // Hand off to the guide in the same tap when it's loaded (keeps iPhone mic/audio permission tied to the tap).

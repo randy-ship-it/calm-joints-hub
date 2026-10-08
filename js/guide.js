@@ -76,6 +76,8 @@
   })();
   function guide() { return GUIDES[PICK] || GUIDES[DEFAULT_GUIDE] || GUIDES[GUIDE_KEYS[0]]; }
   function disclose() { return T.disclose.replace('{name}', guide().name || 'Our guide'); }
+  // Same line as HTML, with 'Chats may be saved.' linking to the privacy page.
+  function discloseHtml() { return esc(disclose()).replace('Chats may be saved.', '<a href="/privacy" target="_blank" rel="noopener">Chats may be saved.</a>'); }
   function guideAv(k) { return esc((GUIDES[k] || guide()).avatar || '/media/cj-guide-avatar.webp'); }
   function guideAlt(k) { var g = GUIDES[k] || guide(); return esc(g.alt || (g.name + ', Calm Joints’ virtual guide (illustration)')); }
   // Share your recovery concierge (js/share.js): Send them Glen / Send them Gwen, current guide first.
@@ -137,7 +139,7 @@
       '<div class="cjg-body" data-s="gate">' +
         pickerHtml() +
         '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="' + guideAlt() + '" width="64" height="64" data-gav data-galt></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>' + (CTX.src === 'share' ? 'A friend sent you my way' : 'Ask me about your injury') + '</b><small>Virtual guide · not a clinician</small></span></div>' +
-        '<h2 id="cjg-title">' + T.title + '</h2><p class="cjg-disc" data-gdisc>' + esc(disclose()) + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
+        '<h2 id="cjg-title">' + T.title + '</h2><p class="cjg-disc" data-gdisc>' + discloseHtml() + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="chat">' + ICON.chat + 'Chat</button>' +
         '<button type="button" class="cjg-btn" data-a="voice">' + ICON.mic + 'Voice</button>' +
         '<a class="cjg-btn soft" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">' + ICON.cal + 'Book a video visit</a>' +
@@ -157,7 +159,7 @@
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
       '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button>' + (window.CJHelped ? '<button type="button" class="cjg-chip" data-a="helped">\uD83D\uDC4D This helped</button>' : '') + '</div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
-      '<div class="cjg-foot" data-gdisc>' + esc(disclose()) + '</div>';
+      '<div class="cjg-foot" data-gdisc>' + discloseHtml() + '</div>';
     this.root.addEventListener('click', function (e) {
       var a = e.target.closest('[data-a]'); if (!a || !self.root.contains(a)) return;
       var act = a.getAttribute('data-a');
@@ -197,7 +199,7 @@
     this.root.querySelectorAll('[data-gav]').forEach(function (i) { i.src = g.avatar || '/media/cj-guide-avatar.webp'; });
     this.root.querySelectorAll('[data-galt]').forEach(function (i) { i.alt = g.alt || (g.name + ', Calm Joints’ virtual guide (illustration)'); });
     this.root.querySelectorAll('[data-gname]').forEach(function (b) { b.textContent = self.badge(); });
-    this.root.querySelectorAll('[data-gdisc]').forEach(function (b) { b.textContent = disclose(); });
+    this.root.querySelectorAll('[data-gdisc]').forEach(function (b) { b.innerHTML = discloseHtml(); });
     this.root.querySelectorAll('.cjg-pk').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-g') === PICK)); });
     var o = this.otherGuide();
     this.root.querySelectorAll('[data-gswap]').forEach(function (b) { b.setAttribute('aria-label', 'Talk with ' + GUIDES[o].name + ' instead'); b.querySelector('img').src = GUIDES[o].avatar || '/media/cj-guide-avatar.webp'; b.querySelector('span').textContent = GUIDES[o].name; });
@@ -391,7 +393,7 @@
     this.disclosed = this.disclosed || {};
     if (this.disclosed[mode]) return; this.disclosed[mode] = true;
     var log = this.root.querySelector('[data-log="' + mode + '"]'); if (!log) return;
-    var p = document.createElement('p'); p.className = 'cjg-disc in-log'; p.textContent = disclose(); log.appendChild(p);
+    var p = document.createElement('p'); p.className = 'cjg-disc in-log'; p.innerHTML = discloseHtml(); log.appendChild(p);
   };
   Guide.prototype.voiceStatus = function (t) { var s = this.root.querySelector('.cjg-status'); if (s) s.textContent = t; };
   Guide.prototype.voiceState = function (mode) {
