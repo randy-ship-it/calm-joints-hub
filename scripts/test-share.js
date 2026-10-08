@@ -61,4 +61,9 @@ for (const f of ['chat.html', 'js/guide.js', 'css/guide.css', 'js/share.js', 'js
   assert.ok(!/Talk with (Randy|Emma)|I’m (Randy|Emma)/.test(src), f + ' still shows an old guide name');
   assert.ok(!/\b(CHI|Clairvoyant|Align|Jane|Scale|Birch|BirchReserve|Silver Birch)\b/.test(src), f + ' has a name that must not reach visitors');
 }
+// Site footers carry no legal/sender boilerplate (it lives only in outbound email footers).
+for (const f of ['index.html', 'partners.html', 'chat.html', 'careers.html', 'partner.html', 'p.html', 'sales.html', ...fs.readdirSync('blog').filter((n) => n.endsWith('.html')).map((n) => 'blog/' + n)]) {
+  const src = fs.readFileSync(f, 'utf8');
+  assert.ok(!/trade name of|operated by Clairvoyant/i.test(src), f + ' still shows the trade-name/sender line');
+}
 console.log('share + guide-name tests ok');
