@@ -44,7 +44,7 @@
     }
     var s = document.querySelector('script[data-cjg]');
     if (!s) {
-      s = document.createElement('script'); s.src = '/js/guide.js?v=16'; s.async = true; s.setAttribute('data-cjg', '');
+      s = document.createElement('script'); s.src = '/js/guide.js?v=17'; s.async = true; s.setAttribute('data-cjg', '');
       s.addEventListener('error', function () { s.setAttribute('data-failed', '1'); });
       document.head.appendChild(s);
     }
@@ -60,7 +60,8 @@
     el.target = '_blank';
     el.rel = 'noopener noreferrer';
     el.addEventListener('click', function (e) {
-      if (e.metaKey || e.ctrlKey || e.shiftKey) { trackBook(); return; }
+      // "Book now" goes straight to booking; "Talk to Glen or Gwen" is its own button.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || (el.hasAttribute && el.hasAttribute('data-book-direct'))) { trackBook(); return; }
       e.preventDefault();
       loadGuide(function () { if (window.CJGuide) window.CJGuide.open(); });
     });
@@ -94,9 +95,10 @@
     st.textContent = '.tg-line{font-weight:600;color:var(--green,#14803C)}.tg-line a{color:var(--green,#14803C);font-weight:700}.tg-sms{font-size:.8em;font-weight:600;margin-left:.4rem;text-decoration:underline}.tg-nav{white-space:nowrap}.tg-hero{margin:1rem 0 0;text-align:center}.tg-hero .tg-line{font-size:1.05rem}.tg-hero small{display:block;opacity:.75;font-size:.8rem;font-weight:400;margin-top:.2rem}footer [data-text-glen]{font-weight:600;color:var(--green,#14803C)}@media (max-width:760px){.nav-links .tg-nav{display:none}.tg-hero{display:block}footer [data-text-glen]{display:inline}}';
     document.head.appendChild(st);
     var nb = document.getElementById('nav-book');
-    if (nb && nb.parentNode) nb.parentNode.insertBefore(glenLine('tg-nav'), nb);
+    // Pages with the Talk button in the header/hero already offer text and call there.
+    if (nb && nb.parentNode && !document.querySelector('.nav [data-talk]')) nb.parentNode.insertBefore(glenLine('tg-nav'), nb);
     var ctas = document.querySelector('.hero .ctas');
-    if (ctas) {
+    if (ctas && !ctas.querySelector('[data-talk]')) {
       var p = document.createElement('p'); p.className = 'tg-hero'; p.appendChild(glenLine(''));
       var s = document.createElement('small'); s.textContent = 'Virtual guide, not a clinician · msg rates may apply.';
       p.appendChild(s); ctas.parentNode.insertBefore(p, ctas.nextSibling);

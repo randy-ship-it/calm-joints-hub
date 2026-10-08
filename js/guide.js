@@ -492,9 +492,18 @@
     }
     if (typeof dlg.showModal === 'function') { if (!dlg.open) dlg.showModal(); }
     else dlg.setAttribute('open', '');
+    // Talk pop-up hand-off: { guide: 'glen'|'gwen', start: 'chat'|'voice'|'consent' }.
+    if (o.guide && GUIDES[o.guide] && o.guide !== PICK) {
+      if (popGuide.conv || popGuide.starting) { popGuide.stop(); popGuide.conv = null; popGuide.mode = null; popGuide.starting = false; popGuide.typing(false); }
+      PICK = o.guide;
+      try { sessionStorage.setItem('cj_guide_pick', PICK); } catch (e) {}
+      popGuide.paintGuide();
+    }
     if (!popGuide.screen) popGuide.show('gate');
     popGuide.track('popup');
     if (o.start === 'chat') popGuide.startChat();
+    else if (o.start === 'voice') popGuide.startVoice(); // still inside the tap: mic + audio unlock on iPhone
+    else if (o.start === 'consent') popGuide.show('consent');
     return popGuide;
   }
 
@@ -504,7 +513,8 @@
   }
 
   function launcher() {
-    if (document.querySelector('.cjg-launch') || location.pathname.replace(/\/$/, '') === '/chat') return;
+    // Pages with a "Talk to Glen or Gwen" button (header/hero/sticky) don't need the floating launcher too.
+    if (document.querySelector('.cjg-launch') || document.querySelector('[data-talk]') || location.pathname.replace(/\/$/, '') === '/chat') return;
     var b = document.createElement('button'); b.type = 'button'; b.className = 'cjg-launch';
     b.innerHTML = '<img src="/media/calm-joints-mark.svg" alt="" width="26" height="26">Talk with Calm Joints';
     b.addEventListener('click', function () { openPopup(); });
