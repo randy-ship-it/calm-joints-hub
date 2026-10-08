@@ -1,5 +1,5 @@
 /*
- * Post-help share for the Calm Joints guide (/chat): "Glen helped? Pass it on 💚".
+ * Post-help share for the Calm Joints guide (/chat): "Glen helped? Pass him on 💚" with Send them Glen / Gwen.
  * Shown after ~4 exchanges in text chat, or when the visitor taps "This helped".
  * Builds a 1080x1350 share card on a canvas (guide avatar, a friendly line, the CJ logo).
  * About the AI guide only: no chat content, no booking push, no clinical outcome claims,
@@ -64,16 +64,20 @@
       return new Promise(function (res) { c.toBlob(function (b) { res(b); }, 'image/png'); });
     });
   }
+  // Leads with "Send them Glen / Send them Gwen" (js/share.js: guide-specific link + preview), then an optional image card.
   function html(g) {
-    var n = esc(g.name || 'Glen');
-    return '<div class="cjh" data-cjh><p class="cjh-t"><b>' + n + ' helped? Pass it on \uD83D\uDC9A</b><span>Share a card about the free AI guide. Nothing from your chat is on it.</span></p>' +
+    var n = esc(g.name || 'Glen'), him = (String(g.key || '').toLowerCase() === 'gwen' || g.name === 'Gwen') ? 'her' : 'him';
+    var pick = window.CJShare ? window.CJShare.html({ placement: 'helped', lead: false, first: g.key, textGuide: false }) : '';
+    return '<div class="cjh" data-cjh><p class="cjh-t"><b>' + n + ' helped? Pass ' + him + ' on \uD83D\uDC9A</b><span>Send a friend your AI recovery concierge. Nothing from your chat is shared.</span></p>' + pick +
+      '<details class="cjh-more"' + (pick ? '' : ' open') + '><summary>Or share an image card</summary>' +
       '<div class="cjh-prev"><img data-cjh-img alt="Share card: ' + esc(line(g.name || 'Glen')) + ' Free 24/7 AI injury guide, calmjoints.org/chat" width="216" height="270"></div>' +
       '<div class="cjh-row"><button type="button" class="cjh-btn pri" data-cjh-share>Share</button>' +
       '<a class="cjh-btn" data-cjh-x href="' + esc(xHref(g.name || 'Glen')) + '" target="_blank" rel="noopener">Post on X</a>' +
-      '<a class="cjh-btn" data-cjh-save href="#" download="calm-joints-' + esc(String(g.key || g.name || 'guide').toLowerCase()) + '.png">Save image</a></div></div>';
+      '<a class="cjh-btn" data-cjh-save href="#" download="calm-joints-' + esc(String(g.key || g.name || 'guide').toLowerCase()) + '.png">Save image</a></div></details></div>';
   }
   function bind(root, g) {
     var box = root.querySelector('[data-cjh]'); if (!box || box.__cjh) return; box.__cjh = true;
+    if (window.CJShare) box.querySelectorAll('[data-cjs]').forEach(function (el) { window.CJShare.bind(el); });
     var name = g.name || 'Glen', file = null, blobUrl = null;
     var ready = makeCard(g).then(function (blob) {
       if (!blob) return;

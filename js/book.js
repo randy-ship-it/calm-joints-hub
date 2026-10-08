@@ -36,15 +36,15 @@
   function loadGuide(cb) {
     if (window.CJGuide) { cb && cb(); return; }
     if (!document.querySelector('link[data-cjg]')) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=10'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=12'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
     }
     // One-tap share helper (js/share.js), used inside the guide.
     if (!window.CJShare && !document.querySelector('script[data-cjs]')) {
-      var sh = document.createElement('script'); sh.src = '/js/share.js?v=7'; sh.async = true; sh.setAttribute('data-cjs', ''); document.head.appendChild(sh);
+      var sh = document.createElement('script'); sh.src = '/js/share.js?v=8'; sh.async = true; sh.setAttribute('data-cjs', ''); document.head.appendChild(sh);
     }
     var s = document.querySelector('script[data-cjg]');
     if (!s) {
-      s = document.createElement('script'); s.src = '/js/guide.js?v=12'; s.async = true; s.setAttribute('data-cjg', '');
+      s = document.createElement('script'); s.src = '/js/guide.js?v=13'; s.async = true; s.setAttribute('data-cjg', '');
       s.addEventListener('error', function () { s.setAttribute('data-failed', '1'); });
       document.head.appendChild(s);
     }

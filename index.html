@@ -29,8 +29,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
-<link rel="stylesheet" href="/css/guide.css?v=10" data-cjg>
-<script src="/js/share.js?v=7" defer data-cjs></script>
+<link rel="stylesheet" href="/css/guide.css?v=12" data-cjg>
+<script src="/js/share.js?v=8" defer data-cjs></script>
 <style>
   :root {
     --green: #15803D; --green-2: #15A34A; --ink: #0B1D16; --mute: #4B5E54; --line: #E6ECE8;
@@ -67,7 +67,19 @@
   .hero { padding: clamp(3rem, 8vw, 5.5rem) 0 1.5rem; text-align: center; }
   .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
   .ctas { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
-  .hero-share { max-width: 360px; margin: 1.2rem auto 0; }
+  .hero-share { max-width: 520px; margin: 1.6rem auto 0; padding: 1rem; border: 1px solid #D3F8DF; border-radius: 20px; background: linear-gradient(180deg,#F3FDF6 0,#fff 100%); box-shadow: 0 24px 50px -38px rgba(10,61,34,.5); scroll-margin-top: 90px; }
+  .nav-share { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; color: var(--ink) !important; white-space: nowrap; padding: .35rem .75rem .35rem .4rem; border: 1px solid #D3F8DF; border-radius: 999px; background: #F3FDF6; }
+  .nav-share:hover { border-color: var(--green-2); }
+  @media (min-width: 1180px) { .nav-links .btn { white-space: nowrap; } }
+  @media (max-width: 1179px) { .nav-links a.nav-share { display: none; } }
+  .nav-share svg { width: 17px; height: 17px; color: var(--green); }
+  .nav-share img { width: 22px; height: 22px; border-radius: 50%; background: #D3F8DF; margin-left: -.55rem; border: 2px solid #fff; }
+  .nav-share img:first-of-type { margin-left: 0; }
+  .sticky .btn { white-space: nowrap; padding-left: .7rem; padding-right: .7rem; }
+  .sticky .sticky-share { flex: none; display: inline-flex; align-items: center; gap: .25rem; padding: .5rem .6rem .5rem .45rem; }
+  .sticky-share img { width: 26px; height: 26px; border-radius: 50%; background: #D3F8DF; border: 2px solid #fff; margin-left: -.6rem; }
+  .sticky-share img:first-child { margin-left: 0; }
+  .sticky-share svg { width: 18px; height: 18px; color: var(--green); }
   .hero-share:empty { display: none; }
   .fine { margin: .9rem 0 0; font-size: .88rem; color: var(--mute); }
   /* carousel */
@@ -350,6 +362,7 @@
       <a href="/partners">Partnerships</a>
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
+      <a class="nav-share" href="#share" data-cjs-open="header" aria-label="Share your AI recovery concierge: send someone Glen or Gwen"><img src="/media/cj-guide-glen.webp" alt="" width="22" height="22"><img src="/media/cj-guide-gwen.webp" alt="" width="22" height="22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share</span></a>
       <a class="btn btn-primary" id="nav-book" href="#" data-book>Book a visit</a>
     </nav>
   </div>
@@ -364,7 +377,7 @@
         <a class="btn btn-primary" id="hero-book" href="#" data-book>Book a visit</a>
         <a class="btn btn-ghost" href="#join">Physios, join us</a>
       </div>
-      <div class="hero-share" data-cjs-mount data-label="Send them the 24/7 guide"></div>
+      <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
     </div>
     <p class="trust-lbl">Trusted by the brands we power</p>
     <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
@@ -607,6 +620,7 @@
 </dialog>
 
 <div class="sticky" aria-label="Quick actions">
+  <button type="button" class="btn btn-ghost sticky-share" data-cjs-open="sticky" aria-label="Share your AI recovery concierge: send someone Glen or Gwen"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg></button>
   <a class="btn btn-ghost" href="#join">Join us</a>
   <a class="btn btn-primary" id="sticky-book" href="#" data-book>Book a visit</a>
 </div>
@@ -830,7 +844,7 @@
   wireForm('partner-form', '/api/partner', 'partner-status');
 })();
 </script>
-<script src="/js/book.js?v=2"></script>
+<script src="/js/book.js?v=3"></script>
 <script src="/js/consent.js"></script>
 <script src="/js/calming.js"></script>
 <script>
