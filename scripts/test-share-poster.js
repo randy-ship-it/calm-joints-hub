@@ -74,7 +74,7 @@ const L = require('../lib/partner-ledger');
   assert.strictEqual(rep.json.matched, true);
   assert.ok(!rep.json.partner, 'public payload has no partner record');
   const mail = mails[mails.length - 1];
-  assert.ok(mail.to.includes('info@calmjoints.org') && mail.to.includes('randy@silverbirchgrowth.com'), mail.to.join(','));
+  assert.deepStrictEqual(mail.to, ['info@calmjoints.org', 'randy@silverbirchgrowth.com']);
   assert.ok(!mail.to.includes('alex@example.com'), 'takedown was not sent to the partner');
   assert.ok(/did NOT go to the partner/i.test(mail.text));
   assert.ok(/Please take that poster down promptly/.test(mail.text));
