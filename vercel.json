@@ -26,6 +26,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/guide-session", "destination": "/api/qr-lead?kind=guide-session" },
     {
       "source": "/api/sms",
       "destination": "/api/qr-lead?kind=sms"

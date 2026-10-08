@@ -1,0 +1,31 @@
+// Unit tests for lib/guide-session.js (signed sessions). No network: fetch is mocked.
+const assert = require('assert');
+const { guideSession } = require('../lib/guide-session');
+const req = (h = {}) => ({ headers: { origin: 'https://calmjoints.org', 'x-forwarded-for': '203.0.113.' + (h.ip || 1), ...h }, socket: {} });
+const P = (q) => new URLSearchParams(q);
+const env = { ELEVENLABS_API_KEY: 'k' };
+let calls = [];
+const okFetch = async (url, o) => { calls.push(url); if (url.includes('turnstile')) return { ok: true, json: async () => ({ success: o.body.includes('response=good') }) }; return { ok: true, json: async () => ({ signed_url: 'wss://signed/abc' }) }; };
+(async () => {
+  let store = new Map();
+  let r = await guideSession(req(), P('guide=gwen'), env, okFetch, { store });
+  assert.strictEqual(r.status, 200); assert.strictEqual(r.json.signedUrl, 'wss://signed/abc');
+  assert.ok(calls[0].includes('agent_id=agent_8701m49rk5stf07avtka9ef8nvs0'));
+  r = await guideSession(req({ origin: 'https://evil.example' }), P('guide=glen'), env, okFetch, { store });
+  assert.strictEqual(r.status, 403, 'foreign origin blocked');
+  r = await guideSession({ headers: { 'x-forwarded-for': '203.0.113.9' }, socket: {} }, P('guide=glen'), env, okFetch, { store });
+  assert.strictEqual(r.status, 403, 'no origin/referer blocked');
+  r = await guideSession(req(), P('guide=randy'), env, okFetch, { store });
+  assert.strictEqual(r.status, 400, 'unknown guide');
+  store = new Map(); let last;
+  for (let i = 0; i < 7; i++) last = await guideSession(req({ ip: 7 }), P('guide=glen'), env, okFetch, { store });
+  assert.strictEqual(last.status, 429, '7th session in 10 min from one IP is capped');
+  store = new Map();
+  r = await guideSession(req({ ip: 8 }), P('guide=glen'), { ...env, TURNSTILE_SECRET_KEY: 's' }, okFetch, { store });
+  assert.strictEqual(r.status, 403, 'turnstile required when configured');
+  r = await guideSession(req({ ip: 8, 'x-cj-turnstile': 'good' }), P('guide=glen'), { ...env, TURNSTILE_SECRET_KEY: 's' }, okFetch, { store });
+  assert.strictEqual(r.status, 200, 'turnstile pass');
+  r = await guideSession(req({ ip: 10 }), P('guide=glen'), {}, okFetch, { store });
+  assert.strictEqual(r.status, 503, 'no key configured');
+  console.log('guide-session tests passed');
+})().catch((e) => { console.error(e); process.exit(1); });

@@ -11,6 +11,7 @@ const { nextAvailability } = require('../lib/guide-availability');
 const { clientIp, send, readRaw, rateLimit } = require('../lib/intake');
 const sms = require('../lib/guide-sms');
 const { recordShareEvent, shareStats } = require('../lib/share-events');
+const { guideSession } = require('../lib/guide-session');
 
 function sameSite(req) {
   const origin = req.headers.origin;
@@ -76,6 +77,11 @@ module.exports = async function handler(req, res) {
     // Public status for the /chat page: is "Get a call back" switched on?
     const q = String(req.url || '').split('?')[1] || '';
     const params = new URLSearchParams(q);
+    if (params.get('kind') === 'guide-session') {
+      // Signed ElevenLabs session for /chat and the pop-up (lib/guide-session.js). Never cached.
+      const out = await guideSession(req, params, process.env);
+      send(res, out.status, out.json); return;
+    }
     if (params.get('kind') === 'guide-callback') { send(res, 200, { ok: true, enabled: callbackConfig(process.env).enabled }); return; }
     if (params.get('kind') === 'guide-availability') {
       // Read-only: next real openings on the Calm Joints public booking calendar (agent tool).

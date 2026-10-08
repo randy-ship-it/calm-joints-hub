@@ -76,6 +76,8 @@
   })();
   function guide() { return GUIDES[PICK] || GUIDES[DEFAULT_GUIDE] || GUIDES[GUIDE_KEYS[0]]; }
   function disclose() { return T.disclose.replace('{name}', guide().name || 'Our guide'); }
+  // Same line as HTML, with 'Chats may be saved.' linking to the privacy page.
+  function discloseHtml() { return esc(disclose()).replace('Chats may be saved.', '<a href="/privacy" target="_blank" rel="noopener">Chats may be saved.</a>'); }
   function guideAv(k) { return esc((GUIDES[k] || guide()).avatar || '/media/cj-guide-avatar.webp'); }
   function guideAlt(k) { var g = GUIDES[k] || guide(); return esc(g.alt || (g.name + ', Calm Joints’ virtual guide (illustration)')); }
   // Share your recovery concierge (js/share.js): Send them Glen / Send them Gwen, current guide first.
@@ -137,7 +139,7 @@
       '<div class="cjg-body" data-s="gate">' +
         pickerHtml() +
         '<div class="cjg-card"><span class="cjg-av"><img src="' + guideAv() + '" alt="' + guideAlt() + '" width="64" height="64" data-gav data-galt></span><span class="cjg-card-t"><span class="cjg-badge" data-gname>' + esc(this.badge()) + '</span><b>' + (CTX.src === 'share' ? 'A friend sent you my way' : 'Ask me about your injury') + '</b><small>Virtual guide · not a clinician</small></span></div>' +
-        '<h2 id="cjg-title">' + T.title + '</h2><p class="cjg-disc" data-gdisc>' + esc(disclose()) + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
+        '<h2 id="cjg-title">' + T.title + '</h2><p class="cjg-disc" data-gdisc>' + discloseHtml() + '</p><p class="cjg-911" role="note"><strong>Emergency?</strong> ' + T.e911 + '</p>' +
         '<div class="cjg-actions"><button type="button" class="cjg-btn pri" data-a="chat">' + ICON.chat + 'Chat</button>' +
         '<button type="button" class="cjg-btn" data-a="voice">' + ICON.mic + 'Voice</button>' +
         '<a class="cjg-btn soft" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">' + ICON.cal + 'Book a video visit</a>' +
@@ -157,7 +159,7 @@
       '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
       '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button>' + (window.CJHelped ? '<button type="button" class="cjg-chip" data-a="helped">\uD83D\uDC4D This helped</button>' : '') + '</div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
-      '<div class="cjg-foot" data-gdisc>' + esc(disclose()) + '</div>';
+      '<div class="cjg-foot" data-gdisc>' + discloseHtml() + '</div>';
     this.root.addEventListener('click', function (e) {
       var a = e.target.closest('[data-a]'); if (!a || !self.root.contains(a)) return;
       var act = a.getAttribute('data-a');
@@ -197,7 +199,7 @@
     this.root.querySelectorAll('[data-gav]').forEach(function (i) { i.src = g.avatar || '/media/cj-guide-avatar.webp'; });
     this.root.querySelectorAll('[data-galt]').forEach(function (i) { i.alt = g.alt || (g.name + ', Calm Joints’ virtual guide (illustration)'); });
     this.root.querySelectorAll('[data-gname]').forEach(function (b) { b.textContent = self.badge(); });
-    this.root.querySelectorAll('[data-gdisc]').forEach(function (b) { b.textContent = disclose(); });
+    this.root.querySelectorAll('[data-gdisc]').forEach(function (b) { b.innerHTML = discloseHtml(); });
     this.root.querySelectorAll('.cjg-pk').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-g') === PICK)); });
     var o = this.otherGuide();
     this.root.querySelectorAll('[data-gswap]').forEach(function (b) { b.setAttribute('aria-label', 'Talk with ' + GUIDES[o].name + ' instead'); b.querySelector('img').src = GUIDES[o].avatar || '/media/cj-guide-avatar.webp'; b.querySelector('span').textContent = GUIDES[o].name; });
@@ -322,12 +324,79 @@
       },
     };
   };
+  // ---- signed sessions (step 4): ask our server for a short-lived signed URL; fall back to the public agent
+  // only while enable_auth is still off. A 429 means this visitor hit the per-IP cap: don't fall back.
+  var TS_KEY = (CFG.guide && CFG.guide.turnstileSiteKey) || '';
+  var tsReady = null, tsWidget = null;
+  function botToken() {
+    if (!TS_KEY) return Promise.resolve('');
+    if (!tsReady) tsReady = new Promise(function (ok) {
+      var s = document.createElement('script'); s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; s.async = true;
+      s.onload = function () { ok(window.turnstile || null); }; s.onerror = function () { ok(null); }; document.head.appendChild(s);
+    });
+    return tsReady.then(function (ts) {
+      if (!ts) return '';
+      return new Promise(function (ok) {
+        var done = function (t) { ok(t || ''); };
+        try {
+          if (tsWidget === null) { var el = document.createElement('div'); el.style.cssText = 'position:fixed;bottom:0;right:0;z-index:2147483647'; document.body.appendChild(el);
+            tsWidget = ts.render(el, { sitekey: TS_KEY, appearance: 'interaction-only', callback: done, 'error-callback': function () { done(''); } }); }
+          else { ts.reset(tsWidget); var t0 = Date.now(); (function wait() { var t = ts.getResponse(tsWidget); if (t) return done(t); if (Date.now() - t0 > 8000) return done(''); setTimeout(wait, 200); })(); }
+        } catch (e) { done(''); }
+      });
+    });
+  }
+  function signedSession(key) {
+    if (CFG.guide && CFG.guide.signed === 'off') return Promise.resolve(null);
+    return botToken().then(function (t) {
+      return fetch('/api/guide-session?guide=' + encodeURIComponent(key || 'glen'), { cache: 'no-store', credentials: 'same-origin', headers: t ? { 'x-cj-turnstile': t } : {} });
+    }).then(function (r) {
+      if (r.status === 429 || r.status === 403) return r.json().catch(function () { return {}; }).then(function (j) { var e = new Error((j && j.message) || 'busy'); e.cjBlocked = true; throw e; });
+      return r.ok ? r.json() : null;
+    }).then(function (j) { return j && j.signedUrl ? j.signedUrl : null; }, function (e) { if (e && e.cjBlocked) throw e; return null; });
+  }
+  // ---- phantom-session guards (2026-10-08, PHANTOM-CALL-DETECTION-PLAN step 5): end sessions that aren't a real
+  // conversation, so bots, open tabs and speaker echo don't burn credits or hold one of the agent's few slots. 0 tokens.
+  var PG = { firstUtterMs: 8000, textIdleMs: 180000, minRepeat: 20 };
+  var OWN_RE = /calm joints[’']? (virtual|ai) guide|not a (clinician|physio)|general info only/i;
+  function pgNorm(t) { return String(t || '').toLowerCase().replace(/[^a-z]/g, ''); }
+  Guide.prototype.pgReset = function () { clearTimeout(this.pgFirst); clearTimeout(this.pgIdle); this.pgArmed = false; this.userSpoke = false; this.pgLast = ''; this.pgEnded = false; };
+  Guide.prototype.pgEnd = function (reason, line) {
+    if (this.pgEnded) return; this.pgEnded = true;
+    clearTimeout(this.pgFirst); clearTimeout(this.pgIdle); clearTimeout(this.voiceDog);
+    this.track('phantom_end_' + reason);
+    var voice = this.mode === 'voice';
+    this.stop();
+    if (voice) { var self = this, orb = this.root.querySelector('.cjg-orb'); if (orb) orb.className = 'cjg-orb'; setTimeout(function () { self.voiceStatus(line); }, 400); }
+  };
+  // Voice: the guide has spoken and is listening. No words from the caller within 8s -> pause voice.
+  Guide.prototype.pgListening = function () {
+    var self = this, tok = this.tok;
+    if (this.userSpoke || this.pgArmed) return;
+    this.pgArmed = true;
+    this.pgFirst = setTimeout(function () {
+      if (tok === self.tok && self.mode === 'voice' && !self.userSpoke) self.pgEnd('no_first_utterance', 'I didn’t hear anything, so I paused voice. Tap the mic to talk again, or switch to text.');
+    }, PG.firstUtterMs);
+  };
+  // Voice: a caller transcript. Our own opener coming back (speaker echo / another bot) or the same long line twice -> end.
+  Guide.prototype.pgUser = function (text) {
+    clearTimeout(this.pgFirst); this.userSpoke = true;
+    if (OWN_RE.test(text || '')) return this.pgEnd('own_echo', 'Your speaker may be feeding back into the mic. Try headphones, or switch to text.');
+    var n = pgNorm(text);
+    if (n.length >= PG.minRepeat && n === this.pgLast) return this.pgEnd('repeat', 'The same thing is repeating, so I paused voice. Tap the mic to start again anytime.');
+    this.pgLast = n;
+  };
+  // Text chat: free the slot after 3 min with no typing. send() reconnects on the next message.
+  Guide.prototype.pgIdleArm = function () {
+    var self = this, tok = this.tok; clearTimeout(this.pgIdle);
+    this.pgIdle = setTimeout(function () { if (tok === self.tok && self.mode === 'chat' && self.conv) { self.track('phantom_end_text_idle'); self.stop(); } }, PG.textIdleMs);
+  };
   Guide.prototype.session = function (voice) {
     var self = this;
     var g = guide();
     var first = (g.name ? T.openingNamed.replace('{name}', g.name) : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
     if (voice && this.hadChat) first = 'I’m listening. What’s sore, or would you like to book a video visit?';
-    this.connectedAt = 0;
+    this.connectedAt = 0; this.pgReset();
     var tok = this.tok = (this.tok || 0) + 1; // ignore late events from a session we already ended (guide switch)
     return loadSdk().then(function (SDK) {
       var cfg = {
@@ -346,9 +415,9 @@
             // After ~4 exchanges in text chat, offer the post-help share once.
             if (!voice && (self.turns || 0) >= 4 && !self.helpedShown) setTimeout(function () { self.showHelped(false); }, 1500);
           }
-          else if (voice) self.add('me', fmt(m.message));
+          else if (voice) { self.add('me', fmt(m.message)); self.pgUser(m.message); }
         },
-        onModeChange: function (m) { if (voice && tok === self.tok) { if (m.mode === 'speaking') self.heard = true; self.voiceState(m.mode); } },
+        onModeChange: function (m) { if (voice && tok === self.tok) { if (m.mode === 'speaking') { self.heard = true; clearTimeout(self.pgFirst); self.pgArmed = false; } self.voiceState(m.mode); if (m.mode === 'listening' && self.heard) self.pgListening(); } },
         onStatusChange: function (s) { if (voice && s.status === 'connecting') self.voiceStatus('Connecting…'); },
         onError: function (msg) { console.warn('[cj-guide]', msg); },
         onConnect: function () { if (tok === self.tok) self.connectedAt = Date.now(); },
@@ -361,10 +430,14 @@
         },
       };
       if (!voice) cfg.textOnly = true;
-      return SDK.Conversation.startSession(cfg);
+      return signedSession(PICK).then(function (url) {
+        if (url) { cfg.signedUrl = url; delete cfg.agentId; }
+        return SDK.Conversation.startSession(cfg);
+      });
     });
   };
   Guide.prototype.stop = function () {
+    clearTimeout(this.pgFirst); clearTimeout(this.pgIdle);
     var c = this.conv; this.conv = null;
     if (c) { try { return c.endSession(); } catch (e) {} }
     return Promise.resolve();
@@ -375,14 +448,14 @@
     this.stop(); this.mode = 'chat'; this.hadChat = true; this.show('chat'); this.track('chat');
     this.typing(true);
     var send = this.root.querySelector('.cjg-compose button'); send.disabled = true;
-    this.session(false).then(function (c) { self.conv = c; send.disabled = false; })
+    this.session(false).then(function (c) { self.conv = c; send.disabled = false; self.pgIdleArm(); })
       .catch(function (e) { console.warn('[cj-guide] chat', e); self.typing(false); send.disabled = false; self.add('sys', 'The guide couldn’t connect just now. You can still <a href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener" data-a="book">book a video visit</a>.'); });
   };
   Guide.prototype.send = function () {
     var self = this, i = this.root.querySelector('#cjg-in'), text = (i.value || '').trim();
     if (!text) return;
     i.value = ''; this.turns = (this.turns || 0) + 1; this.add('me', fmt(text)); this.typing(true);
-    var go = function () { try { self.conv.sendUserMessage(text); } catch (e) { self.typing(false); self.add('sys', 'Message didn’t send. Try once more?'); } };
+    var go = function () { try { self.conv.sendUserMessage(text); self.pgIdleArm(); } catch (e) { self.typing(false); self.add('sys', 'Message didn’t send. Try once more?'); } };
     if (this.conv) go();
     else this.session(false).then(function (c) { self.conv = c; setTimeout(go, 400); }).catch(function () { self.typing(false); self.add('sys', 'The guide couldn’t connect just now.'); });
   };
@@ -391,7 +464,7 @@
     this.disclosed = this.disclosed || {};
     if (this.disclosed[mode]) return; this.disclosed[mode] = true;
     var log = this.root.querySelector('[data-log="' + mode + '"]'); if (!log) return;
-    var p = document.createElement('p'); p.className = 'cjg-disc in-log'; p.textContent = disclose(); log.appendChild(p);
+    var p = document.createElement('p'); p.className = 'cjg-disc in-log'; p.innerHTML = discloseHtml(); log.appendChild(p);
   };
   Guide.prototype.voiceStatus = function (t) { var s = this.root.querySelector('.cjg-status'); if (s) s.textContent = t; };
   Guide.prototype.voiceState = function (mode) {
