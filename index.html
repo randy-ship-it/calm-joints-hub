@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Calm Joints | 100% digital physio</title>
-<meta name="description" content="Calm Joints is a 100% digital physio clinic. We power co-branded clinics right on busy recovery brand websites, and their customers book straight in with us.">
+<title>Calm Joints | In the moment recovery care</title>
+<meta name="description" content="Hurt right now? Talk to someone now, then see a registered physio by video, at home or in person.">
 <meta name="theme-color" content="#15803D">
 <meta name="robots" content="index,follow">
 <meta name="author" content="Calm Joints">
 <link rel="canonical" href="https://calmjoints.org/">
 <meta property="og:site_name" content="Calm Joints">
 <meta property="og:title" content="Calm Joints — the clinic behind the brands">
-<meta property="og:description" content="100% digital physio. We power co-branded clinics on busy recovery brand websites, with in-home visits and 100+ partner locations across Canada.">
+<meta property="og:description" content="Hurt right now? Talk to someone now, then see a registered physio by video, at home or in person.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calmjoints.org/">
 <meta property="og:image" content="https://calmjoints.org/media/og.jpg">
@@ -20,7 +20,7 @@
 <meta property="og:locale" content="en_CA">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Calm Joints — the clinic behind the brands">
-<meta name="twitter:description" content="100% digital physio. We power co-branded clinics on busy recovery brand websites, with in-home visits and 100+ partner locations across Canada.">
+<meta name="twitter:description" content="Hurt right now? Talk to someone now, then see a registered physio by video, at home or in person.">
 <meta name="twitter:image" content="https://calmjoints.org/media/og.jpg">
 <link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
 <link rel="icon" href="/media/favicon-32.png" type="image/png" sizes="32x32">
@@ -67,7 +67,8 @@
   /* hero */
   .hero { padding: clamp(.7rem, 1.6vw, 1.05rem) 0 .15rem; text-align: center; }
   .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
-  .hero .lede { margin-top: .45rem; }
+  .hero h1 { max-width: 22ch; font-size: clamp(2.15rem, 4.4vw, 3.25rem); }
+  .hero .lede { margin-top: .35rem; max-width: 44rem; font-size: 1.05rem; }
   .ctas { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
   .hero .ctas { margin-top: .7rem; }
   .hero-share { max-width: 520px; margin: .6rem auto 0; padding: .65rem .8rem .55rem; border: 1px solid #D3F8DF; border-radius: 20px; background: linear-gradient(180deg,#F3FDF6 0,#fff 100%); box-shadow: 0 24px 50px -38px rgba(10,61,34,.5); scroll-margin-top: 90px; }
@@ -90,15 +91,20 @@
   /* Talk to Glen or Gwen: equal weight with Book now */
   .btn-talk { background: var(--ink); color: #fff; } .btn-talk:hover { background: #1C3A2D; }
   .tk-av { display: inline-flex; margin-right: .15rem; } .tk-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); background: #DCFCE7; margin-left: -.55rem; } .tk-av img:first-child { margin-left: -.35rem; }
+  .btn-primary .tk-av img { border-color: #fff; }
   .hero .ctas .btn { min-width: 15.5rem; padding: .95rem 1.5rem; font-size: 1.02rem; }
-  .hero-note { margin: .4rem auto 0; max-width: 34rem; font-size: .86rem; color: var(--mute); line-height: 1.4; }
-  .hero-join { margin: .1rem 0 0; font-size: .92rem; } .hero-join a { color: var(--green); font-weight: 600; text-decoration: none; } .hero-join a:hover { text-decoration: underline; }
+  .hero-disc { margin: .35rem auto 0; max-width: 36rem; font-size: .78rem; line-height: 1.35; color: var(--mute); }
+  .hero-glen { margin: .15rem auto 0; font-size: .92rem; font-weight: 600; line-height: 1.3; color: var(--green); }
+  .hero-glen a { color: var(--green); font-weight: 700; text-decoration: none; }
+  .hero-glen a:hover { text-decoration: underline; }
+  .hero-glen .tg-sms { font-size: .82em; font-weight: 600; margin-left: .3rem; text-decoration: underline; }
+  .hero-join { margin: .15rem 0 0; font-size: .86rem; } .hero-join a { color: var(--green); font-weight: 600; text-decoration: none; } .hero-join a:hover { text-decoration: underline; }
   @media (max-width: 560px) { .hero .ctas { flex-direction: column; align-items: stretch; max-width: 22rem; margin-left: auto; margin-right: auto; } .hero .ctas .btn { min-width: 0; } }
   .nav-talk .tk-short { display: none; }
   @media (max-width: 1179px) { .nav-talk .tk-long { display: none; } .nav-talk .tk-short { display: inline; } }
-  @media (max-width: 760px) { .nav-links .nav-talk { display: none; } }
+  @media (max-width: 760px) { .nav-links #nav-book { display: none; } }
   .nav-links .btn-talk { padding-left: 1rem; }
-  .sticky .btn-talk { flex: 1; }
+  .sticky .btn-talk, .sticky a.btn-primary { flex: 1; }
   .sticky .btn.sticky-share-ic { flex: 0 0 48px; width: 48px; padding: 0; }
   .sticky .tk-av img { width: 24px; height: 24px; }
   .fine { margin: .9rem 0 0; font-size: .88rem; color: var(--mute); }
@@ -383,8 +389,8 @@
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
       <a class="nav-share" href="#share" data-cjs-open="header" aria-label="Share your recovery concierge: send someone Glen or Gwen"><img src="/media/cj-guide-glen.webp" alt="" width="22" height="22"><img src="/media/cj-guide-gwen.webp" alt="" width="22" height="22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share</span></a>
-      <a class="btn btn-talk nav-talk" href="/chat" data-talk data-talk-place="header"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span><span class="tk-long">Talk to Glen or Gwen</span><span class="tk-short">Talk now</span></a>
-      <a class="btn btn-primary" id="nav-book" href="#" data-book data-book-direct>Book now</a>
+      <a class="btn btn-primary nav-talk" href="/chat" data-talk data-talk-place="header"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span><span class="tk-long">Talk to Glen or Gwen</span><span class="tk-short">Talk now</span></a>
+      <a class="btn btn-ghost" id="nav-book" href="#" data-book data-book-direct>Book now</a>
     </nav>
   </div>
 </header>
@@ -392,14 +398,15 @@
 <main id="main">
   <section class="hero" id="hubs">
     <div class="wrap">
-      <h1>100% digital physio.</h1>
-      <p class="lede">See a registered physiotherapist by video from home. In-home visits and 100+ partner locations across Canada when you need hands-on care.</p>
+      <h1>Hurt right now?<br>Help in the moment.</h1>
+      <p class="lede">Talk to someone now, then see a registered physio by video, at home or in person.</p>
       <div class="ctas">
-        <a class="btn btn-primary" id="hero-book" href="#" data-book data-book-direct>Book now</a>
-        <a class="btn btn-talk" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen</a>
+        <a class="btn btn-primary" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen now</a>
+        <a class="btn btn-ghost" id="hero-book" href="#" data-book data-book-direct>Book a visit</a>
       </div>
-      <p class="hero-note">Talk it through now: free, 24/7, by chat, text or call. Glen and Gwen are Calm Joints’ virtual guides, not clinicians.</p>
-      <p class="hero-join"><a href="#join">Physio? Join us →</a></p>
+      <p class="hero-disc">Virtual guide, not a clinician · msg rates may apply.</p>
+      <p class="hero-glen">Call or text Glen: <a href="tel:+16476926575">(647) 692-6575</a> <a class="tg-sms" href="sms:+16476926575">Text</a></p>
+      <p class="hero-join"><a href="#join">Physios, join us</a></p>
       <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
     </div>
     <p class="trust-lbl">Trusted by the brands we power</p>
@@ -644,8 +651,8 @@
 
 <div class="sticky" aria-label="Quick actions">
   <button type="button" class="btn btn-ghost sticky-share sticky-share-ic" data-cjs-open="sticky" aria-label="Share your recovery concierge: send someone Glen or Gwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg></button>
-  <a class="btn btn-talk" id="sticky-talk" href="/chat" data-talk data-talk-place="sticky"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk now</a>
-  <a class="btn btn-primary" id="sticky-book" href="#" data-book data-book-direct>Book now</a>
+  <a class="btn btn-primary" id="sticky-talk" href="/chat" data-talk data-talk-place="sticky"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk now</a>
+  <a class="btn btn-ghost" id="sticky-book" href="#" data-book data-book-direct>Book now</a>
 </div>
 
 <dialog class="hubpop" id="hubpop" aria-labelledby="hubpop-title">
