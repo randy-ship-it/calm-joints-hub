@@ -324,6 +324,37 @@
       },
     };
   };
+  // ---- signed sessions (step 4): ask our server for a short-lived signed URL; fall back to the public agent
+  // only while enable_auth is still off. A 429 means this visitor hit the per-IP cap: don't fall back.
+  var TS_KEY = (CFG.guide && CFG.guide.turnstileSiteKey) || '';
+  var tsReady = null, tsWidget = null;
+  function botToken() {
+    if (!TS_KEY) return Promise.resolve('');
+    if (!tsReady) tsReady = new Promise(function (ok) {
+      var s = document.createElement('script'); s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; s.async = true;
+      s.onload = function () { ok(window.turnstile || null); }; s.onerror = function () { ok(null); }; document.head.appendChild(s);
+    });
+    return tsReady.then(function (ts) {
+      if (!ts) return '';
+      return new Promise(function (ok) {
+        var done = function (t) { ok(t || ''); };
+        try {
+          if (tsWidget === null) { var el = document.createElement('div'); el.style.cssText = 'position:fixed;bottom:0;right:0;z-index:2147483647'; document.body.appendChild(el);
+            tsWidget = ts.render(el, { sitekey: TS_KEY, appearance: 'interaction-only', callback: done, 'error-callback': function () { done(''); } }); }
+          else { ts.reset(tsWidget); var t0 = Date.now(); (function wait() { var t = ts.getResponse(tsWidget); if (t) return done(t); if (Date.now() - t0 > 8000) return done(''); setTimeout(wait, 200); })(); }
+        } catch (e) { done(''); }
+      });
+    });
+  }
+  function signedSession(key) {
+    if (CFG.guide && CFG.guide.signed === 'off') return Promise.resolve(null);
+    return botToken().then(function (t) {
+      return fetch('/api/guide-session?guide=' + encodeURIComponent(key || 'glen'), { cache: 'no-store', credentials: 'same-origin', headers: t ? { 'x-cj-turnstile': t } : {} });
+    }).then(function (r) {
+      if (r.status === 429 || r.status === 403) return r.json().catch(function () { return {}; }).then(function (j) { var e = new Error((j && j.message) || 'busy'); e.cjBlocked = true; throw e; });
+      return r.ok ? r.json() : null;
+    }).then(function (j) { return j && j.signedUrl ? j.signedUrl : null; }, function (e) { if (e && e.cjBlocked) throw e; return null; });
+  }
   // ---- phantom-session guards (2026-10-08, PHANTOM-CALL-DETECTION-PLAN step 5): end sessions that aren't a real
   // conversation, so bots, open tabs and speaker echo don't burn credits or hold one of the agent's few slots. 0 tokens.
   var PG = { firstUtterMs: 8000, textIdleMs: 180000, minRepeat: 20 };
@@ -399,7 +430,10 @@
         },
       };
       if (!voice) cfg.textOnly = true;
-      return SDK.Conversation.startSession(cfg);
+      return signedSession(PICK).then(function (url) {
+        if (url) { cfg.signedUrl = url; delete cfg.agentId; }
+        return SDK.Conversation.startSession(cfg);
+      });
     });
   };
   Guide.prototype.stop = function () {
