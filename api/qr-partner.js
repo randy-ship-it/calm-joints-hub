@@ -3,7 +3,7 @@
 const { Readable } = require('stream');
 const { createPartner, getPartner, publicPartner } = require('../lib/qr-partners');
 const { clientIp, send, readRaw, rateLimit } = require('../lib/intake');
-const { welcome } = require('../lib/partner-ledger');
+const { welcome, makeToken } = require('../lib/partner-ledger');
 
 function sameOrigin(req) {
   const origin = req.headers.origin;
@@ -53,6 +53,7 @@ module.exports = async function handler(req, res) {
     if (out.status === 200 && out.json.partner) {
       const full = await getPartner(out.json.partner.slug, process.env).catch(() => null);
       await welcome(full, process.env).catch(() => null);
+      try { out.json.portal_url = 'https://calmjoints.org/partner?t=' + encodeURIComponent(makeToken(out.json.partner.slug, process.env)); } catch (e) { /* dashboard link still goes out by email */ }
     }
     send(res, out.status, out.json);
   } catch (err) {

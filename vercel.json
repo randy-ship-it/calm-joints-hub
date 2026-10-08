@@ -51,6 +51,7 @@
     "api/partner-events.js": { "includeFiles": "lib/**" },
     "api/partner-portal.js": { "includeFiles": "lib/**" },
     "api/partner.js": { "includeFiles": "lib/**" },
+    "api/poster-report.js": { "includeFiles": "lib/**" },
     "api/qr-lead.js": { "maxDuration": 30, "includeFiles": "lib/**" },
     "api/qr-partner.js": { "includeFiles": "lib/**" },
     "api/question.js": { "includeFiles": "lib/**" },

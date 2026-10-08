@@ -205,8 +205,8 @@
         <h1>Give your people physio. Hands-off for you.</h1>
         <p class="lede">A turnkey perk your audience will love. Earn from it, and see what they need.</p>
         <div class="ctas">
-          <a class="btn btn-primary" href="#paths">Pick your path</a>
-          <a class="btn btn-ghost" href="#kit">Build your QR kit</a>
+          <a class="btn btn-primary" href="#share">Make your own QR</a>
+          <a class="btn btn-ghost" href="#kit">For a venue</a>
         </div>
       </div>
       <!-- Carousel leads the page (Randy, Oct 2026: carousel at the top, static image lower down). -->
@@ -231,6 +231,43 @@
           <li>Sports arenas and rinks</li><li>Volleyball and pickleball clubs</li><li>Gyms and studios</li><li>Leagues and tournaments</li><li>Recovery studios</li><li>Hotels and resorts</li>
         </ul>
         <p class="xref">Selling recovery or sports products? A QR card in your box works too. <a href="/#in-box">Go to Brands →</a></p>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="share">
+    <div class="wrap">
+      <p class="kicker">Your own QR</p>
+      <h2>Make a poster. Put your name on it.</h2>
+      <p class="lede">Anyone can. Your code tracks the bookings it brings in, and we pay you on them. We don’t take bank details here. That comes later, once you’ve earned something.</p>
+      <div class="builder">
+        <form class="panel" id="share-form" novalidate>
+          <label for="s-name">Your name <span style="font-weight:500;color:var(--mute)">(optional, shown as “Shared by”)</span></label>
+          <input type="text" id="s-name" name="name" maxlength="80" autocomplete="name" placeholder="Alex Chen">
+          <label for="s-email">Email</label>
+          <input type="email" id="s-email" name="email" maxlength="254" autocomplete="email" required placeholder="you@email.com">
+          <label for="s-phone">Phone <span style="font-weight:500;color:var(--mute)">(optional)</span></label>
+          <input type="tel" id="s-phone" name="phone" maxlength="40" autocomplete="tel">
+          <input class="hp" type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="agree"><input type="checkbox" id="s-agree" name="agree"><span>I agree to the <a href="/partner-terms">partner terms</a>. I’ll only post where I’m allowed, and I’ll take a poster down if you ask once.</span></label>
+          <div class="ctas" style="margin-top:1.1rem"><button class="btn btn-primary" type="submit" id="s-go">Get my QR</button></div>
+          <p class="msg" id="s-msg" role="status" aria-live="polite"></p>
+        </form>
+        <div class="preview" id="share-preview">
+          <canvas id="share-canvas" width="900" height="1200" aria-label="Your Calm Joints poster"></canvas>
+          <p class="fine" id="s-note" style="margin:0;text-align:center">Your poster shows up here, with a code that’s only yours.</p>
+          <div id="share-out" hidden>
+            <p class="fine" style="margin:0;text-align:center">Code: <a id="s-link" href="#" target="_blank" rel="noopener"></a></p>
+            <div class="ctas" style="margin:0;justify-content:center">
+              <button class="btn btn-ghost" type="button" id="s-png">PNG</button>
+              <button class="btn btn-ghost" type="button" id="s-svg">SVG</button>
+              <button class="btn btn-ghost" type="button" id="s-letter">Letter PDF</button>
+              <button class="btn btn-ghost" type="button" id="s-poster">18×24 PDF</button>
+            </div>
+            <p class="fine" style="margin:0;text-align:center"><a id="s-dash" href="/partner">Open my dashboard</a>. Scans and book clicks show right away. Completed bookings are confirmed monthly.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -457,12 +494,13 @@
 <footer>
   <div class="wrap foot">
     <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="110" height="30">
-    <nav aria-label="Footer"><a href="/partners">Partnerships</a><a href="/blog">Blog</a><a href="/careers">Careers</a><a href="mailto:info@calmjoints.org">info@calmjoints.org</a><a href="/privacy">Privacy</a><a href="#cookies" data-cookie-settings>Cookie settings</a></nav>
+    <nav aria-label="Footer"><a href="/partners">Partnerships</a><a href="/blog">Blog</a><a href="/careers">Careers</a><a href="mailto:info@calmjoints.org">info@calmjoints.org</a><a href="/privacy">Privacy</a><a href="/partner-terms">Partner terms</a><a href="/report">Report a poster</a><a href="#cookies" data-cookie-settings>Cookie settings</a></nav>
     <p style="flex-basis:100%;margin:0">Care is provided by registered physiotherapists.</p>
   </div>
 </footer>
 
 <script src="/js/qrcode.js"></script>
+<script src="/js/share-poster.js"></script>
 <script src="/js/partner-kit.js"></script>
 <script>
 (function () {
@@ -606,6 +644,73 @@ btns.forEach(b=>{b.addEventListener('mouseenter',()=>show(b));b.addEventListener
 g.addEventListener('mouseleave',()=>show(pinned));});})();
 </script>
 <script src="/config.js"></script>
+
+<script>
+(function () {
+  var state = { url: 'https://calmjoints.org/p/sample?src=qr', name: '', slug: null };
+  var canvas = document.getElementById('share-canvas');
+  var msg = document.getElementById('s-msg');
+  function paint(size) {
+    state.name = document.getElementById('s-name').value.trim();
+    return CJPoster.draw(canvas, { url: state.url, name: state.name, size: size || 'letter' });
+  }
+  var ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  ready.then(function () { paint('letter'); });
+  document.getElementById('s-name').addEventListener('input', function () { if (!state.slug) paint('letter'); });
+  function baseName() {
+    var n = (state.name || 'calm-joints').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'calm-joints';
+    return 'calm-joints-' + n;
+  }
+  async function save(size, kind) {
+    if (!state.slug) { msg.className = 'msg err'; msg.textContent = 'Get your QR first.'; return; }
+    msg.textContent = '';
+    var opts = { url: state.url, name: state.name, size: size };
+    if (kind === 'png') {
+      await CJPoster.draw(canvas, opts);
+      canvas.toBlob(function (b) { CJPoster.download(baseName() + '-' + size + '.png', b); }, 'image/png');
+      return;
+    }
+    if (kind === 'svg') {
+      CJPoster.download(baseName() + '-' + size + '.svg', new Blob([CJPoster.svg(opts)], { type: 'image/svg+xml' }));
+      return;
+    }
+    await CJPoster.draw(canvas, opts);
+    var jpg = await new Promise(function (ok) { canvas.toBlob(function (b) { b.arrayBuffer().then(ok); }, 'image/jpeg', 0.92); });
+    var spec = CJPoster.SIZES[size];
+    var pdf = CJPoster.pdfFromJpeg(new Uint8Array(jpg), spec.pageW, spec.pageH, canvas.width, canvas.height);
+    CJPoster.download(baseName() + '-' + size + '.pdf', new Blob([pdf], { type: 'application/pdf' }));
+  }
+  document.getElementById('s-png').addEventListener('click', function () { save('poster', 'png'); });
+  document.getElementById('s-svg').addEventListener('click', function () { save('poster', 'svg'); });
+  document.getElementById('s-letter').addEventListener('click', function () { save('letter', 'pdf'); });
+  document.getElementById('s-poster').addEventListener('click', function () { save('poster', 'pdf'); });
+  document.getElementById('share-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var f = e.target;
+    if (f.company_site.value) return;
+    var go = document.getElementById('s-go');
+    msg.className = 'msg'; msg.textContent = 'Making your code…'; go.disabled = true;
+    try {
+      var res = await fetch('/api/qr-partner', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'share', name: f.name.value, email: f.email.value, phone: f.phone.value, agree: f.agree.checked }) });
+      var j = await res.json().catch(function () { return {}; });
+      if (!res.ok || !j.ok) throw new Error(j.message || 'We couldn’t save that. Email info@calmjoints.org.');
+      state.slug = j.partner.slug;
+      state.name = j.partner.display_name || f.name.value.trim();
+      state.url = j.partner.landing_url + '?src=qr';
+      var a = document.getElementById('s-link');
+      a.href = j.partner.landing_url; a.textContent = j.partner.landing_url.replace('https://', '');
+      if (j.portal_url) document.getElementById('s-dash').href = j.portal_url;
+      document.getElementById('share-out').hidden = false;
+      document.getElementById('s-note').textContent = 'This code is yours. Print it, and only where you’re allowed to.';
+      msg.className = 'msg ok'; msg.textContent = 'You’re in. We also emailed your dashboard link. Payout details wait until you’ve earned something.';
+      go.textContent = 'You’re in';
+      await paint('letter');
+    } catch (err) {
+      msg.className = 'msg err'; msg.textContent = err.message; go.disabled = false;
+    }
+  });
+})();
+</script>
 <script src="/js/book.js?v=6"></script>
 <script src="/js/consent.js"></script>
 </body>

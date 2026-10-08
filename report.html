@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Report a poster | Calm Joints</title>
+<meta name="description" content="Tell Calm Joints about a poster that should come down.">
+<link rel="canonical" href="https://calmjoints.org/report">
+<meta name="theme-color" content="#15803D">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--soft:#F5F8F6;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--pad:clamp(1.1rem,4vw,2rem)}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font:18px/1.55 var(--sans)}
+a{color:var(--green)}.wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}.read{max-width:640px;margin:0 auto;padding:2rem var(--pad) 3rem}
+.nav{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav img{height:36px;width:auto}.nav a.btn{background:var(--green);color:#fff;text-decoration:none;padding:.7rem 1.1rem;border-radius:999px;font-weight:600;font-size:.95rem}
+h1{font-size:clamp(2rem,5vw,2.7rem);letter-spacing:-.02em;line-height:1.1;margin:.2rem 0 .6rem}
+.kicker{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin:0}
+label{display:block;font-weight:600;font-size:.95rem;margin:1rem 0 .35rem}
+input,textarea{width:100%;padding:.8rem .9rem;border:1px solid #CFD9D3;border-radius:12px;font:inherit}
+textarea{min-height:5.5rem;resize:vertical}
+input:focus,textarea:focus{outline:2px solid #86EFAC;border-color:var(--green)}
+.btn{display:inline-flex;margin-top:1.1rem;background:var(--green);color:#fff;border:0;border-radius:999px;padding:.85rem 1.3rem;font:700 1rem var(--sans);cursor:pointer}
+.btn[disabled]{opacity:.6}
+.msg{min-height:1.3em;font-weight:600}
+.msg.ok{color:var(--green)}.msg.err{color:#B42318}
+.hp{position:absolute;left:-5000px}
+footer{border-top:1px solid var(--line);padding:1.6rem 0;color:var(--mute);font-size:.9rem}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner"><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"></a><a class="btn" href="/#book" data-book>Book a visit</a></div></header>
+<main class="read">
+<p class="kicker">Posters</p>
+<h1>Report a poster</h1>
+<p>If a Calm Joints poster is somewhere it shouldn’t be, tell us. We’ll ask the person who made it to take it down.</p>
+<form id="report" novalidate>
+<label for="loc">Where is it?</label>
+<input id="loc" name="location" required maxlength="300" placeholder="Building, street, or a short description">
+<label for="code">QR code or name on the poster <span style="font-weight:500;color:#4B5E54">(optional)</span></label>
+<input id="code" name="code" maxlength="200" placeholder="From the poster, if you can see it">
+<label for="contact">Your email <span style="font-weight:500;color:#4B5E54">(optional)</span></label>
+<input id="contact" name="contact" maxlength="200" placeholder="If you want a reply" autocomplete="email">
+<label for="photo">Photo <span style="font-weight:500;color:#4B5E54">(optional)</span></label>
+<input id="photo" name="photo" type="file" accept="image/png,image/jpeg,image/webp">
+<label for="note">Anything else <span style="font-weight:500;color:#4B5E54">(optional)</span></label>
+<textarea id="note" name="note" maxlength="500"></textarea>
+<input class="hp" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" id="go" type="submit">Send the report</button>
+<p class="msg" id="msg" role="status" aria-live="polite"></p>
+</form>
+</main>
+<footer><div class="wrap">Care is provided by registered physiotherapists. · <a href="/partners">Partnerships</a> · <a href="/partner-terms">Partner terms</a> · <a href="/report">Report a poster</a> · <a href="mailto:info@calmjoints.org">info@calmjoints.org</a> · <a href="/privacy">Privacy</a></div></footer>
+<script>
+(function () {
+  var form = document.getElementById('report'), msg = document.getElementById('msg'), go = document.getElementById('go');
+  function fileToData(file) {
+    return new Promise(function (ok, bad) {
+      if (!file) return ok(null);
+      if (file.size > 2 * 1024 * 1024) return bad(new Error('That photo is over 2 MB. A smaller one works.'));
+      var r = new FileReader();
+      r.onload = function () { ok(r.result); };
+      r.onerror = function () { bad(new Error('We couldn’t read that photo.')); };
+      r.readAsDataURL(file);
+    });
+  }
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (form.company_site.value) return;
+    var loc = form.location.value.trim();
+    msg.className = 'msg err';
+    if (loc.length < 3) { msg.textContent = 'Where is the poster?'; return; }
+    go.disabled = true; msg.className = 'msg'; msg.textContent = 'Sending…';
+    try {
+      var photo = await fileToData(form.photo.files && form.photo.files[0]);
+      var res = await fetch('/api/poster-report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: loc, code: form.code.value.trim(), contact: form.contact.value.trim(), note: form.note.value.trim(), photo: photo }) });
+      var j = await res.json().catch(function () { return {}; });
+      if (!res.ok || !j.ok) throw new Error(j.message || 'We couldn’t send that. Email info@calmjoints.org.');
+      msg.className = 'msg ok'; msg.textContent = j.message || 'Thanks. We’ll ask them to take it down.';
+      form.reset();
+    } catch (err) {
+      msg.className = 'msg err'; msg.textContent = err.message;
+    }
+    go.disabled = false;
+  });
+})();
+</script>
+<script src="/config.js"></script>
+<script src="/js/book.js?v=6"></script>
+</body>
+</html>
