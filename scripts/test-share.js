@@ -66,4 +66,8 @@ for (const f of ['index.html', 'partners.html', 'chat.html', 'careers.html', 'pa
   const src = fs.readFileSync(f, 'utf8');
   assert.ok(!/trade name of|operated by Clairvoyant/i.test(src), f + ' still shows the trade-name/sender line');
 }
+// Partnership fine print names Calm Joints only (same terms text is stored on accept).
+for (const f of ['partners.html', 'lib/qr-partners.js']) {
+  assert.ok(!/\bClairvoyant\b/.test(fs.readFileSync(f, 'utf8')), f + ' fine print still names Clairvoyant');
+}
 console.log('share + guide-name tests ok');
