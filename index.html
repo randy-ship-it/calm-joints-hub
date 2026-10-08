@@ -127,8 +127,8 @@
   .cap { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; padding: 1rem .25rem 0; }
   .cap strong { font-size: 1.15rem; }
   .cap p { flex-basis: 100%; margin: 0; color: var(--mute); font-size: .95rem; }
-  .tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; background: var(--soft); color: var(--mute); }
-  .tag.live { background: #DCFCE7; color: var(--green); }
+  .tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; background: var(--soft); color: #3E5047; }
+  .tag.live { background: #DCFCE7; color: #0F5E2C; }
   .soon-slide { position: relative; }
   .soonbtn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; font: inherit; color: inherit; border-radius: 16px; }
   .soonbtn:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
@@ -146,9 +146,9 @@
   .controls { display: flex; align-items: center; justify-content: center; gap: 1rem; }
   .arrow { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #CFD9D3; background: #fff; font-size: 1.1rem; cursor: pointer; color: var(--ink); }
   .arrow:hover { border-color: var(--ink); }
-  .dots { display: flex; gap: .45rem; }
-  .dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: #CFD9D3; cursor: pointer; transition: width .3s, background .3s; }
-  .dots button[aria-current="true"] { width: 24px; background: var(--green); }
+  .dots { display: flex; gap: 0; }
+  .dots button { width: 8px; height: 8px; padding: 8px; box-sizing: content-box; background-clip: content-box; border: 0; border-radius: 99px; background-color: #CFD9D3; cursor: pointer; transition: width .3s, background .3s; }
+  .dots button[aria-current="true"] { width: 24px; background-color: var(--green); }
   .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 2.2rem; margin: 2.2rem auto 0; color: #7A8B82; font-weight: 700; font-size: 1.05rem; letter-spacing: .01em; }
   /* sections */
   section.block { padding: clamp(3.5rem, 8vw, 5.5rem) 0; }
@@ -344,9 +344,9 @@
   .pc-slide img.shot { display:block; height:min(460px,62vh); width:auto; max-width:100%; object-fit:contain; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:0 24px 50px -36px rgba(11,29,22,.45); }
   .pc-frame .sticker { top:12px; width:clamp(52px,12%,100px); height:clamp(22px,5.5%,38px); padding:4px 8px; border-radius:10px; }
   .pc-slide figcaption { font-size:.9rem; color:var(--mute); } .pc-slide figcaption b { display:block; color:var(--ink); font-size:1rem; }
-  .pc-dots { display:flex; gap:.45rem; align-items:center; margin-right:auto; }
-  .pc-dots button { width:9px; height:9px; padding:0; border-radius:50%; border:0; background:#CFD9D3; cursor:pointer; transition:width .25s, background .25s; }
-  .pc-dots button[aria-current="true"] { width:24px; border-radius:999px; background:var(--green); }
+  .pc-dots { display:flex; gap:0; align-items:center; margin-right:auto; }
+  .pc-dots button { width:9px; height:9px; padding:7.5px; box-sizing:content-box; background-clip:content-box; border-radius:999px; border:0; background-color:#CFD9D3; cursor:pointer; transition:width .25s, background .25s; }
+  .pc-dots button[aria-current="true"] { width:24px; border-radius:999px; background-color:var(--green); }
   @media (prefers-reduced-motion: reduce) { .pc-slide, .pc-slide.is-on { transition:none; transform:none; } }
   .pc-ctl { display:flex; gap:.5rem; justify-content:flex-end; align-items:center; }
   .po-open { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.8rem 1.1rem; align-items:center; } .po-open span { color:var(--mute); }
@@ -371,7 +371,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
+    <a class="brand" href="#top" aria-label="Calm Joints: In the moment recovery care (home)"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
