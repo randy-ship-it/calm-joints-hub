@@ -1,7 +1,7 @@
 {
   "name": "calm-joints-hub",
   "private": true,
-  "description": "Calm Joints digital clinic landing and intake. CHI trade name, Align care, Scale hub.",
+  "description": "Calm Joints digital clinic landing and intake. Operated by Calm Joints Inc.",
   "scripts": {
     "test": "node scripts/test-guide.js && node scripts/test-share.js && node scripts/test-sms.js && node scripts/test-callback.js && node scripts/test-booking.js && node scripts/test-calming.js && node scripts/test-intake.js && node scripts/test-partner-ledger.js && node scripts/test-share-poster.js && node scripts/test-guide-session.js && node scripts/test-scan.js",
     "dev": "node scripts/dev-server.js"
