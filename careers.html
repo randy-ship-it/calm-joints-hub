@@ -69,6 +69,18 @@
   .cta { display:inline-flex; padding:.95rem 1.6rem; border-radius:999px; background:#fff; color:var(--deep); font-weight:700; text-decoration:none; }
   .cta:hover { background:var(--mint); }
   .ring { position:absolute; right:-12vw; top:50%; width:min(62vw,720px); aspect-ratio:1; transform:translateY(-46%); opacity:.14; pointer-events:none; }
+  section.wrap.cjf { padding-top:clamp(2.6rem,7vw,4.5rem); }
+  .cjf .k2 { font-size:.78rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin:0 0 .5rem; }
+  .cjf h2 { margin:0 0 1.2rem; font-size:clamp(1.5rem,3.6vw,2.1rem); line-height:1.05; letter-spacing:-.03em; }
+  .cjf-row { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.6rem,2vw,1rem); margin:0; padding:0; }
+  .cjf-slot { margin:0; min-width:0; }
+  .cjf-slot:nth-child(n+4) { display:none; }
+  .cjf-ph { position:relative; aspect-ratio:1/1; border-radius:18px; overflow:hidden; background:var(--soft); box-shadow:0 1px 0 var(--line), 0 10px 24px -18px rgba(10,61,34,.45); }
+  .cjf-ph img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.04); transition:opacity .9s ease, transform 1.6s ease; }
+  .cjf-ph img.on { opacity:1; transform:none; }
+  .cjf-slot figcaption { height:1.5em; margin-top:.5rem; font-size:.9rem; font-weight:600; color:var(--ink); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  @media (min-width:720px) { .cjf-row { grid-template-columns:repeat(5,1fr); } .cjf-slot:nth-child(n+4) { display:block; } }
+  @media (prefers-reduced-motion:reduce) { .cjf-ph img { transition:none; transform:none; } }
   .wrap { max-width:1120px; margin:0 auto; padding:0 clamp(1.1rem,4vw,2rem); }
   .roles { display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); margin:clamp(-2.6rem,-5vw,-2rem) auto 0; position:relative; z-index:2; }
   .role { background:#fff; border-radius:24px; padding:1.6rem; box-shadow:0 1px 0 var(--line), 0 24px 50px -30px rgba(10,61,34,.35); display:flex; flex-direction:column; }
@@ -185,6 +197,17 @@
   </div>
 </section>
 <main>
+  <section class="wrap cjf" aria-labelledby="cjf-h">
+    <p class="k2">Why physios join</p>
+    <h2 id="cjf-h">Your hours. Your patients. Real support.</h2>
+    <div class="cjf-row" id="cj-faces">
+      <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+      <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+      <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+      <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+      <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+    </div>
+  </section>
   <section class="wrap flex" aria-labelledby="flex-h">
     <div>
       <p class="k2">Flexible booking</p>
@@ -289,6 +312,8 @@
   <span>© <span id="yr">2026</span> Calm Joints Inc.</span>
   <span><a href="/careers">Careers</a> &nbsp;·&nbsp; <a href="mailto:info@calmjoints.org">info@calmjoints.org</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a> &nbsp;·&nbsp; <a href="/report">Report a poster</a> &nbsp;·&nbsp; <a href="#cookies" data-cookie-settings>Cookie settings</a></span>
 </footer>
+<script src="/js/team-data.js"></script>
+<script src="/js/careers-faces.js"></script>
 <script src="/form.js"></script>
 <script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers'); document.getElementById('c-resume').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.closest('.field').querySelector('.file-name').textContent = f ? f.name : ''; });</script>
 <script>(function(){function o(){if(location.hash==="#benefits"){var d=document.getElementById("benefits-d");if(d)d.open=true;}}o();addEventListener("hashchange",o);})();</script>
