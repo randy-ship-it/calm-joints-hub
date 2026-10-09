@@ -74,7 +74,7 @@ function asScanEvent(body) {
 async function scanEventHandler(req, res, body) {
   if (!sameSite(req)) { send(res, 403, { ok: false }); return; }
   if (!rateLimit(`scan:${clientIp(req)}`, { limit: 40 })) { send(res, 429, { ok: false }); return; }
-  const out = await recordScanEvent(body, process.env);
+  const out = await recordScanEvent(body, process.env, { ua: req.headers['user-agent'] });
   send(res, out.status, out.json);
 }
 async function shareEventHandler(req, res, body) {
@@ -106,7 +106,7 @@ module.exports = async function handler(req, res) {
     if (params.get('kind') === 'scan-stats') {
       // Admin-only: print/QR scan counts by src / page / day.
       if (!adminOk(req)) { send(res, 403, { ok: false }); return; }
-      try { send(res, 200, await scanStats(process.env)); } catch (err) { console.error('[scan] stats failed', err && err.message); send(res, 503, { ok: false }); }
+      try { send(res, 200, await scanStats(process.env, { src: params.get('src') })); } catch (err) { console.error('[scan] stats failed', err && err.message); send(res, 503, { ok: false }); }
       return;
     }
     if (params.get('kind') === 'share-stats') {
