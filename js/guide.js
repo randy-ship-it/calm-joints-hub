@@ -299,6 +299,13 @@
   };
   Guide.prototype.track = function (ev) {
     try { if (window.gtag) window.gtag('event', 'cj_guide_' + ev, { src: CTX.src, venue: CTX.venue, guide: PICK }); } catch (e) {}
+    // Print/QR follow-ups for the scan count (js/scan.js): first chat/voice start and booking click.
+    try {
+      if (window.cjScanFollow) {
+        if (ev === 'chat' || ev === 'voice') window.cjScanFollow('chat-start');
+        else if (ev === 'book' || ev === 'book_tool') window.cjScanFollow('book-click');
+      }
+    } catch (e) {}
   };
   Guide.prototype.tools = function () {
     var self = this;
