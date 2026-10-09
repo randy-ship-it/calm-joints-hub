@@ -19,6 +19,7 @@ const pages = [
   'blog/is-walking-good-for-knee-arthritis.html',
   'blog/does-virtual-physiotherapy-work.html',
   'blog/is-walking-good-for-hip-arthritis.html',
+  'blog/how-long-does-frozen-shoulder-last.html',
 ];
 
 for (const page of pages) {
@@ -35,7 +36,7 @@ assert.equal((home.match(/data-talk /g) || []).length, 3, 'nav, hero, and sticky
 assert.ok(home.includes('src="/js/book.js?v=7"'));
 assert.ok(home.includes('src="/config.js"'));
 
-for (const page of ['partners.html', 'blog/index.html', 'blog/knee-pain-going-down-stairs.html', 'blog/is-walking-good-for-knee-arthritis.html', 'blog/does-virtual-physiotherapy-work.html', 'blog/is-walking-good-for-hip-arthritis.html']) {
+for (const page of ['partners.html', 'blog/index.html', 'blog/knee-pain-going-down-stairs.html', 'blog/is-walking-good-for-knee-arthritis.html', 'blog/does-virtual-physiotherapy-work.html', 'blog/is-walking-good-for-hip-arthritis.html', 'blog/how-long-does-frozen-shoulder-last.html']) {
   const html = fs.readFileSync(page, 'utf8');
   assert.ok(html.includes('data-book'), page + ' Book control is not wired');
   assert.ok(html.includes('src="/config.js"'), page);
