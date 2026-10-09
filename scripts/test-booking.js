@@ -32,14 +32,14 @@ const home = fs.readFileSync('index.html', 'utf8');
 assert.equal((home.match(/data-book[ >]/g) || []).length, 3, 'nav, hero, and sticky Book controls');
 assert.equal((home.match(/data-book data-book-direct/g) || []).length, 3, 'Book now goes straight to booking');
 assert.equal((home.match(/data-talk /g) || []).length, 3, 'nav, hero, and sticky Talk controls');
-assert.ok(home.includes('src="/js/book.js?v=6"'));
+assert.ok(home.includes('src="/js/book.js?v=7"'));
 assert.ok(home.includes('src="/config.js"'));
 
 for (const page of ['partners.html', 'blog/index.html', 'blog/knee-pain-going-down-stairs.html', 'blog/is-walking-good-for-knee-arthritis.html', 'blog/does-virtual-physiotherapy-work.html', 'blog/is-walking-good-for-hip-arthritis.html']) {
   const html = fs.readFileSync(page, 'utf8');
   assert.ok(html.includes('data-book'), page + ' Book control is not wired');
   assert.ok(html.includes('src="/config.js"'), page);
-  assert.ok(html.includes('src="/js/book.js?v=6"'), page);
+  assert.ok(html.includes('src="/js/book.js?v=7"'), page);
 }
 
 const handoff = fs.readFileSync('p.html', 'utf8');

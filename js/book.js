@@ -27,6 +27,10 @@
   var qs = new URLSearchParams(location.search);
   if (qs.get('intent') === 'book' || location.hash === '#book') {
     trackBook();
+    // Print/QR scan count (door hangers etc.): queue before leaving for booking (lib/scan-events.js).
+    try {
+      if (qs.get('src') && navigator.sendBeacon) navigator.sendBeacon('/api/qr-lead', new Blob([JSON.stringify({ kind: 'scan-event', page: 'book', src: String(qs.get('src')).slice(0, 40) })], { type: 'text/plain' }));
+    } catch (e) {}
     try { if (window.gtag) window.gtag('event', 'cj_book_handoff', { area: qs.get('area') || '', src: qs.get('src') || '', venue: qs.get('venue') || '' }); } catch (e) {}
     location.replace(url);
     return;

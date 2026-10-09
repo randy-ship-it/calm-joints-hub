@@ -11,6 +11,7 @@ const { nextAvailability } = require('../lib/guide-availability');
 const { clientIp, send, readRaw, rateLimit } = require('../lib/intake');
 const sms = require('../lib/guide-sms');
 const { recordShareEvent, shareStats } = require('../lib/share-events');
+const { recordScanEvent, scanStats } = require('../lib/scan-events');
 const { guideSession } = require('../lib/guide-session');
 
 function sameSite(req) {
@@ -64,6 +65,18 @@ function asShareEvent(body) {
   if (typeof body === 'string') { if (!body.includes('"share-event"')) return null; try { body = JSON.parse(body.slice(0, 1000)); } catch { return null; } }
   return body && typeof body === 'object' && body.kind === 'share-event' ? body : null;
 }
+// Print/QR scan counts (js/scan.js, js/book.js): sendBeacon text/plain JSON with kind=scan-event.
+function asScanEvent(body) {
+  if (Buffer.isBuffer(body)) body = body.toString('utf8');
+  if (typeof body === 'string') { if (!body.includes('"scan-event"')) return null; try { body = JSON.parse(body.slice(0, 1000)); } catch { return null; } }
+  return body && typeof body === 'object' && body.kind === 'scan-event' ? body : null;
+}
+async function scanEventHandler(req, res, body) {
+  if (!sameSite(req)) { send(res, 403, { ok: false }); return; }
+  if (!rateLimit(`scan:${clientIp(req)}`, { limit: 40 })) { send(res, 429, { ok: false }); return; }
+  const out = await recordScanEvent(body, process.env);
+  send(res, out.status, out.json);
+}
 async function shareEventHandler(req, res, body) {
   if (!sameSite(req)) { send(res, 403, { ok: false }); return; }
   if (!rateLimit(`share:${clientIp(req)}`, { limit: 40 })) { send(res, 429, { ok: false }); return; }
@@ -90,6 +103,12 @@ module.exports = async function handler(req, res) {
       catch (err) { console.error('[guide-availability] failed', err && err.message); send(res, 200, { ok: false, message: 'Live availability could not be read right now. Offer today if available, otherwise the first available time, and open the booking page.' }); }
       return;
     }
+    if (params.get('kind') === 'scan-stats') {
+      // Admin-only: print/QR scan counts by src / page / day.
+      if (!adminOk(req)) { send(res, 403, { ok: false }); return; }
+      try { send(res, 200, await scanStats(process.env)); } catch (err) { console.error('[scan] stats failed', err && err.message); send(res, 503, { ok: false }); }
+      return;
+    }
     if (params.get('kind') === 'share-stats') {
       // Admin-only: share counts by guide / day / placement (anonymous events from js/share.js).
       if (!adminOk(req)) { send(res, 403, { ok: false }); return; }
@@ -103,6 +122,8 @@ module.exports = async function handler(req, res) {
   if (body == null && typeof req.on === 'function') body = await readRaw(req);
   const shareEv = asShareEvent(body);
   if (shareEv) return shareEventHandler(req, res, shareEv);
+  const scanEv = asScanEvent(body);
+  if (scanEv) return scanEventHandler(req, res, scanEv);
   if (!rateLimit(`qrl:${clientIp(req)}`, { limit: 20 })) { send(res, 429, { ok: false, message: 'Easy there. Try again in a few minutes.' }); return; }
   if (typeof body === 'string') { try { body = JSON.parse(body.slice(0, 4000)); } catch { body = null; } }
   if (!body || typeof body !== 'object') { send(res, 400, { ok: false }); return; }
