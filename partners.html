@@ -37,7 +37,7 @@
   .nav-links{display:flex;align-items:center;gap:1.4rem;font-size:.95rem}
   .nav-links a:not(.btn){text-decoration:none;color:var(--mute)}.nav-links a:not(.btn):hover,.nav-links a[aria-current]{color:var(--ink)}
   @media (max-width:760px){.nav-links a:not(.btn){display:none}}
-  @media (max-width:760px){.nav-links{gap:.7rem}.nav-links a[href="/partners"]{display:inline-block;font-size:.88rem;font-weight:600;color:var(--ink);padding:.45rem .75rem;border:1px solid var(--line);border-radius:999px}.nav-links .btn{padding:.55rem .9rem;font-size:.9rem}.brand img{width:118px;height:auto}}
+  @media (max-width:760px){.nav-links{gap:.7rem}.nav-links a[href="/partners"]{display:inline-block;font-size:.88rem;font-weight:600;color:var(--ink);padding:.45rem .75rem;border:1px solid var(--line);border-radius:999px}.nav-links .btn{padding:.55rem .9rem;font-size:.9rem;white-space:nowrap}.brand img{width:118px;height:auto}}
   section{padding:clamp(3rem,8vw,5.5rem) 0}
   .hero{padding-top:clamp(2.5rem,6vw,4rem);background:linear-gradient(180deg,#EDFAF4 0,#fff 100%)}
   .hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:center}
@@ -180,6 +180,12 @@
   .proof .tip-out{margin:.7rem auto 0;max-width:34rem}
   @media (max-width:900px){.why-grid{grid-template-columns:1fr 1fr}.path-grid{grid-template-columns:1fr}.path-up{writing-mode:horizontal-tb;transform:none;padding:.1rem 0}.path-up span:after{content:"\2193"}}
   @media (max-width:640px){.why-grid{gap:.6rem;margin-top:1.4rem}.bt{padding:1rem;border-radius:16px}.bt svg{width:36px;height:36px;padding:7px;margin-bottom:.4rem}.bt b{font-size:.98rem}.bt span{font-size:.84rem}.path{padding:1.3rem;border-radius:20px}.path .btn{width:100%;align-self:stretch}.tk-s{padding:.5rem .85rem}}
+  .bstrip{padding:clamp(2rem,5vw,3rem) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--soft)}
+  .bstrip h2{margin:0 0 1rem;font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-align:center}
+  .bstrip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.6rem 1.8rem}
+  .bstrip li{font-weight:700;font-size:1.05rem;letter-spacing:.02em;color:#3B4A42;opacity:.85}
+  .bstrip li img{height:30px;width:auto;display:block}
+  .bstrip p{margin:1.1rem auto 0;max-width:40rem;text-align:center;color:var(--mute);font-size:.98rem}
 </style>
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
 </head>
@@ -201,9 +207,9 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="kicker">Partnerships · 100% turnkey</p>
-        <h1>Give your people physio. Hands-off for you.</h1>
-        <p class="lede">A turnkey perk your audience will love. Earn from it, and see what they need.</p>
+        <p class="kicker">Calm Joints for Business (powered by Scale Health)</p>
+        <h1>A free, profitable extra for your venue.</h1>
+        <p class="lede">We power co-branded stores and physio that pay out a monthly yield, giving your audience safety and access, and your facility a free and profitable enhancement.</p>
         <div class="ctas">
           <a class="btn btn-primary" href="#share">Make your own QR</a>
           <a class="btn btn-ghost" href="#kit">For a venue</a>
@@ -215,7 +221,7 @@
           <li class="slide"><figure><img src="/media/partners/scenes/hockey-rink-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for hockey rinks" loading="eager" decoding="async"><figcaption><span class="pl">Banner on the boards</span><b>Hockey rinks</b><span>Players, parents and beer-league regulars see it from the bench and the stands, every week of the season.</span></figcaption></figure></li>
           <li class="slide"><figure><img src="/media/partners/scenes/tennis-courts-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for tennis and pickleball courts" loading="eager" decoding="async"><figcaption><span class="pl">Banner on the court fence</span><b>Tennis and pickleball courts</b><span>Sore elbows, shoulders and knees, right where people play. Works at clubs and public courts.</span></figcaption></figure></li>
           <li class="slide"><figure><img src="/media/partners/scenes/private-club-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for private golf and country clubs" loading="lazy" decoding="async"><figcaption><span class="pl">Poster in the members’ locker room</span><b>Private golf and country clubs</b><span>Members walk past it every visit, and backs and shoulders are the talk after the round.</span></figcaption></figure></li>
-          <li class="slide"><figure><img src="/media/partners/scenes/gym-change-room-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for gym change rooms" loading="lazy" decoding="async"><figcaption><span class="pl">Poster in the change room</span><b>Gym change rooms</b><span>A quiet, private spot to scan after a workout that left something tweaked.</span></figcaption></figure></li>
+          <li class="slide"><figure><img src="/media/partners/scenes/gym-change-room-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for gym change rooms" loading="lazy" decoding="async"><figcaption><span class="pl">Poster in the change room</span><b>Gym change rooms</b><span>A quiet, private spot to scan after a workout.</span></figcaption></figure></li>
           <li class="slide"><figure><img src="/media/partners/scenes/sports-store-photo.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for sporting goods stores" loading="lazy" decoding="async"><figcaption><span class="pl">Table tent at checkout</span><b>Sporting goods stores</b><span>People buying braces, tape and new gear are already thinking about a sore spot.</span></figcaption></figure></li>
           <li class="slide"><figure><img src="/media/partners/scenes/race-day-photo-v2.webp" width="1920" height="1080" alt="Example: a co-branded Calm Joints QR sign for races and tournaments" loading="lazy" decoding="async"><figcaption><span class="pl">Banner at bib pickup or the finish</span><b>Races and tournaments</b><span>Thousands of sore legs in one place, on one weekend.</span></figcaption></figure></li>
         </ol>
@@ -235,6 +241,16 @@
     </div>
   </section>
 
+
+  <section class="bstrip" aria-labelledby="bs-h">
+    <div class="wrap">
+      <h2 id="bs-h">Brands we work with</h2>
+      <ul>
+        <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="90" height="30"></li><li>Garmin</li><li>Therabody</li><li>RENPHO</li><li>Genuine Health</li><li>AIRWAAV</li><li>Manduka</li><li>BedJet</li>
+      </ul>
+      <p>Partners get insider product rates and monthly royalties on sales through their Scale store.</p>
+    </div>
+  </section>
 
   <section id="share">
     <div class="wrap">
