@@ -93,6 +93,9 @@
   .tk-av { display: inline-flex; margin-right: .15rem; } .tk-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); background: #DCFCE7; margin-left: -.55rem; } .tk-av img:first-child { margin-left: -.35rem; }
   .btn-primary .tk-av img { border-color: #fff; }
   .hero .ctas .btn { min-width: 15.5rem; padding: .95rem 1.5rem; font-size: 1.02rem; }
+  .hero-price { margin: .55rem auto 0; max-width: 40rem; font-size: .78rem; line-height: 1.4; color: var(--mute); }
+  .hero-price s { text-decoration: line-through; text-decoration-thickness: 1px; margin-right: .28em; opacity: .8; }
+  .hero-price strong { font-weight: 700; color: var(--ink); }
   .hero-trust { display: flex; align-items: center; justify-content: center; gap: .35rem; margin: .45rem auto 0; max-width: 40rem; font-size: .84rem; font-weight: 600; line-height: 1.3; color: var(--ink); }
   .hero-trust svg { width: 15px; height: 15px; flex: 0 0 auto; color: var(--green); }
   .hero-disc { margin: .15rem auto 0; max-width: 36rem; font-size: .78rem; line-height: 1.35; color: var(--mute); }
@@ -408,6 +411,7 @@
         <a class="btn btn-primary" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen now</a>
         <a class="btn btn-ghost" id="hero-book" href="#" data-book data-book-direct>Book a visit</a>
       </div>
+      <p class="hero-price">Video physio visits: initial assessment <s><span class="sr">was </span>$169</s> <strong><span class="sr">now </span>$139</strong> (60 min), follow-ups $99 (30 min). Many extended-health plans cover physio, and you get a receipt for your claim.</p>
       <p class="hero-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.8 7.4-7 9-4.2-1.6-7-4.8-7-9V6l7-3z"/><path d="M8.5 12.2l2.2 2.2 4.8-5"/></svg>Trained on recovery patterns and red-flag screening.</p>
       <p class="hero-disc">Virtual guide, not a clinician · msg rates may apply.</p>
       <p class="hero-glen">Call or text Glen: <a href="tel:+16476926575">(647) 692-6575</a> <a class="tg-sms" href="sms:+16476926575">Text</a></p>
