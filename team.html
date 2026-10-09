@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The physio team | Calm Joints</title>
+<meta name="description" content="Meet the Calm Joints physiotherapists. Registered in Canada. See them by video, at home or in person.">
+<meta name="theme-color" content="#15803D">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://calmjoints.org/team">
+<meta property="og:site_name" content="Calm Joints">
+<meta property="og:title" content="The physio team | Calm Joints">
+<meta property="og:description" content="Meet the Calm Joints physiotherapists. Registered in Canada. See them by video, at home or in person.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calmjoints.org/team">
+<meta property="og:image" content="https://calmjoints.org/media/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="icon" href="/media/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/calm-extras.css?v=4">
+<style>
+  :root {
+    --green: #15803D; --ink: #0B1D16; --mute: #4B5E54; --line: #E6ECE8;
+    --soft: #F5F8F6; --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --pad: clamp(1.1rem, 4vw, 2rem); --max: 1120px;
+    --inset: 16px; --gap: 16px; --peek: 64px;
+  }
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; max-width: 100%; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 17px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: .6rem; min-height: 68px; height: auto; padding: .4rem 0; }
+  .nav-links { display: flex; gap: 1.1rem; align-items: center; font-size: .95rem; }
+  .nav-links a:not(.btn) { text-decoration: none; color: var(--mute); display: inline-flex; align-items: center; min-height: 44px; }
+  .nav-links a:not(.btn):hover { color: var(--ink); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: .7rem 1.15rem; border-radius: 999px; font: 600 .98rem var(--sans); text-decoration: none; background: var(--green); color: #fff; border: 1px solid transparent; }
+  .btn:hover { background: #116A32; }
+  .btn-ghost { background: #fff; color: var(--ink); border-color: #CFD9D3; }
+  .btn-ghost:hover { background: #fff; border-color: var(--ink); }
+  @media (max-width: 760px) {
+    .nav-links a:not(.btn) { display: none; }
+    .nav-links .btn { padding: .55rem .95rem; font-size: .92rem; }
+  }
+  .intro { padding: clamp(1.5rem, 4vw, 2.6rem) 0 .2rem; }
+  .kicker { margin: 0 0 .55rem; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--green); }
+  h1 { margin: 0; font-size: clamp(2rem, 7vw, 3.15rem); letter-spacing: -.03em; line-height: 1.05; max-width: 14ch; }
+  .lede { margin: .75rem 0 0; color: var(--mute); font-size: 1.05rem; line-height: 1.5; max-width: 36rem; }
+  .carousel { width: 100%; max-width: 100%; container-type: inline-size; margin-top: 1.1rem; }
+  .rail {
+    position: relative;
+    display: flex; align-items: stretch; gap: var(--gap);
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: var(--inset);
+    padding: .35rem calc(var(--gap) + var(--peek)) 1.15rem var(--inset);
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail:focus-visible { outline: 3px solid var(--green); outline-offset: -3px; }
+  .card {
+    flex: 0 0 calc(100cqw - var(--inset) - var(--gap) - var(--peek));
+    scroll-snap-align: start;
+    min-width: 0;
+    display: flex; flex-direction: column;
+    background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
+    box-shadow: 0 16px 34px -28px rgba(11,29,22,.7);
+  }
+  .card img {
+    width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 18%;
+    background: var(--soft);
+  }
+  .body { padding: 1rem 1.05rem 1.2rem; min-width: 0; }
+  .body h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.02em; line-height: 1.15; }
+  .role { margin: .3rem 0 0; color: var(--green); font-weight: 600; font-size: .98rem; line-height: 1.35; }
+  .bio { margin: .65rem 0 0; color: var(--mute); font-size: 1rem; line-height: 1.55; overflow-wrap: anywhere; }
+  .controls { display: flex; align-items: center; justify-content: center; gap: .15rem; padding: 0 var(--pad) .2rem; }
+  .arrow, .dots button {
+    width: 48px; height: 48px; min-width: 48px; min-height: 48px;
+    border: 0; background: transparent; color: var(--ink); cursor: pointer;
+    display: grid; place-items: center; border-radius: 50%; padding: 0;
+  }
+  .arrow { border: 1px solid #CFD9D3; background: #fff; }
+  .arrow:hover { border-color: var(--ink); }
+  .arrow:disabled { opacity: .35; cursor: default; }
+  .arrow:focus-visible, .dots button:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+  .dots { display: flex; align-items: center; }
+  .dots button::before {
+    content: ""; width: 8px; height: 8px; border-radius: 99px; background: #CFD9D3;
+    transition: width .2s, background .2s;
+  }
+  .dots button[aria-current="true"]::before { width: 22px; background: var(--green); }
+  .actions { display: flex; flex-wrap: wrap; gap: .7rem; padding: 1.35rem 0 2.6rem; }
+  footer { border-top: 1px solid var(--line); padding: 1.6rem 0 2.2rem; color: var(--mute); font-size: .9rem; }
+  footer a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+  footer a:hover { color: var(--ink); }
+  @media (min-width: 960px) {
+    .carousel { max-width: var(--max); margin: 1.4rem auto 0; padding: 0 var(--pad); }
+    .rail {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.15rem; overflow: visible; padding: .2rem 0 0; scroll-snap-type: none;
+    }
+    .card { flex: initial; width: auto; }
+    .controls { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rail { scroll-behavior: auto; }
+    .dots button::before { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="blog-brand" href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/partners">Partnerships</a>
+      <a href="/blog">Blog</a>
+      <a href="/careers">Careers</a>
+      <a class="btn" href="/#book" data-book>Book a visit</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="wrap intro">
+    <p class="kicker">The clinic</p>
+    <h1>Meet the physios</h1>
+    <p class="lede">Registered physiotherapists you can see by video, at home or in person.</p>
+  </div>
+  <section class="carousel" aria-roledescription="carousel" aria-label="Calm Joints physiotherapists">
+    <div class="controls">
+      <button class="arrow" type="button" id="prev" aria-label="Previous physiotherapist">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M14.5 6.5 9 12l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dots" id="dots" role="group" aria-label="Choose a physiotherapist"></div>
+      <button class="arrow" type="button" id="next" aria-label="Next physiotherapist">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="rail" id="rail" role="list" tabindex="0" aria-label="Physiotherapist profiles. Swipe sideways."></div>
+  </section>
+  <div class="wrap actions">
+    <a class="btn" href="/#book" data-book>Book a visit</a>
+    <a class="btn btn-ghost" href="/careers">Physios, join us</a>
+  </div>
+</main>
+<footer>
+  <div class="wrap">Care is provided by registered physiotherapists. · <a href="/team">Team</a> · <a href="/partners">Partnerships</a> · <a href="/blog">Blog</a> · <a href="mailto:info@calmjoints.org">info@calmjoints.org</a> · <a href="/privacy">Privacy</a> · <a href="/report">Report a poster</a> · <a href="#cookies" data-cookie-settings>Cookie settings</a> · © 2026 Calm Joints Inc.</div>
+</footer>
+<script src="/config.js"></script>
+<script src="/js/book.js?v=7"></script>
+<script src="/js/consent.js"></script>
+<script src="/js/team-data.js"></script>
+<script>
+(function () {
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  var rail = document.getElementById('rail');
+  var dots = document.getElementById('dots');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var desktop = window.matchMedia('(min-width: 960px)');
+  (window.CJ_TEAM || []).forEach(function (p, i) {
+    var name = (p.first || '') + (p.last ? ' ' + p.last.charAt(0) + '.' : '');
+    var el = document.createElement('article');
+    el.className = 'card';
+    el.setAttribute('role', 'listitem');
+    el.id = 'physio-' + i;
+    el.innerHTML = '<img src="' + esc(p.photo) + '" alt="' + esc(name) + '" width="640" height="640" decoding="async"><div class="body"><h2>' + esc(name) + '</h2><p class="role">' + esc(p.role) + (p.region ? ' · ' + esc(p.region) : '') + '</p><p class="bio">' + esc(p.bio) + '</p></div>';
+    rail.appendChild(el);
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', name);
+    b.addEventListener('click', function () { go(i); });
+    dots.appendChild(b);
+  });
+  var cards = [].slice.call(rail.children);
+  function inset() {
+    return parseFloat(getComputedStyle(rail).scrollPaddingLeft) || 0;
+  }
+  function index() {
+    var left = rail.scrollLeft + inset();
+    var best = 0, bestD = Infinity;
+    cards.forEach(function (c, i) {
+      var d = Math.abs(c.offsetLeft - left);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    return best;
+  }
+  function go(i) {
+    if (!cards.length || desktop.matches) return;
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    rail.scrollTo({ left: cards[i].offsetLeft - inset(), behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function sync() {
+    var i = desktop.matches ? 0 : index();
+    [].forEach.call(dots.children, function (d, n) {
+      if (n === i) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
+    prev.disabled = i <= 0;
+    next.disabled = i >= cards.length - 1;
+    rail.tabIndex = desktop.matches ? -1 : 0;
+  }
+  prev.addEventListener('click', function () { go(index() - 1); });
+  next.addEventListener('click', function () { go(index() + 1); });
+  rail.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(index() + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(index() - 1); }
+  });
+  var raf = 0;
+  rail.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; sync(); });
+  }, { passive: true });
+  desktop.addEventListener('change', sync);
+  sync();
+})();
+</script>
+</body>
+</html>

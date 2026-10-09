@@ -168,6 +168,8 @@
   .soft { background: var(--soft); }
   .head { max-width: 40rem; margin-bottom: 2rem; }
   .head p { margin: .7rem 0 0; color: var(--mute); }
+  .head a { color: var(--green); font-weight: 700; text-decoration: none; }
+  .head a:hover { text-decoration: underline; }
   .steps { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); counter-reset: s; }
   .steps div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.2rem 1.3rem; }
   .steps div::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #DCFCE7; color: var(--green); font-weight: 700; font-size: .85rem; margin-bottom: .7rem; }
@@ -499,7 +501,7 @@
 
   <section class="block soft" id="join">
     <div class="wrap">
-      <div class="head"><p class="kicker">We’re hiring</p><h2>Physios, join us</h2><p>Registered anywhere in Canada? See patients by video with a small, friendly team.</p></div>
+      <div class="head"><p class="kicker">We’re hiring</p><h2>Physios, join us</h2><p>Registered anywhere in Canada? See patients by video with a small, friendly team. <a href="/team">Meet the physios</a>.</p></div>
       <div class="team">
         <figure class="person"><img src="/media/team/mark.webp" width="480" height="480" alt="Mark Rukavina" loading="lazy" decoding="async"><figcaption><strong>Mark Rukavina</strong><span>Registered Physiotherapist</span></figcaption></figure>
         <figure class="person"><img src="/media/team/chris.webp" width="480" height="480" alt="Chris Percy" loading="lazy" decoding="async"><figcaption><strong>Chris Percy</strong><span>Clinic growth</span></figcaption></figure>
@@ -613,6 +615,7 @@
   <div class="wrap foot">
     <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="110" height="30">
     <nav aria-label="Footer">
+      <a href="/team">Team</a>
       <a href="/partners">Partnerships</a>
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
