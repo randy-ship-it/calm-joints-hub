@@ -1,6 +1,7 @@
 /* Calm Joints team. To add a therapist: drop a headshot in /media/team/
    and add one entry below. Names show on the site as "First L." automatically.
-   The page crops every photo to the same square. */
+   The page crops every photo to the same square.
+   Optional focus: ["Orthopaedics", "Running"] shows as chips in the profile. */
 window.CJ_TEAM = [
   {
     first: "Gabriela", last: "Rozanski", goesBy: "Gabby",

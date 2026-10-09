@@ -50,7 +50,7 @@
   }
   .intro { padding: clamp(1.5rem, 4vw, 2.6rem) 0 .2rem; }
   .kicker { margin: 0 0 .55rem; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--green); }
-  h1 { margin: 0; font-size: clamp(2rem, 7vw, 3.15rem); letter-spacing: -.03em; line-height: 1.05; max-width: 14ch; }
+  h1 { margin: 0; font-size: clamp(1.85rem, 6vw, 2.75rem); letter-spacing: -.03em; line-height: 1.08; max-width: 11em; text-wrap: balance; }
   .lede { margin: .75rem 0 0; color: var(--mute); font-size: 1.05rem; line-height: 1.5; max-width: 36rem; }
   .carousel { width: 100%; max-width: 100%; container-type: inline-size; margin-top: 1.1rem; }
   .rail {
@@ -66,21 +66,39 @@
   .rail::-webkit-scrollbar { display: none; }
   .rail:focus-visible { outline: 3px solid var(--green); outline-offset: -3px; }
   .card {
+    position: relative;
     flex: 0 0 calc(100cqw - var(--inset) - var(--gap) - var(--peek));
     scroll-snap-align: start;
     min-width: 0;
     display: flex; flex-direction: column;
-    background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
-    box-shadow: 0 16px 34px -28px rgba(11,29,22,.7);
+    background: #fff;
+    border: 1px solid #E7EEEA;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(11, 29, 22, .04), 0 14px 34px -26px rgba(11, 29, 22, .45);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  @media (hover: hover) {
+    .card:hover { border-color: #D3DED7; box-shadow: 0 1px 2px rgba(11, 29, 22, .05), 0 18px 40px -24px rgba(11, 29, 22, .38); }
   }
   .card img {
     width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 18%;
-    background: var(--soft);
+    background: #F3F6F4;
   }
-  .body { padding: 1rem 1.05rem 1.2rem; min-width: 0; }
-  .body h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.02em; line-height: 1.15; }
-  .role { margin: .3rem 0 0; color: var(--green); font-weight: 600; font-size: .98rem; line-height: 1.35; }
-  .bio { margin: .65rem 0 0; color: var(--mute); font-size: 1rem; line-height: 1.55; overflow-wrap: anywhere; }
+  .body { padding: 1rem 1.05rem 1.15rem; min-width: 0; }
+  .body h2 { margin: 0; font-size: 1.28rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
+  .role { margin: .28rem 0 0; color: var(--green); font-weight: 600; font-size: .95rem; line-height: 1.35; }
+  .card .bio {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+    overflow: hidden; margin: .55rem 0 0; color: var(--mute); font-size: 1rem; line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .view { margin: .75rem 0 0; color: var(--green); font-size: .92rem; font-weight: 600; letter-spacing: .01em; }
+  .card-open {
+    position: absolute; inset: 0; z-index: 1; margin: 0; padding: 0; border: 0; border-radius: inherit;
+    background: transparent; color: transparent; cursor: pointer;
+  }
+  .card-open:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
   .controls { display: flex; align-items: center; justify-content: center; gap: .15rem; padding: 0 var(--pad) .2rem; }
   .arrow, .dots button {
     width: 48px; height: 48px; min-width: 48px; min-height: 48px;
@@ -97,7 +115,73 @@
     transition: width .2s, background .2s;
   }
   .dots button[aria-current="true"]::before { width: 22px; background: var(--green); }
-  .actions { display: flex; flex-wrap: wrap; gap: .7rem; padding: 1.35rem 0 2.6rem; }
+  .onboard, .book-note {
+    display: block;
+    max-width: 36rem;
+    margin: .35rem auto 0;
+    padding: 0 var(--pad);
+    color: var(--mute);
+    font-size: 1rem;
+    line-height: 1.45;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .book-note { margin-top: .55rem; font-size: .98rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .7rem; padding: .9rem 0 2.4rem; }
+  #team-dialog {
+    border: 0; padding: 0; margin: 0; color: var(--ink); background: #fff;
+    width: 100%; max-width: 100%; max-height: min(92dvh, 920px);
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -16px 50px -28px rgba(11, 29, 22, .4);
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+    display: flex; flex-direction: column; overflow: hidden;
+    transform: translateY(0);
+  }
+  #team-dialog:not([open]) { display: none; }
+  #team-dialog[open] {
+    display: flex;
+    transition: transform .34s cubic-bezier(.2, .8, .2, 1), overlay .34s allow-discrete, display .34s allow-discrete;
+  }
+  @starting-style {
+    #team-dialog[open] { transform: translateY(100%); }
+  }
+  #team-dialog::backdrop {
+    background: rgba(11, 29, 22, .46);
+    transition: background .34s ease, overlay .34s allow-discrete, display .34s allow-discrete;
+  }
+  @starting-style {
+    #team-dialog[open]::backdrop { background: rgba(11, 29, 22, 0); }
+  }
+  .sheet-top { position: relative; flex: 0 0 auto; background: #fff; touch-action: none; }
+  .grab { display: flex; align-items: center; justify-content: center; height: 28px; }
+  .grab i { width: 36px; height: 4px; border-radius: 99px; background: #D5DED8; }
+  .sheet-x {
+    position: absolute; top: 8px; right: 10px; z-index: 2;
+    width: 44px; height: 44px; border: 0; border-radius: 50%; padding: 0;
+    display: grid; place-items: center; cursor: pointer; color: var(--ink);
+    background: #fff; box-shadow: 0 0 0 1px rgba(11, 29, 22, .08), 0 6px 16px -10px rgba(11, 29, 22, .4);
+  }
+  .sheet-x:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+  .sheet-main { overflow: auto; min-height: 0; flex: 1 1 auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  #team-dialog-photo {
+    width: 100%; height: auto; aspect-ratio: 1 / 1; max-height: 46dvh; object-fit: cover; object-position: center 18%;
+    background: #F3F6F4;
+  }
+  .sheet-copy { padding: 1.05rem 1.15rem .4rem; }
+  .sheet-copy h2 { margin: 0; font-size: clamp(1.55rem, 4vw, 2rem); letter-spacing: -.03em; line-height: 1.1; }
+  .sheet-copy .role { margin: .35rem 0 0; font-size: 1rem; }
+  .sheet-copy .bio { margin: .85rem 0 0; color: var(--ink); font-size: 1.02rem; line-height: 1.55; overflow-wrap: anywhere; }
+  .focus { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; list-style: none; }
+  .focus[hidden] { display: none; }
+  .focus span { font-size: .82rem; font-weight: 600; color: var(--ink); background: var(--soft); border-radius: 999px; padding: .32rem .7rem; }
+  .sheet-cta {
+    flex: 0 0 auto; background: #fff;
+    padding: .75rem 1.15rem calc(.9rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -1px 0 var(--line);
+  }
+  .sheet-book { width: 100%; }
+  .sheet-book:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+  html.team-lock, html.team-lock body { overflow: hidden; }
   footer { border-top: 1px solid var(--line); padding: 1.6rem 0 2.2rem; color: var(--mute); font-size: .9rem; }
   footer a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
   footer a:hover { color: var(--ink); }
@@ -109,10 +193,46 @@
     }
     .card { flex: initial; width: auto; }
     .controls { display: none; }
+    #team-dialog {
+      top: 50%; right: auto; bottom: auto; left: 50%;
+      width: min(880px, calc(100vw - 3rem));
+      min-height: min(640px, 82vh);
+      max-height: min(86vh, 760px);
+      border-radius: 20px;
+      box-shadow: 0 24px 70px -36px rgba(11, 29, 22, .45);
+      transform: translate(-50%, -50%);
+    }
+    @starting-style {
+      #team-dialog[open] { transform: translate(-50%, calc(-50% + 10px)); opacity: 0; }
+    }
+    #team-dialog[open] { opacity: 1; transition: opacity .22s ease, transform .22s ease, overlay .22s allow-discrete, display .22s allow-discrete; }
+    .sheet-top { position: absolute; inset: 0 0 auto auto; width: auto; height: auto; background: transparent; }
+    .grab { display: none; }
+    .sheet-x { top: 14px; right: 14px; }
+    .sheet-main { display: contents; }
+    #team-dialog-photo { height: 100%; max-height: none; min-height: 100%; aspect-ratio: auto; grid-row: 1 / span 2; grid-column: 1; }
+    .sheet-copy { grid-row: 1; grid-column: 2; overflow: auto; min-height: 0; padding: 2.1rem 2rem 1.2rem; }
+    .sheet-cta { grid-row: 2; grid-column: 2; box-shadow: none; padding: 0 2rem 1.4rem; background: #fff; }
+    .sheet-book { width: auto; }
+    #team-dialog { display: none; }
+    #team-dialog[open] { display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  }
+  @media (max-width: 959px) {
+    .carousel { margin-top: .7rem; }
+    .rail { padding-bottom: .35rem; }
+    .card .bio { -webkit-line-clamp: 2; line-clamp: 2; }
+    .view { margin-top: .45rem; }
+    .onboard { margin-top: .15rem; }
+  }
+  @media (max-width: 759px) {
+    .intro { padding-top: .65rem; }
+    h1 { font-size: 1.65rem; }
+    .lede { margin-top: .3rem; font-size: 1rem; }
+    .carousel { margin-top: .4rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .rail { scroll-behavior: auto; }
-    .dots button::before { transition: none; }
+    .dots button::before, .card, #team-dialog, #team-dialog::backdrop { transition: none; }
   }
 </style>
 </head>
@@ -131,7 +251,7 @@
 <main>
   <div class="wrap intro">
     <p class="kicker">The clinic</p>
-    <h1>Meet the physios</h1>
+    <h1>Meet some of our physiotherapists</h1>
     <p class="lede">Registered physiotherapists you can see by video, at home or in person.</p>
   </div>
   <section class="carousel" aria-roledescription="carousel" aria-label="Calm Joints physiotherapists">
@@ -146,6 +266,8 @@
     </div>
     <div class="rail" id="rail" role="list" tabindex="0" aria-label="Physiotherapist profiles. Swipe sideways."></div>
   </section>
+  <p class="onboard">We're onboarding dozens of therapists right now. Stay tuned for more profiles.</p>
+  <p class="book-note">When you book, you may see one of the physios here or another member of our growing team who isn't on the site yet.</p>
   <div class="wrap actions">
     <a class="btn" href="/#book" data-book>Book a visit</a>
     <a class="btn btn-ghost" href="/careers">Physios, join us</a>
@@ -154,6 +276,26 @@
 <footer>
   <div class="wrap">Care is provided by registered physiotherapists. · <a href="/team">Team</a> · <a href="/partners">Partnerships</a> · <a href="/blog">Blog</a> · <a href="mailto:info@calmjoints.org">info@calmjoints.org</a> · <a href="/privacy">Privacy</a> · <a href="/report">Report a poster</a> · <a href="#cookies" data-cookie-settings>Cookie settings</a> · © 2026 Calm Joints Inc.</div>
 </footer>
+<dialog id="team-dialog" aria-modal="true" aria-labelledby="team-dialog-name">
+  <div class="sheet-top" id="team-grab">
+    <div class="grab" aria-hidden="true"><i></i></div>
+    <button type="button" class="sheet-x" id="team-close" aria-label="Close profile">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="sheet-main" id="team-scroll">
+    <img id="team-dialog-photo" alt="" width="800" height="800">
+    <div class="sheet-copy">
+      <h2 id="team-dialog-name"></h2>
+      <p class="role" id="team-dialog-role"></p>
+      <div class="focus" id="team-dialog-focus" hidden></div>
+      <p class="bio" id="team-dialog-bio"></p>
+    </div>
+  </div>
+  <div class="sheet-cta">
+    <a class="btn sheet-book" id="team-dialog-book" href="/#book" data-book>Book a visit</a>
+  </div>
+</dialog>
 <script src="/config.js"></script>
 <script src="/js/book.js?v=7"></script>
 <script src="/js/consent.js"></script>
@@ -170,14 +312,26 @@
   var prev = document.getElementById('prev');
   var next = document.getElementById('next');
   var desktop = window.matchMedia('(min-width: 960px)');
+  var scrollAt = 0;
+  var dialog = document.getElementById('team-dialog');
+  var scrollEl = document.getElementById('team-scroll');
+  var closeBtn = document.getElementById('team-close');
+  var grab = document.getElementById('team-grab');
+  var activeOpener = null;
+  var people = window.CJ_TEAM || [];
   (window.CJ_TEAM || []).forEach(function (p, i) {
     var name = (p.first || '') + (p.last ? ' ' + p.last.charAt(0) + '.' : '');
     var el = document.createElement('article');
     el.className = 'card';
     el.setAttribute('role', 'listitem');
     el.id = 'physio-' + i;
-    el.innerHTML = '<img src="' + esc(p.photo) + '" alt="' + esc(name) + '" width="640" height="640" decoding="async"><div class="body"><h2>' + esc(name) + '</h2><p class="role">' + esc(p.role) + (p.region ? ' · ' + esc(p.region) : '') + '</p><p class="bio">' + esc(p.bio) + '</p></div>';
+    var roleLine = esc(p.role) + (p.region ? ' · ' + esc(p.region) : '');
+    el.innerHTML = '<img src="' + esc(p.photo) + '" alt="" width="640" height="640" decoding="async"><div class="body"><h2 id="physio-name-' + i + '">' + esc(name) + '</h2><p class="role" id="physio-role-' + i + '">' + roleLine + '</p><p class="bio">' + esc(p.bio) + '</p><p class="view">View profile</p></div><button type="button" class="card-open" aria-haspopup="dialog" aria-controls="team-dialog" aria-expanded="false" aria-label="Open profile for ' + esc(name) + '"></button>';
     rail.appendChild(el);
+    el.querySelector('.card-open').addEventListener('click', function () {
+      if (Math.abs(rail.scrollLeft - scrollAt) > 8) return;
+      openProfile(i, this);
+    });
     var b = document.createElement('button');
     b.type = 'button';
     b.setAttribute('aria-label', name);
@@ -225,7 +379,145 @@
     raf = requestAnimationFrame(function () { raf = 0; sync(); });
   }, { passive: true });
   desktop.addEventListener('change', sync);
+  rail.addEventListener('pointerdown', function () { scrollAt = rail.scrollLeft; });
   sync();
+
+  function roleLine(p) {
+    return (p.role || '') + (p.region ? ' · ' + p.region : '');
+  }
+  function fillProfile(i) {
+    var p = people[i] || {};
+    var name = (p.first || '') + (p.last ? ' ' + p.last.charAt(0) + '.' : '');
+    document.getElementById('team-dialog-name').textContent = name;
+    document.getElementById('team-dialog-role').textContent = roleLine(p);
+    document.getElementById('team-dialog-bio').textContent = p.bio || '';
+    var photo = document.getElementById('team-dialog-photo');
+    photo.src = p.photo || '';
+    photo.alt = '';
+    var focus = document.getElementById('team-dialog-focus');
+    focus.replaceChildren();
+    var areas = Array.isArray(p.focus) ? p.focus.filter(Boolean) : [];
+    focus.hidden = !areas.length;
+    areas.forEach(function (area) {
+      var chip = document.createElement('span');
+      chip.textContent = area;
+      focus.appendChild(chip);
+    });
+    if (scrollEl) scrollEl.scrollTop = 0;
+  }
+  function openProfile(i, opener) {
+    fillProfile(i);
+    if (activeOpener) activeOpener.setAttribute('aria-expanded', 'false');
+    activeOpener = opener;
+    opener.setAttribute('aria-expanded', 'true');
+    dialog.style.transform = '';
+    dialog.style.transition = '';
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else dialog.setAttribute('open', '');
+    document.documentElement.classList.add('team-lock');
+    closeBtn.focus();
+  }
+  function closeDialog(animate) {
+    if (!dialog.open && !dialog.hasAttribute('open')) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!animate || reduce || desktop.matches) {
+      if (dialog.open) dialog.close();
+      else dialog.removeAttribute('open');
+      return;
+    }
+    dialog.style.transition = 'transform .3s cubic-bezier(.4, 0, 1, 1)';
+    dialog.style.transform = 'translateY(100%)';
+    var done = false;
+    function finish() {
+      if (done) return;
+      done = true;
+      dialog.removeEventListener('transitionend', finish);
+      if (dialog.open) dialog.close();
+    }
+    dialog.addEventListener('transitionend', finish);
+    setTimeout(finish, 420);
+  }
+  dialog.addEventListener('close', function () {
+    dialog.style.transition = '';
+    dialog.style.transform = '';
+    document.documentElement.classList.remove('team-lock');
+    if (activeOpener) {
+      activeOpener.setAttribute('aria-expanded', 'false');
+      activeOpener = null;
+    }
+  });
+  dialog.addEventListener('cancel', function (e) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || desktop.matches) return;
+    e.preventDefault();
+    closeDialog(true);
+  });
+  closeBtn.addEventListener('click', function () { closeDialog(true); });
+  dialog.addEventListener('click', function (e) {
+    var rect = dialog.getBoundingClientRect();
+    var inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+    if (!inside) closeDialog(true);
+  });
+  document.getElementById('team-dialog-book').addEventListener('click', function () {
+    closeDialog(false);
+  }, true);
+  dialog.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !dialog.open) return;
+    var items = dialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    var list = [].filter.call(items, function (el) { return !el.disabled && el.offsetParent !== null; });
+    if (!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  var pull = null;
+  function sheetMode() { return !desktop.matches; }
+  function pullStart(e) {
+    if (!sheetMode() || !e.touches || e.touches.length !== 1) return;
+    if (e.target.closest && e.target.closest('#team-close')) return;
+    pull = {
+      y: e.touches[0].clientY,
+      t: performance.now(),
+      fromGrab: e.currentTarget === grab,
+      top: scrollEl.scrollTop <= 0,
+      on: false,
+      dy: 0
+    };
+  }
+  function pullMove(e) {
+    if (!pull || !e.touches) return;
+    var dy = e.touches[0].clientY - pull.y;
+    if (!pull.on) {
+      if (dy < 8) return;
+      if (!pull.fromGrab && !(pull.top && scrollEl.scrollTop <= 0)) return;
+      pull.on = true;
+      dialog.style.transition = 'none';
+    }
+    if (dy < 0) dy = 0;
+    pull.dy = dy;
+    dialog.style.transform = 'translateY(' + dy + 'px)';
+    if (e.cancelable) e.preventDefault();
+  }
+  function pullEnd() {
+    if (!pull) return;
+    var dy = pull.dy;
+    var dt = Math.max(performance.now() - pull.t, 1);
+    var should = pull.on && (dy > 110 || (dy > 48 && dy / dt > 0.55));
+    pull = null;
+    if (should) closeDialog(true);
+    else {
+      dialog.style.transition = 'transform .28s cubic-bezier(.2, .8, .2, 1)';
+      dialog.style.transform = 'translateY(0)';
+    }
+  }
+  grab.addEventListener('touchstart', pullStart, { passive: true });
+  grab.addEventListener('touchmove', pullMove, { passive: false });
+  grab.addEventListener('touchend', pullEnd);
+  grab.addEventListener('touchcancel', pullEnd);
+  scrollEl.addEventListener('touchstart', pullStart, { passive: true });
+  scrollEl.addEventListener('touchmove', pullMove, { passive: false });
+  scrollEl.addEventListener('touchend', pullEnd);
+  scrollEl.addEventListener('touchcancel', pullEnd);
 })();
 </script>
 </body>
