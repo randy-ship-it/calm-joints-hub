@@ -111,7 +111,7 @@
   .bgrid small { display:block; margin-top:.2rem; font-weight:400; font-size:.85rem; color:var(--mute); }
   .bgrid.perks li { background:var(--mint); border-color:transparent; min-height:4.6rem; }
   .bnote { margin:-.8rem 0 0; font-size:.85rem; color:var(--mute); }
-  .flex { margin:clamp(3rem,8vw,5rem) auto 0; display:grid; gap:clamp(1.6rem,4vw,3rem); grid-template-columns:1fr 1.1fr; align-items:start; }
+  .flex { margin:clamp(2.2rem,5vw,3.2rem) auto 0; display:grid; gap:clamp(1.6rem,4vw,3rem); grid-template-columns:1fr 1.1fr; align-items:start; }
   @media (max-width:860px) { .flex { grid-template-columns:1fr; } }
   .flex h2 { margin:0 0 .8rem; font-size:clamp(1.8rem,4.2vw,2.7rem); line-height:1.02; letter-spacing:-.035em; }
   .flex .lead { margin:0; color:var(--mute); font-size:1.05rem; max-width:30rem; }
@@ -183,6 +183,15 @@
   .pills-note { flex-basis:100%; margin:.3rem 0 0; font-size:.88rem; color:#5b6b61; }
   .two { display:grid; gap:0 1rem; grid-template-columns:1fr 1fr; } @media (max-width:520px) { .two { grid-template-columns:1fr; } }
   .opt { font-weight:400; color:var(--mute); }
+  .team-deals { background:#fff; border-bottom:1px solid var(--line); }
+  .team-deals .wrap { padding-top:clamp(1.25rem,2.8vw,1.75rem); padding-bottom:clamp(1.1rem,2.2vw,1.45rem); }
+  .team-deals-badge { display:inline-flex; align-items:center; margin:0 0 .65rem; padding:.2rem .62rem; border:1px solid var(--line); border-radius:999px; background:var(--soft); color:var(--mute); font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; line-height:1.2; }
+  .team-deals h2 { margin:0; font-size:clamp(1.25rem,2.4vw,1.6rem); line-height:1.15; letter-spacing:-.03em; }
+  .team-deals .lede { margin:.4rem 0 0; max-width:36rem; color:var(--mute); font-size:clamp(.94rem,1.5vw,1.02rem); }
+  .team-deals ul { list-style:none; margin:.95rem 0 0; padding:0; display:flex; flex-wrap:wrap; align-items:center; gap:.55rem 1.4rem; }
+  .team-deals li { font-weight:700; font-size:.98rem; letter-spacing:.02em; color:#3B4A42; opacity:.85; }
+  .team-deals li img { height:26px; width:auto; display:block; }
+  @media (max-width:640px) { .team-deals ul { gap:.5rem 1rem; } .team-deals li { font-size:.86rem; } .team-deals li img { height:22px; } }
 </style>
 <link rel="stylesheet" href="/css/calm-extras.css">
 </head>
@@ -210,6 +219,16 @@
   </div>
 </section>
 <main>
+  <section class="team-deals" aria-labelledby="team-deals-h">
+    <div class="wrap">
+      <p class="team-deals-badge">Coming soon</p>
+      <h2 id="team-deals-h">Industry insider deals, coming soon</h2>
+      <p class="lede">Our team gets insider access to deals from brands we work with.</p>
+      <ul aria-label="Brands we work with">
+        <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="90" height="30"></li><li>Garmin</li><li>Therabody</li><li>RENPHO</li><li>Genuine Health</li><li>AIRWAAV</li><li>Manduka</li><li>BedJet</li>
+      </ul>
+    </div>
+  </section>
   <section class="wrap flex" aria-labelledby="flex-h">
     <div>
       <p class="k2">Flexible booking</p>
