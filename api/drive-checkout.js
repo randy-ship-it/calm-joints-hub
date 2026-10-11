@@ -1,6 +1,7 @@
-// Public kit prices and gated Stripe Checkout for /drive.
+// Public kit prices for /drive.
+// CJ_DRIVE_MODE=manual records an order and reserves the handle. This form never accepts card numbers.
+// Otherwise POST starts Stripe Checkout only when CJ_DRIVE_LIVE is exactly "true".
 // GET returns the charm price only. Costs and margin stay off this response.
-// POST starts Checkout only when CJ_DRIVE_LIVE is exactly "true".
 const { send, readRaw } = require('../lib/intake');
 const D = require('../lib/drive-orders');
 
@@ -37,7 +38,8 @@ module.exports = async function handler(req, res) {
       }
       return;
     }
-    send(res, 200, { ok: true, live: D.live(env), catalog: D.catalog() });
+    const mode = D.driveMode(env);
+    send(res, 200, { ok: true, live: mode !== 'closed', mode, catalog: D.catalog() });
     return;
   }
   if (req.method !== 'POST') { send(res, 405, { ok: false, message: 'Use POST.' }); return; }
@@ -49,7 +51,8 @@ module.exports = async function handler(req, res) {
   }
   if (!body || typeof body !== 'object' || Array.isArray(body)) { send(res, 400, { ok: false, message: 'We couldn’t read that.' }); return; }
   try {
-    const out = await D.createCheckout(body, env, { ip: D.clientIp(req), origin: D.originFrom(req) });
+    const ctx = { ip: D.clientIp(req), origin: D.originFrom(req) };
+    const out = D.driveMode(env) === 'manual' ? await D.createManualOrder(body, env, ctx) : await D.createCheckout(body, env, ctx);
     send(res, out.status, out.json);
   } catch (err) {
     console.error('[drive] checkout failed', err && err.message);
