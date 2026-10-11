@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
-<link rel="stylesheet" href="/css/guide.css?v=14" data-cjg>
+<link rel="stylesheet" href="/css/guide.css?v=15" data-cjg>
 <script src="/js/share.js?v=8" defer data-cjs></script>
 <script src="/js/talk.js?v=2" defer></script>
 <style>
@@ -93,12 +93,9 @@
   .tk-av { display: inline-flex; margin-right: .15rem; } .tk-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); background: #DCFCE7; margin-left: -.55rem; } .tk-av img:first-child { margin-left: -.35rem; }
   .btn-primary .tk-av img { border-color: #fff; }
   .hero .ctas .btn { min-width: 15.5rem; padding: .95rem 1.5rem; font-size: 1.02rem; }
-  .hero-price { margin: .55rem auto 0; max-width: 40rem; font-size: .78rem; line-height: 1.4; color: var(--mute); }
-  .hero-price s { text-decoration: line-through; text-decoration-thickness: 1px; margin-right: .28em; opacity: .8; }
-  .hero-price strong { font-weight: 700; color: var(--ink); }
-  .hero-trust { display: flex; align-items: center; justify-content: center; gap: .35rem; margin: .45rem auto 0; max-width: 40rem; font-size: .84rem; font-weight: 600; line-height: 1.3; color: var(--ink); }
-  .hero-trust svg { width: 15px; height: 15px; flex: 0 0 auto; color: var(--green); }
-  .hero-disc { margin: .15rem auto 0; max-width: 36rem; font-size: .78rem; line-height: 1.35; color: var(--mute); }
+  .prices { list-style: none; margin: .85rem auto 0; padding: 0; max-width: 22rem; text-align: center; }
+  .prices li { margin: 0; padding: .32rem 0; font-size: 1rem; line-height: 1.3; border-top: 1px solid var(--line); }
+  .prices li:first-child { border-top: 0; padding-top: 0; }
   .hero-glen { margin: .15rem auto 0; font-size: .92rem; font-weight: 600; line-height: 1.3; color: var(--green); }
   .hero-glen a { color: var(--green); font-weight: 700; text-decoration: none; }
   .hero-glen a:hover { text-decoration: underline; }
@@ -321,6 +318,9 @@
   .spin { display: none; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.5); border-top-color: #fff; border-radius: 50%; animation: sp .8s linear infinite; }
   .is-loading .spin { display: inline-block; } @keyframes sp { to { transform: rotate(360deg); } }
   footer { border-top: 1px solid var(--line); padding: 2.2rem 0 6rem; font-size: .88rem; color: var(--mute); }
+  .legal { margin-top: 1.15rem; }
+  .legal p { margin: 0; max-width: 46rem; font-size: .78rem; line-height: 1.45; }
+  .legal a { color: inherit; }
   .foot { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; align-items: center; }
   .foot img { height: 30px; width: auto; }
   .foot nav { display: flex; gap: 1.2rem; flex-wrap: wrap; } .foot nav a { text-decoration: none; } .foot nav a:hover { color: var(--ink); }
@@ -382,12 +382,11 @@
     .pc-slide figcaption { font-size: .85rem; line-height: 1.4; }
     .pc-ctl { display: none; }
   }
-  /* Phones: headline, one line, two actions, the price, and brand logos. The rest is behind More. */
-  .lede-short, .price-short, .m-logos, .m-more-wrap { display: none; }
+  /* Phones: headline, one line, two actions, and brand logos. The rest is behind More. */
+  .lede-short, .m-logos, .m-more-wrap { display: none; }
   @media (max-width: 640px) {
-    .lede-long, .price-long { display: none; }
+    .lede-long { display: none; }
     .lede-short { display: block; }
-    .price-short { display: inline; }
     .mob-hide { display: none !important; }
     .mob-hide.is-open { display: block !important; }
     .nav-links .nav-talk { display: none; }
@@ -399,7 +398,10 @@
     .m-more { background: none; border: 0; padding: .45rem .8rem; color: var(--green); font: 600 .95rem var(--sans); cursor: pointer; text-decoration: underline; text-underline-offset: .18em; }
     .m-more:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
     .hero { padding-bottom: .2rem; }
-    body:not(.show-more) footer { display: none !important; }
+    /* Newsletter and footer nav stay behind More. The legal line stays visible. */
+    body:not(.show-more) footer { display: block !important; border-top: 0; padding: .2rem 0 calc(5.2rem + env(safe-area-inset-bottom)); background: transparent; }
+    body:not(.show-more) footer > .wrap:not(.legal) { display: none !important; }
+    body:not(.show-more) .legal { margin-top: .85rem; text-align: center; }
   }
 </style>
 <noscript><style>@media (max-width:640px){ .mob-hide{display:block !important} .m-more-wrap{display:none !important} body footer{display:block !important} }</style></noscript>
@@ -409,7 +411,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Calm Joints: In the moment recovery care (home)"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
+    <a class="brand" href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
@@ -432,7 +434,12 @@
         <a class="btn btn-primary" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen now</a>
         <a class="btn btn-ghost" id="hero-book" href="#" data-book data-book-direct>Book a visit</a>
       </div>
-      <p class="hero-price"><span class="price-long">Video physio visits: initial assessment <s><span class="sr">was </span>$169</s> <strong><span class="sr">now </span>$139</strong> (60 min), follow-ups $99 (30 min). Many extended-health plans cover physio, and you get a receipt for your claim.</span><span class="price-short">$139 assessment, $99 follow-ups</span></p>
+      <ul class="prices" aria-label="Pricing">
+        <li>Ask a physio question: free 24/7</li>
+        <li>15-min consult $29</li>
+        <li>Full assessment $139</li>
+        <li>Follow-up visit (40 min) $99</li>
+      </ul>
       <ul class="m-logos" aria-label="Brands we work with">
         <li><a href="https://drhonow.com/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S" width="90" height="28"></a></li>
         <li><a href="https://jill.health/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/jill.png" alt="Jill Health" width="80" height="28"></a></li>
@@ -443,8 +450,6 @@
       </ul>
       <p class="m-more-wrap"><button type="button" class="m-more" aria-expanded="false">More</button></p>
       <div class="mob-hide">
-        <p class="hero-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.8 7.4-7 9-4.2-1.6-7-4.8-7-9V6l7-3z"/><path d="M8.5 12.2l2.2 2.2 4.8-5"/></svg>Trained on recovery patterns and red-flag screening.</p>
-        <p class="hero-disc">Virtual guide, not a clinician · msg rates may apply.</p>
         <p class="hero-glen">Call or text Glen: <a href="tel:+16476926575">(647) 692-6575</a> <a class="tg-sms" href="sms:+16476926575">Text</a></p>
         <p class="hero-join"><a href="#join">Physios, join us</a></p>
         <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
@@ -665,7 +670,9 @@
       <a href="/report">Report a poster</a>
       <a href="#cookies" data-cookie-settings>Cookie settings</a>
     </nav>
-    <p style="flex-basis:100%;margin:0">Care is provided by registered physiotherapists. · © 2026 Calm Joints Inc.</p>
+  </div>
+  <div class="wrap legal">
+    <p>Virtual guide, not a clinician. Msg rates may apply. Not emergency care. Call 911 in an emergency. Trained on recovery patterns and red flags. Many plans cover physio. You get a receipt. Care is provided by registered physiotherapists. <a href="/privacy">Privacy</a>. © 2026 Calm Joints Inc.</p>
   </div>
 </footer>
 
@@ -712,6 +719,18 @@
   </div>
 </dialog>
 <script>
+(function () {
+  var home = document.querySelector('a.brand[href="/"]');
+  if (!home) return;
+  home.addEventListener('click', function (e) {
+    var path = location.pathname;
+    if (path !== '/' && path !== '/index.html') return;
+    e.preventDefault();
+    try { history.scrollRestoration = 'manual'; } catch (err) {}
+    window.scrollTo(0, 0);
+    location.reload();
+  });
+})();
 (function () {
   function cjStoredRef() {
     try {

@@ -17,6 +17,7 @@
   .wrap{max-width:860px;margin:0 auto;padding:1.4rem 1.1rem 3rem}
   header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.4rem}
   header img{height:34px;width:auto} header a{color:var(--mute);font-size:.9rem}
+  header a[aria-label="Calm Joints home"]{line-height:0;text-decoration:none;color:inherit}
   .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:1.5rem;box-shadow:0 30px 70px -40px rgba(10,61,34,.35)}
   .login{max-width:440px;margin:6vh auto 0}
   h1{font-size:1.7rem;line-height:1.15;letter-spacing:-.015em;margin:0}
@@ -45,7 +46,7 @@
 </head>
 <body>
 <div class="wrap">
-  <header><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="124" height="34"><a href="/partners">Partner program</a></header>
+  <header><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="124" height="34"></a><a href="/partners">Partner program</a></header>
 
   <form class="card login" id="login" novalidate>
     <div class="kick">Partner dashboard</div>
