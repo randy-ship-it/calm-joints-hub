@@ -86,12 +86,16 @@ const L = require('../lib/partner-ledger');
   assert.strictEqual(s.downloads, 2); assert.strictEqual(c1.scans, 2); assert.strictEqual(c1.size, 'poster'); assert.strictEqual(c2.emails, 1); assert.strictEqual(c2.visits, 1);
   const sale = fridayPosts.find((x) => x.externalId && x.externalId.startsWith('cj-sale-') && x.tags.includes(`qr:${d2.json.code}`));
   assert.ok(sale && sale.value === 95 && sale.tags.includes('sale'), 'sale goes to Friday with value and sign code');
+  assert.strictEqual(sale.sale_type, 'visit');
+  assert.strictEqual(sale.contact_type, 'patient');
+  assert.strictEqual(sale.partner, 'maple-tennis-club');
+  assert.strictEqual(sale.qr_code, d2.json.code);
   // a sale with no partner is still kept, with its channel
   r = await L.recordEvent({ type: 'visit', patient_email: 'walkin@example.com', ref: 'jane-3001', billed: 110, channel: 'brand:drho' }, env);
   assert.strictEqual(r.json.attributed, false);
   const direct = [...store.keys()].filter((k) => k.startsWith('cj-sales/direct/'));
   assert.strictEqual(direct.length, 2, 'the earlier unattributed booking is kept too'); assert.ok(direct.some((k) => JSON.parse(store.get(k)).channel === 'brand:drho'));
-  assert.ok(fridayPosts.some((x) => x.tags.includes('channel:brand:drho') && x.value === 110));
+  assert.ok(fridayPosts.some((x) => x.tags.includes('channel:brand:drho') && x.value === 110 && x.sale_type === 'visit' && !x.partner));
   // admin sales feed
   const sales = require('../api/cj-sales');
   const call = (auth) => new Promise((ok) => { const res = { headers: {}, setHeader(k, v) { this.headers[k] = v; }, writeHead(c) { this.statusCode = c; }, end(b) { ok({ code: this.statusCode, body: JSON.parse(b) }); } }; sales({ method: 'GET', headers: auth ? { authorization: auth } : {} }, res); });

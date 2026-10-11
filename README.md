@@ -32,13 +32,13 @@ Headers: `Authorization: Bearer $INTAKE_WEBHOOK_SECRET` and `X-Intake-Secret`. T
 
 Each submission gets one stable `externalId` (`cj-news-<uuid>` or `cj-physio-<uuid>`) and sends `site: "calmjoints.org"`.
 
-Newsletter: `{ externalId, email, site, source: "calmjoints_newsletter", path: "/newsletter", kind: "form", tags: ["calmjoints","newsletter","type:patient"], meta?: { name } }`. A stored partner visit (the same `cj_ref` the booking ledger uses, within 30 days) adds `partner:{slug}` and, when the QR code is present, `qr:{code}` on newsletter, question, and intake only.
+Newsletter: `{ externalId, email, site, source: "calmjoints_newsletter", path: "/newsletter", kind: "form", contact_type: "patient", tags: ["calmjoints","newsletter","type:patient"], meta?: { name } }`. A stored partner visit (the same `cj_ref` the booking ledger uses, within 30 days) is sent as top-level `partner` and `qr_code` on newsletter, question, and intake, and also as tags `partner:{slug}` and `qr:{code}`.
 
 Physio: `{ externalId, email, firstName, lastName, site, source: "calmjoints_physio_apply", path: "/apply", kind: "providers", country: "CA", province, website, message, meta: { linkedin, license?, phone?, provinces?, years_experience?, availability? }, tags: ["calmjoints","physio-apply","type:provider"] }`. `website` is the LinkedIn URL. `message` is the short bio. `province` is the first selected code. Careers applications use `type:provider` as well.
 
 Field ambassador applications use that same `POST /api/apply` door (same Friday post, same alert email). The body is tagged `role=ambassador` and `type:ambassador`, `source` is `calmjoints_ambassador_apply`, `kind` is `form` (not mirrored into the physio lane), and the email subject starts with `Ambassador application`.
 
-Every Friday record from these forms also gets one contact-type tag: `type:patient` (newsletter, question, intake), `type:business` (partner), `type:provider` (physio and careers), `type:ambassador` (field ambassador). Tag lists stay under 12.
+Every Friday record from these forms sends a top-level `contact_type` (`patient` for newsletter, question, and intake, `business` for the partner form, `provider` for physio and careers, `ambassador` for field ambassador) plus the matching `type:` tag. Physio applications send `role: "physiotherapist"`. Careers send `role` as the chosen role. Ambassadors send `role: "ambassador"` and `source: "calmjoints_ambassador_apply"`. Intake sends top-level `org_type` when one was picked. Sales send top-level `sale_type`. Tag lists stay under 12.
 
 This site does not call `/api/webhooks/calmjoints/*`.
 
