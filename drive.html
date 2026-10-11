@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Calm Joints | Your car. Your code. Your cut.</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#15803D">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--soft:#F1FBF4;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font:16px/1.55 var(--sans);background:linear-gradient(180deg,#F1FBF4,#fff 42%);min-height:100vh}
+  .wrap{max-width:640px;margin:0 auto;padding:1.4rem 1.1rem 3rem}
+  header img{height:34px;width:auto} header a{line-height:0;text-decoration:none}
+  h1{font-size:2rem;line-height:1.12;letter-spacing:-.02em;margin:.8rem 0 .4rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:1.15rem 1.2rem;margin-top:.8rem}
+  .kit{display:flex;gap:.8rem;align-items:flex-start}
+  .kit b{display:block}
+  .price{margin-left:auto;font-weight:700;white-space:nowrap}
+  .note{color:var(--mute);font-size:.92rem;margin:.7rem 0 0}
+  label{display:block;font-weight:600;font-size:.9rem;margin:1rem 0 .3rem}
+  input,select{width:100%;padding:.8rem .9rem;border:1px solid #CFD9D3;border-radius:12px;font:inherit;background:#fff}
+  input:focus,select:focus{outline:2px solid #86EFAC;border-color:var(--green)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .check{display:flex;gap:.7rem;align-items:flex-start;font-weight:600}
+  .check input{width:auto;margin-top:.25rem}
+  .btn{width:100%;margin-top:1.1rem;padding:.9rem 1.2rem;border:0;border-radius:999px;background:var(--green);color:#fff;font:700 1rem var(--sans);cursor:pointer}
+  .btn:hover{background:#116A32}
+  .btn[disabled]{opacity:.55;cursor:default}
+  .msg{min-height:1.2em;margin:.7rem 0 0;font-weight:600}
+  .err{color:#B42318}
+  .ok{color:var(--green)}
+  @media (max-width:560px){.row{grid-template-columns:1fr} h1{font-size:1.7rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="124" height="34"></a></header>
+  <h1>Your car. Your code. Your cut.</h1>
+  <form id="buy" novalidate>
+    <section class="card">
+      <div class="kit">
+        <div><b id="incar-name">Rideshare in-car kit</b><span class="note" id="incar-detail"></span></div>
+        <div class="price" id="incar-price"></div>
+      </div>
+    </section>
+    <section class="card">
+      <label class="check"><input type="checkbox" id="exterior" name="exterior" value="1"><span><b id="ext-name">Exterior decal add-on</b><span class="note" id="ext-detail"></span><span class="price" id="ext-price"></span></span></label>
+      <p class="note" id="rules">Check your rideshare platform's rules before applying exterior decals.</p>
+      <p class="note" id="bylaw"></p>
+    </section>
+    <section class="card">
+      <label for="type">Partner type</label>
+      <select id="type" name="partner_type" required>
+        <option value="">Choose one</option>
+        <option value="ambassador">Ambassador</option>
+        <option value="rideshare">Rideshare driver</option>
+        <option value="business">Business, venue, or golf course</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="name">Name</label>
+      <input id="name" name="name" autocomplete="name" required>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" required>
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+      <label for="line1">Shipping address</label>
+      <input id="line1" name="line1" autocomplete="address-line1" required>
+      <label for="line2">Apartment, unit</label>
+      <input id="line2" name="line2" autocomplete="address-line2">
+      <div class="row">
+        <div><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" required></div>
+        <div>
+          <label for="province">Province</label>
+          <select id="province" name="province" required>
+            <option value="">Province</option>
+            <option value="AB">Alberta</option><option value="BC">British Columbia</option><option value="MB">Manitoba</option>
+            <option value="NB">New Brunswick</option><option value="NL">Newfoundland and Labrador</option><option value="NS">Nova Scotia</option>
+            <option value="NT">Northwest Territories</option><option value="NU">Nunavut</option><option value="ON">Ontario</option>
+            <option value="PE">Prince Edward Island</option><option value="QC">Quebec</option><option value="SK">Saskatchewan</option><option value="YT">Yukon</option>
+          </select>
+        </div>
+      </div>
+      <label for="postal">Postal code</label>
+      <input id="postal" name="postal" autocomplete="postal-code" required>
+      <label for="handle">Desired handle</label>
+      <input id="handle" name="handle" autocapitalize="off" spellcheck="false" placeholder="your-name" required>
+      <p class="note">Lowercase letters, numbers, and hyphens. Your code will be calmjoints.org/<span id="preview">your-handle</span>.</p>
+      <p class="note" id="total"></p>
+      <button class="btn" id="pay" type="submit" disabled>Ordering is closed</button>
+      <p class="msg" id="msg" role="status"></p>
+    </section>
+  </form>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var cad = function (n) { return '$' + Number(n).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' CAD'; };
+  var catalog = null;
+  var live = false;
+  function paint() {
+    if (!catalog) return;
+    $('incar-name').textContent = catalog.incar.name;
+    $('incar-detail').textContent = catalog.incar.detail;
+    $('incar-price').textContent = cad(catalog.incar.price);
+    $('ext-name').textContent = catalog.exterior.name;
+    $('ext-detail').textContent = catalog.exterior.detail;
+    $('ext-price').textContent = ' +' + cad(catalog.exterior.price);
+    $('rules').textContent = catalog.rules_note;
+    $('bylaw').textContent = catalog.bylaw_note;
+    var both = $('exterior').checked;
+    $('total').textContent = 'Total ' + cad(both ? catalog.totals.both : catalog.totals.incar);
+  }
+  function params() {
+    var q = new URLSearchParams(location.search);
+    if (q.get('paid') === '1') { $('msg').className = 'msg ok'; $('msg').textContent = 'Payment received. Your code and dashboard link are on the way by email. This page does not finish the order.'; }
+    else if (q.get('canceled') === '1') { $('msg').className = 'msg'; $('msg').textContent = 'Checkout canceled. Nothing was charged.'; }
+  }
+  $('handle').addEventListener('input', function () { $('preview').textContent = ($('handle').value || 'your-handle').toLowerCase(); });
+  $('exterior').addEventListener('change', paint);
+  $('buy').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!live) return;
+    $('pay').disabled = true;
+    $('msg').className = 'msg';
+    $('msg').textContent = 'Opening checkout…';
+    var body = {
+      partner_type: $('type').value, name: $('name').value, email: $('email').value, phone: $('phone').value,
+      line1: $('line1').value, line2: $('line2').value, city: $('city').value, province: $('province').value,
+      postal: $('postal').value, handle: $('handle').value, exterior: $('exterior').checked
+    };
+    fetch('/api/drive-checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().then(function (j) { return { r: r, j: j }; }); })
+      .then(function (o) {
+        if (o.j && o.j.url) { location.href = o.j.url; return; }
+        $('pay').disabled = !live;
+        $('msg').className = 'msg err';
+        $('msg').textContent = (o.j && o.j.message) || 'Checkout could not start.';
+      })
+      .catch(function () { $('pay').disabled = !live; $('msg').className = 'msg err'; $('msg').textContent = 'Checkout could not start.'; });
+  });
+  fetch('/api/drive-checkout').then(function (r) { return r.json(); }).then(function (j) {
+    catalog = j.catalog; live = j.live === true; paint(); params();
+    $('pay').disabled = !live;
+    $('pay').textContent = live ? 'Continue to checkout' : 'Ordering is closed';
+  }).catch(function () { $('msg').className = 'msg err'; $('msg').textContent = 'Prices could not load.'; });
+})();
+</script>
+</body>
+</html>

@@ -13,7 +13,7 @@ module.exports = async function handler(req, res) {
     return;
   }
   try {
-    const dest = await aliasRedirect(name, process.env);
+    const dest = await aliasRedirect(name, process.env, url.searchParams.get('src'));
     if (!dest) {
       res.statusCode = 404;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');

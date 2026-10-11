@@ -23,7 +23,12 @@
     {
       "source": "/media/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
-    }
+    },
+    { "source": "/drive", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/me", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/me/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/admin", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/admin/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "rewrites": [
     { "source": "/api/guide-session", "destination": "/api/qr-lead?kind=guide-session" },
@@ -34,7 +39,8 @@
     {
       "source": "/p/:slug",
       "destination": "/p?slug=:slug"
-    }
+    },
+    { "source": "/me/:handle", "destination": "/me" }
   ],
   "crons": [
     {
@@ -44,6 +50,12 @@
   ],
   "functions": {
     "api/admin-partner.js": { "includeFiles": "lib/**" },
+    "api/admin-decals.js": { "includeFiles": "lib/**" },
+    "api/cimpress-webhook.js": { "includeFiles": "lib/**" },
+    "api/drive-artwork.js": { "includeFiles": "lib/**" },
+    "api/drive-checkout.js": { "includeFiles": "lib/**" },
+    "api/drive-webhook.js": { "maxDuration": 60, "includeFiles": "{lib/**,config/**,media/calm-joints-signature-logo.png}" },
+    "api/printful-webhook.js": { "includeFiles": "lib/**" },
     "api/alias.js": { "includeFiles": "lib/**" },
     "api/apply.js": { "includeFiles": "lib/**" },
     "api/careers.js": { "includeFiles": "lib/**" },
@@ -60,6 +72,7 @@
     "api/resume.js": { "includeFiles": "lib/**" }
   },
   "routes": [
+    { "src": "/me/([a-z0-9-]{2,32})/?", "dest": "/me.html" },
     { "src": "/chat/?", "has": [{ "type": "query", "key": "guide", "value": "glen" }], "dest": "/chat-glen" },
     { "src": "/chat/?", "has": [{ "type": "query", "key": "guide", "value": "gwen" }], "dest": "/chat-gwen" },
     { "src": "/glen/?", "dest": "/chat-glen" },

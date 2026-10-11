@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
         if (e.type === 'visit') billed += e.billed || 0;
         sales.push({ at: e.at, type: e.type, billed: e.billed || null, product: e.product || 'cj', channel: 'qr_partner', via: p.venue, slug, code: e.code || null });
       }
-      partners.push({ slug, venue: p.venue, city: p.city || null, created_at: p.created_at, kind: p.kind || 'venue', contact_type: p.contact_type || (p.kind === 'ambassador' ? 'ambassador' : 'business'), alias: p.alias || null, downloads: s.downloads, scans: s.scans, by_src: s.by_src || {}, emails: s.emails, booking_clicks: s.booking_clicks, bookings: s.bookings, visits: s.visits, billed: Math.round(billed * 100) / 100, by_code: s.by_code });
+      partners.push({ slug, venue: p.venue, city: p.city || null, created_at: p.created_at, kind: p.kind || 'venue', program: p.program || null, contact_type: p.contact_type || (p.kind === 'ambassador' ? 'ambassador' : 'business'), alias: p.alias || null, downloads: s.downloads, scans: s.scans, by_src: s.by_src || {}, emails: s.emails, booking_clicks: s.booking_clicks, bookings: s.bookings, visits: s.visits, billed: Math.round(billed * 100) / 100, by_code: s.by_code });
     }
     for (const b of await L.listAll('cj-sales/direct/', env)) {
       const e = await L.readJson(b.pathname, env); if (!e) continue;

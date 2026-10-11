@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /drive
+Disallow: /me
+Disallow: /admin
 
 Sitemap: https://calmjoints.org/sitemap.xml
