@@ -1,7 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm install",
-  "buildCommand": "node scripts/seed-ambassador.js",
   "cleanUrls": true,
   "headers": [
     {
