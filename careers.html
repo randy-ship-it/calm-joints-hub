@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Careers · Calm Joints</title>
-<meta name="description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 100+ partner locations. Hiring across Canada. We hire people with disabilities.">
+<meta name="description" content="See patients by video, at home or on site. Field ambassadors welcome.">
 <meta name="theme-color" content="#15803D">
 <link rel="canonical" href="https://calmjoints.org/careers">
 <meta property="og:site_name" content="Calm Joints">
 <meta property="og:title" content="Careers · Calm Joints">
-<meta property="og:description" content="Pick the calendar hours you want and we book patients into them. Fully digital, in-home, or on site at 100+ partner locations. Hiring across Canada. We hire people with disabilities.">
+<meta property="og:description" content="See patients by video, at home or on site. Field ambassadors welcome.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calmjoints.org/careers">
 <meta property="og:image" content="https://calmjoints.org/media/og.jpg">
@@ -192,6 +192,18 @@
   .team-deals li { font-weight:700; font-size:.98rem; letter-spacing:.02em; color:#3B4A42; opacity:.85; }
   .team-deals li img { height:26px; width:auto; display:block; }
   @media (max-width:640px) { .team-deals ul { gap:.5rem 1rem; } .team-deals li { font-size:.86rem; } .team-deals li img { height:22px; } }
+  .fine { margin:0 0 1rem; font-size:.78rem; line-height:1.35; color:#8A978F; font-weight:400; }
+  .fine a { color:#6A7B72; }
+  .hire-split { display:grid; gap:.85rem 1.25rem; align-items:start; }
+  .amb-card { display:flex; flex-direction:column; align-items:flex-start; gap:.28rem; background:#fff; color:var(--ink); text-decoration:none; border-radius:20px; padding:1rem 1.05rem .9rem; box-shadow:0 16px 40px -24px rgba(0,0,0,.45); }
+  .amb-card .kick { color:var(--green); margin:0; }
+  .amb-card h2 { margin:0; font-size:1.28rem; letter-spacing:-.02em; line-height:1.15; color:var(--ink); }
+  .amb-card p { margin:0; color:#3F5147; font-size:.95rem; line-height:1.35; }
+  .amb-go { margin-top:.45rem; font-weight:700; color:var(--green); }
+  @media (min-width:800px) {
+    .hire-split { grid-template-columns:minmax(0,1.5fr) minmax(230px,.75fr); }
+    .hire-split .cjf { grid-column:1 / -1; }
+  }
   .sub-short, .m-more-wrap { display: none; }
   @media (max-width: 640px) {
     .desk-only { display: none !important; }
@@ -215,31 +227,40 @@
   <header class="top"><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark-white.svg" alt="Calm Joints" width="205" height="56"></a><nav><a href="#apply">Apply</a></nav></header>
   <svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><path d="M30.66 43.43A10 10 0 1 1 30.66 30.57" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M41 29v15a8 8 0 0 1-8 8" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="41" cy="17.5" r="3.4" fill="#fff"/></svg>
   <div class="hero-in">
-    <p class="kick desk-only">Careers · Hiring across Canada</p>
-    <h1>Pick your hours. <em>We fill them.</em></h1>
-    <p class="sub sub-short">See patients by video, at home or on site.</p>
-    <section class="cjf mob-hide" aria-labelledby="cjf-h">
-      <p class="k2">Why physios join</p>
-      <h2 id="cjf-h">Your hours. Your patients. Real support.</h2>
-      <div class="cjf-row" id="cj-faces">
-        <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
-        <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
-        <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
-        <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
-        <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+    <div class="hire-split">
+      <div class="hire-copy">
+        <p class="kick desk-only">Careers · Hiring across Canada</p>
+        <h1>Pick your hours. <em>We fill them.</em></h1>
+        <p class="sub">See patients by video, at home or on site.</p>
+        <p class="hbadge">We hire people with disabilities</p>
+        <a class="cta" href="#apply">Apply now</a>
       </div>
-    </section>
-    <p class="sub desk-only">Take digital appointments from home with qualified patients coming directly from brands we partner with. Want some in person too? Pick up home visits or on-site hours at partner locations.</p>
-    <p class="hbadge">We hire people with disabilities</p>
-    <a class="cta" href="#apply">Apply now</a>
+      <a class="amb-card" href="/ambassadors">
+        <p class="kick">Now hiring</p>
+        <h2>Field Ambassador</h2>
+        <p>Get paid to spread the word, door to door in Toronto.</p>
+        <span class="amb-go">See the role</span>
+      </a>
+      <section class="cjf" aria-labelledby="cjf-h">
+        <p class="k2">Why physios join</p>
+        <h2 id="cjf-h">Your hours. Your patients. Real support.</h2>
+        <div class="cjf-row" id="cj-faces">
+          <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+          <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+          <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+          <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+          <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
+        </div>
+      </section>
+    </div>
   </div>
 </section>
 <main>
   <section class="team-deals" aria-labelledby="team-deals-h">
     <div class="wrap">
-      <p class="team-deals-badge mob-hide">Coming soon</p>
-      <h2 class="mob-hide" id="team-deals-h">Industry insider deals, coming soon</h2>
-      <p class="lede mob-hide">Our team gets insider access to deals from brands we work with.</p>
+      <p class="team-deals-badge">Coming soon</p>
+      <h2 id="team-deals-h">Industry insider deals, coming soon</h2>
+      <p class="lede">Insider deals from brands we work with.</p>
       <ul aria-label="Brands we work with">
         <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="90" height="30"></li><li>Garmin</li><li>Therabody</li><li>RENPHO</li><li>Genuine Health</li><li>AIRWAAV</li><li>Manduka</li><li>BedJet</li>
       </ul>
@@ -251,7 +272,7 @@
     <div>
       <p class="k2">Flexible booking</p>
       <h2 id="flex-h">Your calendar. Your call.</h2>
-      <p class="lead">You choose which hours to open, and you can change them any week. We book patients into the hours you opened, and nothing else.</p>
+      <p class="lead">You open the hours. We book patients into them.</p>
       <ol class="steps3"><li>Open the hours you want on your calendar.</li><li>We book patients into those hours.</li><li>Add in-home visits or on-site hours whenever you want more.</li></ol>
     </div>
     <div class="cal" aria-hidden="true">
@@ -259,26 +280,26 @@
       <div class="key"><span><i style="background:var(--green)"></i>Booked</span><span><i style="background:var(--mint);border:1px solid #9ADBB4"></i>Open, not booked yet</span><span><i style="background:#fff;border:1px dashed #CFDCD4"></i>Not open</span></div>
     </div>
   </section>
-  <div class="wrap paths-h"><h2>Three ways to work</h2><p>Pick one, or mix them. You can change your mind later.</p></div>
+  <div class="wrap paths-h"><h2>Three ways to work</h2><p>Pick one, or mix them.</p></div>
   <div class="wrap roles paths">
-    <article class="role"><span class="n">01</span><h2>Fully digital</h2><p>See patients by video from anywhere in Canada.</p><ul><li>Open as few or as many hours as you like</li><li>Want in-person time too? Tell us which partner locations you'd like.</li></ul><span class="tag">Work from home</span></article>
-    <article class="role"><span class="n">02</span><h2>In-home visits</h2><p>Opt in and we use geo-tagging to book patients near you. Your car is the clinic.</p><ul><li>Set how far you'll travel</li><li>Focused on home visits? You get access to a Tesla Model Y for your rounds</li></ul><span class="tag">Tesla Model Y access</span></article>
-    <article class="role"><span class="n">03</span><h2>On site</h2><p>Pick up easy on-site hours at 100+ in-person locations run by our partners.</p><ul><li>Each location owner is vetted by us</li><li>Great for digital clinicians who want more hours</li></ul><span class="tag">100+ partner locations</span></article>
+    <article class="role"><span class="n">01</span><h2>Fully digital</h2><p>See patients by video from anywhere in Canada.</p><ul><li>Open as few hours as you like</li><li>Add partner locations if you want</li></ul><span class="tag">Work from home</span></article>
+    <article class="role"><span class="n">02</span><h2>In-home visits</h2><p>Home visits near you.</p><ul><li>Set how far you'll travel</li><li>A Tesla Model Y for home-visit rounds</li></ul><span class="tag">Tesla Model Y access</span></article>
+    <article class="role"><span class="n">03</span><h2>On site</h2><p>On-site hours at partner locations.</p><ul><li>We vet each location owner</li><li>Extra hours for digital clinicians</li></ul><span class="tag">100+ partner locations</span></article>
   </div>
   <div class="wrap"><div class="more">
     <div class="num">100+</div>
-    <div><h3>Want more hours and in-person care?</h3><p>There are plenty of ways onto locations we trust. We've built a network of 100+ through our partners, heading past 200 across Canada, with the US coming in Q4 2026. We vet the owners ourselves. Tell us where you'd like to work and we'll help you get there.</p></div>
+    <div><h3>Want more hours and in-person care?</h3><p>100+ partner locations, with more on the way.</p></div>
   </div></div>
   <section class="brands" aria-labelledby="brands-h">
     <div class="wrap">
       <p class="kick">Where our patients come from</p>
       <h2 id="brands-h">Patients come to you. <span>Demand is on us.</span></h2>
-      <p class="lead">Calm Joints carries the patient flow across Canada, so you spend your time treating people, not chasing leads.</p>
+      <p class="lead">Patients come to you. Demand is on us.</p>
       <ul class="bchips" aria-label="How we bring patients in">
-        <li><button type="button" data-tip="Our supply partners bring over $50M a year in recurring customer volume, all curated in one place.">$50M+ customer volume</button></li>
-        <li><button type="button" data-tip="Patients book across Canada, and Calm Joints shoulders most of the demand flow for you.">Canada-wide patient demand</button></li>
-        <li><button type="button" data-tip="The brands below supply our patient store, and many stand up their own hubs with Calm Joints physio built in.">Supply partners with hubs</button></li>
-        <li><button type="button" data-tip="That volume powers curated display space for targeted ads to high-value customers, managed through Birch Reserve.">Targeted ads, managed</button></li>
+        <li><button type="button" data-tip="Supply partners bring the customer volume.">$50M+ customer volume</button></li>
+        <li><button type="button" data-tip="Patients book across Canada. We carry the demand.">Canada-wide patient demand</button></li>
+        <li><button type="button" data-tip="Partner brands, many with their own hubs.">Supply partners with hubs</button></li>
+        <li><button type="button" data-tip="Targeted ads, managed for you.">Targeted ads, managed</button></li>
       </ul>
       <p class="btip" id="btip" aria-live="polite">Tap to see how patients find you.</p>
       <p class="kick sub">Some of our supply partners</p>
@@ -288,17 +309,17 @@
   </section>
   <div class="wrap"><div class="tesla">
     <p class="big">Do in-home visits. <span>Drive a <i class="nw">Tesla Model Y.</i></span></p>
-    <p>Clinicians focused on home visits get access to a Tesla Model Y to get around.</p>
+    <p>Home-visit clinicians can use a Tesla Model Y.</p>
   </div></div>
   <section class="wrap benefits" id="benefits" aria-labelledby="benefits-h">
     <details id="benefits-d">
-      <summary><div><h2 id="benefits-h">Benefits and perks</h2><p>Work a minimum number of hours with us and you get health, dental, vision and more.</p></div><i aria-hidden="true">+</i></summary>
+      <summary><div><h2 id="benefits-h">Benefits and perks</h2><p>Health, dental and vision once you hit minimum hours.</p></div><i aria-hidden="true">+</i></summary>
       <div class="bin">
     <h3>Health benefits · with minimum hours</h3>
     <ul class="bgrid"><li>Prescription drugs</li><li>Dental</li><li>Vision</li><li>Paramedical</li><li>Mental health</li><li>Virtual care</li><li>Travel coverage</li><li>Life insurance</li></ul>
     <h3>Perks</h3>
     <ul class="bgrid perks"><li>Tesla Model Y access<small>For home-visit clinicians</small></li><li>Work from home<small>Fully digital hours</small></li><li>Accommodations<small>Just ask, no diagnosis needed</small></li><li>Easy enrolment<small>No medical questionnaire</small></li></ul>
-    <p class="bnote">Benefits start once you reach the minimum hours. The exact minimums and plan details come with your offer.</p>
+    <p class="bnote fine">Benefits start at the minimum hours. Details come with your offer.</p>
       </div>
     </details>
   </section>
@@ -309,17 +330,22 @@
     <img src="/media/team/jayden.webp" alt="Jayden Grewal" width="480" height="480" loading="lazy">
     <img src="/media/team/chris.webp" alt="Chris Percy" width="480" height="480" loading="lazy">
   </div>
-  <p class="note">Need an accommodation? Just ask. <span>We sort it out one on one, and you never have to share a diagnosis.</span></p>
+  <p class="note">Need an accommodation? Just ask. <span>No diagnosis needed.</span></p>
   </div>
   <section class="apply" id="apply">
-    <form id="careers" novalidate>
+    <form id="careers" novalidate data-apply-form data-endpoint-physio="/api/careers" data-endpoint-ambassador="/api/apply">
       <h2>Apply</h2>
+      <fieldset class="pills"><legend>Role</legend>
+        <input type="radio" name="role" id="role-pt" value="physiotherapist" checked><label for="role-pt">Physiotherapist</label>
+        <input type="radio" name="role" id="role-amb" value="ambassador"><label for="role-amb">Field Ambassador</label>
+      </fieldset>
+      <div data-for-role="physiotherapist">
       <fieldset class="pills"><legend>How do you want to work? <span class="opt">(pick all that fit)</span></legend>
         <input type="checkbox" name="roles" id="r1" value="digital" checked><label for="r1" class="lead-pill">Fully digital <span class="badge">Our focus</span></label>
         <input type="checkbox" name="roles" id="r2" value="in-home"><label for="r2">In-home</label>
         <input type="checkbox" name="roles" id="r3" value="on-site"><label for="r3">On site</label>
         <input type="checkbox" name="roles" id="r4" value="accessibility"><label for="r4">Accessibility role</label>
-        <p class="pills-note">Calm Joints is a digital clinic, so video visits come first. Add in-home or on site if you want more hours.</p>
+        <p class="pills-note">Video visits come first. Add in-home or on site for more hours.</p>
       </fieldset>
       <div class="two">
         <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
@@ -338,10 +364,27 @@
         <div class="field"><label for="c-city">City</label><input id="c-city" name="city" autocomplete="address-level2" maxlength="60"></div>
       </div>
       <div class="field"><label for="c-hours">Hours you'd like each week <span class="opt">(optional)</span></label><input id="c-hours" name="hours_available" maxlength="80" placeholder="e.g. 8 hours, Tue and Thu evenings"></div>
-      <p class="pills-note" style="margin-bottom:16px">Outside Ontario? We partner with practitioners and businesses across Canada: apply at <a href="https://scalehealth.ca/providers" target="_blank" rel="noopener">scalehealth.ca/providers</a>. Have patients, members or followers? You can also apply for a no-cost hub at <a href="https://scalehealth.ca/clinichubs" target="_blank" rel="noopener">scalehealth.ca/clinichubs</a>.</p>
+      <p class="fine">Outside Ontario, apply at <a href="https://scalehealth.ca/providers" target="_blank" rel="noopener">scalehealth.ca/providers</a>. Have an audience? A no-cost hub is at <a href="https://scalehealth.ca/clinichubs" target="_blank" rel="noopener">scalehealth.ca/clinichubs</a>.</p>
       <div class="field"><label for="c-link">LinkedIn or website <span class="opt">(optional)</span></label><input id="c-link" name="link" inputmode="url" placeholder="linkedin.com/in/you"></div>
       <div class="field"><span class="flabel">Resume <span class="opt">(optional)</span></span><input class="file-in" id="c-resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><label class="file-drop" for="c-resume"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg><span><b>Upload your resume</b><span class="file-hint">PDF or Word, up to 3 MB</span><span class="file-name"></span></span></label></div>
       <div class="field"><label for="c-msg">A bit about you <span class="opt">(optional)</span></label><textarea id="c-msg" name="message" rows="3"></textarea></div>
+      </div>
+      <div data-for-role="ambassador" hidden>
+        <div class="two">
+          <div class="field"><label for="a-name">Name</label><input id="a-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="a-phone">Phone</label><input id="a-phone" name="phone" type="tel" autocomplete="tel" required maxlength="22"></div>
+          <div class="field"><label for="a-hood">Neighbourhood</label><input id="a-hood" name="neighbourhood" required maxlength="80" placeholder="e.g. Leslieville"></div>
+        </div>
+        <div class="field"><label for="a-intro">Short intro</label><textarea id="a-intro" name="intro" rows="2" required maxlength="500"></textarea></div>
+        <div class="field"><label for="a-exp">People or promo experience</label><textarea id="a-exp" name="experience" rows="2" required maxlength="800"></textarea></div>
+        <div class="two">
+          <div class="field"><label for="a-social">Social handle <span class="opt">(optional)</span></label><input id="a-social" name="social" maxlength="80" placeholder="@you"></div>
+          <div class="field"><label for="a-video">Intro video link <span class="opt">(optional)</span></label><input id="a-video" name="video" inputmode="url" maxlength="300" placeholder="youtube.com/…"></div>
+        </div>
+      </div>
       <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn" type="submit">Send application</button>
       <p class="msg" role="status" aria-live="polite"></p>
@@ -355,6 +398,7 @@
 <script src="/js/team-data.js"></script>
 <script src="/js/careers-faces.js"></script>
 <script src="/form.js"></script>
+<script src="/js/apply-role.js"></script>
 <script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers'); document.getElementById('c-resume').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.closest('.field').querySelector('.file-name').textContent = f ? f.name : ''; });</script>
 <script>(function(){function o(){if(location.hash==="#benefits"){var d=document.getElementById("benefits-d");if(d)d.open=true;}}o();addEventListener("hashchange",o);})();</script>
 <script>

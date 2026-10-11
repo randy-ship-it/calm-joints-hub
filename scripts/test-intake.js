@@ -360,6 +360,37 @@ async function main() {
     fetchImpl: async (url) => { nCalls.push(url); return { ok: true, status: 200 }; },
   });
   assert.ok(nCalls.some((u) => u.includes('resend')), 'email alert for newsletter signup');
+  const ambBad = validateApply({ role: 'ambassador', name: 'A', email: 'a@b.co', phone: '4165550199', neighbourhood: 'Leslieville', intro: 'Hello there', experience: 'Promo work' });
+  assert.ok(ambBad.error, 'ambassador needs a full name');
+  const amb = validateApply({
+    role: 'ambassador', name: 'TEST Applicant', email: 'Test@Example.com', phone: '416 555 0199',
+    neighbourhood: 'Leslieville', intro: 'I like talking to neighbours.', experience: 'Campus promo for two summers.',
+    social: '@test', video: 'youtu.be/abc123',
+  });
+  assert.ok(!amb.error, amb.error);
+  const ambBody = fridayBody('apply', amb.value, 'cj-physio-amb');
+  assert.strictEqual(ambBody.source, 'calmjoints_physio_apply');
+  assert.strictEqual(ambBody.kind, 'form');
+  assert.ok(ambBody.tags.includes('role=ambassador'));
+  assert.strictEqual(ambBody.meta.neighbourhood, 'Leslieville');
+  assert.match(alertText('apply', ambBody), /Ambassador application/);
+  const ambCalls = [];
+  const ambRes = await processIntake('apply', {
+    role: 'ambassador', name: 'TEST Applicant', email: 'qa-ambassador@calmjoints.org', phone: '4165550199',
+    neighbourhood: 'Leslieville', intro: 'TEST intro for the team.', experience: 'TEST promo experience.', social: '@test',
+  }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_RESEND_API_KEY: 're_test', CJ_ALERT_EMAILS: 'randy@example.com' },
+    ip: '9.9.9.1',
+    fetchImpl: async (url, init) => { ambCalls.push({ url: String(url), body: JSON.parse(init.body) }); return { ok: true, status: 200 }; },
+  });
+  assert.strictEqual(ambRes.status, 200);
+  const ambFriday = ambCalls.find((c) => c.url.includes('fridayapp'));
+  const ambMail = ambCalls.find((c) => c.url.includes('resend'));
+  assert.ok(ambFriday && ambFriday.body.tags.includes('role=ambassador'));
+  assert.ok(!ambCalls.some((c) => c.body && c.body.site === 'scalehealth.ca'), 'ambassador is not mirrored as physio staff');
+  assert.match(ambMail.body.subject, /^Ambassador application: TEST Applicant$/);
+  assert.deepStrictEqual(ambMail.body.to, ['randy@example.com']);
+
   for (const li of ['linkedin.com/in/jane-doe', 'www.linkedin.com/in/jane', 'ca.linkedin.com/in/jane/']) {
     assert.ok(!validateApply({ name: 'Jane Doe', email: 'j@x.co', provinces: ['ON'], linkedin: li, bio: 'Physio for ten years' }).error, `linkedin ${li}`);
   }

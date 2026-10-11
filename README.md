@@ -36,6 +36,8 @@ Newsletter: `{ externalId, email, site, source: "calmjoints_newsletter", path: "
 
 Physio: `{ externalId, email, firstName, lastName, site, source: "calmjoints_physio_apply", path: "/apply", kind: "providers", country: "CA", province, website, message, meta: { linkedin, license?, phone?, provinces?, years_experience?, availability? }, tags: ["calmjoints","physio-apply"] }`. `website` is the LinkedIn URL. `message` is the short bio. `province` is the first selected code.
 
+Field ambassador applications use that same `POST /api/apply` door (same Friday post, same alert email). The body is tagged `role=ambassador`, `kind` is `form` (not mirrored into the physio lane), and the email subject starts with `Ambassador application`.
+
 This site does not call `/api/webhooks/calmjoints/*`.
 
 If Friday is unconfigured or returns non-2xx, the handler still writes a local JSONL row and, when a database URL is set, a Neon row, then returns the same friendly success. The stored envelope is `{ "type", "source": "calmjoints.org", "payload": <Friday body>, "received_at", "notify_email": "info@calmjoints.org" }`. `/tmp` on Vercel is ephemeral — Neon (`NEON_DATABASE_URL`, `DATABASE_URL`, or `POSTGRES_URL`, table `calm_joints_intakes`) is the durable copy when Friday is down. `INTAKE_STORE_PATH` overrides the JSONL file (default `data/intakes.jsonl` off Vercel).
