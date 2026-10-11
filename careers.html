@@ -192,7 +192,22 @@
   .team-deals li { font-weight:700; font-size:.98rem; letter-spacing:.02em; color:#3B4A42; opacity:.85; }
   .team-deals li img { height:26px; width:auto; display:block; }
   @media (max-width:640px) { .team-deals ul { gap:.5rem 1rem; } .team-deals li { font-size:.86rem; } .team-deals li img { height:22px; } }
+  .sub-short, .m-more-wrap { display: none; }
+  @media (max-width: 640px) {
+    .desk-only { display: none !important; }
+    .sub-short { display: block; }
+    .mob-hide { display: none !important; }
+    .mob-hide.is-open { display: block !important; }
+    .m-more-wrap { display: block; text-align: center; margin: .15rem auto .2rem; }
+    .m-more { background: none; border: 0; padding: .45rem .8rem; color: var(--green); font: 600 .95rem var(--sans); cursor: pointer; text-decoration: underline; text-underline-offset: .18em; }
+    .m-more:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+    .team-deals { border-bottom: 0; }
+    .ring { display: none; }
+    body.show-more .ring { display: block; }
+    .team-deals .wrap { padding-top: .85rem; padding-bottom: .35rem; }
+  }
 </style>
+<noscript><style>@media (max-width:640px){ .mob-hide,.desk-only{display:block !important} .sub-short,.m-more-wrap{display:none !important} }</style></noscript>
 <link rel="stylesheet" href="/css/calm-extras.css">
 </head>
 <body>
@@ -200,9 +215,10 @@
   <header class="top"><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark-white.svg" alt="Calm Joints" width="205" height="56"></a><nav><a href="#apply">Apply</a></nav></header>
   <svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><path d="M30.66 43.43A10 10 0 1 1 30.66 30.57" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M41 29v15a8 8 0 0 1-8 8" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="41" cy="17.5" r="3.4" fill="#fff"/></svg>
   <div class="hero-in">
-    <p class="kick">Careers · Hiring across Canada</p>
+    <p class="kick desk-only">Careers · Hiring across Canada</p>
     <h1>Pick your hours. <em>We fill them.</em></h1>
-    <section class="cjf" aria-labelledby="cjf-h">
+    <p class="sub sub-short">See patients by video, at home or on site.</p>
+    <section class="cjf mob-hide" aria-labelledby="cjf-h">
       <p class="k2">Why physios join</p>
       <h2 id="cjf-h">Your hours. Your patients. Real support.</h2>
       <div class="cjf-row" id="cj-faces">
@@ -213,7 +229,7 @@
         <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
       </div>
     </section>
-    <p class="sub">Take digital appointments from home with qualified patients coming directly from brands we partner with. Want some in person too? Pick up home visits or on-site hours at partner locations.</p>
+    <p class="sub desk-only">Take digital appointments from home with qualified patients coming directly from brands we partner with. Want some in person too? Pick up home visits or on-site hours at partner locations.</p>
     <p class="hbadge">We hire people with disabilities</p>
     <a class="cta" href="#apply">Apply now</a>
   </div>
@@ -221,14 +237,16 @@
 <main>
   <section class="team-deals" aria-labelledby="team-deals-h">
     <div class="wrap">
-      <p class="team-deals-badge">Coming soon</p>
-      <h2 id="team-deals-h">Industry insider deals, coming soon</h2>
-      <p class="lede">Our team gets insider access to deals from brands we work with.</p>
+      <p class="team-deals-badge mob-hide">Coming soon</p>
+      <h2 class="mob-hide" id="team-deals-h">Industry insider deals, coming soon</h2>
+      <p class="lede mob-hide">Our team gets insider access to deals from brands we work with.</p>
       <ul aria-label="Brands we work with">
         <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="90" height="30"></li><li>Garmin</li><li>Therabody</li><li>RENPHO</li><li>Genuine Health</li><li>AIRWAAV</li><li>Manduka</li><li>BedJet</li>
       </ul>
     </div>
   </section>
+  <p class="m-more-wrap"><button type="button" class="m-more" aria-expanded="false">More</button></p>
+  <div class="mob-hide">
   <section class="wrap flex" aria-labelledby="flex-h">
     <div>
       <p class="k2">Flexible booking</p>
@@ -292,6 +310,7 @@
     <img src="/media/team/chris.webp" alt="Chris Percy" width="480" height="480" loading="lazy">
   </div>
   <p class="note">Need an accommodation? Just ask. <span>We sort it out one on one, and you never have to share a diagnosis.</span></p>
+  </div>
   <section class="apply" id="apply">
     <form id="careers" novalidate>
       <h2>Apply</h2>
@@ -343,5 +362,6 @@
 bs.forEach(function(b){b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){sh(b)});b.addEventListener('mouseenter',function(){if(matchMedia('(hover:hover)').matches)sh(b)})});})();
 </script>
 <script src="/js/consent.js"></script>
+<script src="/js/mobile-more.js" defer></script>
 </body>
 </html>

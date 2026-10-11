@@ -382,7 +382,26 @@
     .pc-slide figcaption { font-size: .85rem; line-height: 1.4; }
     .pc-ctl { display: none; }
   }
+  /* Phones: headline, one line, two actions, the price, and brand logos. The rest is behind More. */
+  .lede-short, .price-short, .m-logos, .m-more-wrap { display: none; }
+  @media (max-width: 640px) {
+    .lede-long, .price-long { display: none; }
+    .lede-short { display: block; }
+    .price-short { display: inline; }
+    .mob-hide { display: none !important; }
+    .mob-hide.is-open { display: block !important; }
+    .nav-links .nav-talk { display: none; }
+    .m-logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .75rem 1.2rem; list-style: none; margin: .95rem auto 0; padding: 0; max-width: 20rem; }
+    .m-logos a { display: flex; align-items: center; justify-content: center; min-height: 28px; }
+    .m-logos img { height: 22px; width: auto; max-width: 76px; object-fit: contain; }
+    .m-more-wrap { display: block; text-align: center; margin: .55rem 0 .15rem; }
+    .m-more { background: none; border: 0; padding: .45rem .8rem; color: var(--green); font: 600 .95rem var(--sans); cursor: pointer; text-decoration: underline; text-underline-offset: .18em; }
+    .m-more:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+    .hero { padding-bottom: .2rem; }
+    body:not(.show-more) footer { display: none !important; }
+  }
 </style>
+<noscript><style>@media (max-width:640px){ .mob-hide{display:block !important} .m-more-wrap{display:none !important} body footer{display:block !important} }</style></noscript>
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
 </head>
 <body data-calming-pop="popup">
@@ -406,18 +425,31 @@
   <section class="hero" id="hubs">
     <div class="wrap">
       <h1>Hurt right now?<br>Help in the moment.</h1>
-      <p class="lede">Talk to someone now, then see a registered physio by video, at home or in person.</p>
+      <p class="lede lede-long">Talk to someone now, then see a registered physio by video, at home or in person.</p>
+      <p class="lede lede-short">A physio by video, at home or in person.</p>
       <div class="ctas">
         <a class="btn btn-primary" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen now</a>
         <a class="btn btn-ghost" id="hero-book" href="#" data-book data-book-direct>Book a visit</a>
       </div>
-      <p class="hero-price">Video physio visits: initial assessment <s><span class="sr">was </span>$169</s> <strong><span class="sr">now </span>$139</strong> (60 min), follow-ups $99 (30 min). Many extended-health plans cover physio, and you get a receipt for your claim.</p>
-      <p class="hero-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.8 7.4-7 9-4.2-1.6-7-4.8-7-9V6l7-3z"/><path d="M8.5 12.2l2.2 2.2 4.8-5"/></svg>Trained on recovery patterns and red-flag screening.</p>
-      <p class="hero-disc">Virtual guide, not a clinician · msg rates may apply.</p>
-      <p class="hero-glen">Call or text Glen: <a href="tel:+16476926575">(647) 692-6575</a> <a class="tg-sms" href="sms:+16476926575">Text</a></p>
-      <p class="hero-join"><a href="#join">Physios, join us</a></p>
-      <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
+      <p class="hero-price"><span class="price-long">Video physio visits: initial assessment <s><span class="sr">was </span>$169</s> <strong><span class="sr">now </span>$139</strong> (60 min), follow-ups $99 (30 min). Many extended-health plans cover physio, and you get a receipt for your claim.</span><span class="price-short">$139 assessment, $99 follow-ups</span></p>
+      <ul class="m-logos" aria-label="Brands we work with">
+        <li><a href="https://drhonow.com/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S" width="90" height="28"></a></li>
+        <li><a href="https://jill.health/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/jill.png" alt="Jill Health" width="80" height="28"></a></li>
+        <li><a href="https://jack.health/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/jack.png" alt="Jack Health" width="80" height="28"></a></li>
+        <li><a href="https://effortlessadmin.com/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/effortless-admin.png" alt="Effortless Admin" width="80" height="28"></a></li>
+        <li><a href="https://rollrecovery.com/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/roll-recovery.png" alt="Roll Recovery" width="80" height="28"></a></li>
+        <li><a href="https://yoursole.com/ca" target="_blank" rel="noopener noreferrer"><img src="/media/logos/sole.png" alt="Sole" width="80" height="28"></a></li>
+      </ul>
+      <p class="m-more-wrap"><button type="button" class="m-more" aria-expanded="false">More</button></p>
+      <div class="mob-hide">
+        <p class="hero-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-2.8 7.4-7 9-4.2-1.6-7-4.8-7-9V6l7-3z"/><path d="M8.5 12.2l2.2 2.2 4.8-5"/></svg>Trained on recovery patterns and red-flag screening.</p>
+        <p class="hero-disc">Virtual guide, not a clinician · msg rates may apply.</p>
+        <p class="hero-glen">Call or text Glen: <a href="tel:+16476926575">(647) 692-6575</a> <a class="tg-sms" href="sms:+16476926575">Text</a></p>
+        <p class="hero-join"><a href="#join">Physios, join us</a></p>
+        <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
+      </div>
     </div>
+    <div class="mob-hide">
     <p class="trust-lbl">Trusted by the brands we power</p>
     <div class="carousel" aria-roledescription="carousel" aria-label="Partner brands with deals for our patients">
       <div class="track" id="track" tabindex="0">
@@ -465,8 +497,10 @@
       </div>
       <p class="sr" id="live" aria-live="polite"></p>
     </div>
+    </div>
   </section>
 
+  <div class="mob-hide" id="home-rest">
   <section class="block po" id="partner-options">
     <div class="wrap">
       <div class="head"><p class="kicker">Partner with Calm Joints</p><h2>Your brand, with a recovery store and a physio.</h2><p>Here’s what a member hub looks like when it sells your products, partner deals and digital physio visits in one place.</p></div>
@@ -612,6 +646,7 @@
       </div>
     </div>
   </section>
+  </div>
 </main>
 
 <footer>
@@ -888,6 +923,7 @@
 </script>
 <script src="/js/book.js?v=7"></script>
 <script src="/js/consent.js"></script>
+<script src="/js/mobile-more.js" defer></script>
 <script src="/js/calming.js"></script>
 <script>
 (function () {
