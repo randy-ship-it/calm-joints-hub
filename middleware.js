@@ -5,7 +5,10 @@ import { aliasRedirect } from './lib/partner-alias.js';
 
 export const config = {
   runtime: 'nodejs',
-  matcher: ['/((?!api/|js/|css/|media/|blog/|lib/|scripts/|data/|_next/|api$|js$|css$|media$|blog$|lib$|scripts$|data$|_next$|about$|admin$|alias$|ambassadors$|app$|apply$|assets$|blog$|book$|careers$|cdn$|chat$|chat-glen$|chat-gwen$|contact$|data$|favicon$|fonts$|glen$|guide$|gwen$|health$|images$|index$|intake$|login$|mail$|newsletter$|p$|partner$|partner-terms$|partners$|privacy$|question$|report$|resume$|robots$|sales$|share$|sitemap$|sms$|static$|status$|team$|terms$|www$)[a-z0-9-]{2,32})/?'],
+  matcher: [
+    '/((?!api/|js/|css/|media/|blog/|lib/|scripts/|data/|_next/|api$|js$|css$|media$|blog$|lib$|scripts$|data$|_next$|about$|admin$|alias$|ambassadors$|app$|apply$|assets$|blog$|book$|careers$|cdn$|chat$|chat-glen$|chat-gwen$|contact$|data$|favicon$|fonts$|glen$|guide$|gwen$|health$|images$|index$|intake$|login$|mail$|newsletter$|p$|partner$|partner-terms$|partners$|privacy$|question$|report$|resume$|robots$|sales$|share$|sitemap$|sms$|static$|status$|team$|terms$|www$)[a-z0-9-]{2,32})',
+    '/((?!api/|js/|css/|media/|blog/|lib/|scripts/|data/|_next/|api$|js$|css$|media$|blog$|lib$|scripts$|data$|_next$|about$|admin$|alias$|ambassadors$|app$|apply$|assets$|blog$|book$|careers$|cdn$|chat$|chat-glen$|chat-gwen$|contact$|data$|favicon$|fonts$|glen$|guide$|gwen$|health$|images$|index$|intake$|login$|mail$|newsletter$|p$|partner$|partner-terms$|partners$|privacy$|question$|report$|resume$|robots$|sales$|share$|sitemap$|sms$|static$|status$|team$|terms$|www$)[a-z0-9-]{2,32})/',
+  ],
 };
 
 export default async function middleware(request) {

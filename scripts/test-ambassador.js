@@ -205,7 +205,7 @@ function call(handler, req) {
     assert.ok(A.ALIAS_MATCHER.includes(name + '$'), name + ' must be excluded from the alias matcher');
   }
   const mid = fs.readFileSync('middleware.js', 'utf8');
-  assert.ok(mid.includes(A.ALIAS_MATCHER));
+  for (const pattern of A.ALIAS_MATCHERS) assert.ok(mid.includes(pattern), pattern);
   assert.ok(mid.includes('status: 302'));
   assert.ok(mid.includes("src=pen") || mid.includes('aliasRedirect'));
   assert.ok(fs.readFileSync('p.html', 'utf8').includes("cj-visit-' + slug + '-' + src"));
