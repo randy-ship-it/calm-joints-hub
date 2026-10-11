@@ -6,20 +6,21 @@
  *   <div data-calming="footer"></div>   footer signup
  *   popup                                built here, when <body data-calming-pop> is set
  *
- * Popup rules: exit intent on desktop; on mobile after ~45s or 50% scroll,
- * whichever comes first. Shown at most once per 14 days, never after a signup,
- * never while the cookie banner or any other dialog is open.
+ * Popup rules: once per visitor, about 15s after load. Easy to dismiss
+ * (close, "No thanks", or Escape). Never after a signup, and never while the
+ * cookie banner or any other dialog is open.
  *
  * Signups go to the site's existing POST /api/newsletter (Friday CRM at
  * fridayapp.org) with src 'cj-calming-newsletter'. Typing an email and pressing
- * Subscribe is the express CASL opt-in (nothing pre-filled or pre-ticked).
- * Add ?cjqa=1 to a URL to mark signups from this tab as test entries.
+ * the button is the express CASL opt-in (nothing pre-filled or pre-ticked).
+ * The popup button reads "Count me in"; the inline and footer forms still say
+ * Subscribe. Add ?cjqa=1 to a URL to mark signups from this tab as test entries.
  */
 (function () {
   var SRC = 'cj-calming-newsletter';
-  var CAP_MS = 14 * 24 * 3600 * 1000, MOBILE_DELAY = 45000, SCROLL_AT = 0.5, ARM_DESKTOP = 4000;
-  var K_SHOWN = 'cj-calming-pop-at', K_SUB = 'cj-calming-sub';
-  // Kept short on purpose: email + Subscribe + one line. Sender ID and the
+  var POP_DELAY = 15000;
+  var K_SHOWN = 'cj-calming-pop-once', K_SUB = 'cj-calming-sub';
+  // Kept short on purpose: email, one button, and one line. Sender ID and the
   // unsubscribe link live in every outbound email (CASL), not on the site.
   var FINE = 'Unsubscribe anytime.';
   var uid = 0;
@@ -84,7 +85,7 @@
   // ---------- popup ----------
   var pop, shown = false, pending = false, lastFocus = null, retry = null;
   function subscribed() { return !!get(K_SUB); }
-  function capped() { var t = +get(K_SHOWN) || 0; return t && Date.now() - t < CAP_MS; }
+  function capped() { return !!get(K_SHOWN); }
   function eligible() { return !shown && !subscribed() && !capped(); }
   function blocked() {
     if (document.querySelector('dialog[open]')) return true;                       // partner, hub, or other dialogs
@@ -118,9 +119,9 @@
     pop.className = 'cn cn-pop'; pop.id = 'cn-pop'; pop.tabIndex = -1;
     pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-labelledby', 'cn-pop-h'); pop.setAttribute('aria-hidden', 'true');
     pop.innerHTML = '<button class="cn-x" type="button" aria-label="Close">×</button>' +
-      '<p class="cn-kick">Calming Newsletters</p><h2 id="cn-pop-h">A calmer inbox for sore joints.</h2>' +
-      '<p class="cn-lede">Short notes from our physios with simple moves and straight answers. Now and then, never spammy.</p>' +
-      formHtml(placement) + '<button class="cn-no" type="button">No thanks</button>';
+      '<h2 id="cn-pop-h">Be first to know.</h2>' +
+      '<p class="cn-lede">Follow our challenges and get first look at new products and insider deals from our brand partners.</p>' +
+      formHtml(placement, 'Count me in') + '<button class="cn-no" type="button">No thanks</button>';
     document.body.appendChild(pop);
     pop.querySelector('.cn-x').addEventListener('click', hide);
     pop.querySelector('.cn-no').addEventListener('click', hide);
@@ -132,21 +133,7 @@
     document.querySelectorAll('dialog').forEach(function (d) { mo.observe(d, { attributes: true, attributeFilter: ['open'] }); });
     document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-book]')) hide(); }, true);
 
-    var desktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches && window.innerWidth > 760;
-    if (desktop) {
-      var armed = false; setTimeout(function () { armed = true; }, ARM_DESKTOP);
-      document.addEventListener('mouseout', function (e) {
-        if (!armed || e.relatedTarget || e.toElement) return;
-        if (e.clientY <= 0) trigger('exit-intent');
-      });
-    } else {
-      setTimeout(function () { trigger('time-45s', true); }, MOBILE_DELAY);
-      var onScroll = function () {
-        var max = document.documentElement.scrollHeight - window.innerHeight;
-        if (max > 0 && window.scrollY / max >= SCROLL_AT) { window.removeEventListener('scroll', onScroll); trigger('scroll-50', true); }
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
+    setTimeout(function () { trigger('time-15s', true); }, POP_DELAY);
   }
 
   function init() {
