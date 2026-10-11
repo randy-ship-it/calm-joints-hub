@@ -14,7 +14,13 @@ async function main() {
   assert.ok(calBody.tags.includes('placement:popup'));
   assert.ok(!calBody.tags.includes('test'));
   assert.strictEqual(calBody.meta.consent.type, 'express');
-  assert.match(calBody.meta.consent.text, /Subscribe/);
+  assert.match(calBody.meta.consent.text, /Count me in/);
+  assert.match(calBody.meta.consent.text, /Be first to know/);
+  assert.strictEqual(calBody.meta.consent.version, 'calming-popup-v3-2026-10-11');
+  const inline = validateNewsletter({ email: 'in@x.co', src: 'cj-calming-newsletter', consent: true, placement: 'inline', page: '/' });
+  const inlineBody = fridayBody('newsletter', inline.value, 'cj-news-in');
+  assert.match(inlineBody.meta.consent.text, /Subscribe/);
+  assert.strictEqual(inlineBody.meta.consent.version, 'calming-v2-2026-10-07');
   assert.match(calBody.meta.consent.sender, /Unit 777, 2255B Queen St E, Toronto ON M4E 1G3/);
   assert.ok(!/Beaufort/i.test(JSON.stringify(calBody)));
   const odd = validateNewsletter({ email: 'o@x.co', src: 'cj-calming-newsletter', consent: true, placement: '<script>', page: 'https://evil.example' });
