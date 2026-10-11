@@ -59,7 +59,7 @@
     location.href = bookUrl || '/';
   }
   if (!ok) { go(); return; }
-  try { var k = 'cj-visit-' + slug + c; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src, c: c }); } }
+  try { var k = 'cj-visit-' + slug + '-' + src + c; if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); post({ slug: slug, event: 'visit', src: src, c: c }); } }
   catch (e) { post({ slug: slug, event: 'visit', src: src, c: c }); }
   document.getElementById('skip').addEventListener('click', function () { go(); });
   document.getElementById('f').addEventListener('submit', function (e) {

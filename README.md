@@ -38,6 +38,10 @@ Physio: `{ externalId, email, firstName, lastName, site, source: "calmjoints_phy
 
 Field ambassador applications use that same `POST /api/apply` door (same Friday post, same alert email). The body is tagged `role=ambassador` and `type:ambassador`, `source` is `calmjoints_ambassador_apply`, `kind` is `form` (not mirrored into the physio lane), and the email subject starts with `Ambassador application`.
 
+Ambassador partner records (a person with a QR or pen link, not a venue signup) are created only by an admin:
+
+`POST /api/admin-partner` with `Authorization: Bearer $CJ_ADMIN_KEY` and JSON `{ "slug", "name", "email", "alias?", "notify?" }`. `slug` is stored exactly (lowercased), for example `amb-randyg-cj`. The record is `contact_type: "ambassador"` with a 20% share of net revenue. Friday gets `partner:<slug>`, `type:ambassador`, and `contact_type: "ambassador"`. Nothing is emailed unless `notify` is true, and then only the ambassador is emailed. An optional `alias` such as `randy` publishes `https://calmjoints.org/randy`, which redirects to `https://calmjoints.org/p/<slug>?src=pen`. Scans of `/p/<slug>?src=qr` and pen visits (`src=pen`) are stored on that partner and counted on `/sales`.
+
 Every Friday record from these forms sends a top-level `contact_type` (`patient` for newsletter, question, and intake, `business` for the partner form, `provider` for physio and careers, `ambassador` for field ambassador) plus the matching `type:` tag. Physio applications send `role: "physiotherapist"`. Careers send `role` as the chosen role. Ambassadors send `role: "ambassador"` and `source: "calmjoints_ambassador_apply"`. Intake sends top-level `org_type` when one was picked. Sales send top-level `sale_type`. Tag lists stay under 12.
 
 This site does not call `/api/webhooks/calmjoints/*`.

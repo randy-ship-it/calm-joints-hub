@@ -43,6 +43,8 @@
     }
   ],
   "functions": {
+    "api/admin-partner.js": { "includeFiles": "lib/**" },
+    "api/alias.js": { "includeFiles": "lib/**" },
     "api/apply.js": { "includeFiles": "lib/**" },
     "api/careers.js": { "includeFiles": "lib/**" },
     "api/cj-sales.js": { "includeFiles": "lib/**" },
