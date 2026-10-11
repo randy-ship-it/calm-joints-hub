@@ -354,7 +354,49 @@ function buyer(handle, extra) {
 
   const catalogRes = await call(checkout, { method: 'GET', url: '/api/drive-checkout', headers: {} });
   assert.strictEqual(catalogRes.body.live, false);
+  assert.strictEqual(catalogRes.body.mode, 'closed');
   assert.ok(!JSON.stringify(catalogRes.body).includes('print_cost'));
+  assert.ok(!/name=["'](card|cvc|cvv|pan)/i.test(page));
+  assert.ok(!page.includes('cc-number'));
+  assert.ok(page.includes('In-car + outside decals'));
+  assert.ok(page.includes("We'll email you a secure payment link within 24h; your kit ships after payment."));
+  assert.ok(fs.readFileSync('admin/decals.html', 'utf8').includes('Mark paid'));
+
+  const manualEnv = { ...env, CJ_DRIVE_MODE: 'manual' };
+  const cardTry = await D.createManualOrder({ ...buyer('card-try'), card_number: '4242424242424242', cvc: '123' }, manualEnv, { skipRateLimit: true, fetchImpl: global.fetch });
+  assert.strictEqual(cardTry.status, 400);
+  assert.ok(!store.has('drive-handles/card-try.json'));
+  const beforeConfirm = hits.filter((h) => h.url.includes('resend')).length;
+  const manual = await D.createManualOrder(buyer('manual-kim'), manualEnv, { skipRateLimit: true, fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
+  assert.strictEqual(manual.status, 200, JSON.stringify(manual.json));
+  assert.strictEqual(manual.json.status, 'awaiting payment');
+  assert.strictEqual(manual.json.url, null);
+  assert.strictEqual(manual.json.message, "We'll email you a secure payment link within 24h; your kit ships after payment.");
+  const saved = await D.readOrder(manual.json.order_id, manualEnv);
+  assert.strictEqual(saved.status, 'awaiting payment');
+  assert.ok(!JSON.stringify(saved).match(/card_number|cvc|pan/i));
+  assert.strictEqual(await D.handleTaken('manual-kim', manualEnv, Date.now() + 7 * 86400000), 'hold');
+  const confirmMails = hits.filter((h) => h.url.includes('resend')).slice(beforeConfirm).map((h) => JSON.parse(h.body));
+  assert.ok(confirmMails.some((m) => m.to.includes('team@example.com') && m.text.includes(manual.json.message)));
+  assert.ok(confirmMails.some((m) => m.to.includes('avery@example.com') && m.text.includes(manual.json.message)));
+  const queued = await D.listOrders(manualEnv);
+  assert.ok(queued.some((o) => o.handle === 'manual-kim' && o.status === 'awaiting payment' && o.margin_amount > 0));
+  const paidManual = await D.markPaid(manual.json.order_id, manualEnv, { fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
+  assert.strictEqual(paidManual.status, 200, JSON.stringify(paidManual.json));
+  assert.ok(paidManual.json.order.partner_slug);
+  assert.ok(store.has('drive-orders/' + manual.json.order_id + '/headrest.pdf'));
+  const fridayManual = hits.map((h) => { try { return JSON.parse(h.body); } catch { return null; } }).filter((b) => b && b.externalId === 'cj-qrpartner-drv-manual-kim');
+  assert.strictEqual(fridayManual.length, 1);
+
+  const linkEnv = { ...manualEnv, STRIPE_PAYMENT_LINK_INCAR: 'https://buy.stripe.com/test_incar', STRIPE_PAYMENT_LINK_FULL: 'https://buy.stripe.com/test_full' };
+  const linked = await D.createManualOrder(buyer('pay-link', { exterior: true }), linkEnv, { skipRateLimit: true, fetchImpl: global.fetch });
+  const payUrl = new URL(linked.json.url);
+  assert.strictEqual(payUrl.hostname, 'buy.stripe.com');
+  assert.strictEqual(payUrl.searchParams.get('prefilled_email'), 'avery@example.com');
+  assert.strictEqual(payUrl.searchParams.get('client_reference_id'), linked.json.order_id);
+  assert.strictEqual(payUrl.pathname, '/test_full');
+  const blockedLink = await D.paymentLinkFor({ kits: ['incar'], email: 'avery@example.com', id: 'drv_x' }, { STRIPE_PAYMENT_LINK_INCAR: 'https://evil.example/pay' });
+  assert.strictEqual(blockedLink, null);
   const foreign = await call(checkout, { method: 'POST', url: '/api/drive-checkout', headers: { origin: 'https://evil.example', host: 'calmjoints.org' }, body: buyer('nope') });
   assert.strictEqual(foreign.status, 403);
 

@@ -23,7 +23,8 @@ module.exports = async function handler(req, res) {
   if (typeof body === 'string') { try { body = JSON.parse(body.slice(0, 20000)); } catch { body = null; } }
   if (!body || typeof body !== 'object') { send(res, 400, { ok: false, message: 'Send JSON with an order id.' }); return; }
   try {
-    const out = await D.markOrdered(body.id || body.order_id, body, env);
+    const id = body.id || body.order_id;
+    const out = body.action === 'paid' ? await D.markPaid(id, env, { origin: D.originFrom(req) }) : await D.markOrdered(id, body, env);
     send(res, out.status, out.json);
   } catch (err) {
     console.error('[decals] mark failed', err && err.message);
