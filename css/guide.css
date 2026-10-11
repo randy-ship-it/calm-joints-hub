@@ -3,6 +3,7 @@
 .cjg *{box-sizing:border-box}
 .cjg [hidden]{display:none!important}
 .cjg-head{display:flex;align-items:center;gap:.55rem;padding:.85rem 1rem;border-bottom:1px solid var(--line);flex:0 0 auto}
+.cjg-head > a.cjg-homelink{display:flex;align-items:center;gap:.55rem;min-width:0;text-decoration:none;color:inherit}
 .cjg-head img{width:30px;height:30px;border-radius:8px}
 .cjg-head b{font-weight:700;font-size:1rem}
 .cjg-brand{display:flex;flex-direction:column;min-width:0;line-height:1.15}

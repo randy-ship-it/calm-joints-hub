@@ -133,7 +133,7 @@
     var self = this, o = this.o;
     this.root.classList.add('cjg');
     this.root.innerHTML =
-      '<div class="cjg-head"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><span class="cjg-brand"><b>Calm Joints</b><small class="cj-tag-g">In the moment recovery care</small></span>' +
+      '<div class="cjg-head"><a class="cjg-homelink" href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-mark.svg" alt="" width="30" height="30"><span class="cjg-brand"><b>Calm Joints</b><small class="cj-tag-g">In the moment recovery care</small></span></a>' +
       (window.CJShare ? '<button type="button" class="cjg-hshare" data-a="hshare" aria-label="Share your recovery concierge: send someone Glen or Gwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share</button>' : '') +
       (o.onClose ? '<button type="button" class="cjg-x" aria-label="Close">&times;</button>' : '') + '</div>' +
       '<div class="cjg-body" data-s="gate">' +
@@ -160,6 +160,15 @@
       '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button>' + (window.CJHelped ? '<button type="button" class="cjg-chip" data-a="helped">\uD83D\uDC4D This helped</button>' : '') + '</div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
       '<div class="cjg-foot" data-gdisc>' + discloseHtml() + '</div>';
+    var home = this.root.querySelector('a.cjg-homelink');
+    if (home) home.addEventListener('click', function (e) {
+      var path = location.pathname;
+      if (path !== '/' && path !== '/index.html') return;
+      e.preventDefault();
+      try { history.scrollRestoration = 'manual'; } catch (err) {}
+      window.scrollTo(0, 0);
+      location.reload();
+    });
     this.root.addEventListener('click', function (e) {
       var a = e.target.closest('[data-a]'); if (!a || !self.root.contains(a)) return;
       var act = a.getAttribute('data-a');
