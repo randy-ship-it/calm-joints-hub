@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calm Joints | Decal queue</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<style>
+  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8}
+  *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#F6FAF7}
+  main{max-width:1100px;margin:0 auto;padding:1.5rem}
+  h1{font-size:1.4rem;margin:0 0 .4rem} h2{font-size:1.05rem;margin:1.4rem 0 .5rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem;margin:.8rem 0}
+  .mute{color:var(--mute)} .err{color:#B42318;font-weight:600}
+  form.login{display:flex;gap:.5rem;max-width:420px} input,button{font:inherit}
+  input{padding:.65rem;border:1px solid #CFD9D3;border-radius:10px}
+  button{padding:.65rem 1rem;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:700;cursor:pointer}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);font-size:.88rem;vertical-align:top}
+  th{background:#EDFAF4} td.n,th.n{text-align:right;white-space:nowrap}
+  .rowform{display:flex;gap:.4rem;flex-wrap:wrap} .rowform input{flex:1;min-width:8rem}
+  a{color:var(--green)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Decal queue</h1>
+  <p class="mute">Vistaprint has no public ordering API. This queue is the manual fallback. A paid order is submitted to Cimpress or Printful automatically when those credentials exist. Sticker Mule’s API only reorders saved items, so it cannot print a unique QR.</p>
+  <form class="login" id="login" hidden><input type="password" id="key" placeholder="Admin key" autocomplete="current-password" aria-label="Admin key"><button>Open</button></form>
+  <p id="msg" class="mute" role="status"></p>
+  <div id="out" hidden>
+    <section class="card" id="adapters"></section>
+    <h2>Paid orders</h2>
+    <table>
+      <thead><tr><th>Order</th><th>Ship to</th><th class="n">Price</th><th class="n">Print</th><th class="n">Ship</th><th class="n">Stripe</th><th class="n">HST handling</th><th class="n">Margin</th><th>Print</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</main>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var cad = function (n) { return '$' + Number(n || 0).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  function ship(o) {
+    var s = o.ship || {};
+    return [o.name, s.line1, s.line2, [s.city, s.province, s.postal].filter(Boolean).join(' '), o.phone, o.email].filter(Boolean).map(esc).join('<br>');
+  }
+  function creds(block) {
+    var miss = (block.missing || []).length ? 'Needs ' + block.missing.join(', ') + '.' : 'Required credentials are set.';
+    var opt = (block.optional || []).length ? ' Optional: ' + block.optional.join(', ') + '.' : '';
+    return esc(miss + opt + (block.reason ? ' ' + block.reason : '') + (block.fits ? ' ' + block.fits : ''));
+  }
+  function paint(d) {
+    var a = d.adapters || {};
+    $('adapters').innerHTML = '<b>' + esc(a.automated_today || '') + '</b><p class="mute">Active adapter: ' + esc(a.active) + '.</p>'
+      + '<p class="mute"><b>Cimpress Open</b> (preferred when set). ' + creds(a.cimpress || {}) + '</p>'
+      + '<p class="mute"><b>Printful</b> (automated when a token and every piece variant are set). ' + creds(a.printful || {}) + '</p>'
+      + '<p class="mute"><b>Sticker Mule</b>. ' + esc((a.stickermule && a.stickermule.reason) || '') + '</p>'
+      + '<p class="mute"><b>Manual queue</b>. ' + esc((a.manual && a.manual.reason) || '') + '</p>';
+    $('rows').innerHTML = (d.orders || []).map(function (o) {
+      var f = o.fulfilment || {};
+      var arts = (o.pieces || []).map(function (p) {
+        var href = p.artwork_url || ('/api/drive-artwork?order=' + encodeURIComponent(o.id) + '&piece=' + encodeURIComponent(p.id));
+        return '<a href="' + esc(href) + '">' + esc(p.name) + '</a>';
+      }).join(' · ');
+      return '<tr><td><b>/' + esc(o.handle) + '</b><div class="mute">' + esc(o.id) + ' · ' + esc(o.status) + (f.adapter ? ' · ' + esc(f.adapter) : '') + (f.tracking ? ' · ' + esc(f.tracking) : '') + (f.error ? '<br>' + esc(f.error) : '') + '</div><div>' + arts + '</div></td>'
+        + '<td>' + ship(o) + '</td>'
+        + '<td class="n">' + cad(o.price) + '</td><td class="n">' + cad(o.print_cost) + '</td><td class="n">' + cad(o.ship_cost) + '</td><td class="n">' + cad(o.stripe_fee) + '</td><td class="n">' + cad(o.hst_handling) + '</td><td class="n">' + cad(o.margin_amount) + '</td>'
+        + '<td><form class="rowform" data-id="' + esc(o.id) + '"><input name="tracking" placeholder="Tracking, if shipped" aria-label="Tracking"><button>Mark ordered</button></form></td></tr>';
+    }).join('') || '<tr><td colspan="9" class="mute">No paid orders yet.</td></tr>';
+    Array.prototype.forEach.call(document.querySelectorAll('.rowform'), function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var key = sessionStorage.getItem('cj_admin_key');
+        fetch('/api/admin-decals', { method: 'POST', headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' }, body: JSON.stringify({ id: form.getAttribute('data-id'), tracking: form.tracking.value }) })
+          .then(function (r) { return r.json(); })
+          .then(function (j) { $('msg').textContent = j.message || (j.ok ? 'Updated.' : 'Could not update.'); if (j.ok) load(); })
+          .catch(function () { $('msg').className = 'err'; $('msg').textContent = 'Could not update.'; });
+      });
+    });
+  }
+  function load() {
+    var key = sessionStorage.getItem('cj_admin_key');
+    if (!key) { $('login').hidden = false; return; }
+    fetch('/api/admin-decals', { headers: { Authorization: 'Bearer ' + key } }).then(function (r) { return r.json().then(function (j) { return { r: r, j: j }; }); }).then(function (o) {
+      if (o.r.status === 401) { sessionStorage.removeItem('cj_admin_key'); $('login').hidden = false; $('msg').className = 'err'; $('msg').textContent = 'That key didn’t work.'; return; }
+      if (!o.j.ok) throw new Error(o.j.message || 'Could not load the queue.');
+      $('login').hidden = true; $('out').hidden = false; $('msg').className = 'mute'; $('msg').textContent = '';
+      paint(o.j);
+    }).catch(function (e) { $('msg').className = 'err'; $('msg').textContent = e.message; });
+  }
+  $('login').addEventListener('submit', function (e) { e.preventDefault(); var k = $('key').value.trim(); if (!k) return; sessionStorage.setItem('cj_admin_key', k); load(); });
+  load();
+})();
+</script>
+</body>
+</html>

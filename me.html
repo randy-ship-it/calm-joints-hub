@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Calm Joints | Your code</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#15803D">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#15803D;--ink:#0B1D16;--mute:#4B5E54;--line:#E6ECE8;--soft:#F1FBF4;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font:16px/1.55 var(--sans);background:linear-gradient(180deg,#F1FBF4,#fff 50%);min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:1.4rem 1.1rem 3rem}
+  header img{height:34px;width:auto} header a{line-height:0;text-decoration:none}
+  h1{font-size:1.7rem;letter-spacing:-.02em;margin:.4rem 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:1.2rem;margin-top:1rem}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem}
+  .stat b{display:block;font-size:1.5rem}
+  .stat span,.note{color:var(--mute);font-size:.9rem}
+  .big{font-size:2.2rem;font-weight:700;letter-spacing:-.02em}
+  input{width:100%;margin-top:.8rem;padding:.85rem 1rem;border:1px solid #CFD9D3;border-radius:12px;font:inherit}
+  .btn{margin-top:.8rem;padding:.8rem 1.2rem;border:0;border-radius:999px;background:var(--green);color:#fff;font:700 1rem var(--sans);cursor:pointer}
+  .hide{display:none}
+  .err{color:#B42318;font-weight:600}
+  @media (max-width:560px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="124" height="34"></a></header>
+  <form class="card" id="login">
+    <h1>Your dashboard</h1>
+    <p class="note">Enter the email on your kit order. We’ll send a sign-in link. No password.</p>
+    <input type="email" id="email" autocomplete="email" placeholder="you@email.com" aria-label="Email">
+    <button class="btn" type="submit">Email me a sign-in link</button>
+    <p class="note" id="lmsg" role="status"></p>
+  </form>
+  <main id="dash" class="hide">
+    <p class="note" id="d-handle"></p>
+    <h1 id="d-name">Your code</h1>
+    <p class="note" id="d-share"></p>
+    <div class="grid">
+      <div class="stat"><b id="s-scans">0</b><span>Scans</span></div>
+      <div class="stat"><b id="s-bookings">0</b><span>Bookings</span></div>
+      <div class="stat"><b id="s-revenue">$0.00</b><span>Attributed revenue</span></div>
+      <div class="stat"><b id="s-owed">$0.00</b><span>Commission owed</span></div>
+    </div>
+    <section class="card">
+      <div class="big" id="b-owed">$0.00</div>
+      <p class="note" id="d-rule"></p>
+    </section>
+  </main>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var cad = function (n) { return '$' + Number(n || 0).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  var parts = location.pathname.split('/').filter(Boolean);
+  var handle = parts[0] === 'me' ? (parts[1] || '') : '';
+  var token = new URLSearchParams(location.search).get('t') || '';
+  function show(d) {
+    if (handle && d.handle && d.handle !== handle) {
+      $('login').classList.remove('hide');
+      $('lmsg').className = 'note err';
+      $('lmsg').textContent = 'This link is for a different code.';
+      return;
+    }
+    $('login').classList.add('hide');
+    $('dash').classList.remove('hide');
+    $('d-name').textContent = d.venue || 'Your code';
+    $('d-handle').textContent = d.handle ? 'calmjoints.org/' + d.handle : '';
+    $('d-share').textContent = d.pending_randy ? (d.share || '') + ' — PENDING RANDY DECISION' : (d.share || '');
+    $('s-scans').textContent = d.scans || 0;
+    $('s-bookings').textContent = d.bookings || 0;
+    $('s-revenue').textContent = cad(d.revenue);
+    $('s-owed').textContent = cad(d.commission_owed != null ? d.commission_owed : d.owed);
+    $('b-owed').textContent = cad(d.commission_owed != null ? d.commission_owed : d.owed);
+    $('d-rule').textContent = d.payout_rule || 'Paid monthly once $500 is owed.';
+  }
+  if (token) {
+    fetch('/api/partner-portal?t=' + encodeURIComponent(token)).then(function (r) { return r.json().then(function (j) { return { r: r, j: j }; }); }).then(function (o) {
+      if (!o.j.ok) { $('lmsg').className = 'note err'; $('lmsg').textContent = o.j.message || 'That link has expired.'; return; }
+      show(o.j.dashboard);
+    }).catch(function () { $('lmsg').className = 'note err'; $('lmsg').textContent = 'Your dashboard is busy. Try again in a minute.'; });
+  }
+  $('login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('lmsg').textContent = 'Sending…';
+    fetch('/api/partner-portal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'login', email: $('email').value }) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { $('lmsg').className = 'note'; $('lmsg').textContent = j.message || 'Check your inbox.'; })
+      .catch(function () { $('lmsg').className = 'note err'; $('lmsg').textContent = 'Could not send that just now.'; });
+  });
+})();
+</script>
+</body>
+</html>

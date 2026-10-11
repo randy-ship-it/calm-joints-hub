@@ -12,6 +12,12 @@ const partnerEvents = require('../api/partner-events');
 const partnerPortal = require('../api/partner-portal');
 const adminPartner = require('../api/admin-partner');
 const aliasApi = require('../api/alias');
+const driveCheckout = require('../api/drive-checkout');
+const driveWebhook = require('../api/drive-webhook');
+const driveArtwork = require('../api/drive-artwork');
+const adminDecals = require('../api/admin-decals');
+const cimpressWebhook = require('../api/cimpress-webhook');
+const printfulWebhook = require('../api/printful-webhook');
 const { aliasRedirect } = require('../lib/partner-alias');
 
 const root = path.join(__dirname, '..');
@@ -30,6 +36,7 @@ const types = {
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml',
   '.json': 'application/json',
+  '.pdf': 'application/pdf',
 };
 
 const server = http.createServer((req, res) => {
@@ -45,9 +52,16 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/partner-portal') return partnerPortal(req, res);
   if (url.pathname === '/api/admin-partner') return adminPartner(req, res);
   if (url.pathname === '/api/alias') return aliasApi(req, res);
+  if (url.pathname === '/api/drive-checkout') return driveCheckout(req, res);
+  if (url.pathname === '/api/drive-webhook') return driveWebhook(req, res);
+  if (url.pathname === '/api/drive-artwork') return driveArtwork(req, res);
+  if (url.pathname === '/api/admin-decals') return adminDecals(req, res);
+  if (url.pathname === '/api/cimpress-webhook') return cimpressWebhook(req, res);
+  if (url.pathname === '/api/printful-webhook') return printfulWebhook(req, res);
   if (url.pathname.startsWith('/p/')) { req.url = '/p.html?slug=' + url.pathname.slice(3); }
 
   let rel = decodeURIComponent(url.pathname);
+  if (/^\/me\/[a-z0-9-]{2,32}\/?$/i.test(url.pathname)) rel = '/me.html';
   if (rel === '/' || rel.endsWith('/')) rel = '/index.html';
   else if (!path.extname(rel)) rel += '.html';
   const file = path.normalize(path.join(root, rel));
@@ -60,7 +74,7 @@ const server = http.createServer((req, res) => {
     if (err) {
       const seg = url.pathname.split('/').filter(Boolean);
       if (req.method === 'GET' && seg.length === 1) {
-        aliasRedirect(seg[0], process.env).then((dest) => {
+        aliasRedirect(seg[0], process.env, url.searchParams.get('src')).then((dest) => {
           if (!dest) { res.writeHead(404); res.end('Not found'); return; }
           res.writeHead(302, { Location: dest.location, 'Cache-Control': 'no-store' });
           res.end();
@@ -71,7 +85,9 @@ const server = http.createServer((req, res) => {
       res.end('Not found');
       return;
     }
-    res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' });
+    const headers = { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' };
+    if (rel === '/drive.html' || rel === '/me.html' || rel.startsWith('/admin/')) headers['X-Robots-Tag'] = 'noindex, nofollow';
+    res.writeHead(200, headers);
     res.end(buf);
   });
 });
