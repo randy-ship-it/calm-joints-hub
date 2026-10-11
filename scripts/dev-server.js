@@ -10,6 +10,9 @@ const qrPartner = require('../api/qr-partner');
 const qrLead = require('../api/qr-lead');
 const partnerEvents = require('../api/partner-events');
 const partnerPortal = require('../api/partner-portal');
+const adminPartner = require('../api/admin-partner');
+const aliasApi = require('../api/alias');
+const { aliasRedirect } = require('../lib/partner-alias');
 
 const root = path.join(__dirname, '..');
 const port = Number(process.env.PORT || 4173);
@@ -40,6 +43,8 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/qr-lead') return qrLead(req, res);
   if (url.pathname === '/api/partner-events') return partnerEvents(req, res);
   if (url.pathname === '/api/partner-portal') return partnerPortal(req, res);
+  if (url.pathname === '/api/admin-partner') return adminPartner(req, res);
+  if (url.pathname === '/api/alias') return aliasApi(req, res);
   if (url.pathname.startsWith('/p/')) { req.url = '/p.html?slug=' + url.pathname.slice(3); }
 
   let rel = decodeURIComponent(url.pathname);
@@ -53,6 +58,15 @@ const server = http.createServer((req, res) => {
   }
   fs.readFile(file, (err, buf) => {
     if (err) {
+      const seg = url.pathname.split('/').filter(Boolean);
+      if (req.method === 'GET' && seg.length === 1) {
+        aliasRedirect(seg[0], process.env).then((dest) => {
+          if (!dest) { res.writeHead(404); res.end('Not found'); return; }
+          res.writeHead(302, { Location: dest.location, 'Cache-Control': 'no-store' });
+          res.end();
+        }).catch(() => { res.writeHead(404); res.end('Not found'); });
+        return;
+      }
       res.writeHead(404);
       res.end('Not found');
       return;
