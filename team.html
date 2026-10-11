@@ -230,6 +230,17 @@
     .lede { margin-top: .3rem; font-size: 1rem; }
     .carousel { margin-top: .4rem; }
   }
+  .lede-short, .m-more-wrap { display: none; }
+  @media (max-width: 640px) {
+    .intro .kicker, .lede-long { display: none; }
+    .lede-short { display: block; }
+    .card .bio, .card .view, .onboard, .book-note { display: none; }
+    body.show-more .card .bio { display: -webkit-box; }
+    body.show-more .card .view, body.show-more .onboard, body.show-more .book-note { display: block; }
+    .m-more-wrap { display: block; text-align: center; margin: .1rem 0 .15rem; }
+    .m-more { background: none; border: 0; padding: .4rem .75rem; color: var(--green); font: 600 .95rem var(--sans); cursor: pointer; text-decoration: underline; text-underline-offset: .18em; }
+    .m-more:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .rail { scroll-behavior: auto; }
     .dots button::before, .card, #team-dialog, #team-dialog::backdrop { transition: none; }
@@ -252,7 +263,8 @@
   <div class="wrap intro">
     <p class="kicker">The clinic</p>
     <h1>Meet some of our physiotherapists</h1>
-    <p class="lede">Registered physiotherapists you can see by video, at home or in person.</p>
+    <p class="lede lede-long">Registered physiotherapists you can see by video, at home or in person.</p>
+    <p class="lede lede-short">By video, at home or in person.</p>
   </div>
   <section class="carousel" aria-roledescription="carousel" aria-label="Calm Joints physiotherapists">
     <div class="controls">
@@ -266,6 +278,7 @@
     </div>
     <div class="rail" id="rail" role="list" tabindex="0" aria-label="Physiotherapist profiles. Swipe sideways."></div>
   </section>
+  <p class="m-more-wrap"><button type="button" class="m-more" aria-expanded="false">More</button></p>
   <p class="onboard">We're onboarding dozens of therapists right now. Stay tuned for more profiles.</p>
   <p class="book-note">When you book, you may see one of the physios here or another member of our growing team who isn't on the site yet.</p>
   <div class="wrap actions">
@@ -299,6 +312,7 @@
 <script src="/config.js"></script>
 <script src="/js/book.js?v=7"></script>
 <script src="/js/consent.js"></script>
+<script src="/js/mobile-more.js" defer></script>
 <script src="/js/team-data.js"></script>
 <script>
 (function () {
