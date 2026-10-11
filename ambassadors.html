@@ -31,6 +31,8 @@
   .top nav a { text-decoration:none; font-weight:600; font-size:.92rem; color:var(--mute); }
   .hero { background:var(--deep); color:#fff; }
   .hero-in { max-width:720px; margin:0 auto; padding:.2rem 1.1rem 1.15rem; }
+  .flyer { margin:0 0 .85rem; }
+  .flyer img { width:100%; height:auto; border-radius:18px; }
   h1 { margin:0; font-size:clamp(1.7rem,6.2vw,2.35rem); line-height:1.05; letter-spacing:-.03em; max-width:18ch; }
   .pay { margin:.7rem 0 0; font-size:1rem; font-weight:600; color:#E7F6EE; max-width:36rem; }
   .fine { margin:.85rem 0 0; font-size:.78rem; line-height:1.35; color:#8A978F; }
@@ -73,6 +75,23 @@
 <header class="top"><a href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="160" height="44"></a><nav><a href="/careers">Careers</a></nav></header>
 <section class="hero">
   <div class="hero-in">
+    <figure class="flyer" id="amb-flyer">
+      <noscript><img src="/media/ambassadors/flyer-v4.webp" width="1080" height="1080" alt="Field ambassador flyer. A woman in a green hoodie. Get paid to spread the word, door-to-door in Toronto's best neighbourhoods. Earn $1,000+ a week potential."></noscript>
+    </figure>
+    <script>
+    (function () {
+      var couple = Math.random() < 0.3;
+      var img = document.createElement('img');
+      img.width = 1080;
+      img.height = 1080;
+      img.decoding = 'async';
+      img.alt = couple
+        ? "Field ambassador flyer. A couple outdoors. Get paid to spread the word, door-to-door in Toronto's best neighbourhoods. Earn $1,000+ a week potential."
+        : "Field ambassador flyer. A woman in a green hoodie. Get paid to spread the word, door-to-door in Toronto's best neighbourhoods. Earn $1,000+ a week potential.";
+      img.src = couple ? '/media/ambassadors/flyer-v2.webp' : '/media/ambassadors/flyer-v4.webp';
+      document.getElementById('amb-flyer').appendChild(img);
+    })();
+    </script>
     <h1>Get paid to spread the word. Door-to-door in Toronto's best neighbourhoods.</h1>
     <p class="pay">Earn $1,000+/week potential walking around, talking to people, dropping door hangers. Paid on your own QR code. Contract, flexible.</p>
   </div>
