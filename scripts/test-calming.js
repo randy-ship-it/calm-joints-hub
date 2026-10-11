@@ -1,4 +1,6 @@
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
 const { validateNewsletter, processIntake, fridayBody } = require('../lib/intake');
 
 async function main() {
@@ -12,7 +14,16 @@ async function main() {
   assert.strictEqual(calBody.path, '/blog');
   assert.ok(calBody.tags.includes('cj-calming-newsletter'));
   assert.ok(calBody.tags.includes('placement:popup'));
+  assert.ok(calBody.tags.includes('type:patient'));
   assert.ok(!calBody.tags.includes('test'));
+  assert.ok(calBody.tags.length < 12);
+  const calAttr = validateNewsletter({ email: 'Cal@X.co', src: 'cj-calming-newsletter', consent: true, placement: 'popup', page: '/blog', partner: 'jack', qr: 'a1b2c3' });
+  const calAttrBody = fridayBody('newsletter', calAttr.value, 'cj-news-cal-attr');
+  assert.ok(calAttrBody.tags.includes('partner:jack') && calAttrBody.tags.includes('qr:a1b2c3') && calAttrBody.tags.includes('type:patient'));
+  assert.ok(calAttrBody.tags.length < 12);
+  const calmingJs = fs.readFileSync(path.join(__dirname, '..', 'js', 'calming.js'), 'utf8');
+  assert.ok(calmingJs.includes("localStorage.getItem('cj_ref')"));
+  assert.ok(calmingJs.includes('body.partner') && calmingJs.includes('body.qr'));
   assert.strictEqual(calBody.meta.consent.type, 'express');
   assert.match(calBody.meta.consent.text, /Count me in/);
   assert.match(calBody.meta.consent.text, /Be first to know/);

@@ -7,6 +7,17 @@ function cjReadFile(file) {
   });
 }
 
+function cjStoredRef() {
+  try {
+    var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
+    if (!r || !r.slug || Date.now() - r.at >= 30 * 864e5) return {};
+    var out = {};
+    if (/^[a-z0-9-]{3,48}$/.test(r.slug)) out.partner = r.slug;
+    if (r.c && /^[a-f0-9]{6}$/.test(String(r.c))) out.qr = String(r.c);
+    return out;
+  } catch (e) { return {}; }
+}
+
 function cjForm(form, endpoint, onOk) {
   const msg = form.querySelector('.msg');
   const btn = form.querySelector('button[type=submit]');
@@ -23,7 +34,9 @@ function cjForm(form, endpoint, onOk) {
         if (file.size > 3 * 1024 * 1024) throw new Error('That file is over 3 MB. A smaller PDF works great.');
         data[k] = { name: file.name, type: file.type, data: await cjReadFile(file) };
       }
-      const res = await fetch(form.getAttribute('data-endpoint') || endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const ep = form.getAttribute('data-endpoint') || endpoint;
+      if (/\/api\/(newsletter|question|intake)$/.test(ep)) Object.assign(data, cjStoredRef());
+      const res = await fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       const out = await res.json().catch(() => ({}));
       if (!res.ok || !out.ok) throw new Error(out.message || 'Something went wrong. Try once more?');
       msg.className = 'msg ok'; msg.textContent = out.message; form.reset();

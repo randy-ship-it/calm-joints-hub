@@ -713,6 +713,17 @@
 </dialog>
 <script>
 (function () {
+  function cjStoredRef() {
+    try {
+      var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
+      if (!r || !r.slug || Date.now() - r.at >= 30 * 864e5) return {};
+      var out = {};
+      if (/^[a-z0-9-]{3,48}$/.test(r.slug)) out.partner = r.slug;
+      if (r.c && /^[a-f0-9]{6}$/.test(String(r.c))) out.qr = String(r.c);
+      return out;
+    } catch (e) { return {}; }
+  }
+  window.cjStoredRef = cjStoredRef;
   try {
     var ref = new URLSearchParams(location.search).get('ref') || '';
     var m = ref.match(/^partner:([a-z0-9-]{3,48})$/);
@@ -889,6 +900,7 @@
         }
       });
       if (formId === 'apply-form') data.provinces = data.provinces || [];
+      if (formId === 'talk-form') Object.assign(data, cjStoredRef());
       var button = form.querySelector('button[type="submit"]');
       button.disabled = true;
       button.classList.add('is-loading');
@@ -984,7 +996,8 @@
     var v = em.value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { em.classList.add('is-invalid'); st.classList.add('err'); st.textContent = v ? 'That email doesn’t look quite right. Try once more?' : 'Add your email and we’ll open Scale Hubs for you.'; em.focus(); return; }
     var btn = form.querySelector('button[type=submit]'); btn.disabled = true; st.classList.remove('err'); st.textContent = 'One sec…';
-    fetch('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v, src: 'cj-brands-full', company: form.company.value }) })
+    var ref = (window.cjStoredRef && window.cjStoredRef()) || {};
+    fetch('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ email: v, src: 'cj-brands-full', company: form.company.value }, ref)) })
       .then(function (r) { if (!r.ok) throw new Error(); wrap.classList.add('done'); st.textContent = 'No upfront cost. Full needs a minimum audience size.'; document.getElementById('bf-link').focus(); })
       .catch(function () { st.classList.add('err'); st.textContent = 'We couldn’t save that just now. Email info@calmjoints.org, or just browse below.'; })
       .finally(function () { btn.disabled = false; });

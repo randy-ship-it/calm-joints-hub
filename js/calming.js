@@ -29,6 +29,17 @@
   function qa() { try { return sessionStorage.getItem('cj-qa') === '1'; } catch (e) { return false; } }
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  // Same stored partner/QR the booking ledger reads (cj_ref, 30 days).
+  function storedRef() {
+    try {
+      var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
+      if (!r || !r.slug || Date.now() - r.at >= 30 * 864e5) return {};
+      var out = {};
+      if (/^[a-z0-9-]{3,48}$/.test(r.slug)) out.partner = r.slug;
+      if (r.c && /^[a-f0-9]{6}$/.test(String(r.c))) out.qr = String(r.c);
+      return out;
+    } catch (e) { return {}; }
+  }
 
   function formHtml(placement, cta) {
     var id = 'cn-' + placement + '-' + (++uid);
@@ -53,6 +64,9 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { em.classList.add('bad'); msg.className = 'cn-msg err'; msg.textContent = v ? 'That email doesn’t look quite right.' : 'Add your email first.'; em.focus(); return; }
       btn.disabled = true; msg.textContent = 'One sec…';
       var body = { email: v, consent: true, src: SRC, placement: form.getAttribute('data-placement'), page: location.pathname, company: form.company.value };
+      var ref = storedRef();
+      if (ref.partner) body.partner = ref.partner;
+      if (ref.qr) body.qr = ref.qr;
       if (qa()) body.test = true;
       fetch('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (out) { if (!r.ok || !out.ok) throw new Error(out.message || 'We couldn’t save that just now. Try once more?'); return out; }); })
