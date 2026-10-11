@@ -59,7 +59,7 @@ async function main() {
     source: 'calmjoints_newsletter',
     path: '/newsletter',
     kind: 'form',
-    tags: ['calmjoints', 'newsletter'],
+    tags: ['calmjoints', 'newsletter', 'type:patient'],
     meta: { name: 'Ada Lovelace' },
   });
   const newsBare = fridayBody('newsletter', { email: 'bea@example.com', name: null }, 'cj-news-bare');
@@ -79,7 +79,7 @@ async function main() {
   assert.strictEqual(applyFriday.path, '/apply');
   assert.strictEqual(applyFriday.site, 'calmjoints.org');
   assert.strictEqual(applyFriday.source, 'calmjoints_physio_apply');
-  assert.deepStrictEqual(applyFriday.tags, ['calmjoints', 'physio-apply']);
+  assert.deepStrictEqual(applyFriday.tags, ['calmjoints', 'physio-apply', 'type:provider']);
   assert.strictEqual(applyFriday.meta.linkedin, 'priya-physio');
   assert.strictEqual(applyFriday.meta.license, 'PT 12345');
   assert.strictEqual(applyFriday.meta.years_experience, 8);
@@ -150,7 +150,7 @@ async function main() {
         source: 'calmjoints_newsletter',
         path: '/newsletter',
         kind: 'form',
-        tags: ['calmjoints', 'newsletter'],
+        tags: ['calmjoints', 'newsletter', 'type:patient'],
       });
       assert.strictEqual(init.headers.Authorization, 'Bearer door-key');
       assert.strictEqual(init.headers['X-Intake-Secret'], 'door-key');
@@ -184,7 +184,7 @@ async function main() {
         assert.strictEqual(body.site, 'scalehealth.ca');
         assert.strictEqual(body.lane, 'fulfillment-ca');
         assert.strictEqual(body.company, 'Calm Joints');
-        assert.deepStrictEqual(body.tags, ['calmjoints', 'calmjoints-staff', 'physio-apply']);
+        assert.deepStrictEqual(body.tags, ['calmjoints', 'physio-apply', 'type:provider', 'calmjoints-staff']);
         assert.strictEqual(body.email, 'priya@example.com');
         return { ok: true, status: 201 };
       }
@@ -245,7 +245,7 @@ async function main() {
   assert.strictEqual(qBody.source, 'calmjoints_question');
   assert.strictEqual(qBody.kind, 'form');
   assert.strictEqual(qBody.firstName, 'Quinn');
-  assert.deepStrictEqual(qBody.tags, ['calmjoints', 'question', 'newsletter']);
+  assert.deepStrictEqual(qBody.tags, ['calmjoints', 'question', 'newsletter', 'type:patient']);
   assert.match(alertText('question', qBody), /New question/);
   const alerts = [];
   const qRes = await processIntake('question', { email: 'q2@example.com', message: 'Can I book for my dad?' }, {
@@ -269,13 +269,13 @@ async function main() {
   const ib = fridayBody('intake', iv.value, 'cj-intake-x');
   assert.strictEqual(ib.source, 'calmjoints_intake');
   assert.strictEqual(ib.kind, 'form');
-  assert.deepStrictEqual(ib.tags, ['calmjoints', 'intake']);
+  assert.deepStrictEqual(ib.tags, ['calmjoints', 'intake', 'type:patient']);
   assert.match(alertText('intake', ib), /New intake/);
   assert.ok(validateCareers({ name: 'Ann', email: 'a@b.co', role: 'nope' }).error);
   const cv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', role: 'digital', province: 'ON', link: 'linkedin.com/in/ann' });
   const cb = fridayBody('careers', cv.value, 'cj-careers-x');
   assert.strictEqual(cb.kind, 'providers');
-  assert.deepStrictEqual(cb.tags, ['calmjoints', 'careers', 'provider', 'provider-ontario', 'role:digital', 'province:ON']);
+  assert.deepStrictEqual(cb.tags, ['calmjoints', 'careers', 'provider', 'provider-ontario', 'role:digital', 'province:ON', 'type:provider']);
   const ab = fridayBody('careers', validateCareers({ name: 'Ann', email: 'a@b.co', role: 'accessibility', province: 'ON' }).value, 'x');
   assert.strictEqual(ab.kind, 'form');
   const posts = [];
@@ -313,7 +313,7 @@ async function main() {
   const mv = validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: ['digital', 'in-home', 'digital'], province: 'ON' });
   assert.deepStrictEqual(mv.value.roles, ['digital', 'in-home']);
   const mb = fridayBody('careers', mv.value, 'cj-careers-m');
-  assert.deepStrictEqual(mb.tags, ['calmjoints', 'careers', 'provider', 'provider-ontario', 'role:digital', 'role:in-home', 'province:ON']);
+  assert.deepStrictEqual(mb.tags, ['calmjoints', 'careers', 'provider', 'provider-ontario', 'role:digital', 'role:in-home', 'province:ON', 'type:provider']);
   assert.strictEqual(mb.kind, 'providers');
   assert.ok(validateCareers({ name: 'Ann Lee', email: 'a@b.co', roles: [] }).error);
   const bPosts = [];
@@ -345,7 +345,7 @@ async function main() {
   assert.strictEqual(pCalls.length, 2, 'friday + email, no Scale copy');
   const pf = pCalls.find((c) => c.url.includes('fridayapp'));
   assert.strictEqual(pf.body.source, 'calmjoints_partner');
-  assert.deepStrictEqual(pf.body.tags, ['calmjoints', 'partner', 'track:managed']);
+  assert.deepStrictEqual(pf.body.tags, ['calmjoints', 'partner', 'track:managed', 'type:business']);
   assert.strictEqual(pf.body.meta.phone, '416 555 0100');
   const pm = pCalls.find((c) => c.url.includes('resend'));
   assert.deepStrictEqual(pm.body.to, ['a@x.co', 'b@y.co']);
@@ -369,9 +369,10 @@ async function main() {
   });
   assert.ok(!amb.error, amb.error);
   const ambBody = fridayBody('apply', amb.value, 'cj-physio-amb');
-  assert.strictEqual(ambBody.source, 'calmjoints_physio_apply');
+  assert.strictEqual(ambBody.source, 'calmjoints_ambassador_apply');
   assert.strictEqual(ambBody.kind, 'form');
-  assert.ok(ambBody.tags.includes('role=ambassador'));
+  assert.deepStrictEqual(ambBody.tags, ['calmjoints', 'role=ambassador', 'type:ambassador']);
+  assert.ok(!ambBody.tags.includes('physio-apply'));
   assert.strictEqual(ambBody.meta.neighbourhood, 'Leslieville');
   assert.match(alertText('apply', ambBody), /Ambassador application/);
   const ambCalls = [];
@@ -386,10 +387,44 @@ async function main() {
   assert.strictEqual(ambRes.status, 200);
   const ambFriday = ambCalls.find((c) => c.url.includes('fridayapp'));
   const ambMail = ambCalls.find((c) => c.url.includes('resend'));
-  assert.ok(ambFriday && ambFriday.body.tags.includes('role=ambassador'));
+  assert.ok(ambFriday && ambFriday.body.tags.includes('role=ambassador') && ambFriday.body.tags.includes('type:ambassador'));
+  assert.strictEqual(ambFriday.body.source, 'calmjoints_ambassador_apply');
   assert.ok(!ambCalls.some((c) => c.body && c.body.site === 'scalehealth.ca'), 'ambassador is not mirrored as physio staff');
   assert.match(ambMail.body.subject, /^Ambassador application: TEST Applicant$/);
   assert.deepStrictEqual(ambMail.body.to, ['randy@example.com']);
+
+  const attrNews = validateNewsletter({ email: 'ada@example.com', partner: 'dr-hos', qr: 'ABC123' });
+  assert.deepStrictEqual(fridayBody('newsletter', attrNews.value, 'cj-news-attr').tags, ['calmjoints', 'newsletter', 'type:patient', 'partner:dr-hos', 'qr:abc123']);
+  const badAttr = validateNewsletter({ email: 'ada@example.com', partner: 'no', qr: 'zzzz' });
+  assert.deepStrictEqual(fridayBody('newsletter', badAttr.value, 'cj-news-bad').tags, ['calmjoints', 'newsletter', 'type:patient']);
+  const qAttr = validateQuestion({ email: 'q@example.com', message: 'Hello there', partner: 'jill', qr: '00ff10' });
+  const qAttrBody = fridayBody('question', qAttr.value, 'cj-question-attr');
+  assert.ok(qAttrBody.tags.includes('type:patient') && qAttrBody.tags.includes('partner:jill') && qAttrBody.tags.includes('qr:00ff10'));
+  const iAttr = validateIntake({ website: 'example.com', name: 'Ann Lee', email: 'a@b.co', partner: 'sole', qr: 'abc123' });
+  const iAttrBody = fridayBody('intake', iAttr.value, 'cj-intake-attr');
+  assert.ok(iAttrBody.tags.includes('type:patient') && iAttrBody.tags.includes('partner:sole') && iAttrBody.tags.includes('qr:abc123'));
+  assert.ok(iAttrBody.tags.length < 12);
+  const pIgnore = validatePartner({ track: 'managed', name: 'Bo Li', email: 'bo@x.co', partner: 'dr-hos', qr: 'abc123' });
+  const pIgnoreBody = fridayBody('partner', pIgnore.value, 'cj-partner-attr');
+  assert.ok(pIgnoreBody.tags.includes('type:business'));
+  assert.ok(!pIgnoreBody.tags.some((t) => t.startsWith('partner:') || t.startsWith('qr:')));
+  const fat = validateCareers({
+    name: 'Ann Lee', email: 'a@b.co', province: 'ON', profession: 'physiotherapist', audience: 'yes', registered: 'yes',
+    roles: ['digital', 'in-home', 'on-site', 'mobile-physio', 'remote-physio', 'accessibility'],
+  });
+  const fatBody = fridayBody('careers', { ...fat.value, resume_url: 'https://calmjoints.org/api/resume?f=x' }, 'cj-careers-fat');
+  assert.ok(fatBody.tags.length < 12, `careers tags ${fatBody.tags.length}`);
+  assert.ok(fatBody.tags.includes('type:provider'));
+  const { scaleCopyBody } = require('../lib/intake');
+  const fatScale = scaleCopyBody(fatBody);
+  assert.ok(fatScale.tags.length < 12, `scale tags ${fatScale.tags.length}`);
+  assert.ok(fatScale.tags.includes('type:provider') && fatScale.tags.includes('calmjoints-staff'));
+  const home = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert.ok(home.includes("localStorage.getItem('cj_ref')"));
+  assert.ok(home.includes("formId === 'talk-form'") && home.includes('cjStoredRef()'));
+  assert.ok(home.includes('window.cjStoredRef'));
+  const formJs = fs.readFileSync(path.join(__dirname, '..', 'form.js'), 'utf8');
+  assert.ok(formJs.includes('newsletter|question|intake'));
 
   for (const li of ['linkedin.com/in/jane-doe', 'www.linkedin.com/in/jane', 'ca.linkedin.com/in/jane/']) {
     assert.ok(!validateApply({ name: 'Jane Doe', email: 'j@x.co', provinces: ['ON'], linkedin: li, bio: 'Physio for ten years' }).error, `linkedin ${li}`);
