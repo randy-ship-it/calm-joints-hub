@@ -1,5 +1,5 @@
 'use strict';
-// One production deploy step. Uses CJ_ADMIN_KEY already on Vercel (the value is
+// Manual one-shot. Uses CJ_ADMIN_KEY already on Vercel (the value is
 // not readable from the API) to call the live admin endpoint, then prints the
 // /sales row for amb-randyg-cj. Never prints the key.
 const SLUG = 'amb-randyg-cj';
