@@ -23,7 +23,7 @@ function cjForm(form, endpoint, onOk) {
         if (file.size > 3 * 1024 * 1024) throw new Error('That file is over 3 MB. A smaller PDF works great.');
         data[k] = { name: file.name, type: file.type, data: await cjReadFile(file) };
       }
-      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const res = await fetch(form.getAttribute('data-endpoint') || endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       const out = await res.json().catch(() => ({}));
       if (!res.ok || !out.ok) throw new Error(out.message || 'Something went wrong. Try once more?');
       msg.className = 'msg ok'; msg.textContent = out.message; form.reset();
