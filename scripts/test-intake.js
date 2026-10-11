@@ -383,7 +383,31 @@ async function main() {
   assert.strictEqual(ambBody.role, 'ambassador');
   assert.ok(!ambBody.tags.includes('physio-apply'));
   assert.strictEqual(ambBody.meta.neighbourhood, 'Leslieville');
+  assert.strictEqual(ambBody.meta.social, '@test');
+  assert.strictEqual(ambBody.meta.video, 'https://youtu.be/abc123');
+  assert.strictEqual(ambBody.notes, 'LinkedIn or Instagram: @test\nIntro video or photo: https://youtu.be/abc123');
   assert.match(alertText('apply', ambBody), /Ambassador application/);
+  assert.match(alertText('apply', ambBody), /LinkedIn or Instagram: @test/);
+  assert.match(alertText('apply', ambBody), /Intro video or photo: https:\/\/youtu\.be\/abc123/);
+  const ambLink = validateApply({
+    role: 'ambassador', name: 'TEST Applicant', email: 'Test@Example.com', phone: '416 555 0199',
+    neighbourhood: 'Leslieville', intro: 'I like talking to neighbours.', experience: 'Campus promo for two summers.',
+    social: 'https://www.linkedin.com/in/test-applicant', video: 'https://instagram.com/p/abc123',
+  });
+  assert.ok(!ambLink.error, ambLink.error);
+  assert.strictEqual(ambLink.value.social, 'https://www.linkedin.com/in/test-applicant');
+  const ambBlank = validateApply({
+    role: 'ambassador', name: 'TEST Applicant', email: 'Test@Example.com', phone: '416 555 0199',
+    neighbourhood: 'Leslieville', intro: 'I like talking to neighbours.', experience: 'Campus promo for two summers.',
+  });
+  assert.strictEqual(ambBlank.value.social, null);
+  assert.strictEqual(ambBlank.value.video, null);
+  assert.strictEqual(fridayBody('apply', ambBlank.value, 'cj-physio-amb-blank').notes, undefined);
+  assert.ok(validateApply({
+    role: 'ambassador', name: 'TEST Applicant', email: 'Test@Example.com', phone: '416 555 0199',
+    neighbourhood: 'Leslieville', intro: 'I like talking to neighbours.', experience: 'Campus promo for two summers.',
+    social: 'not a profile!!!',
+  }).error);
   const ambCalls = [];
   const ambRes = await processIntake('apply', {
     role: 'ambassador', name: 'TEST Applicant', email: 'qa-ambassador@calmjoints.org', phone: '4165550199',
@@ -400,6 +424,8 @@ async function main() {
   assert.strictEqual(ambFriday.body.source, 'calmjoints_ambassador_apply');
   assert.ok(!ambCalls.some((c) => c.body && c.body.site === 'scalehealth.ca'), 'ambassador is not mirrored as physio staff');
   assert.match(ambMail.body.subject, /^Ambassador application: TEST Applicant$/);
+  assert.match(ambMail.body.text, /LinkedIn or Instagram: @test/);
+  assert.strictEqual(ambFriday.body.notes, 'LinkedIn or Instagram: @test');
   assert.deepStrictEqual(ambMail.body.to, ['randy@example.com']);
 
   const attrNews = validateNewsletter({ email: 'ada@example.com', partner: 'dr-hos', qr: 'ABC123' });
