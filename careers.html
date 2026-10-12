@@ -188,10 +188,12 @@
   .team-deals-badge { display:inline-flex; align-items:center; margin:0 0 .65rem; padding:.2rem .62rem; border:1px solid var(--line); border-radius:999px; background:var(--soft); color:var(--mute); font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; line-height:1.2; }
   .team-deals h2 { margin:0; font-size:clamp(1.25rem,2.4vw,1.6rem); line-height:1.15; letter-spacing:-.03em; }
   .team-deals .lede { margin:.4rem 0 0; max-width:36rem; color:var(--mute); font-size:clamp(.94rem,1.5vw,1.02rem); }
-  .team-deals ul { list-style:none; margin:.95rem 0 0; padding:0; display:flex; flex-wrap:wrap; align-items:center; gap:.55rem 1.4rem; }
-  .team-deals li { font-weight:700; font-size:.98rem; letter-spacing:.02em; color:#3B4A42; opacity:.85; }
-  .team-deals li img { height:26px; width:auto; display:block; }
-  @media (max-width:640px) { .team-deals ul { gap:.5rem 1rem; } .team-deals li { font-size:.86rem; } .team-deals li img { height:22px; } }
+  .team-deals ul { list-style:none; margin:.95rem 0 0; padding:0; display:flex; flex-wrap:wrap; align-items:center; gap:.9rem 1.6rem; }
+  .team-deals li { list-style:none; display:flex; align-items:center; flex:0 0 auto; margin:0; padding:0; min-height:26px; }
+  .team-deals li::marker { content:none; }
+  .team-deals li img { height:26px; width:auto; display:block; object-fit:contain; filter:grayscale(1); opacity:.78; transition:filter .2s ease, opacity .2s ease; }
+  .team-deals li:hover img, .team-deals li:focus-within img { filter:none; opacity:1; }
+  @media (max-width:640px) { .team-deals ul { gap:.75rem 1.1rem; } .team-deals li { min-height:22px; } .team-deals li img { height:22px; } }
   .fine { margin:0 0 1rem; font-size:.78rem; line-height:1.35; color:#8A978F; font-weight:400; }
   .fine a { color:#6A7B72; }
   .hire-split { display:grid; gap:.85rem 1.25rem; align-items:start; }
@@ -262,7 +264,14 @@
       <h2 id="team-deals-h">Industry insider deals, coming soon</h2>
       <p class="lede">Insider deals from brands we work with.</p>
       <ul aria-label="Brands we work with">
-        <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="90" height="30"></li><li>Garmin</li><li>Therabody</li><li>RENPHO</li><li>Genuine Health</li><li>AIRWAAV</li><li>Manduka</li><li>BedJet</li>
+        <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="93" height="26"></li>
+        <li><img src="/media/logos/garmin.svg" alt="Garmin" width="99" height="26"></li>
+        <li><img src="/media/logos/therabody.svg" alt="Therabody" width="149" height="26"></li>
+        <li><img src="/media/logos/renpho.svg" alt="RENPHO" width="116" height="26"></li>
+        <li><img src="/media/logos/genuine-health.svg" alt="Genuine Health" width="210" height="26"></li>
+        <li><img src="/media/logos/airwaav.svg" alt="AIRWAAV" width="137" height="26"></li>
+        <li><img src="/media/logos/manduka.svg" alt="Manduka" width="126" height="26"></li>
+        <li><img src="/media/logos/bedjet.svg" alt="BedJet" width="96" height="26"></li>
       </ul>
     </div>
   </section>
