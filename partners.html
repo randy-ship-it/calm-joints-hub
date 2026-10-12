@@ -211,10 +211,12 @@
 <noscript><style>@media (max-width:640px){ .mob-hide,.desk-only{display:block !important} .lede-short,.m-more-wrap{display:none !important} .tg-hero,body footer{display:block !important} }</style></noscript>
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
 <style>
-  .ph{padding:clamp(3rem,7vw,5.5rem) 0 2rem}
-  .ph-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+  .ph{padding:clamp(2.5rem,6vw,4.5rem) 0 2rem}
+  .ph ul{grid-auto-flow:column;justify-content:start;gap:1.6rem}@media (max-width:700px){.ph ul{grid-auto-flow:row;gap:.6rem}}
+  .ph-grid{display:grid;grid-template-columns:1fr;gap:clamp(2rem,5vw,4rem);align-items:start}
   .ph ul{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;gap:.6rem;color:var(--ink)}
   .ph li{display:flex;gap:.6rem;align-items:baseline}.ph li:before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--green);transform:translateY(-2px)}
+  .pfs{padding:0 0 clamp(3rem,6vw,5rem)}.pfs .pf{max-width:760px;margin:0 auto}
   .pf{border:1px solid var(--line);border-radius:22px;padding:clamp(1.2rem,3vw,1.8rem);background:#fff;box-shadow:0 30px 60px -45px rgba(10,61,34,.4);display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
   .pf .full{grid-column:1/-1}
   .pf label{display:block;font-size:.85rem;font-weight:600;margin:0 0 .3rem}
@@ -225,6 +227,25 @@
   .pf .msg{font-size:.92rem;color:var(--mute);margin:0}.pf .msg.ok{color:var(--green)}.pf .msg.err{color:#B42318}
   @media (max-width:820px){.ph-grid{grid-template-columns:1fr}}
   @media (max-width:520px){.pf{grid-template-columns:1fr}}
+  .pc{padding:0 0 clamp(2.5rem,5vw,4rem)}
+  .pc-car{position:relative;border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -50px rgba(10,61,34,.55)}
+  .pc-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .pc-track::-webkit-scrollbar{display:none}
+  .pc-slide{all:unset;box-sizing:border-box;cursor:pointer;position:relative;flex:0 0 100%;scroll-snap-align:start;aspect-ratio:16/7;min-height:340px;display:block}
+  .pc-slide img.ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .pc-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,24,15,.72) 0%,rgba(6,24,15,.35) 45%,rgba(6,24,15,0) 75%)}
+  .pc-cap{position:absolute;left:clamp(1.3rem,4vw,3rem);bottom:clamp(1.3rem,4vw,2.8rem);z-index:1;color:#fff;max-width:30rem}
+  .pc-cap .n{font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#BFEFD0}
+  .pc-cap h3{font-size:clamp(1.5rem,3.2vw,2.3rem);margin:.4rem 0 .45rem;color:#fff}
+  .pc-cap p{margin:0;font-size:1rem;color:rgba(255,255,255,.88)}
+  .pc-cap .go{display:inline-block;margin-top:.9rem;font-size:.88rem;font-weight:600;border-bottom:1px solid rgba(255,255,255,.6);padding-bottom:2px}
+  .pc-logos{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
+  .pc-logos span{background:rgba(255,255,255,.92);border-radius:999px;padding:.35rem .7rem;display:flex;align-items:center}
+  .pc-logos img{height:16px;width:auto}
+  .pc-dots{display:flex;gap:.5rem;justify-content:center;margin-top:1rem}
+  .pc-dots button{all:unset;cursor:pointer;width:8px;height:8px;border-radius:999px;background:#C9D6CE;transition:width .3s,background .3s}
+  .pc-dots button[aria-current=true]{width:26px;background:var(--green)}
+  @media (max-width:640px){.pc-slide{aspect-ratio:4/5;min-height:0}.pc-slide:after{background:linear-gradient(0deg,rgba(6,24,15,.8) 0%,rgba(6,24,15,.25) 55%,rgba(6,24,15,0) 80%)}}
 </style>
 </head>
 <body>
@@ -255,6 +276,24 @@
           <li>No cost to get started</li>
         </ul>
       </div>
+
+    </div>
+  </section>
+
+  <section class="pc" aria-label="Who we partner with">
+    <div class="wrap">
+      <div class="pc-car"><div class="pc-track" id="pc-track">
+        <button type="button" class="pc-slide" data-biz="venue" aria-label="Venues and Sports Facilities: start an inquiry"><img class="ph-img" src="/media/partners/types/venue.webp" alt="" width="1600" height="1000"><span class="pc-cap"><span class="n">01 / 04</span><h3>Venues &amp; Sports Facilities</h3><p>Clubs, courts, arenas and courses.</p><span class=pc-logos><span><img src="/media/logos/garmin.png" alt="Garmin"></span><span><img src="/media/logos/therabody.svg" alt="Therabody"></span><span><img src="/media/logos/manduka.png" alt="Manduka"></span></span><span class="go">Start an inquiry →</span></span></button>
+        <button type="button" class="pc-slide" data-biz="health" aria-label="Health Services Companies: start an inquiry"><img class="ph-img" src="/media/partners/types/clinic.webp" alt="" loading="lazy" width="1600" height="1000"><span class="pc-cap"><span class="n">02 / 04</span><h3>Health Services Companies</h3><p>Clinics and health teams that want more reach.</p><span class="go">Start an inquiry →</span></span></button>
+        <button type="button" class="pc-slide" data-biz="studio" aria-label="Fitness and Wellness Studios and Clubs: start an inquiry"><img class="ph-img" src="/media/partners/types/studio.webp" alt="" loading="lazy" width="1600" height="1000"><span class="pc-cap"><span class="n">03 / 04</span><h3>Fitness &amp; Wellness Studios &amp; Clubs</h3><p>Pilates, yoga, strength and members’ clubs.</p><span class=pc-logos><span><img src="/media/logos/manduka.png" alt="Manduka"></span><span><img src="/media/logos/therabody.svg" alt="Therabody"></span><span><img src="/media/logos/airwaav.svg" alt="AIRWAAV"></span></span><span class="go">Start an inquiry →</span></span></button>
+        <button type="button" class="pc-slide" data-biz="creator" aria-label="Health and Wellness Creators: start an inquiry"><img class="ph-img" src="/media/partners/types/creator.webp" alt="" loading="lazy" width="1600" height="1000"><span class="pc-cap"><span class="n">04 / 04</span><h3>Health &amp; Wellness Creators</h3><p>Turn your audience into products and services.</p><span class=pc-logos><span><img src="/media/logos/dr-hos.svg" alt="DR-HO'S"></span><span><img src="/media/logos/renpho.png" alt="RENPHO"></span><span><img src="/media/logos/genuine-health.svg" alt="Genuine Health"></span></span><span class="go">Start an inquiry →</span></span></button>
+      </div></div>
+      <div class="pc-dots" id="pc-dots" role="tablist"></div>
+    </div>
+  </section>
+
+  <section class="pfs" id="inquire">
+    <div class="wrap">
       <form class="pf" id="partner-form" novalidate>
         <input type="hidden" name="track" value="inquiry">
         <div class="hp" aria-hidden="true"><label for="p-co">Company</label><input id="p-co" name="company" tabindex="-1" autocomplete="off"></div>
@@ -262,7 +301,7 @@
         <div><label for="p-biz">Business name</label><input id="p-biz" name="business" autocomplete="organization" required></div>
         <div><label for="p-email">Email</label><input id="p-email" name="email" type="email" autocomplete="email" required></div>
         <div><label for="p-phone">Phone</label><input id="p-phone" name="phone" type="tel" autocomplete="tel"></div>
-        <div><label for="p-type">Business type</label><select id="p-type" name="biz_type" required><option value="">Choose one</option><option value="gym">Gym / studio</option><option value="clinic">Clinic</option><option value="employer">Employer</option><option value="brand">Brand / retail</option><option value="other">Other</option></select></div>
+        <div><label for="p-type">Business type</label><select id="p-type" name="biz_type" required><option value="">Choose one</option><option value="venue">Venue / sports facility</option><option value="health">Health services company</option><option value="studio">Fitness &amp; wellness studio / club</option><option value="creator">Health &amp; wellness creator</option><option value="employer">Employer</option><option value="brand">Brand / retail</option><option value="other">Other</option></select></div>
         <div><label for="p-aud">Approx. members or customers</label><input id="p-aud" name="audience" inputmode="numeric" placeholder="e.g. 500"></div>
         <div class="full"><label for="p-city">City</label><input id="p-city" name="city" autocomplete="address-level2"></div>
         <div class="full"><label for="p-msg">Anything else? <span style="font-weight:400;color:var(--mute)">(optional)</span></label><textarea id="p-msg" name="message"></textarea></div>
@@ -299,6 +338,17 @@
   </div>
 </footer>
 
+<script>
+(function(){var t=document.getElementById('pc-track'),d=document.getElementById('pc-dots');if(!t)return;var s=[].slice.call(t.children),i=0,timer;
+s.forEach(function(el,n){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Slide '+(n+1));b.addEventListener('click',function(){go(n);stop();});d.appendChild(b);
+el.addEventListener('click',function(){var sel=document.getElementById('p-type');sel.value=el.dataset.biz;document.getElementById('inquire').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(function(){document.getElementById('p-name').focus({preventScroll:true});},500);});});
+function mark(){[].forEach.call(d.children,function(b,n){b.setAttribute('aria-current',n===i?'true':'false');});}
+function go(n){i=(n+s.length)%s.length;t.scrollTo({left:i*t.clientWidth,behavior:'smooth'});mark();}
+function stop(){clearInterval(timer);}
+t.addEventListener('scroll',function(){var n=Math.round(t.scrollLeft/t.clientWidth);if(n!==i){i=n;mark();}},{passive:true});
+['pointerdown','touchstart','focusin'].forEach(function(e){t.addEventListener(e,stop,{passive:true});});
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(function(){go(i+1);},5500);mark();})();
+</script>
 <script src="/form.js"></script>
 <script>cjForm(document.getElementById('partner-form'), '/api/partner');</script>
 <script src="/config.js"></script>
