@@ -24,7 +24,7 @@
     opening: 'Hi, I’m Calm Joints’ virtual guide. What’s going on with your body today?',
     qrAdd: ' I can help you book a visit with a Calm Joints physio from here.',
     bookLine: 'You’ll book with Calm Joints, with a College-registered physio.',
-    tips: 'Get tips for sore joints — short notes from the clinic, unsubscribe anytime.',
+    tips: 'Get tips for sore joints — short notes from the clinic.',
     prefill: 'Start my intake with this (name, contact, what’s sore, preferred time). No symptoms or chat history. Your physio reviews it at booking.',
     cbConsent: 'I agree to receive a call from the Calm Joints virtual guide about my request.',
     cbIntro: 'Leave your first name and number. The Calm Joints virtual guide will call you in a minute or two. It’s not a physiotherapist, and it can help you book a video visit.',
@@ -271,7 +271,7 @@
       '<div class="cjg-2"><label>Phone (optional)<input name="phone" type="tel" autocomplete="tel" maxlength="30"></label><label>Province<select name="province">' + opts(PROVS) + '</select></label></div>' +
       '<div class="cjg-2"><label>What’s sore<select name="area">' + opts(AREAS) + '</select></label><label>Preferred day<select name="day">' + opts(DAYS) + '</select></label></div>' +
       '<label>Time window<select name="win">' + opts(WINDOWS) + '</select></label>' +
-      '<label class="cjg-check"><input type="checkbox" name="newsletter_opt_in" value="yes"><span>' + T.tips + '</span></label>' +
+      (HAT ? '' : '<label class="cjg-check"><input type="checkbox" name="newsletter_opt_in" value="yes"><span>' + T.tips + '</span></label>') +
       '<label class="cjg-check"><input type="checkbox" name="intake_prefill" value="yes"><span>' + T.prefill + '</span></label>' +
       '<input name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
       '<button type="submit" class="cjg-btn pri">Email me a booking link</button><p class="cjg-msg" role="status" aria-live="polite"></p></form>';
