@@ -48,7 +48,7 @@
     }
     var s = document.querySelector('script[data-cjg]');
     if (!s) {
-      s = document.createElement('script'); s.src = '/js/guide.js?v=21'; s.async = true; s.setAttribute('data-cjg', '');
+      s = document.createElement('script'); s.src = '/js/guide.js?v=22'; s.async = true; s.setAttribute('data-cjg', '');
       s.addEventListener('error', function () { s.setAttribute('data-failed', '1'); });
       document.head.appendChild(s);
     }

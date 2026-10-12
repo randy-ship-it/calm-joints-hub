@@ -57,6 +57,15 @@
   } catch (e) {}
   var SID = (function () { try { var s = sessionStorage.getItem('cj_guide_sid'); if (!s) { s = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); sessionStorage.setItem('cj_guide_sid', s); } return s; } catch (e) { return String(Date.now()); } })();
   var leadSaved = null; // last lead fields sent this session
+  // Page hats: a page sets window.CJ_PAGE_CONTEXT = 'partners' to give the same guide a different job.
+  // Sent as the first message plus a contextual update right after connect (no agent changes needed).
+  var PAGE_HATS = {
+    partners: {
+      first: 'Hi, I’m {name}. Happy to help with any questions about partnering with Calm Joints. What kind of business are you with?',
+      context: 'PAGE CONTEXT: The visitor is on the Calm Joints partnerships page (calmjoints.org/partners), so they are most likely a business owner or manager, not a patient. For this conversation, act as a friendly partnerships guide. Have a short back-and-forth and ask one smart qualifying question at a time: what type of business (gym or studio, clinic, employer, brand or retail, other), roughly how many members, customers or staff, what they hope to get from it, which city, and their timing. Keep answers brief and calm, without pricing, profit splits or legal mechanics; say the team covers specifics on a call. Encourage them to fill in the short form on this page (name, business name, email, phone, business type, approx members or customers, city, message) so a person follows up. If they ask about their own pain or want an appointment, help them book a video physio visit as usual.'
+    }
+  };
+  var HAT = PAGE_HATS[window.CJ_PAGE_CONTEXT] || null;
 
   // ---- guide picker (Glen default, Gwen optional). Same tools, rules and lead flow; only the agent, voice and avatar differ. ----
   var GUIDES = {};
@@ -410,7 +419,7 @@
   Guide.prototype.session = function (voice) {
     var self = this;
     var g = guide();
-    var first = (g.name ? T.openingNamed.replace('{name}', g.name) : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
+    var first = HAT ? HAT.first.replace('{name}', g.name || 'Calm Joints’ guide') : (g.name ? T.openingNamed.replace('{name}', g.name) : T.opening) + (CTX.src === 'qr' ? T.qrAdd : '');
     if (voice && this.hadChat) first = 'I’m listening. What’s sore, or would you like to book a video visit?';
     this.connectedAt = 0; this.pgReset();
     var tok = this.tok = (this.tok || 0) + 1; // ignore late events from a session we already ended (guide switch)
@@ -420,7 +429,7 @@
         // Voice and chat both use the WebSocket transport. WebRTC sessions were rejected at start-up
         // (call_initialization_error, auth 'invalid' under the agent's origin allowlist) and hung up instantly.
         connectionType: 'websocket',
-        dynamicVariables: { src: CTX.src || 'site', venue: CTX.venue || 'none', mode: voice ? 'voice' : 'chat' },
+        dynamicVariables: { src: CTX.src || 'site', venue: CTX.venue || 'none', mode: voice ? 'voice' : 'chat', page_context: window.CJ_PAGE_CONTEXT || 'none' },
         overrides: { agent: { firstMessage: first }, conversation: { textOnly: !voice } },
         clientTools: self.tools(),
         onMessage: function (m) {
@@ -448,7 +457,10 @@
       if (!voice) cfg.textOnly = true;
       return signedSession(PICK).then(function (url) {
         if (url) { cfg.signedUrl = url; delete cfg.agentId; }
-        return SDK.Conversation.startSession(cfg);
+        return SDK.Conversation.startSession(cfg).then(function (c) {
+          if (HAT && c && typeof c.sendContextualUpdate === 'function') { try { c.sendContextualUpdate(HAT.context); } catch (e) {} }
+          return c;
+        });
       });
     });
   };
@@ -609,6 +621,26 @@
     b.addEventListener('click', function () { openPopup(); });
     document.body.appendChild(b);
   }
+
+  // Page nudge: a quiet "Hi, I'm Glen" bubble after a few seconds or on first form focus. Tap opens chat.
+  function nudge() {
+    if (!HAT) return;
+    try { if (sessionStorage.getItem('cj_nudge_' + window.CJ_PAGE_CONTEXT)) return; } catch (e) {}
+    var shown = false, timer;
+    function show() {
+      if (shown) return; shown = true; clearTimeout(timer);
+      try { sessionStorage.setItem('cj_nudge_' + window.CJ_PAGE_CONTEXT, '1'); } catch (e) {}
+      var g = guide(), b = document.createElement('div'); b.className = 'cjg-nudge'; b.setAttribute('role', 'status');
+      b.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;max-width:300px;display:flex;gap:.6rem;align-items:center;background:#fff;border:1px solid #E6ECE8;border-radius:18px;padding:.75rem .9rem;box-shadow:0 20px 50px -25px rgba(10,61,34,.5);font:500 .95rem/1.35 "DM Sans",system-ui,sans-serif;color:#0B1D16;cursor:pointer';
+      b.innerHTML = '<img src="' + esc(g.avatar || '/media/cj-guide-glen.webp') + '" alt="" width="40" height="40" style="border-radius:50%;flex:none"><span>Hi, I’m ' + esc(g.name || 'Glen') + '. Happy to help with any questions.</span><button type="button" aria-label="Close" style="all:unset;cursor:pointer;color:#4B5E54;padding:0 .2rem;font-size:1.2rem;line-height:1">×</button>';
+      b.addEventListener('click', function (e) { b.remove(); if (e.target.closest('button')) return; openPopup({ start: 'chat' }); });
+      document.body.appendChild(b);
+      var l = document.querySelector('.cjg-launch'); if (l) l.style.display = 'none';
+    }
+    timer = setTimeout(show, 6000);
+    document.addEventListener('focusin', function f(e) { if (e.target.closest && e.target.closest('form:not(.cjg-compose)')) { document.removeEventListener('focusin', f); setTimeout(show, 600); } });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', nudge); else nudge();
 
   window.CJGuide = { open: openPopup, mountPage: mountPage, bookingUrl: bookingUrl, ctx: CTX, preload: loadSdk, guide: function () { return { key: PICK, name: guide().name, agentId: guide().agentId }; } };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', launcher); else launcher();
