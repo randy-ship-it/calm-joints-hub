@@ -182,9 +182,11 @@
   @media (max-width:640px){.why-grid{gap:.6rem;margin-top:1.4rem}.bt{padding:1rem;border-radius:16px}.bt svg{width:36px;height:36px;padding:7px;margin-bottom:.4rem}.bt b{font-size:.98rem}.bt span{font-size:.84rem}.path{padding:1.3rem;border-radius:20px}.path .btn{width:100%;align-self:stretch}.tk-s{padding:.5rem .85rem}}
   .bstrip{padding:clamp(2rem,5vw,3rem) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--soft)}
   .bstrip h2{margin:0 0 1rem;font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-align:center}
-  .bstrip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.6rem 1.8rem}
-  .bstrip li{font-weight:700;font-size:1.05rem;letter-spacing:.02em;color:#3B4A42;opacity:.85}
-  .bstrip li img{height:30px;width:auto;display:block}
+  .bstrip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem 2.2rem}
+  .bstrip li{list-style:none;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin:0;padding:0;min-height:30px}
+  .bstrip li::marker{content:none}
+  .bstrip li img{height:30px;width:auto;display:block;object-fit:contain;filter:grayscale(1);opacity:.78;transition:filter .2s ease,opacity .2s ease}
+  .bstrip li:hover img,.bstrip li:focus-within img{filter:none;opacity:1}
   .bstrip p{margin:1.1rem auto 0;max-width:40rem;text-align:center;color:var(--mute);font-size:.98rem}
   .lede-short, .m-more-wrap { display: none; }
   @media (max-width: 640px) {
@@ -198,6 +200,9 @@
     .hero { padding-top: 1.4rem; padding-bottom: .35rem; }
     .bstrip { padding: 1.15rem 0 .9rem; }
     .bstrip h2 { margin-bottom: .7rem; }
+    .bstrip ul { gap: .9rem 1.35rem; }
+    .bstrip li { min-height: 22px; }
+    .bstrip li img { height: 22px; }
     .tg-hero { display: none !important; }
     body.show-more .tg-hero { display: block !important; }
     body:not(.show-more) footer { display: none !important; }
@@ -263,8 +268,15 @@
   <section class="bstrip" aria-labelledby="bs-h">
     <div class="wrap">
       <h2 id="bs-h">Brands we work with</h2>
-      <ul>
-        <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="90" height="30"></li><li>Garmin</li><li>Therabody</li><li>RENPHO</li><li>Genuine Health</li><li>AIRWAAV</li><li>Manduka</li><li>BedJet</li>
+      <ul aria-label="Brand logos">
+        <li><img src="/media/logos/dr-hos.svg" alt="DR-HO'S" width="107" height="30"></li>
+        <li><img src="/media/logos/garmin.svg" alt="Garmin" width="114" height="30"></li>
+        <li><img src="/media/logos/therabody.svg" alt="Therabody" width="172" height="30"></li>
+        <li><img src="/media/logos/renpho.svg" alt="RENPHO" width="134" height="30"></li>
+        <li><img src="/media/logos/genuine-health.svg" alt="Genuine Health" width="242" height="30"></li>
+        <li><img src="/media/logos/airwaav.svg" alt="AIRWAAV" width="158" height="30"></li>
+        <li><img src="/media/logos/manduka.svg" alt="Manduka" width="145" height="30"></li>
+        <li><img src="/media/logos/bedjet.svg" alt="BedJet" width="111" height="30"></li>
       </ul>
       <p class="mob-hide">Partners get insider product rates and monthly royalties on sales through their Scale store.</p>
     </div>
