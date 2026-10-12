@@ -116,7 +116,7 @@ const L = require('../lib/partner-ledger');
     assert.ok(!/\bAI\b/.test(html), f + ' says AI');
   }
   const partners = fs.readFileSync('partners.html', 'utf8');
-  assert.ok(partners.includes('id="share"') && partners.includes('kind: \'share\''));
+  assert.ok(partners.includes('id="partner-form"') && partners.includes('/api/partner'));
   assert.ok(partners.includes('/partner-terms') && partners.includes('/report'));
   const terms = fs.readFileSync('partner-terms.html', 'utf8');
   assert.ok(terms.includes('25%') && terms.includes('$500') && terms.includes('T4A') && terms.includes('ask once'));
