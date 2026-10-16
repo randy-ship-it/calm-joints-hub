@@ -207,6 +207,31 @@
     body.show-more .tg-hero { display: block !important; }
     body:not(.show-more) footer { display: none !important; }
   }
+
+  .dc{background:#F5F8F6}
+  .dc h2{margin:0 0 .6rem;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.15}
+  .dc .lede{max-width:44rem}
+  .dc-opts{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin:1.8rem 0}
+  .dc-opt{background:#fff;border:1px solid var(--line);border-radius:20px;padding:1.4rem}
+  .dc-opt h3{margin:.2rem 0 .5rem;font-size:1.2rem}
+  .dc-opt p{margin:.4rem 0;color:var(--mute)}
+  .dc-terms{background:#fff;border:1px solid var(--line);border-radius:20px;padding:1.3rem 1.4rem;margin:0 0 1.8rem}
+  .dc-terms h3{margin:0 0 .5rem;font-size:1.05rem}
+  .dc-terms ul{margin:0;padding-left:1.1rem}.dc-terms li{margin:.35rem 0}
+  .dc-form{display:grid;gap:1rem;background:#fff;border:1px solid var(--line);border-radius:20px;padding:1.4rem;max-width:40rem}
+  .dc-form label{display:block;font-weight:600;margin:0 0 .35rem}
+  .dc-form input,.dc-form textarea{box-sizing:border-box;width:100%;min-height:52px;font:inherit;font-size:16px;padding:.8rem 1rem;border:1px solid var(--line);border-radius:14px;background:#fff}
+  .dc-form textarea{min-height:96px}
+  .dc-want{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;border:0;margin:0;padding:0}
+  .dc-want legend{font-weight:600;margin:0 0 .45rem;padding:0}
+  .dc-want label{display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:56px;border:1px solid var(--line);border-radius:14px;cursor:pointer;font-weight:600;margin:0;text-align:center;padding:0 .5rem}
+  .dc-want input{width:22px;height:22px;min-height:0;margin:0;accent-color:var(--green)}
+  .dc-want label:has(input:checked){border-color:var(--green);background:#EEF7F1}
+  .dc-form .btn{width:100%;min-height:56px;font-size:1.05rem;justify-content:center}
+  .dc-small{font-size:.9rem;color:var(--mute);margin:0}
+  .dc-pay{display:none;margin-top:.4rem}
+  .dc-pay.on{display:block}
+  @media (max-width:700px){.dc-opts{grid-template-columns:1fr}.dc-want{grid-template-columns:1fr}}
 </style>
 <noscript><style>@media (max-width:640px){ .mob-hide,.desk-only{display:block !important} .lede-short,.m-more-wrap{display:none !important} .tg-hero,body footer{display:block !important} }</style></noscript>
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
@@ -275,6 +300,7 @@
           <li>Nothing to manage on your side</li>
           <li>No cost to get started</li>
         </ul>
+        <p><a href="#doctor-clinics">Doctor clinic? See the two options</a></p>
       </div>
 
     </div>
@@ -307,6 +333,53 @@
         <div class="full"><label for="p-msg">Anything else? <span style="font-weight:400;color:var(--mute)">(optional)</span></label><textarea id="p-msg" name="message"></textarea></div>
         <div class="full"><button class="btn btn-primary" type="submit">Send</button></div>
         <p class="msg full" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="dc" id="doctor-clinics" aria-labelledby="dc-h">
+    <div class="wrap">
+      <p class="kicker">Doctor Clinics</p>
+      <h2 id="dc-h">Physio for your patients, with nothing to manage.</h2>
+      <p class="lede">Calm Joints is a digital physiotherapy service with registered physiotherapists. Patients book at calmjoints.org. If either option below is useful, it takes very little on your side.</p>
+      <div class="dc-opts">
+        <div class="dc-opt">
+          <p class="kicker" style="margin:0">Option 1</p>
+          <h3>A spare room</h3>
+          <p>If you have a room that sits empty, we can place registered physiotherapists there under a simple fair-market lease. Patients book at calmjoints.org.</p>
+        </div>
+        <div class="dc-opt">
+          <p class="kicker" style="margin:0">Option 2</p>
+          <h3>A free educational waiting-room kit</h3>
+          <p>A small acrylic stand, cards and a poster with a QR code to calmjoints.org. Patients can learn about virtual physiotherapy, or book from their phone while they wait.</p>
+        </div>
+      </div>
+      <div class="dc-terms">
+        <h3>Kit terms, in plain language</h3>
+        <ul>
+          <li>The kit is free. We ask for a $299 deposit to cover our production and shipping risk.</li>
+          <li>After a 6-month pilot, if we keep the materials in place, your $299 deposit is refunded in full.</li>
+          <li>There are no payments, commissions or incentives tied to scans or bookings, and no other fees.</li>
+          <li>The materials are educational only. They are not medical advice and do not replace your care.</li>
+        </ul>
+      </div>
+      <form class="dc-form" id="clinic-form" novalidate>
+        <div class="hp" aria-hidden="true"><label for="dc-co">Company</label><input id="dc-co" name="company" tabindex="-1" autocomplete="off"></div>
+        <fieldset class="dc-want">
+          <legend>What would you like?</legend>
+          <label><input type="radio" name="want" value="kit" checked> Kit</label>
+          <label><input type="radio" name="want" value="room"> Room</label>
+          <label><input type="radio" name="want" value="both"> Both</label>
+        </fieldset>
+        <div><label for="dc-clinic">Clinic name</label><input id="dc-clinic" name="clinic" autocomplete="organization" required></div>
+        <div><label for="dc-name">Contact name</label><input id="dc-name" name="name" autocomplete="name" required></div>
+        <div><label for="dc-email">Email</label><input id="dc-email" name="email" type="email" inputmode="email" autocomplete="email" required></div>
+        <div><label for="dc-phone">Phone</label><input id="dc-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
+        <div><label for="dc-addr">Clinic address</label><input id="dc-addr" name="address" autocomplete="street-address" required></div>
+        <p class="dc-small" id="dc-note">Kit orders continue to a secure $299 deposit, refunded in full after the 6-month pilot if we keep the materials in place.</p>
+        <button class="btn btn-primary" type="submit">Send request</button>
+        <p class="msg" role="status" aria-live="polite"></p>
+        <a class="btn btn-primary dc-pay" id="dc-pay" href="#">Pay the $299 refundable deposit</a>
       </form>
     </div>
   </section>
@@ -348,6 +421,17 @@ function stop(){clearInterval(timer);}
 t.addEventListener('scroll',function(){var n=Math.round(t.scrollLeft/t.clientWidth);if(n!==i){i=n;mark();}},{passive:true});
 ['pointerdown','touchstart','focusin'].forEach(function(e){t.addEventListener(e,stop,{passive:true});});
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(function(){go(i+1);},5500);mark();})();
+</script>
+<script>
+(function(){var f=document.getElementById('clinic-form');if(!f)return;var msg=f.querySelector('.msg'),btn=f.querySelector('button[type=submit]'),pay=document.getElementById('dc-pay'),note=document.getElementById('dc-note');
+function sync(){var w=(f.querySelector('input[name=want]:checked')||{}).value;note.style.display=w==='room'?'none':'';}
+f.addEventListener('change',sync);sync();
+f.addEventListener('submit',async function(e){e.preventDefault();var d={};new FormData(f).forEach(function(v,k){d[k]=v;});btn.disabled=true;msg.className='msg';msg.textContent='Sending…';pay.classList.remove('on');
+try{var r=await fetch('/api/clinic',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});var o=await r.json().catch(function(){return{};});
+if(!r.ok||!o.ok)throw new Error(o.message||'Something went wrong. Try once more?');msg.className='msg ok';msg.textContent=o.message;
+if(o.deposit_url&&/^https:\/\/buy\.stripe\.com\//.test(o.deposit_url)){pay.href=o.deposit_url;pay.classList.add('on');}
+else if(d.want!=='room'){msg.textContent=o.message+' We’ll email you a secure link for the $299 refundable deposit.';}
+f.reset();sync();}catch(err){msg.className='msg err';msg.textContent=err.message;}finally{btn.disabled=false;}});})();
 </script>
 <script src="/form.js"></script>
 <script>cjForm(document.getElementById('partner-form'), '/api/partner');</script>

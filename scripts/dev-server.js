@@ -43,6 +43,8 @@ const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://127.0.0.1:${port}`);
   if (url.pathname === '/api/newsletter') return newsletter(req, res);
   if (url.pathname === '/api/apply') return apply(req, res);
+  if (url.pathname === '/api/clinic') return require('../api/clinic')(req, res);
+  if (url.pathname === '/api/clinic-qr') return require('../api/clinic-qr')(req, res);
   if (url.pathname === '/api/question') return question(req, res);
   if (url.pathname === '/api/intake') return intake(req, res);
   if (url.pathname === '/api/careers') return careers(req, res);
