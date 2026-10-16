@@ -49,12 +49,10 @@
 <script src="/js/scan.js?v=2"></script>
 <script src="/js/share.js?v=8"></script>
 <script src="/js/helped.js?v=2"></script>
-<script src="/js/guide.js?v=23"></script>
+<script src="/js/guide.js?v=24"></script>
 <script>
   (function () {
     var g = window.CJGuide.mountPage(document.getElementById('cj-guide'), { leadOpen: false });
-    // QR and shared-link visitors: warm up the guide so Chat opens instantly after the gate.
-    if (window.CJGuide.ctx.src === 'qr' || window.CJGuide.ctx.src === 'share' || window.CJGuide.ctx.src === 'helped') window.CJGuide.preload().catch(function () {});
   })();
 </script>
 </body>
