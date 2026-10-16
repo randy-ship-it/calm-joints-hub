@@ -545,8 +545,10 @@
     clearTimeout(this.voiceDog);
     var orb = this.root.querySelector('.cjg-orb'); if (orb) orb.className = 'cjg-orb';
     this.mode = null;
+    // Show the text screen only. No new session until the visitor actually sends a message (send() connects),
+    // so a silent or denied voice attempt never opens a second, empty conversation.
     Promise.resolve(this.stop()).catch(function () {}).then(function () {
-      self.startChat();
+      self.mode = 'chat'; self.hadChat = true; self.show('chat'); self.typing(false);
       self.add('sys', esc(why));
     });
   };
