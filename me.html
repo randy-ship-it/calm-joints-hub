@@ -73,7 +73,8 @@
     $('login').classList.add('hide');
     $('dash').classList.remove('hide');
     $('d-name').textContent = d.venue || 'Your code';
-    $('d-handle').textContent = d.handle ? 'calmjoints.org/' + d.handle : '';
+    var code = d.landing_url || (d.handle ? 'https://calmjoints.org/' + d.handle : '');
+    $('d-handle').textContent = code.replace(/^https:\/\//, '');
     $('d-share').textContent = d.pending_randy ? (d.share || '') + ' — PENDING RANDY DECISION' : (d.share || '');
     $('s-scans').textContent = d.scans || 0;
     $('s-bookings').textContent = d.bookings || 0;
