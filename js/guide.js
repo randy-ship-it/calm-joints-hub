@@ -102,6 +102,19 @@
     var p = new URLSearchParams({ intent: 'book', area: slug(area, 20) || '', province: String(province || '').toUpperCase().slice(0, 2), src: CTX.src || '', venue: CTX.venue || '' });
     return BOOK_BASE + '?' + p.toString();
   }
+  // Tap-to-ask starter questions shown under Glen's opening message until the first send.
+  // Gwen, and any page with its own opener, stay clear of these.
+  var STARTERS = [
+    'My neck is sore by 3 p.m. Is it my desk setup?',
+    'My knees ache past a certain distance. Push through or back off?',
+    'My elbow is sore after pickleball. Rest it or keep playing?'
+  ];
+  function startersForGlen() { return PICK === 'glen' && !HAT; }
+  function startersHtml() {
+    return '<div class="cjg-row cjg-starters" data-starters role="group" aria-label="Try asking" style="margin-top:.6rem;flex-wrap:wrap;gap:.4rem">' + STARTERS.map(function (q) {
+      return '<button type="button" class="cjg-chip" data-a="ask" data-q="' + esc(q) + '" style="text-align:left;white-space:normal">' + esc(q) + '</button>';
+    }).join('') + '</div>';
+  }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function opts(list) { return list.map(function (o) { return '<option value="' + o[0] + '">' + esc(o[1]) + '</option>'; }).join(''); }
   function fmt(text) {
@@ -165,7 +178,7 @@
       '<div class="cjg-body" data-s="callback" hidden><h2>Get a call back</h2><p>' + T.cbIntro + '</p>' + this.callbackForm() +
         '<div class="cjg-row" style="margin-top:.9rem"><button type="button" class="cjg-chip" data-a="chat">Chat instead</button><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a></div>' +
         '<p class="cjg-note cjg-911" style="margin-top:.9rem"><strong>Emergency?</strong> Call 911. Don’t wait for a call back.</p></div>' +
-      '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div></div>' +
+      '<div class="cjg-body" data-s="chat" hidden><div class="cjg-log" data-log="chat" aria-live="polite"></div>' + startersHtml() + '</div>' +
       '<div class="cjg-tools" data-s="chat-tools" hidden><a class="cjg-chip pri" data-a="book" href="' + esc(bookingUrl('', '')) + '" target="_blank" rel="noopener">Book a video visit</a><button type="button" class="cjg-chip" data-a="voice">Switch to voice</button>' + this.swapChip() + '<button type="button" class="cjg-chip" data-a="lead">Email me a link</button><button type="button" class="cjg-chip" data-a="callback" data-cb hidden>Get a call back</button><button type="button" class="cjg-chip" data-a="share">Share</button>' + (window.CJHelped ? '<button type="button" class="cjg-chip" data-a="helped">\uD83D\uDC4D This helped</button>' : '') + '</div>' +
       '<form class="cjg-compose" data-s="compose" hidden autocomplete="off"><label class="cjg-sr" for="cjg-in">Message</label><input id="cjg-in" name="m" placeholder="Ask about knee, hip, back, neck or shoulder pain" maxlength="600" enterkeyhint="send"><button type="submit">Send</button></form>' +
       '<div class="cjg-foot" data-gdisc>' + discloseHtml() + '</div>';
@@ -194,6 +207,7 @@
       else if (act === 'share') self.showShare();
       else if (act === 'helped') self.showHelped(true);
       else if (act === 'hshare') self.headerShare();
+      else if (act === 'ask') { var inp = self.root.querySelector('#cjg-in'); if (!inp || !startersForGlen()) return; inp.value = a.getAttribute('data-q') || ''; self.track('starter'); self.send(); }
     });
     this.paintGuide();
     var x = this.root.querySelector('.cjg-x'); if (x) x.addEventListener('click', function () { self.close(); });
@@ -221,6 +235,12 @@
     this.root.querySelectorAll('.cjg-pk').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-g') === PICK)); });
     var o = this.otherGuide();
     this.root.querySelectorAll('[data-gswap]').forEach(function (b) { b.setAttribute('aria-label', 'Talk with ' + GUIDES[o].name + ' instead'); b.querySelector('img').src = GUIDES[o].avatar || '/media/cj-guide-avatar.webp'; b.querySelector('span').textContent = GUIDES[o].name; });
+    var st = this.root.querySelector('[data-starters]');
+    if (st) {
+      var on = startersForGlen() && !(this.turns > 0);
+      st.hidden = !on;
+      st.style.display = on ? '' : 'none';
+    }
   };
   Guide.prototype.setGuide = function (k) {
     if (!GUIDES[k] || k === PICK) { this.paintGuide(); return; }
@@ -482,6 +502,7 @@
   Guide.prototype.send = function () {
     var self = this, i = this.root.querySelector('#cjg-in'), text = (i.value || '').trim();
     if (!text) return;
+    var st = this.root.querySelector('[data-starters]'); if (st) { st.hidden = true; st.style.display = 'none'; }
     i.value = ''; this.turns = (this.turns || 0) + 1; this.add('me', fmt(text)); this.typing(true);
     var go = function () { try { self.conv.sendUserMessage(text); self.pgIdleArm(); } catch (e) { self.typing(false); self.add('sys', 'Message didn’t send. Try once more?'); } };
     if (this.conv) go();
