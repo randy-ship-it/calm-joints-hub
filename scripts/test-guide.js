@@ -76,9 +76,17 @@ assert.ok(!JSON.stringify(body).includes('dropped'), 'no symptoms or history eve
   assert.strictEqual(neonPayload.meta.intake_prefill, true);
   assert.ok(!JSON.stringify(neonPayload).includes('do not store'));
 
-  assert.ok(fs.readFileSync('chat.html', 'utf8').includes('/js/guide.js?v=24'));
+  assert.ok(fs.readFileSync('chat.html', 'utf8').includes('/js/guide.js?v=25'));
   assert.ok(fs.readFileSync('js/guide.js', 'utf8').includes('name="intake_prefill"'));
-  assert.ok(fs.readFileSync('js/book.js', 'utf8').includes('/js/guide.js?v=24'));
+  assert.ok(fs.readFileSync('js/book.js', 'utf8').includes('/js/guide.js?v=25'));
+  const guideSrc = fs.readFileSync('js/guide.js', 'utf8');
+  for (const q of [
+    'My neck is sore by 3 p.m. Is it my desk setup?',
+    'My knees ache past a certain distance. Push through or back off?',
+    'My elbow is sore after pickleball. Rest it or keep playing?',
+  ]) assert.ok(guideSrc.includes(q), q);
+  assert.ok(guideSrc.includes("PICK === 'glen'") && guideSrc.includes('data-starters') && guideSrc.includes("act === 'ask'"), 'starters are Glen-only tap-to-ask');
+  assert.ok(guideSrc.includes('startersForGlen') && guideSrc.includes('!HAT'), 'starters stay off Gwen and page-specific openers');
 
   const banned = /\b(CHI|Clairvoyant|Align|Jane|Scale|Birch|BirchReserve|Silver Birch)\b/;
   for (const f of ['chat.html', 'js/guide.js', 'css/guide.css', 'js/book.js']) {
