@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Careers · Calm Joints</title>
-<meta name="description" content="See patients by video, at home or on site. Field ambassadors welcome.">
+<meta name="description" content="See patients by video, at home or on site.">
 <meta name="theme-color" content="#15803D">
 <link rel="canonical" href="https://calmjoints.org/careers">
 <meta property="og:site_name" content="Calm Joints">
 <meta property="og:title" content="Careers · Calm Joints">
-<meta property="og:description" content="See patients by video, at home or on site. Field ambassadors welcome.">
+<meta property="og:description" content="See patients by video, at home or on site.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calmjoints.org/careers">
 <meta property="og:image" content="https://calmjoints.org/media/cj-og-1200x630.png">
@@ -238,12 +238,6 @@
         <p class="hbadge">We hire people with disabilities</p>
         <a class="cta" href="#apply">Apply now</a>
       </div>
-      <a class="amb-card" href="/ambassadors">
-        <p class="kick">Now hiring</p>
-        <h2>Field Ambassador</h2>
-        <p>Get paid to spread the word, door to door in Toronto.</p>
-        <span class="amb-go">See the role</span>
-      </a>
       <section class="cjf" aria-labelledby="cjf-h">
         <p class="k2">Why physios join</p>
         <h2 id="cjf-h">Your hours. Your patients. Real support.</h2>
@@ -254,6 +248,7 @@
           <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
           <figure class="cjf-slot"><div class="cjf-ph"><img class="on" alt="" width="480" height="480" decoding="async"><img alt="" width="480" height="480" decoding="async"></div><figcaption>&nbsp;</figcaption></figure>
         </div>
+        <p style="font-size:.72rem;opacity:.7;text-align:center;margin:.5rem 0 0">Illustrative profiles. Not real staff.</p>
       </section>
     </div>
   </div>
@@ -333,22 +328,12 @@
       </div>
     </details>
   </section>
-  <div class="wrap team" aria-label="The team">
-    <img src="/media/team/mark.webp" alt="Mark Rukavina" width="480" height="480" loading="lazy">
-    <img src="/media/team/kate.webp" alt="Kate Tailor" width="480" height="480" loading="lazy">
-    <img src="/media/team/alison.webp" alt="Alison Golanski" width="480" height="480" loading="lazy">
-    <img src="/media/team/jayden.webp" alt="Jayden Grewal" width="480" height="480" loading="lazy">
-    <img src="/media/team/chris.webp" alt="Chris Percy" width="480" height="480" loading="lazy">
-  </div>
   <p class="note">Need an accommodation? Just ask. <span>No diagnosis needed.</span></p>
   </div>
   <section class="apply" id="apply">
-    <form id="careers" novalidate data-apply-form data-endpoint-physio="/api/careers" data-endpoint-ambassador="/api/apply">
+    <form id="careers" novalidate data-apply-form data-endpoint-physio="/api/careers">
       <h2>Apply</h2>
-      <fieldset class="pills"><legend>Role</legend>
-        <input type="radio" name="role" id="role-pt" value="physiotherapist" checked><label for="role-pt">Physiotherapist</label>
-        <input type="radio" name="role" id="role-amb" value="ambassador"><label for="role-amb">Field Ambassador</label>
-      </fieldset>
+      <input type="hidden" name="role" value="physiotherapist">
       <div data-for-role="physiotherapist">
       <fieldset class="pills"><legend>How do you want to work? <span class="opt">(pick all that fit)</span></legend>
         <input type="checkbox" name="roles" id="r1" value="digital" checked><label for="r1" class="lead-pill">Fully digital <span class="badge">Our focus</span></label>
@@ -379,22 +364,6 @@
       <div class="field"><span class="flabel">Resume <span class="opt">(optional)</span></span><input class="file-in" id="c-resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><label class="file-drop" for="c-resume"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg><span><b>Upload your resume</b><span class="file-hint">PDF or Word, up to 3 MB</span><span class="file-name"></span></span></label></div>
       <div class="field"><label for="c-msg">A bit about you <span class="opt">(optional)</span></label><textarea id="c-msg" name="message" rows="3"></textarea></div>
       </div>
-      <div data-for-role="ambassador" hidden>
-        <div class="two">
-          <div class="field"><label for="a-name">Name</label><input id="a-name" name="name" autocomplete="name" required></div>
-          <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" autocomplete="email" required></div>
-        </div>
-        <div class="two">
-          <div class="field"><label for="a-phone">Phone</label><input id="a-phone" name="phone" type="tel" autocomplete="tel" required maxlength="22"></div>
-          <div class="field"><label for="a-hood">Neighbourhood</label><input id="a-hood" name="neighbourhood" required maxlength="80" placeholder="e.g. Leslieville"></div>
-        </div>
-        <div class="field"><label for="a-intro">Short intro</label><textarea id="a-intro" name="intro" rows="2" required maxlength="500"></textarea></div>
-        <div class="field"><label for="a-exp">People or promo experience</label><textarea id="a-exp" name="experience" rows="2" required maxlength="800"></textarea></div>
-        <div class="two">
-          <div class="field"><label for="a-social">Social handle <span class="opt">(optional)</span></label><input id="a-social" name="social" maxlength="80" placeholder="@you"></div>
-          <div class="field"><label for="a-video">Intro video link <span class="opt">(optional)</span></label><input id="a-video" name="video" inputmode="url" maxlength="300" placeholder="youtube.com/…"></div>
-        </div>
-      </div>
       <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn" type="submit">Send application</button>
       <p class="msg" role="status" aria-live="polite"></p>
@@ -405,8 +374,7 @@
   <span>© <span id="yr">2026</span> Calm Joints Inc.</span>
   <span><a href="/careers">Careers</a> &nbsp;·&nbsp; <a href="mailto:info@calmjoints.org">info@calmjoints.org</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a> &nbsp;·&nbsp; <a href="/report">Report a poster</a> &nbsp;·&nbsp; <a href="#cookies" data-cookie-settings>Cookie settings</a></span>
 </footer>
-<script src="/js/team-data.js"></script>
-<script src="/js/careers-faces.js"></script>
+<script src="/js/careers-faces.js?v=2"></script>
 <script src="/form.js"></script>
 <script src="/js/apply-role.js"></script>
 <script>document.getElementById('yr').textContent = new Date().getFullYear(); cjForm(document.getElementById('careers'), '/api/careers'); document.getElementById('c-resume').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.closest('.field').querySelector('.file-name').textContent = f ? f.name : ''; });</script>

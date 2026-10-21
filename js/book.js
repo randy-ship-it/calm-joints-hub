@@ -9,7 +9,43 @@
   var url = (cfg.booking && cfg.booking.primaryUrl) || '';
   if (!url) return;
 
+
+  // Scale PA QR attribution (Friday): ?ref=<8-char code>&utm_source=pa is kept 30 days on this device;
+  // every hand-off to the Jane booking page sends a book_click to Friday credited to that PA (qr=pa-<code>).
+  var PA_RE = /^[A-HJKMNP-Z2-9]{8}$/;
+  (function () {
+    try {
+      var q0 = new URLSearchParams(location.search), c = String(q0.get('ref') || '').toUpperCase();
+      if (PA_RE.test(c) && q0.get('utm_source') === 'pa') localStorage.setItem('cj_pa', JSON.stringify({ code: c, at: Date.now() }));
+    } catch (e) {}
+  })();
+  function paCode() {
+    try {
+      var r = JSON.parse(localStorage.getItem('cj_pa') || 'null');
+      if (r && PA_RE.test(r.code) && Date.now() - r.at < 30 * 864e5) return r.code;
+    } catch (e) {}
+    return '';
+  }
+  var paSent = 0;
+  function paBook(label) {
+    var c = paCode();
+    if (!c || Date.now() - paSent < 3000) return;
+    paSent = Date.now();
+    try {
+      var b = JSON.stringify({ site: location.hostname, path: location.pathname, e: 'book_click', l: label || 'jane_open', qr: 'pa-' + c, us: 'pa', um: 'qr', uc: c.toLowerCase() });
+      if (!(navigator.sendBeacon && navigator.sendBeacon('https://fridayapp.org/api/track', new Blob([b], { type: 'text/plain' }))))
+        fetch('https://fridayapp.org/api/track', { method: 'POST', body: b, keepalive: true, mode: 'no-cors', credentials: 'omit' });
+    } catch (e) {}
+  }
+  window.CJPaBook = paBook;
+  // The guide opens Jane with window.open; credit the PA on that hand-off too.
+  try {
+    var _open = window.open;
+    window.open = function (u) { try { if (/janeapp\.com/i.test(String(u || ''))) paBook('jane_open'); } catch (e) {} return _open.apply(window, arguments); };
+  } catch (e) {}
+
   function trackBook() {
+    paBook('jane_open');
     try {
       var r = JSON.parse(localStorage.getItem('cj_ref') || 'null');
       if (r && r.slug && Date.now() - r.at < 30 * 864e5) {
