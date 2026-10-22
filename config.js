@@ -8,7 +8,7 @@ window.CALM_JOINTS = {
     contact: 'info@calmjoints.org',
   },
   booking: {
-    primaryUrl: 'https://calmjoints.janeapp.com/locations/calm-joints/book#/list',
+    primaryUrl: 'https://calmjoints.janeapp.com/locations/calm-joints/book#/discipline/2/treatment/346',
     embedUrl: null,
     providerListApi: null,
     status: 'partner-clinic',

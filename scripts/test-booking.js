@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const vm = require('vm');
 
-const JANE = 'https://calmjoints.janeapp.com/locations/calm-joints/book#/list';
+const JANE = 'https://calmjoints.janeapp.com/locations/calm-joints/book#/discipline/2/treatment/346';
 const OLD = 'scalehealth.janeapp.com/locations/scale-health-x-dr-ho/book';
 
 const window = {};
