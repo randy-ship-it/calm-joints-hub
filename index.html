@@ -404,6 +404,23 @@
 <noscript><style>@media (max-width:640px){ .mob-hide{display:block !important} .m-more-wrap{display:none !important} body footer{display:block !important} }</style></noscript>
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
   <script defer src="https://fridayapp.org/t.js"></script>
+<style>
+.nav-store{font-weight:700;color:var(--green)!important;white-space:nowrap}
+.ins{padding:clamp(1rem,3vw,2rem) 0}
+.ins-card{display:grid;gap:1.4rem;align-items:center;padding:clamp(1.3rem,4vw,2.4rem);border-radius:22px;background:linear-gradient(135deg,var(--deep),#0F5A31);color:#fff;text-decoration:none;box-shadow:0 18px 40px -22px rgba(10,61,34,.6);transition:transform .2s,box-shadow .2s}
+.ins-card:hover{transform:translateY(-2px);box-shadow:0 24px 48px -22px rgba(10,61,34,.7)}
+.ins-kick{margin:0 0 .4rem;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#86EFAC;font-weight:700}
+.ins-card h2{margin:0 0 .5rem;font-size:clamp(1.5rem,4.2vw,2.2rem);line-height:1.15;color:#fff}
+.ins-line{margin:0 0 1.1rem;color:#D1FAE5;font-size:1.02rem}
+.ins-btn{background:#fff;color:var(--deep);font-weight:700}
+.ins-card:hover .ins-btn{background:#ECFDF5}
+.ins-prods{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+.ins-prods li{background:#fff;border-radius:14px;padding:.6rem .4rem .5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.ins-prods img{width:100%;max-width:96px;height:72px;object-fit:contain}
+.ins-prods span{font-size:.72rem;line-height:1.2;color:var(--ink);font-weight:600}
+@media(min-width:860px){.ins-card{grid-template-columns:1.1fr 1fr}.ins-prods img{height:96px}}
+@media(max-width:480px){.ins-prods{gap:.4rem}.ins-prods li{padding:.45rem .25rem}.ins-prods span{font-size:.62rem}.ins-prods img{height:56px}}
+</style>
 </head>
 <body data-calming-pop="popup">
 <a class="skip" href="#main">Skip to content</a>
@@ -411,6 +428,7 @@
   <div class="wrap nav-inner">
     <a class="brand" href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
     <nav class="nav-links" aria-label="Primary">
+      <a class="nav-store" href="https://www.scalehealth.ca/calmjoints?src=cjsite&amp;place=nav" data-store-place="nav">Insider’s Store</a>
       <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
       <a href="/blog">Blog</a>
@@ -495,6 +513,20 @@
       </div>
       <p class="sr" id="live" aria-live="polite"></p>
     </div>
+    </div>
+  </section>
+
+  <section class="ins" id="insider-store" aria-labelledby="ins-h">
+    <div class="wrap">
+      <a class="ins-card" href="https://www.scalehealth.ca/calmjoints?src=cjsite&amp;place=home" data-store-place="home">
+        <div class="ins-copy">
+          <p class="ins-kick">Industry Insider’s Store</p>
+          <h2 id="ins-h">Member pricing on top recovery brands.</h2>
+          <p class="ins-line">Physio consults $129 (reg. $189), plus member-only prices on recovery gear.</p>
+          <span class="btn ins-btn">Shop the Insider’s Store <span aria-hidden="true">→</span></span>
+        </div>
+        <ul class="ins-prods" aria-label="In the store"><li><img src="https://www.scalehealth.ca/images/roll-recovery/r8plus-cutout.png" alt="Roll Recovery R8 Plus" width="120" height="120" loading="lazy" decoding="async"><span>Roll Recovery R8 Plus</span></li><li><img src="https://www.scalehealth.ca/images/partner-offers/manduka-manduka-pro-yoga-mat-cutout.png" alt="Manduka PRO mat" width="120" height="120" loading="lazy" decoding="async"><span>Manduka PRO mat</span></li><li><img src="https://www.scalehealth.ca/images/partner-offers/renpho-ascend-massage-gun-cutout.png" alt="Renpho massage gun" width="120" height="120" loading="lazy" decoding="async"><span>Renpho massage gun</span></li><li><img src="https://www.scalehealth.ca/images/genuine-health/greens-original-cutout.png" alt="greens+" width="120" height="120" loading="lazy" decoding="async"><span>greens+</span></li></ul>
+      </a>
     </div>
   </section>
 
