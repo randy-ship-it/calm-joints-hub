@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /drive
+Disallow: /body-map-demo
 Disallow: /me
 Disallow: /admin
 

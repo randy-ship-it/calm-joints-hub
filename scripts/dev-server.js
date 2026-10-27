@@ -88,7 +88,7 @@ const server = http.createServer((req, res) => {
       return;
     }
     const headers = { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' };
-    if (rel === '/drive.html' || rel === '/me.html' || rel.startsWith('/admin/')) headers['X-Robots-Tag'] = 'noindex, nofollow';
+    if (rel === '/drive.html' || rel === '/me.html' || rel === '/body-map-demo.html' || rel.startsWith('/admin/')) headers['X-Robots-Tag'] = 'noindex, nofollow';
     res.writeHead(200, headers);
     res.end(buf);
   });
