@@ -1,5 +1,5 @@
-/* Careers photo strip. Illustrative profiles only: AI-generated faces with
-   fictional "First L." names. No real staff appear here. */
+/* Careers photo strip: AI-generated faces with fictional "First L." names.
+   No real staff appear here. */
 (function () {
   var root = document.getElementById('cj-faces');
   if (!root) return;
@@ -16,7 +16,7 @@
   function paint(slot, item, layer) {
     var img = slot.querySelectorAll('img')[layer];
     img.src = item.photo;
-    img.alt = item.label ? item.label + ' (illustrative profile)' : '';
+    img.alt = item.label ? item.label : '';
     slot.querySelector('figcaption').textContent = item.label || '\u00a0';
     slot.classList.toggle('named', !!item.label);
   }
@@ -44,7 +44,7 @@
       s.classList.toggle('named', !!item.label);
     };
     img.onload = go; img.src = item.photo;
-    img.alt = item.label ? item.label + ' (illustrative profile)' : '';
+    img.alt = item.label ? item.label : '';
     if (img.complete && img.naturalWidth) { img.onload = null; go(); }
   }
   setInterval(tick, 2600);
