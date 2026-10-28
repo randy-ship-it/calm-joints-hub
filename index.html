@@ -370,6 +370,10 @@
   /* Partner hub examples: compact section; desktop shows all 4 side by side (no dots/arrows), mobile keeps the one-card swipe carousel. */
   section.block.po { padding: clamp(2rem, 4.5vw, 3rem) 0; }
   .po .head { margin-bottom: 1.1rem; }
+  .ld-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 1.1rem; padding: .9rem 1.05rem; border: 1px solid #CDEBD6; border-radius: 16px; background: #F1FBF4; text-decoration: none; }
+  .ld-link b { display: block; color: var(--ink); font-size: 1rem; }
+  .ld-link small { display: block; color: var(--mute); font-size: .9rem; font-weight: 500; margin-top: .15rem; }
+  .ld-link em { font-style: normal; font-weight: 700; color: var(--green); white-space: nowrap; }
   .po .po-open { margin-top: 1rem; }
   @media (min-width:1024px) {
     .pc-track { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; padding: .2rem 0 .2rem; }
@@ -534,6 +538,7 @@
   <section class="block po" id="partner-options">
     <div class="wrap">
       <div class="head"><p class="kicker">Partner with Calm Joints</p><h2>Your brand, with a recovery store and a physio.</h2><p>Here’s what a member hub looks like when it sells your products, partner deals and digital physio visits in one place.</p></div>
+      <a class="ld-link" href="/localdemand"><span><b>Check local demand near you</b><small>Recovery demand around a Canadian postal code.</small></span><em>Open</em></a>
       <div class="pc-car">
         <div class="pc-track" id="pc-track" tabindex="0" aria-roledescription="carousel" aria-label="Partner hub examples">
           <figure class="pc-slide is-on" aria-roledescription="slide"><div class="pc-frame"><img class="shot" src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Example member hub with digital physio booking, a recovery store with member pricing, partner deals and perks" decoding="async"></div><figcaption><b>Example member hub</b>Digital physio, a recovery store, partner deals and perks</figcaption></figure>
