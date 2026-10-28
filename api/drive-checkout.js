@@ -24,14 +24,11 @@ module.exports = async function handler(req, res) {
     const url = new URL(req.url, 'https://calmjoints.org');
     const handle = url.searchParams.get('handle');
     if (handle) {
-      const parsed = D.validate({
-        partner_type: 'other', name: 'Handle Check', email: 'check@calmjoints.org', phone: '4165550100',
-        handle, line1: '1 King Street', city: 'Toronto', province: 'ON', postal: 'M5V 1A1',
-      });
-      if (parsed.errors.length) { send(res, 200, { ok: true, available: false, message: parsed.errors[0] }); return; }
+      const parsed = D.parseHandle(handle);
+      if (parsed.error) { send(res, 200, { ok: true, available: false, message: parsed.error }); return; }
       try {
-        const taken = await D.handleTaken(parsed.value.handle, env);
-        send(res, 200, { ok: true, available: !taken, handle: parsed.value.handle });
+        const taken = await D.handleTaken(parsed.handle, env);
+        send(res, 200, { ok: true, available: !taken, handle: parsed.handle });
       } catch (err) {
         console.error('[drive] handle check failed', err && err.message);
         send(res, 503, { ok: false, message: 'Could not check that handle.' });
