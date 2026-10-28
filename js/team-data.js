@@ -14,11 +14,5 @@ window.CJ_TEAM = [
     role: "Registered Physiotherapist", region: "Ontario",
     photo: "/media/team/aleksandra-n.webp",
     bio: "Master of Physiotherapy from the University of Ottawa, practising since 2014. Focused on orthopaedics and musculoskeletal injuries for people of all ages, with acute pain and chronic conditions. She loves educating patients and encourages daily exercise. Off the clock: workouts, reading, travel and interior design."
-  },
-  {
-    first: "Mark", last: "Rukavina",
-    role: "Registered Physiotherapist · Partnerships", region: "",
-    photo: "/media/team/mark-r.webp",
-    bio: "A Registered Physiotherapist with a practical, relationship-driven approach, Mark bridges clinical insight with how businesses actually run, working closely with practitioners and on-site teams. Outside of work he's into endurance sport, most recently a Half Ironman and a marathon."
   }
 ];

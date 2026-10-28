@@ -8,13 +8,12 @@ const ctx = { window: {} };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync('js/team-data.js', 'utf8'), ctx);
 const team = ctx.window.CJ_TEAM;
-assert.strictEqual(team.length, 3);
+assert.strictEqual(team.length, 2);
 const names = team.map((p) => (p.first || '') + (p.last ? ' ' + p.last.charAt(0) + '.' : ''));
-assert.strictEqual(names.join('|'), 'Gabriela R.|Aleksandra N.|Mark R.');
+assert.strictEqual(names.join('|'), 'Gabriela R.|Aleksandra N.');
 assert.strictEqual(team.map((p) => p.photo).join('|'), [
   '/media/team/gabriela-r.webp',
   '/media/team/aleksandra-n.webp',
-  '/media/team/mark-r.webp',
 ].join('|'));
 for (const p of team) {
   assert.ok(!/\.svg$/.test(p.photo), p.photo);
