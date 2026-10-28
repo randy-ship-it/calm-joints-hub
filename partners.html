@@ -296,6 +296,7 @@
         <p class="kicker">Partnerships</p>
         <h1>Partner with Calm Joints.</h1>
         <p class="lede">Physio care for your members, customers or team. We handle everything.</p>
+        <p class="xref">See recovery demand around a Canadian postal code. <a href="/localdemand">Check local demand near you</a></p>
         <ul>
           <li>Video visits with registered physiotherapists</li>
           <li>Nothing to manage on your side</li>
@@ -435,6 +436,22 @@ else if(d.want!=='room'){msg.textContent=o.message+' We’ll email you a secure 
 f.reset();sync();}catch(err){msg.className='msg err';msg.textContent=err.message;}finally{btn.disabled=false;}});})();
 </script>
 <script src="/form.js"></script>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  if (q.get('source') !== 'localdemand') return;
+  var pc = (q.get('pc') || '').trim();
+  var radius = (q.get('radius') || '').trim();
+  var msg = document.getElementById('p-msg');
+  var type = document.getElementById('p-type');
+  if (type && !type.value) type.value = 'health';
+  if (msg && !msg.value) {
+    var where = pc ? 'near ' + pc : 'in this area';
+    var within = /^\d{1,2}$/.test(radius) ? ' (' + radius + ' km)' : '';
+    msg.value = 'Looked up local demand ' + where + within + '. Interested in partnering on in-person physio.';
+  }
+})();
+</script>
 <script>cjForm(document.getElementById('partner-form'), '/api/partner');</script>
 <script src="/config.js"></script>
 <link rel="stylesheet" href="/css/guide.css?v=15">

@@ -61,11 +61,32 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/cimpress-webhook') return cimpressWebhook(req, res);
   if (url.pathname === '/api/printful-webhook') return printfulWebhook(req, res);
   if (url.pathname.startsWith('/p/')) { req.url = '/p.html?slug=' + url.pathname.slice(3); }
+  if (url.pathname === '/localdemand/api/estimate') {
+    const target = 'https://scale-partner-dash.vercel.app/localdemand/api/estimate' + url.search;
+    fetch(target, { headers: { accept: 'application/json', 'user-agent': 'calm-joints-localdemand/1.0 (calmjoints.org)' } })
+      .then(async (r) => {
+        const buf = Buffer.from(await r.arrayBuffer());
+        const headers = { 'content-type': r.headers.get('content-type') || 'application/json; charset=utf-8' };
+        const cache = r.headers.get('cache-control');
+        if (cache) headers['cache-control'] = cache;
+        res.writeHead(r.status, headers);
+        res.end(buf);
+      })
+      .catch(() => {
+        res.writeHead(502, { 'content-type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ error: 'failed' }));
+      });
+    return;
+  }
 
   let rel = decodeURIComponent(url.pathname);
   if (/^\/me\/[a-z0-9-]{2,32}\/?$/i.test(url.pathname)) rel = '/me.html';
-  if (rel === '/' || rel.endsWith('/')) rel = '/index.html';
-  else if (!path.extname(rel)) rel += '.html';
+  else if (rel === '/') rel = '/index.html';
+  else if (rel.endsWith('/')) rel = rel + 'index.html';
+  else if (!path.extname(rel)) {
+    const dirIndex = path.join(root, rel, 'index.html');
+    rel = fs.existsSync(dirIndex) ? rel + '/index.html' : rel + '.html';
+  }
   const file = path.normalize(path.join(root, rel));
   if (!file.startsWith(root) || file.startsWith(path.join(root, 'data')) || file.includes(`${path.sep}node_modules${path.sep}`)) {
     res.writeHead(403);
