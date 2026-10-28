@@ -2,3 +2,4 @@
 # lib/ and scripts/ stay in the upload: functions import lib/ at build time,
 # and public access to both trees is denied in vercel.json routes.
 *.md
+.private/
