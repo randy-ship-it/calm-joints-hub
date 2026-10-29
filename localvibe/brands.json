@@ -1,15 +1,15 @@
 [
-  {"slug":"bird-and-be","name":"Bird&Be","logo":null,"baseWeight":1.15},
-  {"slug":"jack-health","name":"Jack Health","logo":"/media/logos/jack.png","baseWeight":1.1},
-  {"slug":"jill-health","name":"Jill Health","logo":"/media/logos/jill.png","baseWeight":1.1},
-  {"slug":"dr-ho","name":"DR-HO'S","logo":"/media/logos/dr-hos.svg","baseWeight":1.25},
-  {"slug":"roll-recovery","name":"Roll Recovery","logo":"/media/logos/roll-recovery.png","baseWeight":1.0},
-  {"slug":"therabody","name":"Therabody","logo":"/media/logos/therabody.svg","baseWeight":0.82},
-  {"slug":"sole","name":"Sole","logo":"/media/logos/sole.png","baseWeight":0.72},
-  {"slug":"genuine-health","name":"Genuine Health","logo":"/media/logos/genuine-health.svg","baseWeight":0.66},
-  {"slug":"airwaav","name":"AIRWAAV","logo":"/media/logos/airwaav.svg","baseWeight":0.6},
-  {"slug":"bedjet","name":"BedJet","logo":"/media/logos/bedjet.png","baseWeight":0.6},
-  {"slug":"manduka","name":"Manduka","logo":"/media/logos/manduka.png","baseWeight":0.58},
-  {"slug":"renpho","name":"RENPHO","logo":"/media/logos/renpho.png","baseWeight":0.55},
-  {"slug":"garmin","name":"Garmin","logo":"/media/logos/garmin.png","baseWeight":0.52}
+  {"slug":"bird-and-be","name":"Bird&Be","logo":null,"baseWeight":1.15,"cat":"Pregnancy & postpartum"},
+  {"slug":"jack-health","name":"Jack Health","logo":"/media/logos/jack.png","baseWeight":1.1,"cat":"Everyday pain relief"},
+  {"slug":"jill-health","name":"Jill Health","logo":"/media/logos/jill.png","baseWeight":1.1,"cat":"Everyday pain relief"},
+  {"slug":"dr-ho","name":"DR-HO'S","logo":"/media/logos/dr-hos.svg","baseWeight":1.25,"cat":"Everyday pain relief"},
+  {"slug":"roll-recovery","name":"Roll Recovery","logo":"/media/logos/roll-recovery.png","baseWeight":1.0,"cat":"Recovery tools"},
+  {"slug":"therabody","name":"Therabody","logo":"/media/logos/therabody.svg","baseWeight":0.82,"cat":"Recovery tools"},
+  {"slug":"sole","name":"Sole","logo":"/media/logos/sole.png","baseWeight":0.72,"cat":"Foot & lower-body support"},
+  {"slug":"genuine-health","name":"Genuine Health","logo":"/media/logos/genuine-health.svg","baseWeight":0.66,"cat":"Supplements"},
+  {"slug":"airwaav","name":"AIRWAAV","logo":"/media/logos/airwaav.svg","baseWeight":0.6,"cat":"Recovery tools"},
+  {"slug":"bedjet","name":"BedJet","logo":"/media/logos/bedjet.png","baseWeight":0.6,"cat":"Sleep & heat"},
+  {"slug":"manduka","name":"Manduka","logo":"/media/logos/manduka.png","baseWeight":0.58,"cat":"Yoga & mobility"},
+  {"slug":"renpho","name":"RENPHO","logo":"/media/logos/renpho.png","baseWeight":0.55,"cat":"Recovery tools"},
+  {"slug":"garmin","name":"Garmin","logo":"/media/logos/garmin.png","baseWeight":0.52,"cat":"Wearables & tracking"}
 ]

@@ -50,5 +50,9 @@ assert.ok(ign.includes('.private/'));
 // routes
 const routes = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8')).routes;
 assert.ok(routes.some((r) => r.src.startsWith('/near-you') && r.dest === '/localvibe/index.html'));
+assert.ok(routes.some((r) => r.src.startsWith('/localdemand') && r.dest === '/localvibe/index.html'), '/localdemand serves the combined page');
+assert.ok(routes.every((r) => !/localdemand\/api/.test(r.src)));
+brands.forEach((b) => assert.ok(brands.every((x) => x.cat), 'brand categories'));
 brands.forEach((b) => assert.ok(routes.some((r) => r.src.startsWith('/hub/' + b.slug + '/') && /^https:\/\/www\.scalehealth\.ca\//.test(r.headers.Location)), 'hub redirect for ' + b.slug));
+assert.ok(!/8\.7\s*mm/i.test(html), 'no 8.7mm');
 console.log('localvibe ok');

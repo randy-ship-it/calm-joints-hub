@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Local Consumer Vibe: what's happening near you</title>
-<meta name="description" content="Trusted recovery places, offers and the brands people near you are looking at. Enter your postal code.">
+<meta name="description" content="A map of trusted recovery places near you and the brands people around you are looking at. Enter your postal code.">
 <meta name="theme-color" content="#15803D">
 <meta name="robots" content="index,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://a.basemaps.cartocdn.com" crossorigin>
 <script src="/localvibe/theme.js"></script>
 <script>
   /* Skin first, so colours and font are in place before the first paint. */
@@ -22,10 +23,10 @@
   })();
 </script>
 <link rel="stylesheet" href="/localvibe/vendor/leaflet.css">
-<link rel="stylesheet" href="/localvibe/localvibe.css?v=1">
+<link rel="stylesheet" href="/localvibe/localvibe.css?v=2">
 </head>
 <body>
-<a class="lv-skip" href="#lv-main">Skip to the map</a>
+<a class="lv-skip" href="#lv-places">Skip to nearby places</a>
 
 <header class="lv-nav">
   <div class="lv-wrap lv-nav-in">
@@ -37,71 +38,104 @@
   </div>
 </header>
 
-<section class="lv-hero">
-  <div class="lv-wrap">
+<!-- 1. Map first: the whole page opens on a map, with the postal code floating over it. -->
+<section class="lv-stage" aria-label="Map of trusted places near you">
+  <div class="lv-map" id="lv-map" role="application" aria-label="Interactive map"></div>
+
+  <div class="lv-float" id="lv-float">
     <p class="lv-kicker">Local Consumer Vibe</p>
     <h1>What’s happening near you</h1>
-    <p class="lv-lead">Trusted places, offers and the recovery brands people near you are looking at, all in one view.</p>
+    <p class="lv-lead">Trusted places and the recovery brands people near you are looking at.</p>
     <form class="lv-search" id="lv-form" novalidate>
-      <label class="lv-field"><span>Your postal code</span><input id="lv-pc" name="pc" inputmode="text" autocomplete="postal-code" placeholder="For example M5V" maxlength="7" aria-describedby="lv-msg"></label>
+      <label class="lv-field"><span class="lv-sr">Your postal code</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <input id="lv-pc" name="pc" inputmode="text" autocomplete="postal-code" placeholder="Postal code, e.g. M5V" maxlength="7" aria-describedby="lv-msg"></label>
       <button class="lv-btn lv-btn-primary" type="submit">Show my area</button>
     </form>
     <p class="lv-msg" id="lv-msg" role="status" aria-live="polite"></p>
-    <div class="lv-ctas" aria-label="Quick actions">
-      <a class="lv-btn lv-btn-primary" data-lv-cta="book"></a>
-      <a class="lv-btn lv-btn-ghost" data-lv-cta="chat"></a>
-      <a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a>
+  </div>
+
+  <div class="lv-rings" id="lv-ctl" hidden>
+    <div class="lv-chips" role="group" aria-label="Distance">
+      <button type="button" class="lv-chip" data-r="10" aria-pressed="false">10 km</button>
+      <button type="button" class="lv-chip" data-r="20" aria-pressed="true">20 km</button>
     </div>
   </div>
 </section>
 
 <main id="lv-main" class="lv-wrap lv-main">
-  <div id="lv-results"></div>
-  <section class="lv-card lv-prompt" id="lv-prompt"><div class="lv-prompt-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><h2>Enter your postal code to see places near you</h2><p>We show the closest trusted places within 20 km, with links to their websites, and offers when they arrive.</p></div></section>
-  <div class="lv-mapbar lv-card" id="lv-ctl" hidden>
-        <div class="lv-chips" role="group" aria-label="Distance">
-          <button type="button" class="lv-chip" data-r="10" aria-pressed="false">10 km</button>
-          <button type="button" class="lv-chip" data-r="20" aria-pressed="true">20 km</button>
-        </div>
-        <p class="lv-sum" id="lv-sum" aria-live="polite"></p>
-      </div>
-  <div class="lv-tabs" role="tablist" hidden aria-label="View">
-    <button role="tab" id="lv-tab-map" aria-selected="true" aria-controls="lv-mapcard">Map</button>
-    <button role="tab" id="lv-tab-list" aria-selected="false" aria-controls="lv-listcard">List</button>
-  </div>
-
-  <div class="lv-grid" id="lv-grid" hidden>
-    <section class="lv-card lv-mapcard" id="lv-mapcard" aria-label="Map of trusted places">
-      <div class="lv-map" id="lv-map" role="application" aria-label="Interactive map"></div>
-      <p class="lv-mapnote" id="lv-mapnote">Hollow pins are placed at the postal area for now, so they may be a few km off.</p>
-    </section>
-
-    <section class="lv-card lv-listcard" id="lv-listcard" aria-label="Trusted places near you">
-      <div class="lv-listhead"><h2 id="lv-listtitle">Trusted places</h2><span class="lv-tag">Offers coming soon</span></div>
-      <ul class="lv-list" id="lv-list"></ul>
-      <p class="lv-soon">More trusted places are loading soon. Not seeing one near you? You can still book a physio by video from home.</p>
-    </section>
-  </div>
-
-  <section class="lv-card lv-fallback" id="lv-fallback" hidden>
-    <h2 id="lv-fallback-title">We’re expanding</h2>
-    <p id="lv-fallback-text"></p>
-    <div class="lv-ctas"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
+  <!-- 2. Area numbers: the same estimator as the old local demand view -->
+  <section class="lv-stats" id="lv-stats" aria-label="Estimated local activity" hidden>
+    <div class="lv-stat-main">
+      <p class="lv-k" id="lv-stat-k">Within 10 km</p>
+      <p class="lv-big" id="lv-views">0</p>
+      <p class="lv-stat-sub" id="lv-views-sub">monthly web views about recovery care (estimate)</p>
+    </div>
+    <div class="lv-stat-side">
+      <div><b id="lv-pop">0</b><span>people live within <em id="lv-pop-r">10</em> km</span></div>
+      <div><b id="lv-near-n">0</b><span>trusted places close by</span></div>
+      <div><b>20MM+</b><span>orders being onboarded now</span></div>
+    </div>
   </section>
 
-  <section class="lv-card lv-vibe" aria-labelledby="lv-vibe-title">
-    <div class="lv-vhead">
-      <div><p class="lv-k">Brand vibe</p><h2 id="lv-vibe-title">Most looked at near <span id="lv-area">you</span></h2></div>
-      <span class="lv-live" aria-hidden="true"><i></i>Estimated, updating</span>
+  <!-- 2. Nearby places: at most 3 cards -->
+  <section class="lv-places" id="lv-places" aria-labelledby="lv-listtitle">
+    <div class="lv-sechead"><div><p class="lv-k">Trusted places</p><h2 id="lv-listtitle">Near you</h2></div></div>
+    <p class="lv-sum" id="lv-sum" aria-live="polite"></p>
+    <section class="lv-prompt" id="lv-prompt"><div class="lv-prompt-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><h3>Enter your postal code to drop pins on the map</h3><p>We show the closest trusted places within 20 km, with links to their websites.</p></div></section>
+    <ul class="lv-cards" id="lv-list"></ul>
+    <section class="lv-fallback" id="lv-fallback" hidden>
+      <h3 id="lv-fallback-title">We’re expanding</h3>
+      <p id="lv-fallback-text"></p>
+      <div class="lv-ctas"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
+    </section>
+    <p class="lv-soon" id="lv-soon" hidden>More trusted places are loading soon. Not seeing one close by? You can still book a physio by video from home.</p>
+  </section>
+
+  <!-- 3. Brands: swipeable cards plus a slow, soft ribbon -->
+  <section class="lv-vibe" aria-labelledby="lv-vibe-title">
+    <div class="lv-sechead">
+      <div><p class="lv-k">Brand vibe</p><h2 id="lv-vibe-title">Popular near <span id="lv-area">you</span></h2></div>
+      <span class="lv-live"><i aria-hidden="true"></i>Estimated, updating</span>
     </div>
-    <ol class="lv-brands" id="lv-brands"></ol>
-    <p class="lv-also" id="lv-also"></p>
+    <div class="lv-cats" id="lv-cats" aria-label="Estimated mix of what people near you are shopping for"></div>
+    <div class="lv-rail-wrap">
+      <button type="button" class="lv-railbtn is-prev" id="lv-prev" aria-label="Previous brands"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <ol class="lv-rail" id="lv-brands" aria-label="Most looked at brands near you. Swipe sideways to see more."></ol>
+      <button type="button" class="lv-railbtn is-next" id="lv-next" aria-label="Next brands"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="lv-ribbon" id="lv-ribbon" aria-label="More brands getting looks"></div>
     <p class="lv-fine" id="lv-disclaimer">Estimates only, not a guarantee. You may see more or less activity in your area. We are learning how brand audience views convert to bookings in real time, and we update these numbers as the data gets more accurate.</p>
   </section>
 
-  <section class="lv-card lv-band" aria-label="Book a video visit">
+  <!-- 4. Local offers: empty state today, filled per postal code later -->
+  <section class="lv-offers" id="lv-offers" aria-labelledby="lv-offers-title">
+    <div class="lv-sechead"><div><p class="lv-k">Local offers</p><h2 id="lv-offers-title">Coming soon near <span id="lv-offers-area">you</span></h2></div><span class="lv-tag lv-tag-soft">Coming soon</span></div>
+    <div class="lv-offers-grid">
+      <div class="lv-offers-slots" id="lv-offer-slots" aria-hidden="true">
+        <div class="lv-slot"><i></i><b></b><span></span><em></em></div>
+        <div class="lv-slot"><i></i><b></b><span></span><em></em></div>
+        <div class="lv-slot"><i></i><b></b><span></span><em></em></div>
+      </div>
+      <div class="lv-notify">
+        <div class="lv-notify-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div>
+        <h3>Be first to see offers in your area</h3>
+        <p>Deals from trusted places and recovery brands near you will land here, matched to your postal code. Leave your email and we will tell you when they open. No account needed.</p>
+        <form class="lv-nform" id="lv-nform" novalidate>
+          <input type="text" name="company" tabindex="-1" autocomplete="off" class="lv-hp" aria-hidden="true">
+          <label class="lv-sr" for="lv-nemail">Email</label>
+          <div class="lv-nrow"><input id="lv-nemail" type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required><button class="lv-btn lv-btn-primary" type="submit">Subscribe</button></div>
+          <label class="lv-consent"><input type="checkbox" name="consent" id="lv-nconsent"><span>Yes, email me Calming Newsletters and a heads-up when local offers open near me. Unsubscribe anytime.</span></label>
+          <p class="lv-nstatus" id="lv-nstatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CTAs -->
+  <section class="lv-band" aria-label="Book a video visit">
     <div><h2 data-lv="bookBandTitle"></h2><p data-lv="bookBandText"></p></div>
-    <div class="lv-ctas"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
+    <div class="lv-ctas"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="chat"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
   </section>
 </main>
 
@@ -110,6 +144,6 @@
 <div class="lv-sticky" aria-label="Quick actions"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
 
 <script src="/localvibe/vendor/leaflet.js"></script>
-<script src="/localvibe/localvibe.js?v=1"></script>
+<script src="/localvibe/localvibe.js?v=2"></script>
 </body>
 </html>

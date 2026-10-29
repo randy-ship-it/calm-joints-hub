@@ -78,6 +78,7 @@
   "routes": [
     { "src": "/near-you/?", "dest": "/localvibe/index.html" },
     { "src": "/hub/dr-ho/?", "status": 307, "headers": { "Location": "https://www.scalehealth.ca/dr-ho" } },
+    { "src": "/localdemand/?", "dest": "/localvibe/index.html" },
     { "src": "/hub/jack-health/?", "status": 307, "headers": { "Location": "https://www.scalehealth.ca/jackhealth" } },
     { "src": "/hub/jill-health/?", "status": 307, "headers": { "Location": "https://www.scalehealth.ca/jillhealth" } },
     { "src": "/hub/bird-and-be/?", "status": 307, "headers": { "Location": "https://www.scalehealth.ca/calmjoints?src=near-you" } },
