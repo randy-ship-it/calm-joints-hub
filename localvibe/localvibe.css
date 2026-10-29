@@ -141,7 +141,7 @@ ul,ol{list-style:none;margin:0;padding:0}
 .lv-rank{font-weight:700;color:var(--lv-primary-dark);font-size:12px;background:var(--lv-soft);border-radius:999px;padding:2px 9px}
 .lv-logo-chip{height:72px;display:grid;place-items:center;background:#fff;border-radius:14px;border:1px solid var(--lv-line);padding:10px 14px}
 .lv-logo-chip{overflow:hidden}
-.lv-logo-chip img{width:100%;height:100%;object-fit:contain}
+.lv-logo-chip img{width:100%;height:100%;max-height:48px;min-width:0;object-fit:contain}
 .lv-wordmark{font-weight:700;font-size:18px;text-align:center;line-height:1.1;letter-spacing:-.01em}
 .lv-bn{display:flex;flex-direction:column;gap:2px}
 .lv-bn b{font-size:16px}
