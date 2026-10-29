@@ -35,10 +35,33 @@
   }
   // Share of the day's activity by hour (local time): quiet at night, busy in the evening.
   var TOD = [0.22, 0.16, 0.12, 0.1, 0.12, 0.2, 0.38, 0.55, 0.7, 0.8, 0.85, 0.9, 0.95, 0.9, 0.85, 0.85, 0.9, 0.95, 1, 1, 0.95, 0.8, 0.55, 0.35];
-  // Score each brand for an area key (the FSA). Same key, same ranking, every time.
-  function rankBrands(brands, key) {
-    var scored = brands.map(function (b) { return { brand: b, score: b.baseWeight * (0.8 + 0.4 * rand01(key + '|' + b.slug)) }; })
-      .sort(function (a, b) { return b.score - a.score; });
+  // Area profile from the estimator's own numbers: people per km2 within 10 km (dense city core ... small town).
+  function areaProfile(pop10) {
+    var dens = pop10 > 0 ? pop10 / (Math.PI * 100) : 900;
+    var u = Math.max(0, Math.min(1, (Math.log(dens) / Math.LN10 - 2.2) / 1.7));   // 0 = quiet/low density, 1 = dense core
+    return { dens: dens, u: u };
+  }
+  var CAT_FIT = {
+    'Recovery tools': function (u) { return 0.75 + 0.6 * u; },
+    'Yoga & mobility': function (u) { return 0.7 + 0.7 * u; },
+    'Wearables & tracking': function (u) { return 0.7 + 0.7 * u; },
+    'Sleep & heat': function (u) { return 0.8 + 0.4 * u; },
+    'Supplements': function (u) { return 0.85 + 0.3 * u; },
+    'Pregnancy & postpartum': function (u) { return 0.7 + 0.7 * (1 - Math.abs(2 * u - 1)); },
+    'Everyday pain relief': function (u) { return 0.8 + 0.45 * (1 - u); },
+    'Foot & lower-body support': function (u) { return 0.65 + 0.9 * (1 - u); }
+  };
+  // Score each brand for an area key (the FSA). Same area and same 3-hour block gives the same ranking.
+  // The area profile and a per-area taste factor move brands up or down, so different postal codes tell different stories.
+  function rankBrands(brands, key, opts) {
+    opts = opts || {};
+    var u = typeof opts.u === 'number' ? opts.u : 0.5, block = typeof opts.block === 'number' ? opts.block : 0;
+    var scored = brands.map(function (b) {
+      var fit = (CAT_FIT[b.cat] || function () { return 1; })(u);
+      var taste = 0.45 + 1.1 * rand01(key + '|' + b.slug);                 // this area's own taste
+      var drift = 0.9 + 0.2 * rand01(key + '|' + b.slug + '|b' + block);   // slow change through the day
+      return { brand: b, score: Math.pow(b.baseWeight, 0.7) * fit * taste * drift };
+    }).sort(function (a, b) { return b.score - a.score; });
     var total = scored.reduce(function (s, y) { return s + y.score; }, 0);
     return scored.map(function (x, i) { return { brand: x.brand, share: x.score / total, rank: i + 1 }; });
   }
@@ -68,7 +91,7 @@
     return (T.hubPath || '/hub/') + m + '?utm_source=' + encodeURIComponent(T.id || 'site') + '&utm_medium=local-vibe&utm_campaign=' + encodeURIComponent(slug);
   }
 
-  var api = { normalizePostal: normalizePostal, isOntarioFsa: isOntarioFsa, haversine: haversine, within: within, rand01: rand01, rankBrands: rankBrands, lastHour: lastHour, series: series, today: today, hubHref: hubHref, TOD: TOD };
+  var api = { normalizePostal: normalizePostal, isOntarioFsa: isOntarioFsa, haversine: haversine, within: within, rand01: rand01, rankBrands: rankBrands, areaProfile: areaProfile, lastHour: lastHour, series: series, today: today, hubHref: hubHref, TOD: TOD };
   if (typeof module !== 'undefined' && module.exports) { module.exports = api; return; }
   if (!root.document) return;
 
@@ -249,7 +272,8 @@
   }
   function renderBrands() {
     var now = Date.now(), cap = T.networkCapture || 0.03, key = state.key, hourly = state.hourly;
-    var ranked = rankBrands(state.brands, key);
+    var e10 = state.est && state.est[10], prof = areaProfile(e10 ? e10.pop : 0);
+    var ranked = rankBrands(state.brands, key, { u: prof.u, block: Math.floor(new Date(now).getHours() / 3) });
     var top = ranked.slice(0, 6), rest = ranked.slice(6);
     renderCats(ranked);
     $('#lv-area').textContent = state.label || 'you';

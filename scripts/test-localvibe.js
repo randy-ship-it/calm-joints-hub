@@ -60,3 +60,13 @@ assert.ok(!/8\.7\s*mm/i.test(html), 'no 8.7mm');
 ['media/partners/cj-booking-loop.mp4', 'media/partners/cj-booking-loop.webm', 'media/partners/cj-booking-poster.webp', 'media/partners/cj-booking.webp', 'media/hubs/effortless-v3.webp'].forEach((f) => assert.ok(!fs.existsSync(path.join(root, f)), f + ' (old, cached) must stay deleted'));
 ['index.html', 'body-map-demo.html'].forEach((f) => assert.ok(!/cj-booking(-loop|-poster)?\.(mp4|webm|webp)|effortless-v3/.test(fs.readFileSync(path.join(root, f), 'utf8')), f + ' references an old media name'));
 console.log('localvibe ok');
+
+// Different areas must not tell the same brand story (dense core vs quiet town, different postal codes).
+{
+  const top = (fsa, pop10) => { const p = core.areaProfile(pop10); return core.rankBrands(brands, fsa, { u: p.u, block: 2 }).slice(0, 4).map((r) => r.brand.slug).join(); };
+  const sets = new Set([top('M5V', 1.4e6), top('L6Y', 7e5), top('N0B', 2e4), top('K1A', 5e5), top('V6B', 8e5), top('P0M', 3e3)]);
+  assert.ok(sets.size >= 5, 'top brands should differ by area');
+  const core1 = core.rankBrands(brands, 'M5V', { u: 1, block: 2 }).map((r) => r.brand.slug).join();
+  assert.strictEqual(core1, core.rankBrands(brands, 'M5V', { u: 1, block: 2 }).map((r) => r.brand.slug).join());
+}
+console.log('localvibe area variation ok');
