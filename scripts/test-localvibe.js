@@ -55,4 +55,8 @@ assert.ok(routes.every((r) => !/localdemand\/api/.test(r.src)));
 brands.forEach((b) => assert.ok(brands.every((x) => x.cat), 'brand categories'));
 brands.forEach((b) => assert.ok(routes.some((r) => r.src.startsWith('/hub/' + b.slug + '/') && /^https:\/\/www\.scalehealth\.ca\//.test(r.headers.Location)), 'hub redirect for ' + b.slug));
 assert.ok(!/8\.7\s*mm/i.test(html), 'no 8.7mm');
+// scrubbed media: cache-proof names only, old names must stay gone
+['media/partners/cj-booking-v2-loop.mp4', 'media/partners/cj-booking-v2-loop.webm', 'media/partners/cj-booking-v2-poster.webp', 'media/partners/cj-booking-v2.webp', 'media/hubs/effortless-v4.webp'].forEach((f) => assert.ok(fs.existsSync(path.join(root, f)), f + ' exists'));
+['media/partners/cj-booking-loop.mp4', 'media/partners/cj-booking-loop.webm', 'media/partners/cj-booking-poster.webp', 'media/partners/cj-booking.webp', 'media/hubs/effortless-v3.webp'].forEach((f) => assert.ok(!fs.existsSync(path.join(root, f)), f + ' (old, cached) must stay deleted'));
+['index.html', 'body-map-demo.html'].forEach((f) => assert.ok(!/cj-booking(-loop|-poster)?\.(mp4|webm|webp)|effortless-v3/.test(fs.readFileSync(path.join(root, f), 'utf8')), f + ' references an old media name'));
 console.log('localvibe ok');

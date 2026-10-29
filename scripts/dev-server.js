@@ -80,6 +80,7 @@ const server = http.createServer((req, res) => {
   }
 
   let rel = decodeURIComponent(url.pathname);
+  if (/^\/(localdemand|near-you)\/?$/.test(url.pathname)) rel = '/localvibe/index.html';
   if (/^\/me\/[a-z0-9-]{2,32}\/?$/i.test(url.pathname)) rel = '/me.html';
   else if (rel === '/') rel = '/index.html';
   else if (rel.endsWith('/')) rel = rel + 'index.html';
