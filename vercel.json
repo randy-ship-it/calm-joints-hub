@@ -32,6 +32,7 @@
     { "source": "/admin/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "rewrites": [
+    { "source": "/near-you", "destination": "/localvibe" },
     { "source": "/localdemand/api/estimate", "destination": "https://scale-partner-dash.vercel.app/localdemand/api/estimate" },
     { "source": "/api/guide-session", "destination": "/api/qr-lead?kind=guide-session" },
     {
