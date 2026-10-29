@@ -27,5 +27,6 @@ window.LOCALVIBE_THEME = {
     bookBandText: 'Book in a few taps from home. No travel, no waiting room.',
     expanding: 'We are expanding. Trusted places near you are coming soon, and you can still book a physio by video today.'
   },
+  notify: null,   // TODO point at the Scale email sign-up endpoint; with null the sign-up box is hidden
   extraScripts: []
 };

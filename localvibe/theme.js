@@ -27,5 +27,6 @@ window.LOCALVIBE_THEME = {
     bookBandText: 'Book in a few taps from home. No travel, no waiting room.',
     expanding: 'We are expanding. Trusted places near you are coming soon, and you can still book a physio by video today.'
   },
+  notify: { url: '/api/newsletter', src: 'cj-calming-newsletter', placement: 'inline' },   // no-login sign-up for 'local offers' alerts; consent box is required
   extraScripts: ['/config.js', '/js/book.js?v=8']   // loaded after the page is drawn (booking pop-up and tracking)
 };

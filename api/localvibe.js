@@ -45,8 +45,12 @@ module.exports = async function handler(req, res) {
   if (e.status !== 200 || !e.data || !e.data.point) return out(res, e.status === 200 ? 404 : e.status, { error: e.status === 502 ? 'lookup' : 'not_found' });
   const d = e.data;
   const views = d.est && d.est['20'] && d.est['20'].views;
+  // Area totals per radius (monthly web views and people) from the same estimator as /localdemand. Numbers only, no places.
+  const est = {};
+  [10, 20].forEach((r) => { const x = d.est && d.est[r]; if (x && isFinite(x.views) && isFinite(x.pop)) est[r] = { views: x.views, pop: x.pop }; });
   out(res, 200, {
     fsa: pc.fsa,
+    est,
     point: { lat: d.point.lat, lng: d.point.lon },
     ontario: core.isOntarioFsa(pc.fsa),
     views20: views || 600000,
