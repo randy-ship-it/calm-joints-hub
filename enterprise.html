@@ -66,9 +66,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 }
 #how,#integrate,#network,#steps,#coverage,#faq,#talk{scroll-margin-top:88px}
 section{padding:clamp(2.5rem,5.5vw,4rem) 0}
-.hero{padding-top:clamp(2rem,5vw,3.6rem);padding-bottom:clamp(2.2rem,5vw,3.6rem);background:
-  radial-gradient(820px 420px at 100% -8%,rgba(134,239,172,.7),transparent 58%),
-  linear-gradient(180deg,#eef8f2 0%,#fff 72%)}
+.hero{padding-top:clamp(2rem,5vw,3.6rem);padding-bottom:clamp(1.4rem,3vw,2rem);background:#fff}
 .hero-copy{max-width:42rem}
 .hero h1{font-size:clamp(2.3rem,5vw,3.55rem)}
 .ctas{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.35rem}
@@ -77,9 +75,39 @@ section{padding:clamp(2.5rem,5.5vw,4rem) 0}
 .chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:1.1rem 0 0;padding:0;list-style:none}
 .chips li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.32rem .75rem;font-size:.86rem;font-weight:600;color:var(--mute)}
 
-.story{margin-top:clamp(1.4rem,3vw,2rem);background:#fff;border:1px solid #d5e6dc;border-radius:28px;box-shadow:0 28px 70px -42px rgba(10,61,34,.45);padding:clamp(.8rem,2vw,1.1rem)}
-.story-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.55rem .9rem;margin-bottom:.7rem}
-.illus{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--deep);background:var(--mint);border-radius:999px;padding:.32rem .7rem}
+.demo{display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);margin-top:1.4rem;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.demo-side{background:#f3faf6;padding:1.3rem 1.2rem 1.2rem;border-right:1px solid #e3eee7}
+.demo-side img{height:32px;width:auto;margin-bottom:.9rem}
+.demo-side h3{margin:.2rem 0 .8rem;font-size:clamp(1.7rem,3vw,2.3rem)}
+.illus{display:inline-flex;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--deep);background:var(--mint);border-radius:999px;padding:.32rem .7rem}
+.who{margin:.9rem 0 0;background:#fff;border:1px solid #e3eee7;border-radius:12px;padding:.65rem .7rem}
+.who b{display:block}.who span{display:block;color:var(--mute);font-size:.82rem}
+.demo-main{padding:1.1rem 1.15rem 1.15rem;min-width:0}
+.pips{display:flex;gap:.4rem;list-style:none;margin:0 0 .9rem;padding:0}
+.pips li{border:1px solid var(--line);border-radius:999px;padding:.28rem .7rem;font-size:.78rem;font-weight:700;color:var(--mute)}
+.pips li.on{background:var(--green);border-color:var(--green);color:#fff}
+.demo [data-panel]:focus{outline:none}
+.demo h3:focus{outline:3px solid var(--green);outline-offset:4px;border-radius:8px}
+.demo [data-panel] h3{font-size:clamp(1.35rem,2.4vw,1.8rem);margin-bottom:.35rem}
+.demo-note{margin:.15rem 0 .8rem;color:var(--mute);font-size:.9rem}
+.choices{display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 .85rem}
+.choices button,.demo-back,.demo-next{min-height:44px;border-radius:12px;font:700 .95rem var(--sans);cursor:pointer}
+.choices button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:.45rem .85rem}
+.choices button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.demo-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.2rem}
+.demo-back{border:1px solid var(--line);background:#fff;color:var(--ink);padding:.5rem 1rem}
+.demo-next{border:1px solid var(--green);background:var(--green);color:#fff;padding:.5rem 1.1rem}
+.demo-next:disabled{opacity:.45;cursor:default}
+.demo-review{display:grid;grid-template-columns:6.5rem 1fr;gap:.35rem .7rem;margin:.2rem 0 .9rem}
+.demo-review dt{color:var(--mute);font-size:.86rem}.demo-review dd{margin:0;font-weight:700}
+.demo [data-status]{min-height:1.3em;margin:.75rem 0 0;color:var(--mute);font-size:.86rem}
+.after-quiet{margin-top:1rem;max-width:28rem;border:1px dashed #c5d5cb;border-radius:16px;padding:.85rem .95rem;background:#fff}
+.after-quiet p{margin:.35rem 0 0}
+@media(max-width:760px){
+  .demo{grid-template-columns:1fr}
+  .demo-side{border-right:0;border-bottom:1px solid #e3eee7}
+  .demo-actions .demo-next,.demo-actions .demo-back{flex:1}
+}
 .managed{margin:0;font-size:.92rem;font-weight:600;color:var(--ink)}
 .story-steps{display:flex;flex-wrap:wrap;gap:.35rem .8rem;list-style:none;margin:0 0 .75rem;padding:0;font-size:.78rem;font-weight:600;color:var(--mute)}
 .story-steps li{display:flex;align-items:center;gap:.35rem}
@@ -183,6 +211,10 @@ section{padding:clamp(2.5rem,5.5vw,4rem) 0}
 .engulf-core{min-width:0;background:#fff}
 .store-hero{width:min(860px,100%);margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px -36px rgba(11,29,22,.4)}
 .store-hero img{width:100%;height:auto;display:block}
+.logo-strip{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem 1.5rem;margin:1.35rem auto 0;max-width:920px}
+.logo-strip a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;min-width:72px;min-height:44px;text-decoration:none;color:var(--mute);font-size:.68rem;font-weight:600;text-align:center}
+.logo-strip img{height:26px;width:auto;max-width:92px;object-fit:contain}
+.logo-strip .wm{font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.02em}
 .partner-frame{width:min(920px,100%);margin:0 auto}
 .est{max-width:820px}
 .est-form{display:grid;gap:.85rem;margin-top:1rem;background:#fff;border:1px solid var(--line);border-radius:18px;padding:1rem}
@@ -300,102 +332,32 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
         <p class="econ">Two-way calendar booking that connects your business to our managed physio service. Bookings move between your calendar or workflow and our booking calendar. Scale handles the physio. The setup is agreed with you.</p>
       </div>
     </div>
-    <div class="story" role="img" aria-label="Illustrative experience. A booking moves into the partner workflow. The patient books a digital physio visit. Care happens in that video session. A nearby trusted clinic appears only if in-person treatment is needed. Sample times are not live openings.">
-      <div class="story-top">
-        <span class="illus">Illustrative experience</span>
-        <p class="managed">Fully managed by Scale. Your business shares in the revenue.</p>
+    <div class="demo" id="cj-demo">
+      <div class="demo-side">
+        <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="140" height="32">
+        <p class="cj-k">Book a video visit</p>
+        <h3>See a physio from home.</h3>
+        <p class="illus">Illustrative experience</p>
+        <p class="who"><b>Your physiotherapist</b><span>Registered physiotherapist</span></p>
+        <p class="demo-note">Sample screen. Not a live opening.</p>
       </div>
-      <ol class="story-steps"><li><b>1</b> Booking in your flow</li><li><b>2</b> Digital visit</li><li><b>3</b> In person, only if needed</li></ol>
-      <div class="engulf">
-        <div class="logo-row">
-          <a class="brand-chip" href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" decoding="async"><span class="n">Jack Health</span></a>
-          <a class="brand-chip" href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" decoding="async"><span class="n">Jill Health</span></a>
-          <a class="brand-chip" href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" decoding="async"><span class="n">DR-HO'S</span></a>
-          <a class="brand-chip" href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" decoding="async"><span class="n">Roll Recovery</span></a>
-          <a class="brand-chip" href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" decoding="async"><span class="n">Therabody</span></a>
-        </div>
-        <div class="engulf-mid">
-          <div class="logo-col">
-            <a class="brand-chip" href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span><span class="n">Pregnancy &amp; postpartum</span></a>
-            <a class="brand-chip" href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" decoding="async"><span class="n">Sole</span></a>
-            <a class="brand-chip" href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" decoding="async"><span class="n">Genuine Health</span></a>
-          </div>
-          <div class="engulf-core">
-      <div class="cjx">
-        <div class="partner-frame">
-          <div class="partner-bar"><span>Your business</span><em>Care</em></div>
-          <div class="cj-book">
-            <aside class="cj-side">
-              <div class="cj-brand"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="120" height="28"></div>
-              <p class="cj-k">Book a video visit</p>
-              <h3>See a physio from home.</h3>
-              <div class="cj-pt">
-                <span class="av" aria-hidden="true"></span>
-                <div><b>Your physiotherapist</b><small>Registered physiotherapist</small></div>
-              </div>
-              <ul>
-                <li>30-minute secure video visit</li>
-                <li>Receipt for the benefits plan</li>
-              </ul>
-            </aside>
-            <div class="cj-main">
-              <div class="cj-h">
-                <div><b>Pick a time that works</b><small>Sample screen. Not a live opening.</small></div>
-              </div>
-              <div class="sore" aria-hidden="true"><span class="lbl">What's sore?</span><span class="on">Knee</span><span>Back</span><span>Hip</span><span>Shoulder</span></div>
-              <div class="days" aria-hidden="true">
-                <span><small>MON</small><b>5</b></span>
-                <span class="on"><small>TUE</small><b>6</b></span>
-                <span><small>WED</small><b>7</b></span>
-                <span><small>THU</small><b>8</b></span>
-              </div>
-              <div class="times" aria-hidden="true">
-                <span>9:00 AM</span>
-                <span class="on">10:20 AM</span>
-                <span>11:00 AM</span>
-                <span>1:00 PM</span>
-              </div>
-              <div class="cj-foot">
-                <div><small>Your visit</small><b>Tue, 10:20 AM · video</b></div>
-                <span class="confirm">Confirm visit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-          </div>
-          <div class="logo-col">
-            <a class="brand-chip" href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" decoding="async"><span class="n">AIRWAAV</span></a>
-            <a class="brand-chip" href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" decoding="async"><span class="n">BedJet</span></a>
-            <a class="brand-chip" href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" decoding="async"><span class="n">Manduka</span></a>
-          </div>
-        </div>
-        <div class="logo-row">
-          <a class="brand-chip" href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" decoding="async"><span class="n">RENPHO</span></a>
-          <a class="brand-chip" href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" decoding="async"><span class="n">Garmin</span></a>
-        </div>
+      <div class="demo-main">
+        <ol class="pips" aria-label="Sample booking steps">
+          <li data-step-pip="1">Visit</li>
+          <li data-step-pip="2">Time</li>
+          <li data-step-pip="3">Review</li>
+        </ol>
+        <div data-panel tabindex="-1"></div>
+        <p data-status role="status"></p>
       </div>
-      <div class="after-row">
-          <article class="panel digital">
-            <span class="sn">Then digital care</span>
-            <div class="visit">
-              <b>Video session</b>
-              <span>The visit happens here. Home plan follows.</span>
-            </div>
-          </article>
-          <p class="only">Only if needed</p>
-          <article class="panel clinic">
-            <span class="sn">In person</span>
-            <div class="minimap" aria-hidden="true"></div>
-            <b>Nearby trusted clinic</b>
-            <span>After the digital sessions, only if treatment needs it.</span>
-          </article>
-        </div>
-      </div>
+    </div>
+    <div id="demo-after" class="after-quiet" hidden>
+      <p class="only">Only if needed</p>
+      <div class="minimap" aria-hidden="true"></div>
+      <p><b>Nearby trusted clinic.</b> After the digital sessions, only if treatment needs it.</p>
     </div>
   </div>
 </section>
-
 <section class="offer" id="option-store">
   <div class="wrap">
     <div class="offer-head">
@@ -405,37 +367,25 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
         <p class="econ">Everything in option 1, plus a co-branded store loaded with products and services. 35% of the net revenue Scale collects on products and services — not physio bookings, and not gross sales.</p>
       </div>
     </div>
-    <div class="engulf">
-      <div class="logo-row">
-        <a class="brand-chip" href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" decoding="async"><span class="n">Jack Health</span></a>
-        <a class="brand-chip" href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" decoding="async"><span class="n">Jill Health</span></a>
-        <a class="brand-chip" href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" decoding="async"><span class="n">DR-HO'S</span></a>
-        <a class="brand-chip" href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" decoding="async"><span class="n">Roll Recovery</span></a>
-        <a class="brand-chip" href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" decoding="async"><span class="n">Therabody</span></a>
-      </div>
-      <div class="engulf-mid">
-        <div class="logo-col">
-          <a class="brand-chip" href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span><span class="n">Pregnancy &amp; postpartum</span></a>
-          <a class="brand-chip" href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" decoding="async"><span class="n">Sole</span></a>
-          <a class="brand-chip" href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" decoding="async"><span class="n">Genuine Health</span></a>
-        </div>
-        <div class="engulf-core">
-          <figure class="store-hero">
+    <figure class="store-hero">
             <img src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Co-branded member hub with digital physio booking and a recovery store" decoding="async">
           </figure>
-        </div>
-        <div class="logo-col">
-          <a class="brand-chip" href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" decoding="async"><span class="n">AIRWAAV</span></a>
-          <a class="brand-chip" href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" decoding="async"><span class="n">BedJet</span></a>
-          <a class="brand-chip" href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" decoding="async"><span class="n">Manduka</span></a>
-        </div>
-      </div>
-      <div class="logo-row">
-        <a class="brand-chip" href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" decoding="async"><span class="n">RENPHO</span></a>
-        <a class="brand-chip" href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" decoding="async"><span class="n">Garmin</span></a>
-      </div>
-      <p class="hint">Tap a brand to open its hub.</p>
-    </div>
+          <nav class="logo-strip" aria-label="Brand hubs">
+            <a href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span></a>
+            <a href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" decoding="async"><span>Jack Health</span></a>
+            <a href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" decoding="async"><span>Jill Health</span></a>
+            <a href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" decoding="async"><span>DR-HO'S</span></a>
+            <a href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" decoding="async"><span>Roll Recovery</span></a>
+            <a href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" decoding="async"><span>Therabody</span></a>
+            <a href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" decoding="async"><span>Sole</span></a>
+            <a href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" decoding="async"><span>Genuine Health</span></a>
+            <a href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" decoding="async"><span>AIRWAAV</span></a>
+            <a href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" decoding="async"><span>BedJet</span></a>
+            <a href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" decoding="async"><span>Manduka</span></a>
+            <a href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" decoding="async"><span>RENPHO</span></a>
+            <a href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" decoding="async"><span>Garmin</span></a>
+          </nav>
+          <p class="hint">Tap a brand to open its hub.</p>
   </div>
 </section>
 
@@ -523,6 +473,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
   </div>
   <div class="wrap legal"><p>Calm Joints is a virtual service. Care is provided by registered physiotherapists. In-person treatment is at trusted locations, only if needed after digital care. Not a medical device and not emergency care; call 911 in an emergency. The booking screen is a sample, not a live opening. <a href="/privacy">Privacy</a><a href="/terms">Terms</a>. © 2026 Calm Joints Inc.</p></div>
 </footer>
+<script src="/js/enterprise-demo.js"></script>
 <script src="/js/enterprise-estimate.js"></script>
 <script src="/form.js"></script>
 <script>cjForm(document.getElementById('enterprise-form'), '/api/partner');</script>
