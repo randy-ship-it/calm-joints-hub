@@ -1,12 +1,10 @@
 # Calm Joints
 
-> Calm Joints (Calm Joints Inc.) is a virtual physiotherapy service in Canada. People book registered physiotherapists online; virtual care is available 24/7. Businesses and platforms use Calm Joints Enterprise and the Calm Joints Physio API to offer instant physio booking under their own or a co-branded experience.
+> Calm Joints (Calm Joints Inc.) is a virtual physiotherapy service in Canada. People book registered physiotherapists online. Health and wellness apps bolt on the Physio API: nationwide coverage, managed end to end, with profit share back to the partner.
 
-## Enterprise: the Physio API for Canada
-- [Calm Joints Enterprise / Physio API](https://calmjoints.org/enterprise): Instant booking of registered physiotherapists into real provider calendars across Canada, by API, embeddable booking widget, or a co-branded physio hub that Calm Joints builds and runs. 100% turnkey and done for the partner. Optional fully stocked turnkey recovery store. Provider network mapping to the partner's footprint.
-- Built for: digital health apps and platforms, e-commerce and retail websites, retirement and senior living communities, hospitals and health systems, employers, insurers and benefits providers.
-- Facts: 10+ years of experience building and running physio care; 300+ clinics opened in the team's experience; 200+ trusted providers across Canada; virtual care 24/7; service area: all of Canada (virtual).
-- Contact: info@calmjoints.org or the inquiry form at https://calmjoints.org/enterprise#talk
+## Enterprise: bolt-on Physio API
+- [Calm Joints Enterprise / Physio API](https://calmjoints.org/enterprise): For health and wellness apps that already have customers. Bolt-on API. Nationwide across Canada. Fully managed. Partners share the profit.
+- Contact: info@calmjoints.org or the form at https://calmjoints.org/enterprise#talk
 
 ## For people
 - [Home](https://calmjoints.org/): Book virtual physio with a registered physiotherapist.
