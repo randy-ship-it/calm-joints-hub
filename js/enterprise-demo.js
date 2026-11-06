@@ -9,10 +9,10 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   var AREAS = ['Knee', 'Back', 'Hip', 'Shoulder'];
   var DAYS = [
-    { id: 'mon', label: 'Mon 5' },
-    { id: 'tue', label: 'Tue 6' },
-    { id: 'wed', label: 'Wed 7' },
-    { id: 'thu', label: 'Thu 8' }
+    { id: 'mon', label: 'Mon', sub: '5' },
+    { id: 'tue', label: 'Tue', sub: '6' },
+    { id: 'wed', label: 'Wed', sub: '7' },
+    { id: 'thu', label: 'Thu', sub: '8' }
   ];
   var TIMES = ['9:00 AM', '10:20 AM', '11:00 AM', '1:00 PM'];
 
@@ -36,16 +36,24 @@
       return node;
     }
 
-    function choices(name, items, current, onPick) {
-      var group = el('div', { class: 'choices', role: 'group', 'aria-label': name });
+    function choices(name, items, current, onPick, className) {
+      var group = el('div', { class: className || 'choices', role: 'group', 'aria-label': name });
       items.forEach(function (item) {
         var id = typeof item === 'string' ? item : item.id;
         var label = typeof item === 'string' ? item : item.label;
+        var sub = item && typeof item === 'object' ? item.sub : '';
         var button = el('button', {
           type: 'button',
           'data-choice': id,
-          'aria-pressed': current === id ? 'true' : 'false'
-        }, label);
+          'aria-pressed': current === id ? 'true' : 'false',
+          'aria-label': sub ? label + ' ' + sub + ', sample' : label
+        });
+        if (sub) {
+          button.appendChild(el('small', null, label));
+          button.appendChild(el('b', null, sub));
+        } else {
+          button.textContent = label;
+        }
         button.addEventListener('click', function () { onPick(id); });
         button.addEventListener('keydown', function (event) {
           if (event.key !== 'Enter' && event.key !== ' ') return;
@@ -115,13 +123,13 @@
           state.focus = id;
           status.textContent = 'Sample day selected. Not a live opening.';
           draw();
-        }));
+        }, 'day-grid'));
         panel.appendChild(choices('Sample time', TIMES, state.time, function (id) {
           state.time = id;
           state.focus = id;
           status.textContent = 'Sample time ' + id + ' selected. Not a live opening.';
           draw();
-        }));
+        }, 'time-grid'));
         var back = el('button', { type: 'button', class: 'demo-back' }, 'Back');
         back.addEventListener('click', function () { state.step = 1; state.focus = 'panel'; draw(); });
         var review = el('button', { type: 'button', class: 'demo-next' }, 'Review');
@@ -136,7 +144,7 @@
       } else {
         var day = DAYS.filter(function (item) { return item.id === state.day; })[0];
         panel.appendChild(el('h3', { id: 'demo-title', tabindex: '-1' }, 'Review this sample'));
-        panel.appendChild(el('p', { class: 'demo-note' }, 'Sample only. Confirming here does not book a visit.'));
+        panel.appendChild(el('p', { class: 'demo-note' }, 'Sample only. Confirming here does not book a visit or assign Gabriela R.'));
         var list = el('dl', { class: 'demo-review' });
         function line(term, value) {
           list.appendChild(el('dt', null, term));
@@ -144,8 +152,8 @@
         }
         line('Visit', 'Digital video visit');
         line('Focus', state.area);
-        line('When', day.label + ', ' + state.time);
-        line('With', 'Your physiotherapist, registered physiotherapist');
+        line('When', day.label + ' ' + day.sub + ', ' + state.time);
+        line('With', 'Gabriela R., Registered Physiotherapist');
         panel.appendChild(list);
         var backReview = el('button', { type: 'button', class: 'demo-back' }, 'Back');
         backReview.addEventListener('click', function () { state.step = 2; state.focus = 'panel'; draw(); });
@@ -160,8 +168,8 @@
       }
       panel.setAttribute('aria-labelledby', 'demo-title');
       if (state.focus === 'panel') {
-        var title = doc.getElementById('demo-title');
-        if (title) title.focus();
+        var nextFocus = panel.querySelector('.demo-next:not(:disabled)') || panel.querySelector('button');
+        if (nextFocus) nextFocus.focus();
       } else if (state.focus) {
         var chosen = panel.querySelector('[data-choice="' + state.focus + '"]');
         if (chosen) chosen.focus();
