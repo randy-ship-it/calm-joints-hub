@@ -8,6 +8,7 @@ const intake = require('../api/intake');
 const careers = require('../api/careers');
 const qrPartner = require('../api/qr-partner');
 const qrLead = require('../api/qr-lead');
+const partner = require('../api/partner');
 const partnerEvents = require('../api/partner-events');
 const partnerPortal = require('../api/partner-portal');
 const adminPartner = require('../api/admin-partner');
@@ -50,6 +51,7 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/careers') return careers(req, res);
   if (url.pathname === '/api/qr-partner') return qrPartner(req, res);
   if (url.pathname === '/api/qr-lead') return qrLead(req, res);
+  if (url.pathname === '/api/partner') return partner(req, res);
   if (url.pathname === '/api/partner-events') return partnerEvents(req, res);
   if (url.pathname === '/api/partner-portal') return partnerPortal(req, res);
   if (url.pathname === '/api/admin-partner') return adminPartner(req, res);
