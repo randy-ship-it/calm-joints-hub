@@ -36,7 +36,7 @@
   {"@type":"Question","name":"How much work is it?","acceptedAnswer":{"@type":"Answer","text":"Very little. We manage it end to end."}},
   {"@type":"Question","name":"Where does it work?","acceptedAnswer":{"@type":"Answer","text":"Canada-wide now. USA launches Q1 2027."}},
   {"@type":"Question","name":"Do partners get paid?","acceptedAnswer":{"@type":"Answer","text":"Yes. Profit share comes back to the partner."}},
-  {"@type":"Question","name":"Is there a store?","acceptedAnswer":{"@type":"Answer","text":"Optional. We stock, ship, and support it."}},
+  {"@type":"Question","name":"Is there a store?","acceptedAnswer":{"@type":"Answer","text":"Optional turnkey store. Co-branded, fully loaded with products. We stock, ship, and support it. Partners earn commissions."}},
   {"@type":"Question","name":"Is this emergency care?","acceptedAnswer":{"@type":"Answer","text":"No. In an emergency, call 911."}}
  ]}
 ]}
@@ -129,6 +129,35 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
 .foot{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between}
 .foot nav{display:flex;flex-wrap:wrap;gap:1.2rem}.foot a{text-decoration:none}
 .legal p{font-size:.8rem;margin:1rem 0 0}.legal a{margin-left:.5rem}
+
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.6rem}
+@media(max-width:760px){.opt-grid{grid-template-columns:1fr}}
+.opt{position:relative;border:1px solid var(--line);border-radius:20px;padding:1.4rem;background:#fff;display:flex;flex-direction:column;gap:.7rem}
+.opt h3{margin:0;font-size:1.2rem}
+.opt p{margin:0;color:var(--mute);font-size:.97rem}
+.opt .btn{align-self:flex-start;margin-top:.4rem}
+.opt.is-hot{border-color:#86EFAC;background:linear-gradient(180deg,#F3FDF7 0,#fff 55%);box-shadow:0 18px 40px -28px rgba(10,61,34,.45)}
+.opt .pick{position:absolute;top:.9rem;right:.9rem;background:var(--green);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.28rem .65rem;border-radius:999px}
+.brand-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:.7rem;margin-top:1.4rem}
+.brand-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.45rem;min-height:92px;padding:.85rem .55rem;border:1px solid var(--line);border-radius:16px;background:#fff;text-decoration:none;color:var(--ink);text-align:center;transition:border-color .15s,box-shadow .15s}
+.brand-chip:hover{border-color:#86EFAC;box-shadow:0 10px 24px -18px rgba(10,61,34,.5)}
+.brand-chip img{max-height:28px;max-width:88px;width:auto;height:auto;object-fit:contain}
+.brand-chip .wm{font-size:.92rem;font-weight:700;letter-spacing:-.01em}
+.brand-chip span.n{font-size:.72rem;color:var(--mute);line-height:1.2}
+.store-prev{margin-top:1.4rem;display:grid;grid-template-columns:1.05fr .95fr;gap:1rem;align-items:stretch}
+@media(max-width:900px){.store-prev{grid-template-columns:1fr}}
+.store-card{border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.store-card .bar{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.85rem 1rem;background:var(--deep);color:#fff}
+.store-card .bar b{font-size:.95rem}
+.store-card .bar span{font-size:.78rem;color:#CFE7DA}
+.store-prods{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;padding:1rem}
+@media(max-width:560px){.store-prods{grid-template-columns:repeat(2,1fr)}}
+.store-prods figure{margin:0;border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:.7rem .55rem .6rem;text-align:center}
+.store-prods img{margin:0 auto;width:72px;height:72px;object-fit:contain}
+.store-prods figcaption{margin-top:.4rem;font-size:.72rem;color:var(--mute);line-height:1.25}
+.store-shot{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#E9EEEB}
+.store-shot img{width:100%;height:100%;object-fit:cover;object-position:top center;min-height:220px}
+
 </style>
 </head>
 <body>
@@ -191,7 +220,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
       <article class="card"><h3>Instant booking</h3><p>Into live calendars.</p></article>
       <article class="card"><h3>Canada-wide map</h3><p><a href="#network">Local demand by postal code.</a></p></article>
       <article class="card"><h3>White-label</h3><p>Your brand, or co-brand.</p></article>
-      <article class="card"><h3>Turnkey store</h3><p>Optional. We run it.</p></article>
+      <article class="card"><h3>Turnkey store</h3><p>Optional. Co-branded. Commissions.</p></article>
     </div>
   </div>
 </section>
@@ -220,6 +249,62 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
   </div>
 </section>
 
+<section id="supercharge">
+  <div class="wrap">
+    <p class="kicker">Two ways to plug in</p>
+    <h2>Just physio, or physio with a full store.</h2>
+    <p class="lede">Same Physio API either way. Supercharge it with a co-branded turnkey store loaded with products.</p>
+
+    <div class="opt-grid" role="list">
+      <article class="opt" role="listitem">
+        <h3>Physio API</h3>
+        <p>Physio bookings at scale, Canada-wide. Fully managed. Profit share back to you.</p>
+        <a class="btn btn-ghost" href="#talk">Become a channel partner</a>
+      </article>
+      <article class="opt is-hot" role="listitem">
+        <span class="pick">Supercharged</span>
+        <h3>Physio API + Turnkey Store</h3>
+        <p>Physio plus a fully loaded, co-branded store. You earn commissions on great brands. We stock, ship, and support it.</p>
+        <a class="btn btn-primary" href="#talk">Become a channel partner</a>
+      </article>
+    </div>
+
+    <p class="kicker" style="margin-top:2.4rem">Brands in the store</p>
+    <h2>Loaded with products from day one.</h2>
+    <p class="lede">Every brand below already has a Calm Joints hub. Tap one to open it.</p>
+    <div class="brand-strip" aria-label="Brand partners in the turnkey store">
+      <a class="brand-chip" href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span><span class="n">Pregnancy &amp; postpartum</span></a>
+      <a class="brand-chip" href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Jack Health</span></a>
+      <a class="brand-chip" href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Jill Health</span></a>
+      <a class="brand-chip" href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">DR-HO'S</span></a>
+      <a class="brand-chip" href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Roll Recovery</span></a>
+      <a class="brand-chip" href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Therabody</span></a>
+      <a class="brand-chip" href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Sole</span></a>
+      <a class="brand-chip" href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Genuine Health</span></a>
+      <a class="brand-chip" href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">AIRWAAV</span></a>
+      <a class="brand-chip" href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">BedJet</span></a>
+      <a class="brand-chip" href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Manduka</span></a>
+      <a class="brand-chip" href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">RENPHO</span></a>
+      <a class="brand-chip" href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" loading="lazy" decoding="async"><span class="n">Garmin</span></a>
+    </div>
+
+    <div class="store-prev" aria-label="Co-branded store preview">
+      <div class="store-card">
+        <div class="bar"><b>Your brand · Insider’s Store</b><span>Co-branded · commissions paid out</span></div>
+        <div class="store-prods">
+          <figure><img src="https://www.scalehealth.ca/images/roll-recovery/r8plus-cutout.png" alt="Roll Recovery R8 Plus" width="120" height="120" loading="lazy" decoding="async"><figcaption>Roll Recovery R8 Plus</figcaption></figure>
+          <figure><img src="https://www.scalehealth.ca/images/partner-offers/manduka-manduka-pro-yoga-mat-cutout.png" alt="Manduka PRO mat" width="120" height="120" loading="lazy" decoding="async"><figcaption>Manduka PRO mat</figcaption></figure>
+          <figure><img src="https://www.scalehealth.ca/images/partner-offers/renpho-ascend-massage-gun-cutout.png" alt="Renpho massage gun" width="120" height="120" loading="lazy" decoding="async"><figcaption>Renpho massage gun</figcaption></figure>
+          <figure><img src="https://www.scalehealth.ca/images/genuine-health/greens-original-cutout.png" alt="Genuine Health greens+" width="120" height="120" loading="lazy" decoding="async"><figcaption>Genuine Health greens+</figcaption></figure>
+        </div>
+      </div>
+      <figure class="store-shot">
+        <img src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Example co-branded member hub with digital physio and a recovery store" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </div>
+</section>
+
 <section class="soft" id="why">
   <div class="wrap">
     <p class="kicker">Why Calm Joints</p>
@@ -231,7 +316,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
         <tr><td>Coverage</td><td>City by city</td><td>Canada now. USA Q1 2027.</td></tr>
         <tr><td>Operations</td><td>Your staff</td><td>Fully managed</td></tr>
         <tr><td>Partner payout</td><td>You fund it</td><td>Profit share back</td></tr>
-        <tr><td>Store</td><td>You stock it</td><td>Optional. We run it.</td></tr>
+        <tr><td>Store</td><td>You stock it</td><td>Optional turnkey. Co-branded. Commissions.</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -246,7 +331,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
     <details><summary>How much work is it?</summary><p>Very little. We manage it end to end.</p></details>
     <details><summary>Where does it work?</summary><p>Canada-wide now. USA launches Q1 2027.</p></details>
     <details><summary>Do partners get paid?</summary><p>Yes. Profit share comes back to you.</p></details>
-    <details><summary>Is there a store?</summary><p>Optional. We stock, ship, and support it.</p></details>
+    <details><summary>Is there a store?</summary><p>Optional. Co-branded and fully loaded. We stock, ship, and support it. You earn commissions on the brands.</p></details>
     <details><summary>Is this emergency care?</summary><p>No. In an emergency, call 911.</p></details>
   </div>
 </section>
