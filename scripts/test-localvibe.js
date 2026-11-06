@@ -91,6 +91,7 @@ console.log('localvibe area variation ok');
   assert.ok(ent.includes('See a physio from home.') && ent.includes('Illustrative experience') && !ent.includes('Kinlo'), 'CJ booking experience');
   assert.ok(ent.includes('Only if needed') && ent.includes('Health &amp; wellness apps'), 'optional in-person and dropdown');
   assert.ok(ent.includes('Just the Physio API.') && ent.includes('35% of the net revenue Scale collects on products and services'), 'two commercial options');
+  assert.ok(ent.includes('access to insider pricing on eligible products') && ent.includes('Employee benefits') && !/below every|%\s*off|always below/i.test(ent), 'employer perk stays conditional');
   assert.ok(!/35%\s*of\s*(the\s*)?gross/i.test(ent), 'store payout is not gross sales');
   assert.ok(ent.includes('member-hub-full-store.webp') && !/store-shot\{[^}]*height:\s*248/.test(ent), 'store visual is not a short crop');
   assert.ok(!ent.includes('Canada-wide now') && !ent.includes('USA launching Q1 2027') && !/Canada-wide physio/.test(ent), 'no live nationwide inventory claim');

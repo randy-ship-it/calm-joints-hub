@@ -371,6 +371,10 @@ async function main() {
   const hv = validatePartner({ track: 'enterprise', name: 'Bo Li', email: 'bo@x.co', business: 'Example Apps', biz_type: 'health-apps' });
   assert.strictEqual(hv.value.biz_type, 'health-apps');
   assert.strictEqual(hv.value.biz_type_label, 'Health & wellness apps');
+  assert.ok(typeSelect.includes('<option value="employer">Businesses / employee benefits</option>'), 'employer choice is employee benefits');
+  const ev = validatePartner({ track: 'enterprise', name: 'Bo Li', email: 'bo@x.co', business: 'Example Co', biz_type: 'employer' });
+  assert.strictEqual(ev.value.biz_type, 'employer');
+  assert.strictEqual(ev.value.biz_type_label, 'Businesses / employee benefits');
   const unknown = validatePartner({ track: 'enterprise', name: 'Bo Li', email: 'bo@x.co', biz_type: 'not-a-type' });
   assert.strictEqual(unknown.value.biz_type, null);
   const hCalls = [];
