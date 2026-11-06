@@ -275,12 +275,19 @@ html.lv-embed .lv-offers,
 html.lv-embed .lv-band,
 html.lv-embed .lv-skip{display:none!important}
 html.lv-embed body{background:#F5F8F6}
-html.lv-embed .lv-stage{height:clamp(460px,72vh,620px)}
+html.lv-embed .lv-stage{height:clamp(460px,72vh,620px);overflow:hidden}
 html.lv-embed .lv-main{padding-top:8px}
 html.lv-embed .lv-places{padding-bottom:18px}
+/* Keep the postal form compact in the iframe so Show my area stays on-screen. */
+html.lv-embed .lv-float{padding:14px 16px}
+html.lv-embed .lv-float .lv-lead{display:none}
+html.lv-embed .lv-float h1{font-size:22px;margin:4px 0 0}
+html.lv-embed .lv-search{margin-top:12px}
+html.lv-embed .lv-msg.is-bad{color:#B42318;font-weight:600}
 @media (max-width:520px){
   html.lv-embed .lv-search{flex-direction:column}
   html.lv-embed .lv-search .lv-btn{width:100%}
+  html.lv-embed .lv-float h1{font-size:20px}
 }
 
 /* gentle motion only: everything goes still for people who ask for less movement */

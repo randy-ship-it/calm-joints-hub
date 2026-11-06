@@ -24,7 +24,7 @@
   })();
 </script>
 <link rel="stylesheet" href="/localvibe/vendor/leaflet.css">
-<link rel="stylesheet" href="/localvibe/localvibe.css?v=4">
+<link rel="stylesheet" href="/localvibe/localvibe.css?v=5">
 </head>
 <body>
 <a class="lv-skip" href="#lv-places">Skip to nearby places</a>
@@ -50,7 +50,7 @@
     <form class="lv-search" id="lv-form" novalidate>
       <label class="lv-field"><span class="lv-sr">Your postal code</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-        <input id="lv-pc" name="pc" inputmode="text" autocomplete="postal-code" placeholder="Postal code, e.g. M5V" maxlength="7" aria-describedby="lv-msg"></label>
+        <input id="lv-pc" name="pc" inputmode="text" autocomplete="postal-code" placeholder="Postal code or first 3, e.g. M5V" maxlength="10" spellcheck="false" aria-describedby="lv-msg"></label>
       <button class="lv-btn lv-btn-primary" type="submit">Show my area</button>
     </form>
     <p class="lv-msg" id="lv-msg" role="status" aria-live="polite"></p>
@@ -145,6 +145,6 @@
 <div class="lv-sticky" aria-label="Quick actions"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
 
 <script src="/localvibe/vendor/leaflet.js"></script>
-<script src="/localvibe/localvibe.js?v=3"></script>
+<script src="/localvibe/localvibe.js?v=4"></script>
 </body>
 </html>
