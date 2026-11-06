@@ -280,7 +280,9 @@ html.lv-embed .lv-main{padding-top:8px}
 html.lv-embed .lv-places{padding-bottom:18px}
 /* Keep the postal form compact in the iframe so Show my area stays on-screen. */
 html.lv-embed .lv-float{padding:14px 16px}
-html.lv-embed .lv-float .lv-lead{display:none}
+html.lv-embed .lv-float .lv-lead{display:block;margin:6px 0 0;font-size:13.5px;line-height:1.35;color:var(--lv-mute,#5B6B63)}
+html.lv-embed .lv-api-line{display:block;margin:4px 0 14px;padding:0 4px;font-size:13.5px;line-height:1.4;color:var(--lv-mute,#5B6B63);text-align:center}
+html.lv-embed .lv-api-line[hidden]{display:none}
 html.lv-embed .lv-float h1{font-size:22px;margin:4px 0 0}
 html.lv-embed .lv-search{margin-top:12px}
 html.lv-embed .lv-msg.is-bad{color:#B42318;font-weight:600}

@@ -15,7 +15,7 @@ assert.deepStrictEqual(core.normalizePostal('m5v 2t6').fsa, 'M5V');
 assert.strictEqual(core.normalizePostal('M5'), null);
 assert.strictEqual(core.normalizePostal('D5V'), null);
 assert.strictEqual(core.normalizePostal('hello'), null);
-assert.ok(fs.readFileSync(path.join(root, 'localvibe/index.html'), 'utf8').includes('localvibe.js?v=4'));
+assert.ok(fs.readFileSync(path.join(root, 'localvibe/index.html'), 'utf8').includes('localvibe.js?v=5'));
 
 // nearest: at most 3, within 20 km, closest first
 const locs = [];
@@ -76,3 +76,17 @@ console.log('localvibe ok');
   assert.strictEqual(core1, core.rankBrands(brands, 'M5V', { u: 1, block: 2 }).map((r) => r.brand.slug).join());
 }
 console.log('localvibe area variation ok');
+
+// Enterprise embed copy stays out of the public defaults
+{
+  const html = fs.readFileSync(path.join(root, 'localvibe/index.html'), 'utf8');
+  const js = fs.readFileSync(path.join(root, 'localvibe/localvibe.js'), 'utf8');
+  const ent = fs.readFileSync(path.join(root, 'enterprise.html'), 'utf8');
+  assert.ok(html.includes('monthly web views about recovery care (estimate)'), 'public default stat label');
+  assert.ok(html.includes('trusted places close by'), 'public default near label');
+  assert.ok(html.includes('id="lv-api-line"'), 'api explainer element');
+  assert.ok(js.includes('applyEmbedCopy') && js.includes('digital demand in Scale Health hubs near'), 'embed demand copy');
+  assert.ok(ent.includes('Canada now. USA Q1 2027.') && ent.includes('Get the Physio API'), 'enterprise coverage subhead');
+  assert.ok(!/align/i.test(ent.match(/id="network"[\s\S]*?<\/section>/)[0]), 'no Align in coverage');
+}
+console.log('enterprise embed demand copy ok');

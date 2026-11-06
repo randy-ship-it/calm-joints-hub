@@ -24,7 +24,7 @@
   })();
 </script>
 <link rel="stylesheet" href="/localvibe/vendor/leaflet.css">
-<link rel="stylesheet" href="/localvibe/localvibe.css?v=5">
+<link rel="stylesheet" href="/localvibe/localvibe.css?v=6">
 </head>
 <body>
 <a class="lv-skip" href="#lv-places">Skip to nearby places</a>
@@ -74,10 +74,11 @@
     </div>
     <div class="lv-stat-side">
       <div><b id="lv-pop">0</b><span>people live within <em id="lv-pop-r">10</em> km</span></div>
-      <div><b id="lv-near-n">0</b><span>trusted places close by</span></div>
+      <div><b id="lv-near-n">0</b><span id="lv-near-label">trusted places close by</span></div>
       <div><b>20MM+</b><span>orders being onboarded now</span></div>
     </div>
   </section>
+  <p class="lv-api-line" id="lv-api-line" hidden>Plug in the Physio API and route this demand to bookable physios.</p>
 
   <!-- 2. Nearby places: at most 3 cards -->
   <section class="lv-places" id="lv-places" aria-labelledby="lv-listtitle">
@@ -145,6 +146,6 @@
 <div class="lv-sticky" aria-label="Quick actions"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
 
 <script src="/localvibe/vendor/leaflet.js"></script>
-<script src="/localvibe/localvibe.js?v=4"></script>
+<script src="/localvibe/localvibe.js?v=5"></script>
 </body>
 </html>

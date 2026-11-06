@@ -104,6 +104,21 @@
   var reduce = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var base = T.assetBase || '/localvibe/';
   var state = { est: null, views20: 600000, brands: [], map: null, layer: null, key: 'ON', hourly: 0, center: null, radius: 20, places: [], label: '', pins: [] };
+  var isEmbed = document.documentElement.classList.contains('lv-embed');
+
+  // Enterprise iframe only: Physio API + Scale Health hub demand (public /localvibe keeps consumer copy).
+  function applyEmbedCopy() {
+    if (!isEmbed) return;
+    var k = $('.lv-float .lv-kicker'); if (k) k.textContent = 'Physio API';
+    var h = $('.lv-float h1'); if (h) h.textContent = 'Digital demand nearby';
+    var lead = $('.lv-float .lv-lead'); if (lead) lead.textContent = 'Existing demand in Scale Health hubs your customers can tap.';
+    var pc = $('#lv-pc'); if (pc) pc.placeholder = 'Postal or first 3, e.g. M4V';
+    var near = $('#lv-near-label'); if (near) near.textContent = 'Scale Health hubs nearby';
+    var sub = $('#lv-views-sub'); if (sub) sub.textContent = 'digital demand in Scale Health hubs (estimate)';
+    var api = $('#lv-api-line'); if (api) api.hidden = false;
+    var stage = $('.lv-stage'); if (stage) stage.setAttribute('aria-label', 'Digital demand in Scale Health hubs near a postal code');
+    var sk = $('.lv-places .lv-k'); if (sk) sk.textContent = 'Scale Health hubs';
+  }
 
   function applySkin() {
     var logo = $('[data-lv=logo]');
@@ -324,6 +339,12 @@
     $('#lv-views').textContent = '~' + fmt(e.views);
     $('#lv-pop').textContent = fmt(e.pop); $('#lv-pop-r').textContent = r;
     $('#lv-near-n').textContent = n;
+    if (isEmbed) {
+      var sub = $('#lv-views-sub');
+      if (sub) sub.textContent = 'digital demand in Scale Health hubs near ' + (state.label || 'you') + ' (estimate)';
+      var near = $('#lv-near-label');
+      if (near) near.textContent = 'Scale Health hubs nearby';
+    }
     $('#lv-stats').hidden = false;
   }
   function renderCats(ranked) {
@@ -345,7 +366,9 @@
     $('#lv-listtitle').textContent = 'Within ' + r + ' km of ' + state.label;
     renderStats(r);
     $('#lv-offers-area').textContent = state.label;
-    $('#lv-sum').textContent = list.length ? list.length + (list.length === 1 ? ' trusted place' : ' trusted places') + ' close by. Tap a card to find it on the map.' : 'No trusted places within ' + r + ' km of ' + state.label + '. Try 20 km.';
+    $('#lv-sum').textContent = list.length
+      ? list.length + (list.length === 1 ? (isEmbed ? ' Scale Health hub' : ' trusted place') : (isEmbed ? ' Scale Health hubs' : ' trusted places')) + ' close by. Tap a card to find it on the map.'
+      : (isEmbed ? 'No Scale Health hubs within ' : 'No trusted places within ') + r + ' km of ' + state.label + '. Try 20 km.';
     $('#lv-soon').hidden = false;
     $$('.lv-chip').forEach(function (ch) {
       var n = state.places.filter(function (l) { return l.km <= +ch.dataset.r; }).length;
@@ -364,7 +387,7 @@
     if (!state.places.length) {
       ctl.hidden = true; fb.hidden = false; $('#lv-list').innerHTML = ''; $('#lv-sum').textContent = ''; $('#lv-soon').hidden = true;
       $('#lv-listtitle').textContent = 'Near ' + d.fsa;
-      $('#lv-fallback-title').textContent = d.ontario ? 'No trusted places near ' + d.fsa + ' yet' : 'We’re expanding';
+      $('#lv-fallback-title').textContent = d.ontario ? (isEmbed ? 'No Scale Health hubs near ' : 'No trusted places near ') + d.fsa + ' yet' : 'We’re expanding';
       $('#lv-fallback-text').textContent = (T.copy && T.copy.expanding) || 'We are expanding.';
       drawMap([], 20, true); renderStats(20); $('#lv-offers-area').textContent = d.fsa;
     } else {
@@ -464,6 +487,7 @@
   }
 
   applySkin();
+  applyEmbedCopy();
   ensureMap();
   bindChrome();
   fetch(base + 'brands.json').then(function (r) { return r.json(); })
