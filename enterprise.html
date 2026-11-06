@@ -36,7 +36,7 @@
   {"@type":"Question","name":"Who runs it?","acceptedAnswer":{"@type":"Answer","text":"Fully managed by Scale. Your business shares in the revenue."}},
   {"@type":"Question","name":"How do you plug in?","acceptedAnswer":{"@type":"Answer","text":"Embed, link, or API."}},
   {"@type":"Question","name":"Where does it work?","acceptedAnswer":{"@type":"Answer","text":"Expanding across Canada. USA planned Q1 2027. Building coverage across Canada on Scale's physio booking network."}},
-  {"@type":"Question","name":"Is there a store?","acceptedAnswer":{"@type":"Answer","text":"Optional. A turnkey co-branded store with all brands. You earn commissions."}},
+  {"@type":"Question","name":"Is there a store?","acceptedAnswer":{"@type":"Answer","text":"Optional. Everything in the Physio API, plus a turnkey co-branded store. 35% of the net revenue Scale collects on products and services."}},
   {"@type":"Question","name":"Is this emergency care?","acceptedAnswer":{"@type":"Answer","text":"No. In an emergency, call 911."}}
  ]}
 ]}
@@ -93,23 +93,23 @@ section{padding:clamp(2.5rem,5.5vw,4rem) 0}
 .story-steps{display:flex;flex-wrap:wrap;gap:.35rem .8rem;list-style:none;margin:0 0 .75rem;padding:0;font-size:.78rem;font-weight:600;color:var(--mute)}
 .story-steps li{display:flex;align-items:center;gap:.35rem}
 .story-steps b{width:1.15rem;height:1.15rem;border-radius:50%;background:var(--soft);color:var(--deep);display:grid;place-items:center;font-size:.68rem}
-.cjx{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(220px,.72fr);gap:.75rem;align-items:stretch}
+.cjx{display:block;min-width:0}
 .partner-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;min-width:0}
 .partner-bar{display:flex;justify-content:space-between;align-items:center;gap:.6rem;padding:.45rem .7rem;background:#f4f7f5;border-bottom:1px solid var(--line);font-size:.75rem;font-weight:700;color:var(--mute)}
 .partner-bar em{font-style:normal;color:var(--deep);background:#fff;border:1px solid var(--line);border-radius:999px;padding:.15rem .5rem}
 .cj-book{display:grid;grid-template-columns:minmax(168px,34%) 1fr;min-width:0}
 .cj-side{background:#f3faf6;padding:.85rem .8rem .7rem;border-right:1px solid #e3eee7}
 .cj-brand{display:flex;align-items:center;gap:.4rem;margin-bottom:.7rem}
-.cj-brand img{height:22px;width:auto}
+.cj-brand img{height:28px;width:auto}
 .cj-k{margin:0;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
-.cj-side h3{margin:.25rem 0 .7rem;font-size:1.2rem;letter-spacing:-.03em;line-height:1.1}
+.cj-side h3{margin:.25rem 0 .7rem;font-size:clamp(1.45rem,2.4vw,2rem);letter-spacing:-.03em;line-height:1.05}
 .cj-pt{display:flex;align-items:center;gap:.55rem;background:#fff;border:1px solid #e3eee7;border-radius:12px;padding:.5rem .55rem}
 .av{width:34px;height:34px;border-radius:50%;background:#e7f6ee;flex:none}
 .cj-pt b{display:block;font-size:.82rem}.cj-pt small{color:var(--mute);font-size:.7rem}
 .cj-side ul{list-style:none;margin:.7rem 0 0;padding:0;display:grid;gap:.35rem;color:var(--mute);font-size:.75rem}
 .cj-main{padding:.75rem .75rem .7rem;min-width:0}
 .cj-h{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start}
-.cj-h b{display:block;font-size:1rem}.cj-h small{color:var(--mute);font-size:.72rem}
+.cj-h b{display:block;font-size:clamp(1.15rem,2vw,1.45rem)}.cj-h small{color:var(--mute);font-size:.78rem}
 .sore,.days,.times{display:flex;flex-wrap:wrap;gap:.35rem}
 .sore{margin:.65rem 0 .55rem;align-items:center}
 .sore span,.days span,.times span{border:1px solid var(--line);border-radius:999px;padding:.28rem .55rem;font-size:.75rem;font-weight:600;color:var(--ink);background:#fff}
@@ -119,7 +119,7 @@ section{padding:clamp(2.5rem,5.5vw,4rem) 0}
 .days span{border-radius:12px;min-width:46px;text-align:center;display:grid;padding:.35rem .3rem;line-height:1.05}
 .days small{font-size:.62rem;letter-spacing:.06em;font-weight:700}
 .days b{font-size:.95rem}
-.times span{border-radius:10px;min-width:72px;text-align:center}
+.times span{border-radius:10px;min-width:84px;text-align:center;font-size:.9rem;padding:.45rem .7rem}
 .cj-foot{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-top:.7rem;padding-top:.65rem;border-top:1px solid var(--line)}
 .cj-foot small{display:block;color:var(--mute);font-size:.68rem}
 .cj-foot b{font-size:.82rem}
@@ -177,26 +177,29 @@ section{padding:clamp(2.5rem,5.5vw,4rem) 0}
 .frame-cap{display:flex;justify-content:space-between;gap:.6rem;align-items:baseline;padding:.65rem .9rem;background:var(--deep);color:#fff}
 .frame-cap b{font-size:.92rem}.frame-cap span{font-size:.75rem;color:#CFE7DA;text-align:right}
 .demand-frame iframe{flex:1;width:100%;border:0;min-height:0}
-.super{border:1px solid #bfe8cd;border-radius:22px;background:linear-gradient(180deg,#F3FDF7 0%,#fff 32%);padding:1rem;display:flex;flex-direction:column;gap:.8rem}
-.super-top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
-.super-top .btn{flex:none}
-.pick{background:var(--green);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.28rem .55rem;border-radius:999px;flex:none}
-.super h3{font-size:1.25rem}
-.super .blurb{margin:.25rem 0 0;color:var(--mute);font-size:.92rem}
-.super-body{display:grid;grid-template-columns:minmax(220px,32%) 1fr;gap:.75rem;align-items:stretch}
-.store-shot{margin:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#E9EEEB;height:248px}
-.store-shot img{width:100%;height:100%;object-fit:cover;object-position:top center}
-.store-prods{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-.store-prods figure{margin:0;border:1px solid var(--line);border-radius:14px;background:#fff;padding:.55rem .7rem;display:grid;grid-template-columns:88px 1fr;gap:.65rem;align-items:center}
-.store-prods img{width:88px;height:88px;object-fit:contain}
-.store-prods figcaption{font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.25}
-@media(max-width:720px){
-  .super-body{grid-template-columns:1fr}
-  .store-shot{height:200px}
-  .super-top .btn{width:100%}
+.offer{background:#fff}
+.offer-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap}
+.offer-head .btn{flex:none}
+.offer h2{max-width:18ch}
+.econ{margin:.7rem 0 0;max-width:40rem;color:var(--ink);font-size:1.05rem}
+.engulf{margin-top:1.2rem;background:#fff}
+.logo-row,.logo-col{display:flex;gap:.45rem}
+.logo-row{flex-wrap:wrap;justify-content:center}
+.logo-col{flex-direction:column;justify-content:space-evenly}
+.engulf-mid{display:grid;grid-template-columns:132px minmax(0,1fr) 132px;gap:.55rem;align-items:stretch;margin:.5rem 0}
+.logo-col .brand-chip,.logo-row .brand-chip{flex:1 1 108px;max-width:148px}
+.engulf-core{min-width:0;background:#fff}
+.store-hero{width:min(860px,100%);margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px -36px rgba(11,29,22,.4)}
+.store-hero img{width:100%;height:auto;display:block}
+.brand-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;min-height:58px;padding:.4rem .35rem;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:var(--ink);text-align:center}
+.after-row{display:grid;grid-template-columns:1.15fr auto .9fr;gap:.7rem;align-items:stretch;margin-top:1rem}
+.after-row .only{align-self:center}
+@media(max-width:860px){
+  .engulf-mid{grid-template-columns:1fr}
+  .logo-col{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .after-row{grid-template-columns:1fr}
+  .offer-head .btn{width:100%}
 }
-.brand-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:.45rem}
-.brand-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;min-height:64px;padding:.45rem .4rem;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:var(--ink);text-align:center}
 .brand-chip:hover{border-color:#86EFAC;box-shadow:0 10px 24px -18px rgba(10,61,34,.5)}
 .brand-chip img{max-height:34px;max-width:92px;width:auto;object-fit:contain}
 .brand-chip .wm{font-size:.9rem;font-weight:700;letter-spacing:-.01em}
@@ -280,12 +283,40 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
       <div class="ctas"><a class="btn btn-primary" href="#talk">Become a channel partner</a></div>
       <ul class="chips" aria-label="What can connect"><li>Your app</li><li>Your site</li><li>Your scheduler</li></ul>
     </div>
+  </div>
+</section>
+
+<section class="offer" id="option-api">
+  <div class="wrap">
+    <div class="offer-head">
+      <div>
+        <p class="kicker">Option 1</p>
+        <h2>Just the Physio API.</h2>
+        <p class="econ">Your app, calendar, or services push into our booking calendar. We partner on the economics. Scale handles the service, 100%.</p>
+      </div>
+      <a class="btn btn-primary" href="#talk">Become a channel partner</a>
+    </div>
     <div class="story" role="img" aria-label="Illustrative experience. A partner business embeds the Calm Joints booking screen. The patient books a digital physio visit. Care happens in that video session. A nearby trusted clinic appears only if in-person treatment is needed. Sample times are not live openings.">
       <div class="story-top">
         <span class="illus">Illustrative experience</span>
         <p class="managed">Fully managed by Scale. Your business shares in the revenue.</p>
       </div>
       <ol class="story-steps"><li><b>1</b> Embed CJ booking</li><li><b>2</b> Digital visit</li><li><b>3</b> In person, only if needed</li></ol>
+      <div class="engulf">
+        <div class="logo-row">
+          <a class="brand-chip" href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" decoding="async"><span class="n">Jack Health</span></a>
+          <a class="brand-chip" href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" decoding="async"><span class="n">Jill Health</span></a>
+          <a class="brand-chip" href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" decoding="async"><span class="n">DR-HO'S</span></a>
+          <a class="brand-chip" href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" decoding="async"><span class="n">Roll Recovery</span></a>
+          <a class="brand-chip" href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" decoding="async"><span class="n">Therabody</span></a>
+        </div>
+        <div class="engulf-mid">
+          <div class="logo-col">
+            <a class="brand-chip" href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span><span class="n">Pregnancy &amp; postpartum</span></a>
+            <a class="brand-chip" href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" decoding="async"><span class="n">Sole</span></a>
+            <a class="brand-chip" href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" decoding="async"><span class="n">Genuine Health</span></a>
+          </div>
+          <div class="engulf-core">
       <div class="cjx">
         <div class="partner-frame">
           <div class="partner-bar"><span>Your business</span><em>Care</em></div>
@@ -327,7 +358,20 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
             </div>
           </div>
         </div>
-        <div class="after">
+        </div>
+          </div>
+          <div class="logo-col">
+            <a class="brand-chip" href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" decoding="async"><span class="n">AIRWAAV</span></a>
+            <a class="brand-chip" href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" decoding="async"><span class="n">BedJet</span></a>
+            <a class="brand-chip" href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" decoding="async"><span class="n">Manduka</span></a>
+          </div>
+        </div>
+        <div class="logo-row">
+          <a class="brand-chip" href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" decoding="async"><span class="n">RENPHO</span></a>
+          <a class="brand-chip" href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" decoding="async"><span class="n">Garmin</span></a>
+        </div>
+      </div>
+      <div class="after-row">
           <article class="panel digital">
             <span class="sn">Then digital care</span>
             <div class="visit">
@@ -404,6 +448,50 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
   </div>
 </section>
 
+<section class="offer" id="option-store">
+  <div class="wrap">
+    <div class="offer-head">
+      <div>
+        <p class="kicker">Option 2</p>
+        <h2>Physio API, plus a turnkey store.</h2>
+        <p class="econ">Everything in option 1, plus a co-branded store loaded with products and services. 35% of the net revenue Scale collects on products and services — not physio bookings, and not gross sales.</p>
+      </div>
+      <a class="btn btn-primary" href="#talk">Become a channel partner</a>
+    </div>
+    <div class="engulf">
+      <div class="logo-row">
+        <a class="brand-chip" href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" decoding="async"><span class="n">Jack Health</span></a>
+        <a class="brand-chip" href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" decoding="async"><span class="n">Jill Health</span></a>
+        <a class="brand-chip" href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" decoding="async"><span class="n">DR-HO'S</span></a>
+        <a class="brand-chip" href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" decoding="async"><span class="n">Roll Recovery</span></a>
+        <a class="brand-chip" href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" decoding="async"><span class="n">Therabody</span></a>
+      </div>
+      <div class="engulf-mid">
+        <div class="logo-col">
+          <a class="brand-chip" href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span><span class="n">Pregnancy &amp; postpartum</span></a>
+          <a class="brand-chip" href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" decoding="async"><span class="n">Sole</span></a>
+          <a class="brand-chip" href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" decoding="async"><span class="n">Genuine Health</span></a>
+        </div>
+        <div class="engulf-core">
+          <figure class="store-hero">
+            <img src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Co-branded member hub with digital physio booking and a recovery store" decoding="async">
+          </figure>
+        </div>
+        <div class="logo-col">
+          <a class="brand-chip" href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" decoding="async"><span class="n">AIRWAAV</span></a>
+          <a class="brand-chip" href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" decoding="async"><span class="n">BedJet</span></a>
+          <a class="brand-chip" href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" decoding="async"><span class="n">Manduka</span></a>
+        </div>
+      </div>
+      <div class="logo-row">
+        <a class="brand-chip" href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" decoding="async"><span class="n">RENPHO</span></a>
+        <a class="brand-chip" href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" decoding="async"><span class="n">Garmin</span></a>
+      </div>
+      <p class="hint">Tap a brand to open its hub.</p>
+    </div>
+  </div>
+</section>
+
 <section id="network">
   <div class="wrap">
     <p class="kicker">Local demand</p>
@@ -420,44 +508,6 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
         <div class="frame-cap"><b>Existing digital demand</b><span>Nearby Scale Health hubs</span></div>
         <iframe title="Existing digital demand in nearby Scale Health hubs" src="/localdemand?embed=1" loading="lazy"></iframe>
       </div>
-      <aside class="super" aria-label="Supercharge with a turnkey store">
-        <div class="super-top">
-          <div>
-            <p class="kicker">Supercharge <span class="pick">Optional</span></p>
-            <h3>Turnkey co-branded store</h3>
-            <p class="blurb">All brands. We stock, ship, and support. You earn commissions.</p>
-          </div>
-          <a class="btn btn-primary" href="#talk">Become a channel partner</a>
-        </div>
-        <div class="super-body">
-          <figure class="store-shot">
-            <img src="/media/partners/member-hub-full-store.webp" width="1200" height="1420" alt="Co-branded member hub with physio booking and a recovery store" decoding="async">
-          </figure>
-          <div class="store-prods">
-            <figure><img src="https://www.scalehealth.ca/images/roll-recovery/r8plus-cutout.png" alt="" width="120" height="120" decoding="async"><figcaption>Roll Recovery R8</figcaption></figure>
-            <figure><img src="https://www.scalehealth.ca/images/partner-offers/manduka-manduka-pro-yoga-mat-cutout.png" alt="" width="120" height="120" decoding="async"><figcaption>Manduka PRO mat</figcaption></figure>
-            <figure><img src="https://www.scalehealth.ca/images/partner-offers/renpho-ascend-massage-gun-cutout.png" alt="" width="120" height="120" decoding="async"><figcaption>Renpho massage gun</figcaption></figure>
-            <figure><img src="https://www.scalehealth.ca/images/genuine-health/greens-original-cutout.png" alt="" width="120" height="120" decoding="async"><figcaption>Genuine Health greens+</figcaption></figure>
-          </div>
-        </div>
-        <p class="kicker" style="margin:0">All brands in the store</p>
-        <div class="brand-strip" aria-label="Brands in the turnkey store">
-      <a class="brand-chip" href="/hub/bird-and-be"><span class="wm">Bird&amp;Be</span><span class="n">Pregnancy &amp; postpartum</span></a>
-      <a class="brand-chip" href="/hub/jack-health"><img src="/media/logos/jack.png" alt="" width="88" height="28" decoding="async"><span class="n">Jack Health</span></a>
-      <a class="brand-chip" href="/hub/jill-health"><img src="/media/logos/jill.png" alt="" width="88" height="28" decoding="async"><span class="n">Jill Health</span></a>
-      <a class="brand-chip" href="/hub/dr-ho"><img src="/media/logos/dr-hos.svg" alt="" width="88" height="28" decoding="async"><span class="n">DR-HO'S</span></a>
-      <a class="brand-chip" href="/hub/roll-recovery"><img src="/media/logos/roll-recovery.png" alt="" width="88" height="28" decoding="async"><span class="n">Roll Recovery</span></a>
-      <a class="brand-chip" href="/hub/therabody"><img src="/media/logos/therabody.svg" alt="" width="88" height="28" decoding="async"><span class="n">Therabody</span></a>
-      <a class="brand-chip" href="/hub/sole"><img src="/media/logos/sole.png" alt="" width="88" height="28" decoding="async"><span class="n">Sole</span></a>
-      <a class="brand-chip" href="/hub/genuine-health"><img src="/media/logos/genuine-health.svg" alt="" width="88" height="28" decoding="async"><span class="n">Genuine Health</span></a>
-      <a class="brand-chip" href="/hub/airwaav"><img src="/media/logos/airwaav.svg" alt="" width="88" height="28" decoding="async"><span class="n">AIRWAAV</span></a>
-      <a class="brand-chip" href="/hub/bedjet"><img src="/media/logos/bedjet.png" alt="" width="88" height="28" decoding="async"><span class="n">BedJet</span></a>
-      <a class="brand-chip" href="/hub/manduka"><img src="/media/logos/manduka.png" alt="" width="88" height="28" decoding="async"><span class="n">Manduka</span></a>
-      <a class="brand-chip" href="/hub/renpho"><img src="/media/logos/renpho.png" alt="" width="88" height="28" decoding="async"><span class="n">RENPHO</span></a>
-      <a class="brand-chip" href="/hub/garmin"><img src="/media/logos/garmin.png" alt="" width="88" height="28" decoding="async"><span class="n">Garmin</span></a>
-    </div>
-    <p class="hint">Tap a brand to open its hub.</p>
-      </aside>
     </div>
   </div>
 </section>
@@ -499,7 +549,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
     <details><summary>Who runs it?</summary><p>Fully managed by Scale. Your business shares in the revenue.</p></details>
     <details><summary>How do you plug in?</summary><p>Embed, link, or API.</p></details>
     <details><summary>Where does it work?</summary><p>Expanding across Canada. USA planned Q1 2027.</p></details>
-    <details><summary>Is there a store?</summary><p>Optional. A turnkey co-branded store with all brands. You earn commissions.</p></details>
+    <details><summary>Is there a store?</summary><p>Optional. Everything in the Physio API, plus a turnkey store. 35% of the net revenue Scale collects on products and services.</p></details>
     <details><summary>Is this emergency care?</summary><p>No. In an emergency, call 911.</p></details>
   </div>
 </section>
