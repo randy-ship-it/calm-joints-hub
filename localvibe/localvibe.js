@@ -109,7 +109,7 @@
   // Enterprise iframe only: Physio API + Scale Health hub demand (public /localvibe keeps consumer copy).
   function applyEmbedCopy() {
     if (!isEmbed) return;
-    var k = $('.lv-float .lv-kicker'); if (k) k.textContent = 'Physio API';
+    var k = $('.lv-float .lv-kicker'); if (k) k.textContent = 'Booking engine';
     var h = $('.lv-float h1'); if (h) h.textContent = 'Digital demand nearby';
     var lead = $('.lv-float .lv-lead'); if (lead) lead.textContent = 'Existing demand in Scale Health hubs your customers can tap.';
     var pc = $('#lv-pc'); if (pc) pc.placeholder = 'Postal or first 3, e.g. M4V';

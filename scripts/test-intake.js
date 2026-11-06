@@ -361,6 +361,32 @@ async function main() {
   assert.match(pm.body.subject, /New partner request: Bo Li/);
   assert.match(pm.body.html, /CJ Managed Services/);
   assert.match(pm.body.html, /Hi &lt;there&gt;/);
+  // Enterprise org type "Health & wellness apps" is accepted and stored. Mocked fetch only: no live lead.
+  const entHtml = fs.readFileSync(path.join(__dirname, '..', 'enterprise.html'), 'utf8');
+  const typeSelect = entHtml.match(/<select id="e-type"[\s\S]*?<\/select>/)[0];
+  assert.ok(typeSelect.includes('<option value="health-apps">Health &amp; wellness apps</option>'), 'visible Health & wellness apps choice');
+  for (const kept of ['value="app"', 'value="ecom"', 'value="retirement"', 'value="hospital"', 'value="employer"', 'value="insurer"', 'value="other"']) {
+    assert.ok(typeSelect.includes(kept), 'kept ' + kept);
+  }
+  const hv = validatePartner({ track: 'enterprise', name: 'Bo Li', email: 'bo@x.co', business: 'Example Apps', biz_type: 'health-apps' });
+  assert.strictEqual(hv.value.biz_type, 'health-apps');
+  assert.strictEqual(hv.value.biz_type_label, 'Health & wellness apps');
+  const unknown = validatePartner({ track: 'enterprise', name: 'Bo Li', email: 'bo@x.co', biz_type: 'not-a-type' });
+  assert.strictEqual(unknown.value.biz_type, null);
+  const hCalls = [];
+  const hRes = await processIntake('partner', { track: 'enterprise', name: 'Bo Li', email: 'bo@x.co', business: 'Example Apps', biz_type: 'health-apps' }, {
+    env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_RESEND_API_KEY: 're_test', CJ_ALERT_EMAILS: 'a@x.co' }, ip: '203.0.113.9',
+    fetchImpl: async (url, init) => { hCalls.push({ url, body: JSON.parse(init.body) }); return { ok: true, status: 200 }; },
+  });
+  assert.strictEqual(hRes.status, 200);
+  const healthSaved = hCalls.find((c) => String(c.url).includes('fridayapp'));
+  assert.ok(healthSaved, 'partner payload built for the mocked intake');
+  assert.strictEqual(healthSaved.body.meta.biz_type, 'health-apps');
+  assert.strictEqual(healthSaved.body.meta.biz_type_label, 'Health & wellness apps');
+  assert.ok(healthSaved.body.tags.includes('biz:health-apps'));
+  assert.strictEqual(healthSaved.body.meta.track, 'enterprise');
+  const hMail = hCalls.find((c) => String(c.url).includes('resend'));
+  assert.match(hMail.body.html, /Health &amp; wellness apps|Health & wellness apps/);
   const nCalls = [];
   await processIntake('newsletter', { email: 'n@x.co' }, {
     env: { INTAKE_WEBHOOK_SECRET: 'k', CJ_RESEND_API_KEY: 're_test', CJ_ALERT_EMAILS: 'a@x.co' }, ip: '8.8.8.5',
