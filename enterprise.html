@@ -103,11 +103,11 @@ section{padding:clamp(3rem,8vw,5.5rem) 0}
 .prov li{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:.35rem 0}
 .prov li span{color:var(--mute)}
 .fine{font-size:.85rem;color:var(--mute)}
-.compare{width:100%;border-collapse:collapse;margin-top:2rem;font-size:.95rem}
+.compare{width:100%;min-width:560px;border-collapse:collapse;margin-top:2rem;font-size:.95rem}
 .compare th,.compare td{padding:.8rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .compare th{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mute)}
 .compare td:first-child{font-weight:600}
-.tbl{overflow-x:auto}
+.tbl{overflow-x:auto;max-width:100%}
 .faq details{border-bottom:1px solid var(--line);padding:1rem 0}
 .faq summary{cursor:pointer;font-weight:600;font-size:1.05rem;list-style:none}
 .faq summary::after{content:"+";float:right;color:var(--green);font-weight:700}
@@ -311,7 +311,7 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
 <script>
 (function(){if(!window.L)return;var el=document.getElementById('ent-map');
 var m=L.map(el,{scrollWheelZoom:false,zoomControl:true,attributionControl:true}).setView([56,-96],3);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:8,attribution:'&copy; OpenStreetMap &copy; CARTO'}).addTo(m);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(m);
 var pts=[["Greater Toronto",43.70,-79.42],["Ottawa",45.42,-75.69],["Southwestern Ontario",42.98,-81.25],["Montréal",45.50,-73.57],["Québec City",46.81,-71.21],["Vancouver",49.28,-123.12],["Victoria",48.43,-123.37],["Calgary",51.05,-114.07],["Edmonton",53.55,-113.49],["Winnipeg",49.90,-97.14],["Saskatoon",52.13,-106.67],["Regina",50.45,-104.61],["Halifax",44.65,-63.57],["Moncton",46.09,-64.78],["St. John’s",47.56,-52.71],["Charlottetown",46.24,-63.13],["Whitehorse · virtual",60.72,-135.06],["Yellowknife · virtual",62.45,-114.37],["Iqaluit · virtual",63.75,-68.52]];
 var b=[];pts.forEach(function(p){var v=/virtual/.test(p[0]);L.circleMarker([p[1],p[2]],{radius:v?6:9,color:'#0A3D22',weight:1.5,fillColor:v?'#86EFAC':'#15803D',fillOpacity:.85}).addTo(m).bindTooltip(p[0]);b.push([p[1],p[2]]);});
 m.fitBounds(b,{padding:[20,20]});})();
