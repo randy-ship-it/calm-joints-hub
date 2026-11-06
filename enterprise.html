@@ -24,7 +24,6 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM summary">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/localvibe/vendor/leaflet.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://calmjoints.org/#org","name":"Calm Joints","legalName":"Calm Joints Inc.","url":"https://calmjoints.org/","logo":"https://calmjoints.org/media/icon-512.png","email":"info@calmjoints.org","areaServed":{"@type":"Country","name":"Canada"},"description":"Calm Joints offers health and wellness apps a bolt-on Physio API: nationwide across Canada, fully managed, with profit share back to the partner.","contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"info@calmjoints.org","areaServed":"CA","availableLanguage":["en"]}},
@@ -96,13 +95,8 @@ section{padding:clamp(3rem,8vw,5.5rem) 0}
 .steps li:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--green);color:#fff;font-weight:700;margin-bottom:.8rem}
 .steps p{margin:.45rem 0 0;color:var(--mute);font-size:.95rem}
 @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}@media(max-width:560px){.steps{grid-template-columns:1fr}}
-.map-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:1.5rem;margin-top:2rem;align-items:stretch}
-@media(max-width:900px){.map-grid{grid-template-columns:1fr}}
-#ent-map{min-height:420px;border-radius:20px;border:1px solid var(--line);background:#EAF2EE}
-.prov{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;font-size:.95rem}
-.prov li{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:.35rem 0}
-.prov li span{color:var(--mute)}
-.fine{font-size:.85rem;color:var(--mute)}
+.demand-frame{margin-top:1.2rem;border:1px solid var(--line);border-radius:20px;overflow:hidden;height:clamp(520px,78vh,680px);background:#E9EEEB}
+.demand-frame iframe{display:block;width:100%;height:100%;border:0}
 .compare{width:100%;min-width:560px;border-collapse:collapse;margin-top:2rem;font-size:.95rem}
 .compare th,.compare td{padding:.8rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .compare th{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mute)}
@@ -222,22 +216,9 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
   <div class="wrap">
     <p class="kicker">Coverage</p>
     <h2>Nationwide Canada.</h2>
-    <p class="lede">Every province and territory. Pins are regions, not addresses.</p>
-    <div class="map-grid">
-      <div id="ent-map" role="img" aria-label="Map of Canada showing Calm Joints provider network regions"></div>
-      <div class="card">
-        <h3>Where partners launch</h3>
-        <ul class="prov">
-          <li>Ontario <span>Virtual + network</span></li>
-          <li>British Columbia <span>Virtual + network</span></li>
-          <li>Alberta <span>Virtual + network</span></li>
-          <li>Quebec <span>Virtual + network</span></li>
-          <li>Manitoba &amp; Saskatchewan <span>Virtual + network</span></li>
-          <li>Atlantic Canada <span>Virtual + network</span></li>
-          <li>The North <span>Virtual</span></li>
-        </ul>
-        <p class="fine" style="margin-top:1rem">Calm Joints is a virtual service. Pins show regions, not clinic addresses. Exact coverage for your audience is confirmed during network mapping.</p>
-      </div>
+    <p class="lede">Check local demand around a postal code.</p>
+    <div class="demand-frame">
+      <iframe title="Local demand around a Canadian postal code" src="/localdemand?embed=1" loading="lazy"></iframe>
     </div>
   </div>
 </section>
@@ -307,15 +288,6 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
 </footer>
 <script src="/form.js"></script>
 <script>cjForm(document.getElementById('enterprise-form'), '/api/partner');</script>
-<script src="/localvibe/vendor/leaflet.js"></script>
-<script>
-(function(){if(!window.L)return;var el=document.getElementById('ent-map');
-var m=L.map(el,{scrollWheelZoom:false,zoomControl:true,attributionControl:true}).setView([56,-96],3);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(m);
-var pts=[["Greater Toronto",43.70,-79.42],["Ottawa",45.42,-75.69],["Southwestern Ontario",42.98,-81.25],["Montréal",45.50,-73.57],["Québec City",46.81,-71.21],["Vancouver",49.28,-123.12],["Victoria",48.43,-123.37],["Calgary",51.05,-114.07],["Edmonton",53.55,-113.49],["Winnipeg",49.90,-97.14],["Saskatoon",52.13,-106.67],["Regina",50.45,-104.61],["Halifax",44.65,-63.57],["Moncton",46.09,-64.78],["St. John’s",47.56,-52.71],["Charlottetown",46.24,-63.13],["Whitehorse · virtual",60.72,-135.06],["Yellowknife · virtual",62.45,-114.37],["Iqaluit · virtual",63.75,-68.52]];
-var b=[];pts.forEach(function(p){var v=/virtual/.test(p[0]);L.circleMarker([p[1],p[2]],{radius:v?6:9,color:'#0A3D22',weight:1.5,fillColor:v?'#86EFAC':'#15803D',fillOpacity:.85}).addTo(m).bindTooltip(p[0]);b.push([p[1],p[2]]);});
-m.fitBounds(b,{padding:[20,20]});})();
-</script>
 <script src="/config.js"></script>
 <script src="/js/consent.js"></script>
 </body>

@@ -266,6 +266,23 @@ ul,ol{list-style:none;margin:0;padding:0}
   .lv-band{padding:22px}
   .lv-band .lv-ctas{width:100%}.lv-band .lv-btn{flex:1 1 100%}
 }
+/* Embedded on another Calm Joints page: map and local-demand numbers only. */
+html.lv-embed .lv-nav,
+html.lv-embed .lv-sticky,
+html.lv-embed .lv-foot,
+html.lv-embed .lv-vibe,
+html.lv-embed .lv-offers,
+html.lv-embed .lv-band,
+html.lv-embed .lv-skip{display:none!important}
+html.lv-embed body{background:#F5F8F6}
+html.lv-embed .lv-stage{height:clamp(460px,72vh,620px)}
+html.lv-embed .lv-main{padding-top:8px}
+html.lv-embed .lv-places{padding-bottom:18px}
+@media (max-width:520px){
+  html.lv-embed .lv-search{flex-direction:column}
+  html.lv-embed .lv-search .lv-btn{width:100%}
+}
+
 /* gentle motion only: everything goes still for people who ask for less movement */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
