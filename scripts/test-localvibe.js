@@ -6,10 +6,16 @@ const root = path.join(__dirname, '..');
 const core = require('../localvibe/localvibe.js');
 const { nearest, allow, _reset } = require('../lib/localvibe-lookup.js');
 
-// postal code handling
+// postal code handling: FSA alone, spaced/unspaced full code, any case
+assert.deepStrictEqual(core.normalizePostal('M5V'), { fsa: 'M5V', full: 'M5V' });
+assert.deepStrictEqual(core.normalizePostal('m5v'), { fsa: 'M5V', full: 'M5V' });
+assert.deepStrictEqual(core.normalizePostal('M5V 2T6'), { fsa: 'M5V', full: 'M5V 2T6' });
+assert.deepStrictEqual(core.normalizePostal('m5v2t6').fsa, 'M5V');
 assert.deepStrictEqual(core.normalizePostal('m5v 2t6').fsa, 'M5V');
+assert.strictEqual(core.normalizePostal('M5'), null);
 assert.strictEqual(core.normalizePostal('D5V'), null);
 assert.strictEqual(core.normalizePostal('hello'), null);
+assert.ok(fs.readFileSync(path.join(root, 'localvibe/index.html'), 'utf8').includes('localvibe.js?v=4'));
 
 // nearest: at most 3, within 20 km, closest first
 const locs = [];

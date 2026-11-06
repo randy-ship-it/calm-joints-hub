@@ -375,7 +375,14 @@
   }
   function lookup(raw) {
     var pc = normalizePostal(raw);
-    if (!pc) { say('Enter a Canadian postal code, like M5V or M5V 2T6.', true); return; }
+    if (!pc) {
+      say('Enter a Canadian postal code or the first 3 characters (FSA), like M5V or M5V 2T6.', true);
+      var input = $('#lv-pc');
+      if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
+      return;
+    }
+    var inputOk = $('#lv-pc');
+    if (inputOk) inputOk.removeAttribute('aria-invalid');
     say('Looking up ' + pc.fsa + '…');
     var url = (T.lookupUrl || '/api/localvibe') + '?pc=' + encodeURIComponent(pc.fsa);
     fetch(url, { headers: { Accept: 'application/json' } })
@@ -385,7 +392,12 @@
   }
   function onResult(d) {
     say('Showing ' + d.fsa + '. Distances are approximate.');
-    try { history.replaceState(null, '', '?pc=' + d.fsa); } catch (e) {}
+    try {
+      var params = new URLSearchParams(location.search);
+      params.set('pc', d.fsa);
+      var q = params.toString();
+      history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
+    } catch (e) {}
     showArea(d);
     var s = $('.lv-stage').getBoundingClientRect();
     if (s.top < -20 || s.top > 200) $('.lv-stage').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
@@ -415,16 +427,35 @@
     });
   }
 
-  function init(brands) {
+  function bindChrome() {
     initNotify();
-    state.brands = brands;
     $$('.lv-chip').forEach(function (c) { c.addEventListener('click', function () { setRadius(+c.dataset.r, true); }); });
     $('#lv-form').addEventListener('submit', function (e) { e.preventDefault(); lookup($('#lv-pc').value); });
     var rail = $('#lv-brands');
     rail.addEventListener('scroll', function () { root.requestAnimationFrame(syncRail); }, { passive: true });
     $('#lv-prev').addEventListener('click', function () { rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' }); });
     $('#lv-next').addEventListener('click', function () { rail.scrollBy({ left: rail.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' }); });
-    root.addEventListener('resize', syncRail);
+    function onResize() {
+      syncRail();
+      if (state.map) {
+        state.map.invalidateSize({ animate: false });
+        if (state.center) {
+          var p = overlayPad();
+          var b = L.latLng(state.center[0], state.center[1]).toBounds(state.radius * 2000);
+          state.map.fitBounds(b, { paddingTopLeft: p.tl, paddingBottomRight: p.br, animate: false });
+        }
+      }
+    }
+    root.addEventListener('resize', onResize);
+    if (root.ResizeObserver) {
+      var ro = new ResizeObserver(function () { onResize(); });
+      var mapEl = $('#lv-map');
+      if (mapEl) ro.observe(mapEl);
+    }
+  }
+
+  function init(brands) {
+    state.brands = brands || [];
     state.key = 'ON'; state.hourly = 2200000 / 30 / 24; state.label = '';
     $('#lv-area').textContent = 'you (Ontario)';
     renderBrands();
@@ -434,7 +465,12 @@
 
   applySkin();
   ensureMap();
+  bindChrome();
   fetch(base + 'brands.json').then(function (r) { return r.json(); })
     .then(function (b) { init(b); loadExtraScripts(); })
-    .catch(function () { say('Something went wrong loading the page. Please refresh.', true); loadExtraScripts(); });
+    .catch(function () {
+      say('Brand vibes could not load, but postal lookup still works.', true);
+      init([]);
+      loadExtraScripts();
+    });
 })(typeof window !== 'undefined' ? window : globalThis);
