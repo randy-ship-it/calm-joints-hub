@@ -106,7 +106,7 @@
   var state = { est: null, views20: 600000, brands: [], map: null, layer: null, key: 'ON', hourly: 0, center: null, radius: 20, places: [], label: '', pins: [] };
   var isEmbed = document.documentElement.classList.contains('lv-embed');
 
-  // Enterprise iframe only: Physio API + Scale Health hub demand (public /localvibe keeps consumer copy).
+  // Enterprise iframe only: Managed Physio + Scale Health hub demand (public /localvibe keeps consumer copy).
   function applyEmbedCopy() {
     if (!isEmbed) return;
     var k = $('.lv-float .lv-kicker'); if (k) k.textContent = 'Booking engine';
