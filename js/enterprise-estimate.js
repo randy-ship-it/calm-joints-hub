@@ -1,4 +1,4 @@
-/* Illustrative Physio API estimate. Not a payout guarantee.
+/* Illustrative Managed Physio estimate. Not a payout guarantee.
    contribution = patients × sessions × net per session
    per-patient net = sessions × net per session
    The period labels the patient count. It does not annualize. */
