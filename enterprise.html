@@ -214,11 +214,12 @@ section{padding:clamp(1.15rem,2.4vw,1.7rem) 0}
 .loc-pills{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0 0;padding:0;list-style:none}
 .loc-pills li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.38rem .75rem;font-size:.84rem;font-weight:700;color:var(--deep)}
 .showcase{display:grid;gap:1rem;margin-top:1.1rem}
-.demand-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#E9EEEB;height:280px;display:flex;flex-direction:column}
-@media(max-width:700px){.demand-frame{height:240px}}
+.demand-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#E9EEEB;height:auto;display:flex;flex-direction:column}
 .frame-cap{display:flex;justify-content:space-between;gap:.6rem;align-items:baseline;padding:.65rem .9rem;background:var(--deep);color:#fff}
 .frame-cap b{font-size:.92rem}.frame-cap span{font-size:.75rem;color:#CFE7DA;text-align:right}
-.demand-frame iframe{flex:1;width:100%;border:0;min-height:0}
+.demand-frame iframe{display:block;width:100%;border:0;height:640px;min-height:520px;background:#F5F8F6}
+@media(max-width:700px){.demand-frame iframe{height:720px;min-height:640px}}
+@media(max-width:420px){.frame-cap{flex-direction:column;align-items:flex-start}.frame-cap span{text-align:left}}
 .offer{background:#fff}
 .offer-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap}
 .offer-head .btn{flex:none}
@@ -473,6 +474,20 @@ footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--mute);font-si
       <div class="demand-frame">
         <div class="frame-cap"><b>Existing digital demand</b><span>Nearby Scale Health hubs</span></div>
         <iframe title="Existing digital demand in nearby Scale Health hubs" src="/localdemand?embed=1" loading="lazy"></iframe>
+        <script>
+        (function () {
+          var frame = document.querySelector('.demand-frame iframe');
+          if (!frame) return;
+          window.addEventListener('message', function (e) {
+            if (e.origin !== location.origin || e.source !== frame.contentWindow) return;
+            var data = e.data || {};
+            if (data.source !== 'cj-localdemand') return;
+            var h = Number(data.height);
+            if (!h || h < 320 || h > 2400) return;
+            frame.style.height = Math.ceil(h) + 'px';
+          });
+        })();
+        </script>
       </div>
     </div>
   </div>
