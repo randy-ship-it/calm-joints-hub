@@ -287,3 +287,42 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 .insider-list strong { color: var(--navy); font-size: .95rem; }
 .insider-list small { color: var(--muted); font-size: .8rem; line-height: 1.35; }
 .insider-pick .btn { justify-self: start; }
+body.insider-open { overflow: hidden; }
+.insider-overlay {
+  position: fixed; inset: 0; z-index: 80; display: grid; place-items: center;
+  padding: 1rem; background: rgba(10, 29, 86, .55);
+}
+.insider-dialog {
+  width: min(560px, 100%); max-height: min(86vh, 760px); overflow: auto;
+  background: #fff; color: var(--navy); border-radius: 22px;
+  padding: 1rem 1rem 1.1rem; box-shadow: 0 24px 60px rgba(10, 29, 86, .28);
+}
+.insider-dialog-head { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.insider-dialog h2 { font-size: 1.25rem; }
+.insider-close {
+  border: 1.5px solid var(--purple); background: #fff; color: var(--navy);
+  border-radius: 999px; min-height: 40px; padding: 0 .85rem; font: 700 .85rem var(--sans); cursor: pointer;
+}
+.insider-dialog:focus { outline: none; }
+.insider-close:focus-visible, .insider-group label:focus-within, .insider-dialog .btn:focus-visible, .insider-dialog input:focus-visible {
+  outline: 3px solid var(--green); outline-offset: 3px;
+}
+.insider-offer { margin: .55rem 0 0; color: var(--muted); font-size: .92rem; }
+.insider-group { margin: .85rem 0 0; padding: 0; border: 0; display: grid; gap: .4rem; }
+.insider-group legend {
+  padding: .12rem .5rem; border-radius: 999px; border: 1.5px solid var(--purple);
+  color: var(--navy); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.insider-group label {
+  display: flex; gap: .7rem; align-items: flex-start; padding: .7rem .8rem;
+  border: 1px solid var(--line); border-radius: 16px; background: var(--paper); cursor: pointer;
+}
+.insider-group input { width: 1.15rem; height: 1.15rem; margin-top: .2rem; accent-color: var(--navy); flex: none; }
+.insider-group span { display: grid; gap: .12rem; }
+.insider-group strong { font-size: .98rem; }
+.insider-group small { color: var(--muted); font-size: .8rem; line-height: 1.35; }
+.insider-dialog .insider-pick { max-width: none; }
+@media (max-width: 640px) {
+  .insider-overlay { padding: .6rem; align-items: end; }
+  .insider-dialog { max-height: 88vh; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; }
+}

@@ -94,10 +94,12 @@ assert.ok(html.indexOf('id="insider"') < html.indexOf('id="assessment"'));
 assert.ok(html.includes('Product Insider Access'));
 assert.ok(html.includes('expected in the next few weeks'));
 assert.ok(html.includes('not a purchase'));
-assert.ok(html.includes('/js/sport-insider.js?v=1'));
+assert.ok(html.includes('/js/sport-insider.js?v=2'));
 assert.ok(html.includes('/api/squash-insider') === false);
 const insiderClient = fs.readFileSync('js/sport-insider.js', 'utf8');
 assert.ok(insiderClient.includes('/api/squash-insider'));
+assert.ok(insiderClient.includes('role", "dialog"') || insiderClient.includes("role', 'dialog'") || insiderClient.includes('aria-modal'));
+assert.ok(insiderClient.includes('Escape'));
 for (const file of [html, insiderClient, fs.readFileSync('css/sport-zone.css', 'utf8')]) {
   assert.ok(!/randy\s*30|randywholesale/i.test(file), 'access code stays off the public page');
   assert.ok(!/wholesale/i.test(file));

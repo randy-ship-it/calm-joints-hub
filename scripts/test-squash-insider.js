@@ -19,15 +19,16 @@ function run(body, env, fetchImpl) {
   assert.strictEqual(bad.json.ok, false);
   assert.ok(!bad.json.products);
 
-  for (const code of ['RANDYWHOLESALE', 'randywholesale', 'RandyWholesale', ' RANDYWHOLESALE ']) {
+  for (const code of ['RANDYWHOLESALE', 'randywholesale', 'RandyWholesale', ' RANDYWHOLESALE ', 'Randy wholesale', 'RANDY  WHOLESALE', 'randy   wholesale']) {
     const opened = await run({ intent: 'open', code });
     assert.strictEqual(opened.status, 200, code);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.id), ['drho-tens-pro', 'roll-r8', 'roll-r3', 'roll-stretchmat']);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.price_label), ['CA$249.95', 'US$149.00', 'US$35.00', 'US$65.00']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.id), ['roll-r8', 'roll-r3', 'roll-stretchmat', 'drho-tens-pro']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.use), ['Legs', 'Feet', 'Stretch', 'Recovery']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.price_label), ['US$149.00', 'US$35.00', 'US$65.00', 'CA$249.95']);
     assert.ok(opened.json.offer.join(' ').includes('wholesale-rate access'));
     assert.ok(!/randywholesale|randy30|30%|35%|\$[0-9]+\s*off|margin/i.test(JSON.stringify(opened.json)));
   }
-  for (const code of ['Randy30', 'RANDY30', 'randy30', 'Randy 30', 'RANDY WHOLESALE']) {
+  for (const code of ['Randy30', 'RANDY30', 'randy30', 'Randy 30', 'wholesale randy', 'randy-wholesale']) {
     const retired = await run({ intent: 'open', code });
     assert.strictEqual(retired.status, 401, code);
     assert.ok(!retired.json.products);

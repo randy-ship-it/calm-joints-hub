@@ -1,10 +1,11 @@
 /* Product Insider Access. The code is checked on the Calm Joints server. */
 (function () {
   var gate = document.getElementById('insider-gate');
-  var shop = document.getElementById('insider-shop');
   var gateStatus = document.getElementById('insider-gate-status');
-  if (!gate || !shop) return;
+  if (!gate) return;
   var accepted = '';
+  var overlay = null;
+  var returnFocus = null;
 
   function say(node, text) {
     if (node) node.textContent = text || '';
@@ -20,39 +21,114 @@
     });
   }
 
-  function line(tag, text) {
+  function line(tag, text, className) {
     var el = document.createElement(tag);
+    if (className) el.className = className;
     el.textContent = text;
     return el;
   }
 
-  function showShop(data) {
-    shop.replaceChildren();
-    (data.offer || []).forEach(function (text) {
-      shop.appendChild(line('p', text));
+  function focusables(root) {
+    return Array.prototype.filter.call(root.querySelectorAll('button, input, a[href], [tabindex]:not([tabindex="-1"])'), function (el) {
+      return !el.disabled && el.offsetParent !== null;
     });
+  }
+
+  function closeModal() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    overlay.remove();
+    overlay = null;
+    document.body.classList.remove('insider-open');
+    if (returnFocus && returnFocus.focus) returnFocus.focus();
+  }
+
+  function onKey(event) {
+    if (!overlay) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeModal();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    var items = focusables(overlay);
+    if (!items.length) return;
+    var first = items[0];
+    var lastItem = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      lastItem.focus();
+    } else if (!event.shiftKey && document.activeElement === lastItem) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function showModal(data) {
+    closeModal();
+    returnFocus = document.activeElement;
+    overlay = document.createElement('div');
+    overlay.className = 'insider-overlay';
+    var dialog = document.createElement('div');
+    dialog.className = 'insider-dialog';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'insider-modal-title');
+    dialog.tabIndex = -1;
+
+    var head = document.createElement('div');
+    head.className = 'insider-dialog-head';
+    head.appendChild(line('h2', 'Recovery products', ''));
+    head.querySelector('h2').id = 'insider-modal-title';
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'insider-close';
+    close.setAttribute('aria-label', 'Close');
+    close.textContent = 'Close';
+    close.addEventListener('click', closeModal);
+    head.appendChild(close);
+    dialog.appendChild(head);
+
+    (data.offer || []).forEach(function (text) {
+      dialog.appendChild(line('p', text, 'insider-offer'));
+    });
+
     var form = document.createElement('form');
     form.className = 'insider-pick';
     form.noValidate = true;
-    var list = document.createElement('ul');
-    list.className = 'insider-list';
+    var groups = {};
+    var order = [];
     (data.products || []).forEach(function (item) {
-      var li = document.createElement('li');
-      var label = document.createElement('label');
-      var box = document.createElement('input');
-      box.type = 'checkbox';
-      box.name = 'product';
-      box.value = item.id;
-      label.appendChild(box);
-      var text = document.createElement('span');
-      text.appendChild(line('strong', item.name));
-      text.appendChild(line('small', item.detail));
-      text.appendChild(line('small', item.price_kind + ' ' + item.price_label + '. ' + item.source));
-      label.appendChild(text);
-      li.appendChild(label);
-      list.appendChild(li);
+      var use = item.use || 'Recovery';
+      if (!groups[use]) {
+        groups[use] = [];
+        order.push(use);
+      }
+      groups[use].push(item);
     });
-    form.appendChild(list);
+    order.forEach(function (use) {
+      var group = document.createElement('fieldset');
+      group.className = 'insider-group';
+      var legend = document.createElement('legend');
+      legend.textContent = use;
+      group.appendChild(legend);
+      groups[use].forEach(function (item) {
+        var label = document.createElement('label');
+        var box = document.createElement('input');
+        box.type = 'checkbox';
+        box.name = 'product';
+        box.value = item.id;
+        label.appendChild(box);
+        var text = document.createElement('span');
+        text.appendChild(line('strong', item.name));
+        text.appendChild(line('small', item.detail));
+        text.appendChild(line('small', item.price_kind + ' ' + item.price_label + '. ' + item.source));
+        label.appendChild(text);
+        group.appendChild(label);
+      });
+      form.appendChild(group);
+    });
+
     var emailLabel = line('label', 'Email for a reply');
     emailLabel.htmlFor = 'insider-email';
     var email = document.createElement('input');
@@ -66,8 +142,7 @@
     button.className = 'btn btn-book';
     button.type = 'submit';
     button.textContent = 'Send my interest';
-    var status = line('p', '');
-    status.className = 'insider-status';
+    var status = line('p', '', 'insider-status');
     status.setAttribute('role', 'status');
     form.appendChild(emailLabel);
     form.appendChild(email);
@@ -111,9 +186,15 @@
         say(status, 'The note did not go through. Nothing was sent.');
       });
     });
-    shop.appendChild(form);
-    shop.hidden = false;
-    gate.hidden = true;
+    dialog.appendChild(form);
+    overlay.appendChild(dialog);
+    overlay.addEventListener('click', function (event) {
+      if (event.target === overlay) closeModal();
+    });
+    document.body.appendChild(overlay);
+    document.body.classList.add('insider-open');
+    document.addEventListener('keydown', onKey);
+    dialog.focus();
   }
 
   gate.addEventListener('submit', function (event) {
@@ -128,7 +209,7 @@
       }
       accepted = code;
       if (gate.elements.code) gate.elements.code.value = '';
-      showShop(res.data);
+      showModal(res.data);
     }).catch(function () {
       say(gateStatus, 'The code could not be checked just now.');
     });
