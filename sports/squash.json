@@ -6,6 +6,12 @@
   "h1": "Stay on court longer.",
   "sub": "Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
   "micro": "Virtual visits with registered physiotherapists.",
+  "share_image": {
+    "src": "/media/squash/share-preview.jpg",
+    "width": 1179,
+    "height": 840,
+    "alt": "Calm Joints Squash page, with the Grand Central court photo and Insider’s Store."
+  },
   "hero_image": {
     "src": "/media/squash/grand-central-toc-2019.jpg",
     "width": 580,

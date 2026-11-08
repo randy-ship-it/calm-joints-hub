@@ -48,6 +48,7 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/clinic-qr') return require('../api/clinic-qr')(req, res);
   if (url.pathname === '/api/question') return question(req, res);
   if (url.pathname === '/api/squash-insider') return require('../api/squash-insider')(req, res);
+  if (url.pathname === '/api/squash-wishlist-admin') return require('../api/squash-wishlist-admin')(req, res);
   if (url.pathname === '/api/intake') return intake(req, res);
   if (url.pathname === '/api/careers') return careers(req, res);
   if (url.pathname === '/api/qr-partner') return qrPartner(req, res);
