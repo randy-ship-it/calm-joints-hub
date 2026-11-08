@@ -193,7 +193,12 @@ assert.ok(alias.ALIAS_MATCHER.includes('squash$'));
 const mid = fs.readFileSync('middleware.js', 'utf8');
 assert.ok(mid.includes('squash$'));
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/squash'));
-assert.ok(!fs.readFileSync('index.html', 'utf8').includes('/squash'), 'homepage stays unchanged');
+const homeNow = fs.readFileSync('index.html', 'utf8');
+assert.ok(homeNow.includes('class="squash-tease" href="/squash"'));
+assert.ok(homeNow.includes('Squash Insiders'));
+assert.ok(homeNow.includes('Between matches? A squash recovery page is open.'));
+assert.ok(homeNow.indexOf('id="hero-book"') < homeNow.indexOf('class="squash-tease"'));
+assert.ok(!/randywholesale|wholesale-rate|Randy30|30%|35%/i.test(homeNow.slice(homeNow.indexOf('squash-tease'), homeNow.indexOf('squash-tease') + 500)));
 
 const css = fs.readFileSync('css/sport-zone.css', 'utf8');
 assert.ok(css.includes('#0A1D56') && css.includes('#00FF88') && css.includes('#9D4EDD') && css.includes('#F6F7FB'));
