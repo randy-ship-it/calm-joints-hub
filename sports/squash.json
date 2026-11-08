@@ -6,6 +6,18 @@
   "h1": "Stay on court longer.",
   "sub": "Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
   "micro": "Virtual visits with registered physiotherapists.",
+  "hero_image": {
+    "src": "/media/squash/grand-central-toc-2019.jpg",
+    "width": 1060,
+    "height": 530,
+    "alt": "A glass squash court inside Grand Central Station, with the stone hall, tall windows and chandeliers around it.",
+    "author": "Huerndy",
+    "source_label": "Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Squash_Tournament_of_Champions_2019,_Grand_Central_Station,_NYC.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "changes": "Recompressed at the original 1060×530. Not cropped. Navy fade added in the layout."
+  },
   "nav_current": "Squash",
   "strip_label": "Built for the court",
   "strip": [

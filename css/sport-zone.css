@@ -168,6 +168,42 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
   .physio-card { display: grid; grid-template-columns: minmax(0, 1.3fr) auto; gap: 1.5rem; align-items: center; padding: 1.4rem 1.5rem; }
   .physio-actions { flex-direction: column; align-items: stretch; margin-top: 0; min-width: 17rem; }
 }
+.hero.has-photo { padding: 0 0 .35rem; }
+.hero.has-photo .hero-grid { gap: 0; align-items: stretch; }
+.hero.has-photo .hero-copy { padding-top: .95rem; padding-bottom: .15rem; }
+.hero-photo { margin: 0; min-width: 0; }
+.hero-frame { position: relative; background: var(--navy); }
+.hero-frame img { width: 100%; height: auto; }
+.hero-frame::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(10,29,86,0) 62%, rgba(10,29,86,.9));
+}
+.hero-credit {
+  margin: 0; padding: .45rem 0 .55rem;
+  color: #E4E8F5; font-size: .75rem; line-height: 1.4;
+}
+.hero-credit a { color: #fff; font-weight: 600; text-underline-offset: .14em; }
+@media (max-width: 760px) {
+  .hero.has-photo .wrap { padding: 0; max-width: none; }
+  .hero.has-photo .hero-copy { padding-left: var(--pad); padding-right: var(--pad); }
+  .hero.has-photo .hero-credit { padding-left: var(--pad); padding-right: var(--pad); }
+  .hero.has-photo .hero-photo { order: -1; }
+  .hero.has-photo .hero-grid { display: flex; flex-direction: column; }
+}
+@media (min-width: 880px) {
+  .hero.has-photo { padding: 0; }
+  .hero.has-photo .hero-grid {
+    max-width: 1120px;
+    grid-template-columns: minmax(0, .78fr) minmax(0, 1.35fr);
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.6rem);
+  }
+  .hero.has-photo .hero-copy { padding-top: clamp(1.4rem, 3vw, 2.2rem); padding-bottom: clamp(1.4rem, 3vw, 2.2rem); }
+  .hero-frame::after {
+    background: linear-gradient(90deg, rgba(10,29,86,.8) 0%, rgba(10,29,86,0) 14%);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn { transition: none; }

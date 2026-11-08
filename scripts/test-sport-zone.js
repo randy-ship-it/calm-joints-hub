@@ -3,7 +3,21 @@
 const assert = require('assert');
 const fs = require('fs');
 const vm = require('vm');
-const { renderAll, listedCards } = require('../lib/sport-zone');
+const { renderAll, listedCards, renderSportPage } = require('../lib/sport-zone');
+
+function jpegSize(buf) {
+  let i = 2;
+  while (i < buf.length - 8) {
+    if (buf[i] !== 0xFF) { i += 1; continue; }
+    const marker = buf[i + 1];
+    if (marker === 0xC0 || marker === 0xC1 || marker === 0xC2) {
+      return { h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) };
+    }
+    if (marker === 0xD8 || marker === 0xD9) { i += 2; continue; }
+    i += 2 + buf.readUInt16BE(i + 2);
+  }
+  throw new Error('jpeg size not found');
+}
 
 const home = fs.readFileSync('index.html', 'utf8');
 const nav = home.match(/class="nav-store" href="([^"]+)" data-store-place="nav">([^<]+)</);
@@ -62,6 +76,21 @@ assert.ok(html.includes('https://www.scalehealth.ca/images/roll-recovery/r3-cuto
 assert.ok(html.includes('https://www.scalehealth.ca/images/roll-recovery/stretchmat-cutout.png'));
 assert.ok(!html.includes('r8plus-cutout'));
 assert.ok(!html.includes('/portal/marketplace'));
+assert.ok(html.includes('class="hero has-photo"'));
+assert.ok(html.includes('src="/media/squash/grand-central-toc-2019.jpg"'));
+assert.ok(html.includes('Photo by <a href="https://commons.wikimedia.org/wiki/File:Squash_Tournament_of_Champions_2019,_Grand_Central_Station,_NYC.jpg">Huerndy</a>'));
+assert.ok(html.includes('https://creativecommons.org/licenses/by-sa/4.0/'));
+assert.ok(html.includes('Not cropped'));
+assert.ok(html.includes('Navy fade added in the layout'));
+assert.ok(!html.includes('class="court"'), 'photo hero replaces the diagram');
+assert.ok(!/J\.?P\.?\s*Morgan|PSA World|endors/i.test(html), 'no sponsor or endorsement claim');
+const heroFile = fs.readFileSync('media/squash/grand-central-toc-2019.jpg');
+assert.deepStrictEqual(jpegSize(heroFile), { w: 1060, h: 530 });
+assert.ok(heroFile.length < 220000, 'hero file stays modest');
+assert.ok(fs.readFileSync('media/squash/grand-central-toc-2019.license.txt', 'utf8').includes('CC BY-SA 4.0'));
+const withoutPhoto = JSON.parse(JSON.stringify(sport));
+delete withoutPhoto.hero_image;
+assert.ok(renderSportPage(withoutPhoto, catalog).includes('class="court"'));
 
 const visible = html
   .replace(/<script[\s\S]*?<\/script>/g, '')
