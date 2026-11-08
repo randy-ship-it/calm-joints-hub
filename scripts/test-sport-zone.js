@@ -99,7 +99,7 @@ assert.ok(html.includes('/api/squash-insider') === false);
 const insiderClient = fs.readFileSync('js/sport-insider.js', 'utf8');
 assert.ok(insiderClient.includes('/api/squash-insider'));
 for (const file of [html, insiderClient, fs.readFileSync('css/sport-zone.css', 'utf8')]) {
-  assert.ok(!/randy\s*30/i.test(file), 'access code stays off the public page');
+  assert.ok(!/randy\s*30|randywholesale/i.test(file), 'access code stays off the public page');
   assert.ok(!/wholesale/i.test(file));
 }
 assert.ok(html.includes('id="therapists-title"'));
