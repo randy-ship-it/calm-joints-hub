@@ -19,12 +19,6 @@
     "changes": "cropped"
   },
   "nav_current": "Squash",
-  "strip_label": "Built for the court",
-  "strip": [
-    { "title": "Ankles and knees", "line": "Hard lunges and fast turns." },
-    { "title": "Grip and wrist", "line": "The racquet hand works every rally." },
-    { "title": "Between matches", "line": "A short reset before you go again." }
-  ],
   "max_cards": 8,
   "cards": ["drho-tens-pro", "roll-r8", "roll-r3", "roll-stretchmat"],
   "hints": {
@@ -57,6 +51,12 @@
   },
   "kit_title": "A short kit for between matches.",
   "kit_note": "Prices and availability are on the linked pages. This page does not take payment.",
+  "insider": {
+    "heading": "Product Insider Access",
+    "stocking": "These products are being stocked. They are expected in the next few weeks. That is an expectation, not a guarantee.",
+    "interest": "This is a note of interest, not a purchase. Nothing is reserved or charged.",
+    "prompt": "If you have an insider code, enter it to continue."
+  },
   "widget": {
     "public_label": "Industry Insider’s Store",
     "panel_copy": "Picked for squash. Opens in the Industry Insider’s Store.",
@@ -65,6 +65,62 @@
     "nav_url": "https://www.scalehealth.ca/calmjoints?src=cjsite&place=nav",
     "nav_label": "Insider’s Store",
     "show_coupon_if_verified": true
+  },
+  "therapists": {
+    "heading": "Physiotherapists you can book",
+    "note": "Video assessments. This row is not a live schedule.",
+    "people": [
+      {
+        "name": "Gabriela R.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/team/gabriela-r.webp",
+        "width": 640,
+        "height": 800,
+        "alt": "Gabriela R., physiotherapist",
+        "staff_id": "95"
+      },
+      {
+        "name": "Aleksandra N.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/team/aleksandra-n.webp",
+        "width": 640,
+        "height": 800,
+        "alt": "Aleksandra N., physiotherapist",
+        "staff_id": "94"
+      },
+      {
+        "name": "Ariel C.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/ariel-c.webp",
+        "width": 480,
+        "height": 480,
+        "alt": "Ariel C., physiotherapist",
+        "staff_id": "97"
+      },
+      {
+        "name": "Manpreet N.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/manpreet-n.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Manpreet N., physiotherapist",
+        "staff_id": "99"
+      },
+      {
+        "name": "Olakunle O.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/olakunle-o.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Olakunle O., physiotherapist",
+        "staff_id": "96"
+      }
+    ]
   },
   "physio": {
     "heading": "Book a video assessment.",
