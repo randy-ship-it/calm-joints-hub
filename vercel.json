@@ -76,6 +76,7 @@
     "api/qr-partner.js": { "includeFiles": "lib/**" },
     "api/question.js": { "includeFiles": "lib/**" },
     "api/squash-insider.js": { "includeFiles": "lib/**" },
+    "api/squash-wishlist-admin.js": { "includeFiles": "lib/**" },
     "api/resume.js": { "includeFiles": "lib/**" }
   },
   "routes": [

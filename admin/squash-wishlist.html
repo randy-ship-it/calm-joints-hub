@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Squash wishlists | Calm Joints</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<style>
+  :root{--navy:#0A1D56;--ink:#142033;--mute:#5c6b7a;--line:#E4E8EF}
+  *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#F6F8FB}
+  main{max-width:1100px;margin:0 auto;padding:1.5rem}
+  h1{font-size:1.4rem;margin:0 0 .4rem} h2{font-size:1.05rem;margin:1.6rem 0 .5rem}
+  p{color:var(--mute)}
+  form{display:flex;gap:.5rem;max-width:420px} input{flex:1;padding:.7rem;border:1px solid #CFD5DE;border-radius:10px;font:inherit}
+  button{padding:.7rem 1rem;border:0;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer}
+  .note{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem;color:var(--ink)}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:top}
+  th{background:#EEF2FA;font-weight:600}
+  .err{color:#B42318;font-weight:600}
+  a.btn{display:inline-block;margin:.4rem 0 0;color:var(--navy);font-weight:700}
+</style>
+</head>
+<body>
+<main>
+  <h1>Squash wishlists</h1>
+  <form id="login" hidden><input type="password" id="key" autocomplete="current-password" aria-label="Admin key"><button>Open</button></form>
+  <p id="msg" role="status"></p>
+  <div id="out" hidden>
+    <div class="note" id="note"></div>
+    <p><button type="button" id="csv">Download CSV</button></p>
+    <h2>Interest</h2>
+    <table><thead><tr><th>Product</th><th>Wishlists</th><th>Quantity</th><th>Listed price</th><th>Mapping</th></tr></thead><tbody id="interest"></tbody></table>
+    <h2>Wishlists</h2>
+    <table><thead><tr><th>When</th><th>Email</th><th>Products</th><th>Email status</th></tr></thead><tbody id="lists"></tbody></table>
+  </div>
+</main>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); };
+  function load() {
+    var key = sessionStorage.getItem('cj_admin_key');
+    if (!key) { $('login').hidden = false; return; }
+    fetch('/api/squash-wishlist-admin', { headers: { Authorization: 'Bearer ' + key } }).then(function (r) {
+      return r.json().then(function (j) { return { r: r, j: j }; });
+    }).then(function (o) {
+      if (o.r.status === 401) { sessionStorage.removeItem('cj_admin_key'); $('login').hidden = false; $('msg').className = 'err'; $('msg').textContent = 'That key did not work.'; return; }
+      $('login').hidden = true;
+      if (!o.j.ok) { $('out').hidden = true; $('msg').className = 'err'; $('msg').textContent = o.j.blocker || 'Wishlist storage is not available.'; return; }
+      $('out').hidden = false; $('msg').textContent = '';
+      $('note').textContent = o.j.blocker;
+      $('interest').innerHTML = (o.j.interest || []).map(function (row) {
+        return '<tr><td>' + esc(row.name) + '<div>' + esc(row.product_id) + '</div></td><td>' + esc(row.wishlist_count) + '</td><td>' + esc(row.quantity_total) + '</td><td>' + esc(row.retail_label) + '</td><td>' + esc(row.mapping_status) + '</td></tr>';
+      }).join('') || '<tr><td colspan="5">No wishlists yet.</td></tr>';
+      $('lists').innerHTML = (o.j.wishlists || []).map(function (row) {
+        var items = (row.lines || []).map(function (line) { return esc(line.name) + ' × ' + esc(line.quantity); }).join('<br>');
+        return '<tr><td>' + esc(row.created_at) + '</td><td>' + esc(row.email) + '</td><td>' + items + '</td><td>' + esc(row.email_status) + '</td></tr>';
+      }).join('') || '<tr><td colspan="4">No wishlists yet.</td></tr>';
+    }).catch(function () { $('msg').className = 'err'; $('msg').textContent = 'The list could not be loaded.'; });
+  }
+  $('login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var key = $('key').value.trim();
+    if (!key) return;
+    sessionStorage.setItem('cj_admin_key', key);
+    load();
+  });
+  $('csv').addEventListener('click', function () {
+    var key = sessionStorage.getItem('cj_admin_key');
+    if (!key) return;
+    fetch('/api/squash-wishlist-admin?format=csv', { headers: { Authorization: 'Bearer ' + key } }).then(function (r) {
+      if (!r.ok) throw new Error('csv');
+      return r.blob();
+    }).then(function (blob) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'squash-wishlists.csv'; a.click();
+      URL.revokeObjectURL(url);
+    }).catch(function () { $('msg').className = 'err'; $('msg').textContent = 'The CSV could not be downloaded.'; });
+  });
+  load();
+})();
+</script>
+</body>
+</html>

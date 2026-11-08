@@ -88,8 +88,17 @@ function run(body, env, fetchImpl) {
   assert.ok(staff.body.text.includes('Insider code: accepted'));
   assert.ok(staff.body.text.includes('drho-tens-pro'));
   assert.ok(staff.body.text.includes('TENS Pro Essentials'));
+  assert.ok(staff.body.text.includes('Record: not stored'));
   assert.ok(visitor.body.text.includes('wishlist'));
-  assert.ok(!/randywholesale|randy30/i.test(staff.body.text + visitor.body.text));
+  assert.ok(visitor.body.text.includes('https://www.scalehealth.ca/calmjoints?src=cjsite&place=home'));
+  assert.ok(visitor.body.text.includes('within a week, possibly sooner'));
+  assert.ok(visitor.body.text.includes('does not sign you in'));
+  assert.ok(visitor.body.text.includes('are not in a cart'));
+  assert.ok(visitor.body.text.includes('not a guarantee'));
+  assert.ok(!/already in your cart|loaded into your cart/i.test(visitor.body.text));
+  assert.strictEqual(sent.json.persisted, false);
+  assert.strictEqual(sent.json.persistence, 'unconfigured');
+  assert.ok(!/randywholesale|randy30/i.test(staff.body.text + visitor.body.text + JSON.stringify(sent.json)));
   assert.ok(calls.every((call) => call.url === 'https://api.resend.com/emails'));
 
   const quiet = await run({ intent: 'interest', code: 'RandyWholesale', email: 'a@b.co', product_ids: ['roll-r3'] }, {});

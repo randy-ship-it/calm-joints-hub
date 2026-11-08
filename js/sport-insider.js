@@ -177,12 +177,14 @@
       });
       var note = line('p', item.detail || '');
       var price = line('p', item.price_kind + ' ' + item.price_label + '. ' + item.source + '.', 'insider-price');
+      var soon = line('p', 'Insider pricing coming soon.', 'insider-soon');
       detail.appendChild(back);
       detail.appendChild(photo);
       detail.appendChild(title);
       detail.appendChild(facts);
       detail.appendChild(note);
       detail.appendChild(price);
+      detail.appendChild(soon);
       if (/^https:\/\//.test(item.href || '')) {
         var maker = document.createElement('a');
         maker.href = item.href;
@@ -225,6 +227,7 @@
       if (item.brand) text.appendChild(line('small', item.brand, 'insider-brand'));
       text.appendChild(line('strong', item.name));
       text.appendChild(line('small', item.price_kind + ' ' + item.price_label));
+      text.appendChild(line('small', 'Insider pricing coming soon', 'insider-soon'));
       info.appendChild(thumb);
       info.appendChild(text);
       info.addEventListener('click', function () { openDetail(item, info); });
@@ -292,8 +295,23 @@
         company: '',
       }).then(function (res) {
         button.disabled = false;
+        if (res.data && res.data.delivery === 'sent' && res.data.persisted) {
+          say(status, 'Sent. Your wishlist is saved and the email is on its way. This was not an order.');
+          button.disabled = true;
+          return;
+        }
         if (res.data && res.data.delivery === 'sent') {
           say(status, 'Sent. Check your email for the wishlist. This was not an order.');
+          button.disabled = true;
+          return;
+        }
+        if (res.data && res.data.persisted && res.data.duplicate) {
+          say(status, 'This wishlist is already saved. This was not an order.');
+          button.disabled = true;
+          return;
+        }
+        if (res.data && res.data.persisted) {
+          say(status, 'Saved. The email did not go out. This was not an order.');
           button.disabled = true;
           return;
         }

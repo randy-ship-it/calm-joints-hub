@@ -329,6 +329,7 @@ body.insider-open { overflow: hidden; }
 .insider-catalog { display: grid; gap: .45rem; }
 .insider-card[hidden] { display: none !important; }
 .insider-details .insider-brand { color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.insider-details .insider-soon, .insider-detail .insider-soon { color: var(--navy); font-weight: 700; font-size: .78rem; }
   display: grid; grid-template-columns: 44px 1fr; gap: .35rem; align-items: center;
   padding: .35rem; border: 1px solid var(--line); border-radius: 16px; background: var(--paper);
 }
