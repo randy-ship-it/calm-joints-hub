@@ -87,6 +87,8 @@ assert.ok(html.includes('data-hint="pause"'));
 assert.ok(html.includes('/js/sport-hints.js?v=1'));
 assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('prefers-reduced-motion'));
 assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('Pause'));
+assert.ok(html.indexOf('class="hero') < html.indexOf('id="therapists-title"'));
+assert.ok(html.indexOf('id="therapists-title"') < html.indexOf('class="strip"'));
 assert.ok(html.includes('id="therapists-title"'));
 assert.ok(html.includes('Physiotherapists you can book'));
 assert.ok(html.includes('This row is not a live schedule.'));
