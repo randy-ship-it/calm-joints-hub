@@ -97,12 +97,16 @@ assert.ok(html.indexOf('id="insider"') < html.indexOf('id="assessment"'));
 assert.ok(html.includes('Product Insider Access'));
 assert.ok(html.includes('expected in the next few weeks'));
 assert.ok(html.includes('not a purchase'));
-assert.ok(html.includes('/js/sport-insider.js?v=2'));
+assert.ok(html.includes('/js/sport-insider.js?v=5'));
 assert.ok(html.includes('/api/squash-insider') === false);
 const insiderClient = fs.readFileSync('js/sport-insider.js', 'utf8');
 assert.ok(insiderClient.includes('/api/squash-insider'));
 assert.ok(insiderClient.includes('role", "dialog"') || insiderClient.includes("role', 'dialog'") || insiderClient.includes('aria-modal'));
 assert.ok(insiderClient.includes('Escape'));
+assert.ok(insiderClient.includes('insider-details') && insiderClient.includes('Back to the list'));
+assert.ok(insiderClient.includes('Highlights') && insiderClient.includes("setAttribute('role', 'tab')"));
+assert.ok(insiderClient.includes('Insider pricing coming soon'));
+assert.ok(!insiderClient.includes('in your cart'));
 for (const file of [html, insiderClient, fs.readFileSync('css/sport-zone.css', 'utf8')]) {
   assert.ok(!/randy\s*30|randywholesale/i.test(file), 'access code stays off the public page');
   assert.ok(!/wholesale/i.test(file));
@@ -140,6 +144,13 @@ for (const bannedCopy of ['heals', 'prevents injury', 'improves performance', 't
 }
 assert.ok(html.includes('class="hero has-photo"'));
 assert.ok(html.includes('src="/media/squash/grand-central-toc-2019.jpg"'));
+assert.ok(html.includes('content="https://calmjoints.org/media/squash/share-preview.jpg"'));
+assert.equal((html.match(/media\/squash\/share-preview\.jpg/g) || []).length, 2, 'share image is og and twitter only');
+assert.ok(!html.includes('src="/media/squash/share-preview.jpg"'));
+assert.ok(fs.readFileSync('index.html', 'utf8').includes('/media/cj-og-1200x630.png'));
+assert.ok(!fs.readFileSync('index.html', 'utf8').includes('share-preview'));
+const shareJpg = fs.readFileSync('media/squash/share-preview.jpg');
+assert.deepStrictEqual(jpegSize(shareJpg), { w: 1179, h: 840 });
 assert.ok(html.includes('Photo: <a href="https://commons.wikimedia.org/wiki/File:Squash_Tournament_of_Champions_2019,_Grand_Central_Station,_NYC.jpg">Huerndy</a>'));
 assert.ok(html.includes('https://creativecommons.org/licenses/by-sa/4.0/'));
 assert.ok(html.includes('· cropped'));

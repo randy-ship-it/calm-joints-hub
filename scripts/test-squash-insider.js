@@ -22,9 +22,38 @@ function run(body, env, fetchImpl) {
   for (const code of ['RANDYWHOLESALE', 'randywholesale', 'RandyWholesale', ' RANDYWHOLESALE ', 'Randy wholesale', 'RANDY  WHOLESALE', 'randy   wholesale']) {
     const opened = await run({ intent: 'open', code });
     assert.strictEqual(opened.status, 200, code);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.id), ['roll-r8', 'roll-r8plus', 'roll-r3', 'roll-stretchmat', 'drho-tens-pro', 'roll-r1']);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.use), ['Legs', 'Legs', 'Feet', 'Stretch', 'Recovery', 'Recovery']);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.price_label), ['US$149.00', 'US$179.00', 'US$35.00', 'US$65.00', 'CA$249.95', 'US$139.00']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.id), [
+      'roll-r8', 'roll-r8plus', 'roll-r3', 'roll-stretchmat', 'drho-tens-pro', 'roll-r1',
+      'kalaya-6x-cream', 'kalaya-6x-massager', 'kalaya-foam', 'kalaya-gel', 'kalaya-spray',
+      'sole-active-medium', 'sole-performance-medium', 'sole-active-thin',
+      'c88-knee', 'c88-calf', 'c88-ankle', 'c88-elbow', 'c88-arm', 'c88-wrist', 'c88-knee-socks', 'c88-midcalf-socks',
+    ]);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.use), [
+      'Massage', 'Massage', 'Massage', 'Massage', 'Massage', 'Massage',
+      'Topical', 'Topical', 'Topical', 'Topical', 'Topical',
+      'Feet', 'Feet', 'Feet',
+      'Compression', 'Compression', 'Compression', 'Compression', 'Compression', 'Compression', 'Compression', 'Compression',
+    ]);
+    assert.deepStrictEqual(opened.json.products.filter((item) => item.highlight).map((item) => item.id), ['roll-r8', 'kalaya-6x-cream', 'sole-active-medium', 'c88-knee']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.price_label), [
+      'US$149.00', 'US$179.00', 'US$35.00', 'US$65.00', 'CA$249.95', 'US$139.00',
+      'CA$16.95', 'CA$17.95', 'CA$17.95', 'CA$17.95', 'CA$14.95',
+      'CA$65.00', 'CA$65.00', 'CA$65.00',
+      'CA$17.99', 'CA$19.99', 'CA$19.99', 'CA$19.99', 'CA$19.99', 'CA$19.99', 'CA$29.99', 'CA$29.99',
+    ]);
+    const fs = require('fs');
+    for (const item of opened.json.products) {
+      assert.ok(item.image.startsWith('/media/squash/wishlist/') && item.image.endsWith('.webp'), item.id);
+      assert.ok(item.alt && item.alt.length > 8, item.id);
+      assert.ok(Array.isArray(item.about) && item.about.length >= 2, item.id);
+      const photo = fs.readFileSync(item.image.replace(/^\//, ''));
+      assert.strictEqual(photo.slice(0, 4).toString(), 'RIFF', item.image);
+      assert.strictEqual(photo.slice(8, 12).toString(), 'WEBP', item.image);
+      const copy = (item.about.join(' ') + ' ' + item.detail).toLowerCase();
+      for (const banned of ['heal', 'treats', 'prevents', 'wholesale', 'in stock', '% off', 'guaranteed']) {
+        assert.ok(!copy.includes(banned), item.id + ' ' + banned);
+      }
+    }
     assert.ok(opened.json.offer.join(' ').includes('processing fees'));
     assert.ok(opened.json.store.href.includes('scalehealth.ca/calmjoints'));
     assert.ok(!/randywholesale|randy30|30%|35%|\$[0-9]+\s*off/i.test(JSON.stringify(opened.json)));
@@ -59,8 +88,17 @@ function run(body, env, fetchImpl) {
   assert.ok(staff.body.text.includes('Insider code: accepted'));
   assert.ok(staff.body.text.includes('drho-tens-pro'));
   assert.ok(staff.body.text.includes('TENS Pro Essentials'));
+  assert.ok(staff.body.text.includes('Record: not stored'));
   assert.ok(visitor.body.text.includes('wishlist'));
-  assert.ok(!/randywholesale|randy30/i.test(staff.body.text + visitor.body.text));
+  assert.ok(visitor.body.text.includes('https://www.scalehealth.ca/calmjoints?src=cjsite&place=home'));
+  assert.ok(visitor.body.text.includes('within a week, possibly sooner'));
+  assert.ok(visitor.body.text.includes('does not sign you in'));
+  assert.ok(visitor.body.text.includes('are not in a cart'));
+  assert.ok(visitor.body.text.includes('not a guarantee'));
+  assert.ok(!/already in your cart|loaded into your cart/i.test(visitor.body.text));
+  assert.strictEqual(sent.json.persisted, false);
+  assert.strictEqual(sent.json.persistence, 'unconfigured');
+  assert.ok(!/randywholesale|randy30/i.test(staff.body.text + visitor.body.text + JSON.stringify(sent.json)));
   assert.ok(calls.every((call) => call.url === 'https://api.resend.com/emails'));
 
   const quiet = await run({ intent: 'interest', code: 'RandyWholesale', email: 'a@b.co', product_ids: ['roll-r3'] }, {});
