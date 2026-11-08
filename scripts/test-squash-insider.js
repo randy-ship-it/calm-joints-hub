@@ -22,11 +22,12 @@ function run(body, env, fetchImpl) {
   for (const code of ['RANDYWHOLESALE', 'randywholesale', 'RandyWholesale', ' RANDYWHOLESALE ', 'Randy wholesale', 'RANDY  WHOLESALE', 'randy   wholesale']) {
     const opened = await run({ intent: 'open', code });
     assert.strictEqual(opened.status, 200, code);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.id), ['roll-r8', 'roll-r3', 'roll-stretchmat', 'drho-tens-pro']);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.use), ['Legs', 'Feet', 'Stretch', 'Recovery']);
-    assert.deepStrictEqual(opened.json.products.map((item) => item.price_label), ['US$149.00', 'US$35.00', 'US$65.00', 'CA$249.95']);
-    assert.ok(opened.json.offer.join(' ').includes('wholesale-rate access'));
-    assert.ok(!/randywholesale|randy30|30%|35%|\$[0-9]+\s*off|margin/i.test(JSON.stringify(opened.json)));
+    assert.deepStrictEqual(opened.json.products.map((item) => item.id), ['roll-r8', 'roll-r8plus', 'roll-r3', 'roll-stretchmat', 'drho-tens-pro', 'roll-r1']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.use), ['Legs', 'Legs', 'Feet', 'Stretch', 'Recovery', 'Recovery']);
+    assert.deepStrictEqual(opened.json.products.map((item) => item.price_label), ['US$149.00', 'US$179.00', 'US$35.00', 'US$65.00', 'CA$249.95', 'US$139.00']);
+    assert.ok(opened.json.offer.join(' ').includes('processing fees'));
+    assert.ok(opened.json.store.href.includes('scalehealth.ca/calmjoints'));
+    assert.ok(!/randywholesale|randy30|30%|35%|\$[0-9]+\s*off/i.test(JSON.stringify(opened.json)));
   }
   for (const code of ['Randy30', 'RANDY30', 'randy30', 'Randy 30', 'wholesale randy', 'randy-wholesale']) {
     const retired = await run({ intent: 'open', code });
@@ -50,15 +51,17 @@ function run(body, env, fetchImpl) {
   });
   assert.strictEqual(sent.status, 200);
   assert.strictEqual(sent.json.delivery, 'sent');
-  assert.strictEqual(calls.length, 1);
-  assert.strictEqual(calls[0].url, 'https://api.resend.com/emails');
-  assert.deepStrictEqual(calls[0].body.to, ['info@calmjoints.com']);
-  assert.strictEqual(calls[0].body.reply_to, 'player@example.com');
-  assert.ok(calls[0].body.text.includes('Insider code: accepted'));
-  assert.ok(!/randywholesale|randy30/i.test(calls[0].body.text));
-  assert.ok(calls[0].body.text.includes('TENS Pro Essentials'));
-  assert.ok(calls[0].body.text.includes('No order, payment'));
-  assert.ok(!/scalehealth\.ca\/api|scale-partner/i.test(calls[0].url));
+  assert.strictEqual(calls.length, 2);
+  const staff = calls.find((call) => call.body.to[0] === 'info@calmjoints.com');
+  const visitor = calls.find((call) => call.body.to[0] === 'player@example.com');
+  assert.ok(staff && visitor);
+  assert.strictEqual(staff.body.reply_to, 'player@example.com');
+  assert.ok(staff.body.text.includes('Insider code: accepted'));
+  assert.ok(staff.body.text.includes('drho-tens-pro'));
+  assert.ok(staff.body.text.includes('TENS Pro Essentials'));
+  assert.ok(visitor.body.text.includes('wishlist'));
+  assert.ok(!/randywholesale|randy30/i.test(staff.body.text + visitor.body.text));
+  assert.ok(calls.every((call) => call.url === 'https://api.resend.com/emails'));
 
   const quiet = await run({ intent: 'interest', code: 'RandyWholesale', email: 'a@b.co', product_ids: ['roll-r3'] }, {});
   assert.strictEqual(quiet.status, 503);

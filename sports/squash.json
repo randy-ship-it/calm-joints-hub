@@ -19,12 +19,6 @@
     "changes": "cropped"
   },
   "nav_current": "Squash",
-  "strip_label": "Built for the court",
-  "strip": [
-    { "title": "Ankles and knees", "line": "Hard lunges and fast turns." },
-    { "title": "Grip and wrist", "line": "The racquet hand works every rally." },
-    { "title": "Between matches", "line": "A short reset before you go again." }
-  ],
   "max_cards": 8,
   "cards": ["drho-tens-pro", "roll-r8", "roll-r3", "roll-stretchmat"],
   "hints": {

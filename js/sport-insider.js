@@ -141,13 +141,24 @@
     var button = document.createElement('button');
     button.className = 'btn btn-book';
     button.type = 'submit';
-    button.textContent = 'Send my interest';
+    button.textContent = 'Send my wishlist';
     var status = line('p', '', 'insider-status');
     status.setAttribute('role', 'status');
     form.appendChild(emailLabel);
     form.appendChild(email);
     form.appendChild(button);
     form.appendChild(status);
+    if (data.store && /^https:\/\//.test(data.store.href || '')) {
+      var storeNote = line('p', data.store.note || '', 'insider-store-note');
+      var storeLink = document.createElement('a');
+      storeLink.href = data.store.href;
+      storeLink.target = '_blank';
+      storeLink.rel = 'noopener noreferrer';
+      storeLink.textContent = 'Industry Insider’s Store';
+      storeNote.appendChild(document.createTextNode(' '));
+      storeNote.appendChild(storeLink);
+      form.appendChild(storeNote);
+    }
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       var ids = Array.prototype.map.call(form.querySelectorAll('input[name="product"]:checked'), function (box) {
@@ -172,18 +183,18 @@
       }).then(function (res) {
         button.disabled = false;
         if (res.data && res.data.delivery === 'sent') {
-          say(status, 'Sent. A reply will come to this email about the products you selected. This was not an order.');
+          say(status, 'Sent. Check your email for the wishlist. This was not an order.');
           button.disabled = true;
           return;
         }
         if (res.data && res.data.delivery === 'unconfigured') {
-          say(status, 'This site cannot deliver that note yet. Nothing was sent.');
+          say(status, 'This site cannot deliver that wishlist yet. Nothing was sent.');
           return;
         }
-        say(status, 'The note did not go through. Nothing was sent.');
+        say(status, 'The wishlist did not go through. Nothing was sent.');
       }).catch(function () {
         button.disabled = false;
-        say(status, 'The note did not go through. Nothing was sent.');
+        say(status, 'The wishlist did not go through. Nothing was sent.');
       });
     });
     dialog.appendChild(form);
@@ -195,6 +206,22 @@
     document.body.classList.add('insider-open');
     document.addEventListener('keydown', onKey);
     dialog.focus();
+  }
+
+  var shareBtn = document.getElementById('insider-share');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function () {
+      var url = 'https://calmjoints.org/squash';
+      var status = document.getElementById('insider-share-status');
+      function done(msg) { if (status) status.textContent = msg; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () {
+          done('Link copied. It does not include a code.');
+        }).catch(function () { done(url); });
+        return;
+      }
+      done(url);
+    });
   }
 
   gate.addEventListener('submit', function (event) {

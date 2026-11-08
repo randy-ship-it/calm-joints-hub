@@ -76,7 +76,10 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 .hints h2 { margin: 0; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
 .hints-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
 .hints-list p { margin: 0; color: #E4E8F5; font-size: .98rem; }
-.hints-list a { color: #fff; font-weight: 700; text-underline-offset: .14em; }
+.hints-list a, .hints-list .hint-link {
+  display: inline-block; margin-top: .45rem; color: #fff; font-weight: 700;
+  text-underline-offset: .14em; line-height: 1.35; max-width: 100%;
+}
 .hints-ctl { display: none; gap: .4rem; }
 .hints.is-rotating .hints-ctl { display: flex; }
 .hints.is-rotating .hints-list { display: block; }
@@ -150,6 +153,9 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 .sticky { display: none; }
 @media (max-width: 760px) {
   .court { display: none; }
+  .hints .wrap { padding-left: 1.15rem; padding-right: 1.15rem; }
+  .hints-bar { padding-top: 1rem; padding-bottom: 1.15rem; }
+  .hints-list p, .hints-list .hint-link { overflow-wrap: break-word; }
   .hero { padding: .85rem 0 .65rem; }
   .sub { margin-top: .5rem; }
   .hero-actions { margin-top: .75rem; }
