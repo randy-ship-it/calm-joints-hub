@@ -227,7 +227,40 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
     background: linear-gradient(90deg, rgba(10,29,86,.55) 0%, rgba(10,29,86,0) 10%);
   }
 }
+.therapists { background: var(--paper); padding: .85rem 0 1rem; overflow: hidden; }
+.th-head { display: flex; align-items: flex-end; justify-content: space-between; gap: .75rem; }
+.therapists h2 { font-size: 1.05rem; }
+.th-note { margin: .2rem 0 0; color: var(--muted); font-size: .88rem; max-width: 36rem; }
+.th-ctl { display: flex; gap: .4rem; flex: none; }
+.th-ctl button {
+  width: 40px; height: 40px; border-radius: 999px; border: 1.5px solid rgba(10,29,86,.28);
+  background: #fff; color: var(--navy); font: 700 1rem var(--sans); cursor: pointer;
+}
+.th-ctl button:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+.th-rail {
+  display: flex; gap: .65rem; margin: .7rem 0 0; padding: .15rem 0 .35rem;
+  list-style: none; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+}
+.th-card {
+  flex: 0 0 min(220px, 78%); scroll-snap-align: start;
+  display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: .15rem .7rem; align-items: center;
+  background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: .7rem .75rem .75rem;
+}
+.th-card img {
+  width: 64px; height: 64px; grid-row: span 2; border-radius: 50%;
+  object-fit: cover; object-position: center 18%;
+}
+.th-card h3 { font-size: .98rem; }
+.th-card .cred { margin: 0; color: var(--muted); font-size: .82rem; }
+.th-card .btn { grid-column: 1 / -1; margin-top: .45rem; min-height: 44px; padding: .4rem .8rem; font-size: .9rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .th-rail.is-turn-next { transform: perspective(900px) rotateY(-6deg); transition: transform .32s ease; }
+  .th-rail.is-turn-prev { transform: perspective(900px) rotateY(6deg); transition: transform .32s ease; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn { transition: none; }
+  .th-rail { scroll-behavior: auto; }
+  .th-rail.is-turn-next, .th-rail.is-turn-prev { transform: none; transition: none; }
 }

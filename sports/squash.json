@@ -66,6 +66,62 @@
     "nav_label": "Insider’s Store",
     "show_coupon_if_verified": true
   },
+  "therapists": {
+    "heading": "Physiotherapists you can book",
+    "note": "Video assessments. This row is not a live schedule.",
+    "people": [
+      {
+        "name": "Gabriela R.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/team/gabriela-r.webp",
+        "width": 640,
+        "height": 800,
+        "alt": "Gabriela R., physiotherapist",
+        "staff_id": "95"
+      },
+      {
+        "name": "Aleksandra N.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/team/aleksandra-n.webp",
+        "width": 640,
+        "height": 800,
+        "alt": "Aleksandra N., physiotherapist",
+        "staff_id": "94"
+      },
+      {
+        "name": "Ariel C.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/ariel-c.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Ariel C., physiotherapist",
+        "staff_id": "97"
+      },
+      {
+        "name": "Manpreet N.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/manpreet-n.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Manpreet N., physiotherapist",
+        "staff_id": "99"
+      },
+      {
+        "name": "Olakunle O.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/olakunle-o.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Olakunle O., physiotherapist",
+        "staff_id": "96"
+      }
+    ]
+  },
   "physio": {
     "heading": "Book a video assessment.",
     "body": "Meet a registered physiotherapist on video. They look at how you move and talk through next steps with you.",

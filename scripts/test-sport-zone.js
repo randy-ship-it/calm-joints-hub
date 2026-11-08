@@ -67,7 +67,7 @@ for (const match of homeLinks) {
   assert.strictEqual(match[1].replace(/&amp;/g, '&'), storeUrl);
 }
 assert.ok(html.includes(`href="${navUrl.replace(/&/g, '&amp;')}" data-store-place="nav">${navLabel}</a>`));
-assert.equal((html.match(/data-book data-book-direct/g) || []).length, 4);
+assert.equal((html.match(/data-book data-book-direct/g) || []).length, 4 + sport.therapists.people.length);
 assert.ok(html.includes('id="zone-hero-book"'));
 assert.ok(html.includes('id="zone-physio-book"'));
 assert.ok(html.includes('id="zone-sticky-book"'));
@@ -87,6 +87,34 @@ assert.ok(html.includes('data-hint="pause"'));
 assert.ok(html.includes('/js/sport-hints.js?v=1'));
 assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('prefers-reduced-motion'));
 assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('Pause'));
+assert.ok(html.includes('id="therapists-title"'));
+assert.ok(html.includes('Physiotherapists you can book'));
+assert.ok(html.includes('This row is not a live schedule.'));
+assert.ok(html.includes('aria-roledescription="carousel"'));
+assert.ok(html.includes('data-th="prev"') && html.includes('data-th="next"'));
+assert.ok(html.includes('/js/sport-therapists.js?v=1'));
+const railJs = fs.readFileSync('js/sport-therapists.js', 'utf8');
+assert.ok(railJs.includes('prefers-reduced-motion'));
+assert.ok(railJs.includes('#/staff_member/'));
+assert.ok(railJs.includes('/treatment/'));
+assert.ok(railJs.includes('ArrowLeft') && railJs.includes('ArrowRight'));
+assert.deepStrictEqual(sport.therapists.people.map((p) => p.staff_id), ['95', '94', '97', '99', '96']);
+assert.deepStrictEqual(sport.therapists.people.map((p) => p.name), ['Gabriela R.', 'Aleksandra N.', 'Ariel C.', 'Manpreet N.', 'Olakunle O.']);
+for (const person of sport.therapists.people) {
+  assert.strictEqual(person.credential, 'Physiotherapist');
+  assert.strictEqual(person.region, 'Ontario');
+  assert.ok(html.includes('data-staff="' + person.staff_id + '"'));
+  assert.ok(html.includes('Book a video assessment with ' + person.name));
+  const photo = fs.readFileSync(person.photo.replace(/^\//, ''));
+  assert.strictEqual(photo.slice(0, 4).toString(), 'RIFF', person.photo);
+  assert.strictEqual(photo.slice(8, 12).toString(), 'WEBP', person.photo);
+  assert.ok(photo.length < 80000, person.photo);
+}
+for (const bannedPerson of ['Rukavina', 'Percy', 'Golanski', 'Tailor', 'Grewal', 'Taylor']) {
+  assert.ok(!html.includes(bannedPerson), bannedPerson);
+  assert.ok(!JSON.stringify(sport.therapists).includes(bannedPerson), bannedPerson);
+}
+assert.ok(!/squash specialist|live opening|available today|next opening/i.test(html));
 for (const bannedCopy of ['heals', 'prevents injury', 'improves performance', 'treats', 'medically necessary', 'SCALE15']) {
   assert.ok(!html.toLowerCase().includes(bannedCopy), bannedCopy);
 }

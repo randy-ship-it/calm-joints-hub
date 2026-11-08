@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
-<link rel="stylesheet" href="/css/sport-zone.css?v=5">
+<link rel="stylesheet" href="/css/sport-zone.css?v=6">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -140,6 +140,52 @@
       </div>
     </div>
   </section>
+  <section class="therapists" aria-roledescription="carousel" aria-labelledby="therapists-title">
+    <div class="wrap">
+      <div class="th-head">
+        <div>
+          <h2 id="therapists-title">Physiotherapists you can book</h2>
+          <p class="th-note">Video assessments. This row is not a live schedule.</p>
+        </div>
+        <div class="th-ctl">
+          <button type="button" data-th="prev" aria-label="Previous physiotherapist">←</button>
+          <button type="button" data-th="next" aria-label="Next physiotherapist">→</button>
+        </div>
+      </div>
+      <ul class="th-rail" tabindex="0" aria-label="Physiotherapists. Swipe sideways.">
+        <li class="th-card">
+          <img src="/media/team/gabriela-r.webp" alt="Gabriela R., physiotherapist" width="640" height="800" loading="lazy" decoding="async">
+          <h3>Gabriela R.</h3>
+          <p class="cred">Physiotherapist · Ontario</p>
+          <a class="btn btn-book th-book" href="#" data-book data-book-direct data-staff="95" aria-label="Book a video assessment with Gabriela R.">Book</a>
+        </li>
+        <li class="th-card">
+          <img src="/media/team/aleksandra-n.webp" alt="Aleksandra N., physiotherapist" width="640" height="800" loading="lazy" decoding="async">
+          <h3>Aleksandra N.</h3>
+          <p class="cred">Physiotherapist · Ontario</p>
+          <a class="btn btn-book th-book" href="#" data-book data-book-direct data-staff="94" aria-label="Book a video assessment with Aleksandra N.">Book</a>
+        </li>
+        <li class="th-card">
+          <img src="/media/squash/therapists/ariel-c.webp" alt="Ariel C., physiotherapist" width="480" height="624" loading="lazy" decoding="async">
+          <h3>Ariel C.</h3>
+          <p class="cred">Physiotherapist · Ontario</p>
+          <a class="btn btn-book th-book" href="#" data-book data-book-direct data-staff="97" aria-label="Book a video assessment with Ariel C.">Book</a>
+        </li>
+        <li class="th-card">
+          <img src="/media/squash/therapists/manpreet-n.webp" alt="Manpreet N., physiotherapist" width="480" height="624" loading="lazy" decoding="async">
+          <h3>Manpreet N.</h3>
+          <p class="cred">Physiotherapist · Ontario</p>
+          <a class="btn btn-book th-book" href="#" data-book data-book-direct data-staff="99" aria-label="Book a video assessment with Manpreet N.">Book</a>
+        </li>
+        <li class="th-card">
+          <img src="/media/squash/therapists/olakunle-o.webp" alt="Olakunle O., physiotherapist" width="480" height="624" loading="lazy" decoding="async">
+          <h3>Olakunle O.</h3>
+          <p class="cred">Physiotherapist · Ontario</p>
+          <a class="btn btn-book th-book" href="#" data-book data-book-direct data-staff="96" aria-label="Book a video assessment with Olakunle O.">Book</a>
+        </li>
+      </ul>
+    </div>
+  </section>
   <section class="physio" id="assessment" aria-labelledby="physio-title">
     <div class="wrap physio-card">
       <div>
@@ -182,6 +228,7 @@
   <a class="btn btn-store" href="https://www.scalehealth.ca/calmjoints?src=cjsite&amp;place=home" data-store-place="home">Shop the Insider’s Store <span aria-hidden="true">→</span></a>
 </div>
 <script src="/js/sport-hints.js?v=1" defer></script>
+<script src="/js/sport-therapists.js?v=1" defer></script>
 <script src="/config.js"></script>
 <script src="/js/book.js?v=8"></script>
 <script src="/js/consent.js"></script>
