@@ -1,0 +1,39 @@
+{
+  "updated": "2026-11-08",
+  "note": "Shared recovery catalog for sport landings. Only status=listed products with a real image may render. Prices and per-product links are intentionally absent: the sport config store URL is the handoff.",
+  "skus": [
+    {
+      "sku_id": "roll-r8",
+      "brand": "ROLL Recovery",
+      "name": "R8™ Deep Tissue Massage Tool",
+      "categories": ["legs"],
+      "image_url": "https://www.scalehealth.ca/images/roll-recovery/r8-cutout.png",
+      "image_alt": "ROLL Recovery R8 deep tissue massage tool",
+      "image_checked": "2026-11-08",
+      "status": "listed",
+      "dest_level": "store"
+    },
+    {
+      "sku_id": "roll-r3",
+      "brand": "ROLL Recovery",
+      "name": "R3™ Orthopedic Foot Roller",
+      "categories": ["feet"],
+      "image_url": "https://www.scalehealth.ca/images/roll-recovery/r3-cutout.png",
+      "image_alt": "ROLL Recovery R3 orthopedic foot roller",
+      "image_checked": "2026-11-08",
+      "status": "listed",
+      "dest_level": "store"
+    },
+    {
+      "sku_id": "roll-stretchmat",
+      "brand": "ROLL Recovery",
+      "name": "StretchMat™",
+      "categories": ["mobility"],
+      "image_url": "https://www.scalehealth.ca/images/roll-recovery/stretchmat-cutout.png",
+      "image_alt": "ROLL Recovery StretchMat",
+      "image_checked": "2026-11-08",
+      "status": "listed",
+      "dest_level": "store"
+    }
+  ]
+}
