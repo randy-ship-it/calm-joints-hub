@@ -141,5 +141,13 @@
     { "title": "Meet on video", "line": "You see a registered physiotherapist from home." },
     { "title": "Talk it through", "line": "They look at how you move and discuss next steps with you." }
   ],
-  "disclaimer": "Not emergency care. Call 911 in an emergency. Care is provided by registered physiotherapists. Products open in the Industry Insider’s Store. Calm Joints does not take payment on this page."
+  "disclaimer": "Not emergency care. Call 911 in an emergency. Care is provided by registered physiotherapists. Products open in the Industry Insider’s Store. Calm Joints does not take payment on this page.",
+  "guides_heading": "Squash injury guides",
+  "guides_note": "Short general guides. They are not a diagnosis or a plan for your injury.",
+  "guides": [
+    { "href": "/blog/squash-ankle-sprain", "title": "Rolled ankle", "line": "First aid, red flags, and why a return plan is individual." },
+    { "href": "/blog/squash-knee-pain-lunging", "title": "Knee pain after lunges", "line": "Front-of-knee overload, and the signs that need urgent care." },
+    { "href": "/blog/squash-shoulder-pain", "title": "Shoulder pain", "line": "What the NHS suggests while a shoulder settles, and when to get help." },
+    { "href": "/blog/squash-lower-back-pain", "title": "Lower back pain", "line": "Staying active, and the symptoms that need emergency care." }
+  ]
 }
