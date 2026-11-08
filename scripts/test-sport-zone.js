@@ -94,6 +94,18 @@ assert.ok(!html.includes('Ankles and knees'));
 assert.ok(html.includes('class="hint-link"'));
 assert.ok(html.indexOf('id="kit"') < html.indexOf('id="insider"'));
 assert.ok(html.indexOf('id="insider"') < html.indexOf('id="assessment"'));
+assert.ok(html.indexOf('id="assessment"') < html.indexOf('id="guides"'));
+assert.ok(html.indexOf('id="steps-title"') < html.indexOf('id="guides-title"'));
+assert.ok(html.includes('Squash injury guides'));
+assert.ok(html.includes('They are not a diagnosis'));
+for (const guide of ['squash-ankle-sprain', 'squash-knee-pain-lunging', 'squash-shoulder-pain', 'squash-lower-back-pain']) {
+  assert.ok(html.includes('/blog/' + guide));
+  const article = fs.readFileSync('blog/' + guide + '.html', 'utf8');
+  assert.ok(article.includes('data-book'));
+  assert.ok(article.includes('general education'));
+  assert.ok(!/physio team|3 out of 10|3 sets of|30 seconds|civic/i.test(article), guide);
+  assert.ok(/nhs\.uk|nice\.org\.uk/.test(article), guide);
+}
 assert.ok(html.includes('Product Insider Access'));
 assert.ok(html.includes('expected in the next few weeks'));
 assert.ok(html.includes('not a purchase'));
