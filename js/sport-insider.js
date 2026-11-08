@@ -6,6 +6,7 @@
   var accepted = '';
   var overlay = null;
   var returnFocus = null;
+  var closeDetail = null;
 
   function say(node, text) {
     if (node) node.textContent = text || '';
@@ -37,6 +38,7 @@
   function closeModal() {
     if (!overlay) return;
     document.removeEventListener('keydown', onKey);
+    closeDetail = null;
     overlay.remove();
     overlay = null;
     document.body.classList.remove('insider-open');
@@ -47,7 +49,8 @@
     if (!overlay) return;
     if (event.key === 'Escape') {
       event.preventDefault();
-      closeModal();
+      if (closeDetail) closeDetail();
+      else closeModal();
       return;
     }
     if (event.key !== 'Tab') return;
@@ -96,38 +99,145 @@
     var form = document.createElement('form');
     form.className = 'insider-pick';
     form.noValidate = true;
-    var groups = {};
-    var order = [];
-    (data.products || []).forEach(function (item) {
-      var use = item.use || 'Recovery';
-      if (!groups[use]) {
-        groups[use] = [];
-        order.push(use);
-      }
-      groups[use].push(item);
-    });
-    order.forEach(function (use) {
-      var group = document.createElement('fieldset');
-      group.className = 'insider-group';
-      var legend = document.createElement('legend');
-      legend.textContent = use;
-      group.appendChild(legend);
-      groups[use].forEach(function (item) {
-        var label = document.createElement('label');
-        var box = document.createElement('input');
-        box.type = 'checkbox';
-        box.name = 'product';
-        box.value = item.id;
-        label.appendChild(box);
-        var text = document.createElement('span');
-        text.appendChild(line('strong', item.name));
-        text.appendChild(line('small', item.detail));
-        text.appendChild(line('small', item.price_kind + ' ' + item.price_label + '. ' + item.source));
-        label.appendChild(text);
-        group.appendChild(label);
+    var filters = [
+      { id: 'highlights', label: 'Highlights' },
+      { id: 'Massage', label: 'Massage' },
+      { id: 'Topical', label: 'Topicals' },
+      { id: 'Feet', label: 'Foot support' },
+      { id: 'Compression', label: 'Compression' },
+    ];
+    var filterBar = document.createElement('div');
+    filterBar.className = 'insider-filters';
+    filterBar.setAttribute('role', 'tablist');
+    filterBar.setAttribute('aria-label', 'Product groups');
+    var tally = line('p', '', 'insider-tally');
+    tally.setAttribute('aria-live', 'polite');
+    var list = document.createElement('div');
+    list.className = 'insider-catalog';
+    var cards = [];
+    function applyFilter(id) {
+      cards.forEach(function (card) {
+        var show = id === 'highlights' ? card.dataset.highlight === 'yes' : card.dataset.use === id;
+        card.hidden = !show;
       });
-      form.appendChild(group);
+      Array.prototype.forEach.call(filterBar.querySelectorAll('button'), function (btn) {
+        var on = btn.dataset.filter === id;
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.tabIndex = on ? 0 : -1;
+      });
+    }
+    function recount() {
+      var n = form.querySelectorAll('input[name="product"]:checked').length;
+      tally.textContent = n ? (n === 1 ? '1 selected' : n + ' selected') : 'None selected';
+    }
+    filters.forEach(function (filter, index) {
+      var tab = document.createElement('button');
+      tab.type = 'button';
+      tab.dataset.filter = filter.id;
+      tab.setAttribute('role', 'tab');
+      tab.textContent = filter.label;
+      tab.addEventListener('click', function () { applyFilter(filter.id); });
+      if (index === 0) tab.setAttribute('aria-selected', 'true');
+      filterBar.appendChild(tab);
     });
+    var detail = document.createElement('div');
+    detail.className = 'insider-detail';
+    detail.hidden = true;
+    var opener = null;
+    var listScroll = 0;
+    function hideDetail() {
+      detail.hidden = true;
+      detail.replaceChildren();
+      form.hidden = false;
+      dialog.setAttribute('aria-labelledby', 'insider-modal-title');
+      dialog.scrollTop = listScroll;
+      closeDetail = null;
+      if (opener) opener.focus();
+    }
+    function openDetail(item, button) {
+      opener = button;
+      listScroll = dialog.scrollTop;
+      detail.replaceChildren();
+      var back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'insider-back';
+      back.textContent = 'Back to the list';
+      back.addEventListener('click', hideDetail);
+      var photo = document.createElement('img');
+      photo.src = item.image;
+      photo.alt = item.alt || item.name;
+      photo.width = 800;
+      photo.height = 800;
+      var title = document.createElement('h3');
+      title.id = 'insider-detail-title';
+      title.textContent = item.name;
+      var facts = document.createElement('ul');
+      (item.about || []).forEach(function (fact) {
+        facts.appendChild(line('li', fact));
+      });
+      var note = line('p', item.detail || '');
+      var price = line('p', item.price_kind + ' ' + item.price_label + '. ' + item.source + '.', 'insider-price');
+      detail.appendChild(back);
+      detail.appendChild(photo);
+      detail.appendChild(title);
+      detail.appendChild(facts);
+      detail.appendChild(note);
+      detail.appendChild(price);
+      if (/^https:\/\//.test(item.href || '')) {
+        var maker = document.createElement('a');
+        maker.href = item.href;
+        maker.target = '_blank';
+        maker.rel = 'noopener noreferrer';
+        maker.textContent = 'Maker page';
+        detail.appendChild(maker);
+      }
+      form.hidden = true;
+      detail.hidden = false;
+      dialog.setAttribute('aria-labelledby', 'insider-detail-title');
+      dialog.scrollTop = 0;
+      closeDetail = hideDetail;
+      back.focus();
+    }
+    (data.products || []).forEach(function (item) {
+      var card = document.createElement('div');
+      card.className = 'insider-card';
+      card.dataset.use = item.use || '';
+      card.dataset.highlight = item.highlight ? 'yes' : 'no';
+      var label = document.createElement('label');
+      label.className = 'insider-check';
+      var box = document.createElement('input');
+      box.type = 'checkbox';
+      box.name = 'product';
+      box.value = item.id;
+      box.setAttribute('aria-label', 'Add ' + item.name + ' to the wishlist');
+      box.addEventListener('change', recount);
+      label.appendChild(box);
+      var info = document.createElement('button');
+      info.type = 'button';
+      info.className = 'insider-details';
+      info.setAttribute('aria-label', 'Details for ' + item.name);
+      var thumb = document.createElement('img');
+      thumb.src = item.image;
+      thumb.alt = '';
+      thumb.width = 72;
+      thumb.height = 72;
+      var text = document.createElement('span');
+      if (item.brand) text.appendChild(line('small', item.brand, 'insider-brand'));
+      text.appendChild(line('strong', item.name));
+      text.appendChild(line('small', item.price_kind + ' ' + item.price_label));
+      info.appendChild(thumb);
+      info.appendChild(text);
+      info.addEventListener('click', function () { openDetail(item, info); });
+      card.appendChild(label);
+      card.appendChild(info);
+      list.appendChild(card);
+      cards.push(card);
+    });
+    form.appendChild(filterBar);
+    form.appendChild(tally);
+    form.appendChild(list);
+    applyFilter('highlights');
+    recount();
 
     var emailLabel = line('label', 'Email for a reply');
     emailLabel.htmlFor = 'insider-email';
@@ -198,6 +308,7 @@
       });
     });
     dialog.appendChild(form);
+    dialog.appendChild(detail);
     overlay.appendChild(dialog);
     overlay.addEventListener('click', function (event) {
       if (event.target === overlay) closeModal();
