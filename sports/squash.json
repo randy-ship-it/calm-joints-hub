@@ -1,0 +1,83 @@
+{
+  "route": "/squash",
+  "title": "Squash | Calm Joints",
+  "description": "A short squash kit for between matches, and a video assessment with a registered physiotherapist.",
+  "eyebrow": "Squash",
+  "h1": "Stay on court longer.",
+  "sub": "Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "micro": "Virtual visits with registered physiotherapists.",
+  "hero_image": {
+    "src": "/media/squash/grand-central-toc-2019.jpg",
+    "width": 580,
+    "height": 294,
+    "alt": "Two players mid-rally on a glass squash court inside Grand Central Station.",
+    "author": "Huerndy",
+    "source_label": "Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Squash_Tournament_of_Champions_2019,_Grand_Central_Station,_NYC.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "changes": "cropped"
+  },
+  "nav_current": "Squash",
+  "strip_label": "Built for the court",
+  "strip": [
+    { "title": "Ankles and knees", "line": "Hard lunges and fast turns." },
+    { "title": "Grip and wrist", "line": "The racquet hand works every rally." },
+    { "title": "Between matches", "line": "A short reset before you go again." }
+  ],
+  "max_cards": 8,
+  "cards": ["drho-tens-pro", "roll-r8", "roll-r3", "roll-stretchmat"],
+  "hints": {
+    "label": "Between games",
+    "items": [
+      { "text": "Take a few quiet minutes between games before you step back on." },
+      { "text": "Set the kit out before you play. Open the", "href": "store", "link": "Industry Insider’s Store" },
+      { "text": "If the same spot keeps nagging, talk it through.", "href": "#assessment", "link": "Book a video assessment" },
+      { "text": "One recovery option between matches. Follow the maker’s directions:", "href": "sku:drho-tens-pro", "link": "TENS Pro Essentials" }
+    ]
+  },
+  "card_copy": {
+    "drho-tens-pro": {
+      "tag": "Recovery",
+      "line": "Pain Therapy System Pro. One option between matches, not something every player needs. Follow the maker’s directions.",
+      "cta": "See TENS Pro Essentials"
+    },
+    "roll-r8": {
+      "tag": "Legs",
+      "line": "For quads, calves and hamstrings between matches."
+    },
+    "roll-r3": {
+      "tag": "Feet",
+      "line": "A compact foot roller for after court time."
+    },
+    "roll-stretchmat": {
+      "tag": "Stretch",
+      "line": "A marked mat for a post-match stretch."
+    }
+  },
+  "kit_title": "A short kit for between matches.",
+  "kit_note": "Prices and availability are on the linked pages. This page does not take payment.",
+  "widget": {
+    "public_label": "Industry Insider’s Store",
+    "panel_copy": "Picked for squash. Opens in the Industry Insider’s Store.",
+    "store_url": "https://www.scalehealth.ca/calmjoints?src=cjsite&place=home",
+    "store_cta": "Shop the Insider’s Store",
+    "nav_url": "https://www.scalehealth.ca/calmjoints?src=cjsite&place=nav",
+    "nav_label": "Insider’s Store",
+    "show_coupon_if_verified": true
+  },
+  "physio": {
+    "heading": "Book a video assessment.",
+    "body": "Meet a registered physiotherapist on video. They look at how you move and talk through next steps with you.",
+    "button": "Book a Calm Joints assessment",
+    "nav_button": "Book an assessment",
+    "note": "Virtual visits with registered physiotherapists."
+  },
+  "steps_heading": "How a video assessment works",
+  "steps": [
+    { "title": "Book a time", "line": "Pick a video visit that fits around your matches." },
+    { "title": "Meet on video", "line": "You see a registered physiotherapist from home." },
+    { "title": "Talk it through", "line": "They look at how you move and discuss next steps with you." }
+  ],
+  "disclaimer": "Not emergency care. Call 911 in an emergency. Care is provided by registered physiotherapists. Products open in the Industry Insider’s Store. Calm Joints does not take payment on this page."
+}
