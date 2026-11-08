@@ -60,7 +60,7 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 
 .hero { background: var(--navy); color: var(--white); padding: clamp(1.25rem, 4vw, 2.4rem) 0 clamp(1.35rem, 4vw, 2.5rem); }
 .hero-grid { display: grid; gap: .25rem; }
-.eyebrow, .widget-label {
+.eyebrow, .widget-label, .hints h2 {
   margin: 0 0 .45rem; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green);
 }
 .hero h1 { font-size: clamp(2rem, 8vw, 3.35rem); max-width: 12ch; color: var(--white); }
@@ -71,6 +71,23 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 .court { width: min(148px, 42vw); height: auto; margin: .85rem auto 0; justify-self: center; }
 .cjg-launch, .cjg-nudge { display: none !important; }
 
+.hints { background: var(--navy); color: #fff; }
+.hints-bar { display: grid; gap: .45rem; padding: .8rem 0 .9rem; }
+.hints h2 { margin: 0; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
+.hints-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.hints-list p { margin: 0; color: #E4E8F5; font-size: .98rem; }
+.hints-list a { color: #fff; font-weight: 700; text-underline-offset: .14em; }
+.hints-ctl { display: none; gap: .4rem; }
+.hints.is-rotating .hints-ctl { display: flex; }
+.hints.is-rotating .hints-list { display: block; }
+.hints.is-rotating .hints-list li { display: none; }
+.hints.is-rotating .hints-list li.is-on { display: block; }
+.hints-ctl button {
+  min-height: 44px; min-width: 44px; padding: 0 .8rem; border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,.45); background: transparent; color: #fff;
+  font: 700 .82rem var(--sans); cursor: pointer;
+}
+.hints-ctl button:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
 .strip { background: var(--paper); border-bottom: 1px solid var(--line); padding: .95rem 0; }
 .strip h2 { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .65rem; }
 .strip ul, .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
@@ -161,7 +178,7 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
   .court { width: 100%; max-width: 220px; margin: 0 0 0 auto; }
   .widget { grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: 1.3rem 1.4rem; }
   .widget .btn { justify-self: end; }
-  .cards { grid-template-columns: repeat(3, 1fr); gap: .8rem; padding: 1rem; }
+  .cards { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; padding: 1rem; }
   .card { grid-template-columns: 1fr; align-items: stretch; padding: .7rem; }
   .card-photo img { height: 148px; }
   .steps { grid-template-columns: repeat(3, 1fr); }

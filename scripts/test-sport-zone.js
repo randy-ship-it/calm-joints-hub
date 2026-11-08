@@ -40,16 +40,19 @@ assert.strictEqual(sport.widget.store_cta, storeLabel);
 assert.strictEqual(sport.widget.nav_url, navUrl);
 assert.strictEqual(sport.widget.nav_label, navLabel);
 assert.strictEqual(sport.route, '/squash');
-assert.deepStrictEqual(sport.cards, ['roll-r8', 'roll-r3', 'roll-stretchmat']);
+assert.deepStrictEqual(sport.cards, ['drho-tens-pro', 'roll-r8', 'roll-r3', 'roll-stretchmat']);
 assert.ok(!sport.widget.coupon, 'no coupon until one is verified');
 
 const ids = catalog.skus.map((sku) => sku.sku_id);
-assert.deepStrictEqual(ids, sport.cards);
+assert.deepStrictEqual(ids.slice().sort(), sport.cards.slice().sort());
+const TENS = 'https://drhonow.com/products/pain-therapy-system-pro-basic-package?_pos=7&_sid=51cff1b60&_ss=r&utm_source=scalehealth&utm_medium=member_portal&utm_campaign=dr_ho_featured&utm_content=pain-therapy-system-pro';
 for (const sku of catalog.skus) {
   assert.strictEqual(sku.status, 'listed');
-  assert.ok(!('price_display' in sku) && !('price' in sku) && !('public_price' in sku));
+  assert.ok(!('price_display' in sku) && !('price' in sku) && !('public_price' in sku) && !('member_price' in sku));
   assert.ok(!JSON.stringify(sku).includes('$'));
-  assert.ok(!sku.supplier_url && !sku.dest_url);
+  assert.ok(!sku.supplier_url);
+  if (sku.sku_id === 'drho-tens-pro') assert.strictEqual(sku.dest_url, TENS);
+  else assert.ok(!sku.dest_url);
 }
 
 const { pages } = renderAll();
@@ -76,6 +79,17 @@ assert.ok(html.includes('https://www.scalehealth.ca/images/roll-recovery/r3-cuto
 assert.ok(html.includes('https://www.scalehealth.ca/images/roll-recovery/stretchmat-cutout.png'));
 assert.ok(!html.includes('r8plus-cutout'));
 assert.ok(!html.includes('/portal/marketplace'));
+assert.ok(html.includes('data-product="drho-tens-pro" href="' + TENS.replace(/&/g, '&amp;') + '"') || html.includes('href="' + TENS.replace(/&/g, '&amp;') + '" data-product="drho-tens-pro"'));
+assert.equal((html.match(/data-product="drho-tens-pro"/g) || []).length, 2, 'card and hint share the verified TENS link');
+assert.ok(html.includes('Pain Therapy System Pro'));
+assert.ok(html.includes('Follow the maker'));
+assert.ok(html.includes('data-hint="pause"'));
+assert.ok(html.includes('/js/sport-hints.js?v=1'));
+assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('prefers-reduced-motion'));
+assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('Pause'));
+for (const bannedCopy of ['heals', 'prevents injury', 'improves performance', 'treats', 'medically necessary', 'SCALE15']) {
+  assert.ok(!html.toLowerCase().includes(bannedCopy), bannedCopy);
+}
 assert.ok(html.includes('class="hero has-photo"'));
 assert.ok(html.includes('src="/media/squash/grand-central-toc-2019.jpg"'));
 assert.ok(html.includes('Photo: <a href="https://commons.wikimedia.org/wiki/File:Squash_Tournament_of_Champions_2019,_Grand_Central_Station,_NYC.jpg">Huerndy</a>'));

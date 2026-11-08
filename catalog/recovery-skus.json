@@ -1,6 +1,6 @@
 {
   "updated": "2026-11-08",
-  "note": "Shared recovery catalog for sport landings. Only status=listed products with a real image may render. Prices and per-product links are intentionally absent: the sport config store URL is the handoff.",
+  "note": "Shared recovery catalog for sport landings. Only status=listed products with a real image may render. Prices are never stored here. A dest_url is set only when a live public page already links that exact product.",
   "skus": [
     {
       "sku_id": "roll-r8",
@@ -34,6 +34,21 @@
       "image_checked": "2026-11-08",
       "status": "listed",
       "dest_level": "store"
+    },
+    {
+      "sku_id": "drho-tens-pro",
+      "brand": "DR-HO’S",
+      "name": "TENS Pro Essentials",
+      "model": "Pain Therapy System Pro",
+      "categories": ["electrotherapy"],
+      "image_url": "https://www.scalehealth.ca/images/products/bg-removed-dr-hos-pain-therapy-system-pro-black-1000x1000_7_3.png",
+      "image_alt": "DR-HO’S TENS Pro Essentials, the Pain Therapy System Pro",
+      "image_width": 600,
+      "image_height": 600,
+      "image_checked": "2026-11-08",
+      "status": "listed",
+      "dest_level": "product",
+      "dest_url": "https://drhonow.com/products/pain-therapy-system-pro-basic-package?_pos=7&_sid=51cff1b60&_ss=r&utm_source=scalehealth&utm_medium=member_portal&utm_campaign=dr_ho_featured&utm_content=pain-therapy-system-pro"
     }
   ]
 }
