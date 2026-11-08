@@ -89,6 +89,19 @@ assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('prefers-reduced
 assert.ok(fs.readFileSync('js/sport-hints.js', 'utf8').includes('Pause'));
 assert.ok(html.indexOf('class="hero') < html.indexOf('id="therapists-title"'));
 assert.ok(html.indexOf('id="therapists-title"') < html.indexOf('class="strip"'));
+assert.ok(html.indexOf('id="kit"') < html.indexOf('id="insider"'));
+assert.ok(html.indexOf('id="insider"') < html.indexOf('id="assessment"'));
+assert.ok(html.includes('Product Insider Access'));
+assert.ok(html.includes('expected in the next few weeks'));
+assert.ok(html.includes('not a purchase'));
+assert.ok(html.includes('/js/sport-insider.js?v=1'));
+assert.ok(html.includes('/api/squash-insider') === false);
+const insiderClient = fs.readFileSync('js/sport-insider.js', 'utf8');
+assert.ok(insiderClient.includes('/api/squash-insider'));
+for (const file of [html, insiderClient, fs.readFileSync('css/sport-zone.css', 'utf8')]) {
+  assert.ok(!/randy\s*30/i.test(file), 'access code stays off the public page');
+  assert.ok(!/wholesale/i.test(file));
+}
 assert.ok(html.includes('id="therapists-title"'));
 assert.ok(html.includes('Physiotherapists you can book'));
 assert.ok(html.includes('This row is not a live schedule.'));

@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
-<link rel="stylesheet" href="/css/sport-zone.css?v=6">
+<link rel="stylesheet" href="/css/sport-zone.css?v=7">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -186,6 +186,23 @@
       </div>
     </div>
   </section>
+  <section class="insider" id="insider" aria-labelledby="insider-title">
+    <div class="wrap">
+      <h2 id="insider-title">Product Insider Access</h2>
+      <p>These products are being stocked. They are expected in the next few weeks. That is an expectation, not a guarantee.</p>
+      <p>This is a note of interest, not a purchase. Nothing is reserved or charged.</p>
+      <form class="insider-gate" id="insider-gate" novalidate>
+        <label for="insider-code">If you have an insider code, enter it to continue.</label>
+        <div class="insider-row">
+          <input id="insider-code" name="code" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40" required>
+          <button class="btn btn-book" type="submit">Continue</button>
+        </div>
+        <p class="insider-hp"><label>Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
+        <p class="insider-status" id="insider-gate-status" role="status"></p>
+      </form>
+      <div id="insider-shop" hidden></div>
+    </div>
+  </section>
   <section class="physio" id="assessment" aria-labelledby="physio-title">
     <div class="wrap physio-card">
       <div>
@@ -229,6 +246,7 @@
 </div>
 <script src="/js/sport-hints.js?v=1" defer></script>
 <script src="/js/sport-therapists.js?v=1" defer></script>
+<script src="/js/sport-insider.js?v=1" defer></script>
 <script src="/config.js"></script>
 <script src="/js/book.js?v=8"></script>
 <script src="/js/consent.js"></script>
