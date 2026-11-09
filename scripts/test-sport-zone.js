@@ -3,7 +3,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const vm = require('vm');
-const { renderAll, listedCards, renderSportPage } = require('../lib/sport-zone');
+const { renderAll, listedCards, renderSportPage, mergeFamily } = require('../lib/sport-zone');
 
 function jpegSize(buf) {
   let i = 2;
@@ -33,7 +33,11 @@ assert.strictEqual(navLabel, 'Insider\u2019s Store');
 assert.ok(!storeUrl.includes('/portal/marketplace'), 'homepage store URL is not the old marketplace path');
 assert.ok(!navUrl.includes('/portal/marketplace'));
 
-const sport = JSON.parse(fs.readFileSync('sports/squash.json', 'utf8'));
+const family = JSON.parse(fs.readFileSync('sports/_family.json', 'utf8'));
+const rawSquash = JSON.parse(fs.readFileSync('sports/squash.json', 'utf8'));
+assert.strictEqual(rawSquash.family, 'racquets');
+assert.ok(!rawSquash.cards && !rawSquash.therapists, 'shared racquets fields stay on the family file');
+const sport = mergeFamily(family, rawSquash);
 const catalog = JSON.parse(fs.readFileSync('catalog/recovery-skus.json', 'utf8'));
 assert.strictEqual(sport.widget.store_url, storeUrl);
 assert.strictEqual(sport.widget.store_cta, storeLabel);
@@ -56,9 +60,8 @@ for (const sku of catalog.skus) {
 }
 
 const { pages } = renderAll();
-assert.strictEqual(pages.length, 1);
-assert.strictEqual(pages[0].file, 'squash.html');
-const html = pages[0].html;
+assert.deepStrictEqual(pages.map((page) => page.file), ['paddle.html', 'pickleball.html', 'squash.html', 'tennis.html']);
+const html = pages.find((page) => page.file === 'squash.html').html;
 assert.strictEqual(fs.readFileSync('squash.html', 'utf8'), html, 'squash.html is stale; run node scripts/build-sport-pages.js');
 
 const homeLinks = [...html.matchAll(/href="([^"]+)" data-store-place="home"/g)];
@@ -109,7 +112,9 @@ for (const guide of ['squash-ankle-sprain', 'squash-knee-pain-lunging', 'squash-
 assert.ok(html.includes('Product Insider Access'));
 assert.ok(html.includes('expected in the next few weeks'));
 assert.ok(html.includes('not a purchase'));
-assert.ok(html.includes('/js/sport-insider.js?v=5'));
+assert.ok(html.includes('/js/sport-insider.js?v=6'));
+assert.ok(html.includes('data-sport="squash"') && html.includes('data-path="/squash"'));
+assert.ok(html.includes('aria-label="Racket sports"'));
 assert.ok(html.includes('/api/squash-insider') === false);
 const insiderClient = fs.readFileSync('js/sport-insider.js', 'utf8');
 assert.ok(insiderClient.includes('/api/squash-insider'));
@@ -221,6 +226,7 @@ assert.ok(mid.includes('squash$'));
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/squash'));
 const homeNow = fs.readFileSync('index.html', 'utf8');
 assert.ok(homeNow.includes('class="squash-tease" href="/squash"'));
+assert.ok(homeNow.includes('href="/tennis"') && homeNow.includes('href="/pickleball"') && homeNow.includes('href="/paddle"'));
 assert.ok(homeNow.includes('Squash Insiders'));
 assert.ok(homeNow.includes('Between matches? A squash recovery page is open.'));
 assert.ok(homeNow.indexOf('id="hero-book"') < homeNow.indexOf('class="squash-tease"'));
@@ -229,6 +235,46 @@ assert.ok(!/randywholesale|wholesale-rate|Randy30|30%|35%/i.test(homeNow.slice(h
 const css = fs.readFileSync('css/sport-zone.css', 'utf8');
 assert.ok(css.includes('#0A1D56') && css.includes('#00FF88') && css.includes('#9D4EDD') && css.includes('#F6F7FB'));
 assert.equal((css.match(/color:\s*var\(--green\)/g) || []).length, 2);
+
+for (const page of pages) {
+  if (page.file === 'squash.html') continue;
+  const body = page.html;
+  assert.deepStrictEqual(page.sport.cards, sport.cards);
+  assert.deepStrictEqual(page.sport.therapists.people.map((p) => p.staff_id), sport.therapists.people.map((p) => p.staff_id));
+  assert.strictEqual(page.sport.widget.store_url, sport.widget.store_url);
+  assert.strictEqual(page.sport.physio.button, sport.physio.button);
+  assert.ok(!body.includes('id="guides"'), page.file);
+  assert.ok(!body.includes('/blog/squash-'), page.file);
+  assert.ok(body.includes('data-sport="' + page.sport.sport_id + '"'));
+  assert.ok(body.includes('data-path="' + page.sport.route + '"'));
+  assert.ok(body.includes('/js/sport-insider.js?v=6'));
+  assert.ok(body.includes('src="/config.js"') && body.includes('src="/js/book.js?v=8"'));
+  assert.ok(!body.includes('janeapp.com'));
+  assert.ok(body.includes(page.sport.hero_image.license));
+  assert.ok(body.includes(page.sport.hero_image.author));
+  assert.ok(body.includes('· cropped'));
+  const hero = fs.readFileSync(page.sport.hero_image.src.replace(/^\//, ''));
+  assert.deepStrictEqual(jpegSize(hero), { w: page.sport.hero_image.width, h: page.sport.hero_image.height });
+  assert.ok(hero.length < 180000, page.file);
+  assert.ok(fs.readFileSync(page.sport.hero_image.src.replace(/^\//, '').replace(/\.jpg$/, '.license.txt'), 'utf8').includes(page.sport.hero_image.license));
+  for (const banned of ['wholesale', 'randywholesale', 'heals', 'treats', 'physio-picked', '$']) {
+    assert.ok(!body.toLowerCase().includes(banned), page.file + ' ' + banned);
+  }
+}
+const paddle = pages.find((page) => page.file === 'paddle.html');
+assert.strictEqual(paddle.sport.route, '/paddle');
+assert.strictEqual(paddle.sport.sport_id, 'padel');
+assert.ok(paddle.html.includes('>Padel<'));
+assert.ok(paddle.html.includes('enclosed-court'));
+assert.ok(paddle.html.includes('glass and mesh'));
+assert.ok(paddle.html.includes('<title>Padel | Calm Joints</title>'));
+assert.ok(!paddle.sport.sub.toLowerCase().includes('pickleball'));
+assert.ok(!paddle.sport.sub.toLowerCase().includes('platform tennis'));
+assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/tennis'));
+assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/pickleball'));
+assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/paddle'));
+assert.ok(mid.includes('paddle$') && mid.includes('pickleball$') && mid.includes('tennis$'));
+for (const name of ['tennis', 'pickleball', 'paddle']) assert.ok(alias.RESERVED_ALIASES.has(name), name);
 
 console.log('sport-zone: store', storeUrl);
 console.log('sport-zone: book', booking);

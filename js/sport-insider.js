@@ -293,6 +293,7 @@
         email: email.value.trim(),
         product_ids: ids,
         company: '',
+        sport: gate.getAttribute('data-sport') || 'squash',
       }).then(function (res) {
         button.disabled = false;
         if (res.data && res.data.delivery === 'sent' && res.data.persisted) {
@@ -340,7 +341,9 @@
   var shareBtn = document.getElementById('insider-share');
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
-      var url = 'https://calmjoints.org/squash';
+      var path = gate.getAttribute('data-path') || '/squash';
+      if (!/^\/[a-z0-9-]+$/.test(path)) path = '/squash';
+      var url = 'https://calmjoints.org' + path;
       var status = document.getElementById('insider-share-status');
       function done(msg) { if (status) status.textContent = msg; }
       if (navigator.clipboard && navigator.clipboard.writeText) {

@@ -1,0 +1,126 @@
+{
+  "family": "racquets",
+  "micro": "Virtual visits with registered physiotherapists.",
+  "max_cards": 8,
+  "cards": ["drho-tens-pro", "roll-r8", "roll-r3", "roll-stretchmat"],
+  "hints": {
+    "label": "Between games",
+    "items": [
+      { "text": "Take a few quiet minutes between games before you step back on." },
+      { "text": "Set the kit out before you play. Open the", "href": "store", "link": "Industry Insider’s Store" },
+      { "text": "If the same spot keeps nagging, talk it through.", "href": "#assessment", "link": "Book a video assessment" },
+      { "text": "One recovery option between matches. Follow the maker’s directions:", "href": "sku:drho-tens-pro", "link": "TENS Pro Essentials" }
+    ]
+  },
+  "card_copy": {
+    "drho-tens-pro": {
+      "tag": "Recovery",
+      "line": "Pain Therapy System Pro. One option between matches, not something every player needs. Follow the maker’s directions.",
+      "cta": "See TENS Pro Essentials"
+    },
+    "roll-r8": {
+      "tag": "Legs",
+      "line": "For quads, calves and hamstrings between matches."
+    },
+    "roll-r3": {
+      "tag": "Feet",
+      "line": "A compact foot roller for after court time."
+    },
+    "roll-stretchmat": {
+      "tag": "Stretch",
+      "line": "A marked mat for a post-match stretch."
+    }
+  },
+  "kit_title": "A short kit for between matches.",
+  "kit_note": "Prices and availability are on the linked pages. This page does not take payment.",
+  "insider": {
+    "heading": "Product Insider Access",
+    "stocking": "These products are being stocked. They are expected in the next few weeks. That is an expectation, not a guarantee.",
+    "interest": "This is a note of interest, not a purchase. Nothing is reserved or charged.",
+    "prompt": "If you have an insider code, enter it to continue."
+  },
+  "widget": {
+    "public_label": "Industry Insider’s Store",
+    "store_url": "https://www.scalehealth.ca/calmjoints?src=cjsite&place=home",
+    "store_cta": "Shop the Insider’s Store",
+    "nav_url": "https://www.scalehealth.ca/calmjoints?src=cjsite&place=nav",
+    "nav_label": "Insider’s Store",
+    "show_coupon_if_verified": true
+  },
+  "sports_nav": [
+    { "href": "/squash", "label": "Squash" },
+    { "href": "/tennis", "label": "Tennis" },
+    { "href": "/pickleball", "label": "Pickleball" },
+    { "href": "/paddle", "label": "Padel" }
+  ],
+  "therapists": {
+    "heading": "Physiotherapists you can book",
+    "note": "Video assessments. This row is not a live schedule.",
+    "people": [
+      {
+        "name": "Gabriela R.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/team/gabriela-r.webp",
+        "width": 640,
+        "height": 800,
+        "alt": "Gabriela R., physiotherapist",
+        "staff_id": "95"
+      },
+      {
+        "name": "Aleksandra N.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/team/aleksandra-n.webp",
+        "width": 640,
+        "height": 800,
+        "alt": "Aleksandra N., physiotherapist",
+        "staff_id": "94"
+      },
+      {
+        "name": "Ariel C.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/ariel-c.webp",
+        "width": 480,
+        "height": 480,
+        "alt": "Ariel C., physiotherapist",
+        "staff_id": "97"
+      },
+      {
+        "name": "Manpreet N.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/manpreet-n.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Manpreet N., physiotherapist",
+        "staff_id": "99"
+      },
+      {
+        "name": "Olakunle O.",
+        "credential": "Physiotherapist",
+        "region": "Ontario",
+        "photo": "/media/squash/therapists/olakunle-o.webp",
+        "width": 480,
+        "height": 624,
+        "alt": "Olakunle O., physiotherapist",
+        "staff_id": "96"
+      }
+    ]
+  },
+  "physio": {
+    "heading": "Book a video assessment.",
+    "body": "Meet a registered physiotherapist on video. They look at how you move and talk through next steps with you.",
+    "button": "Book a Calm Joints assessment",
+    "nav_button": "Book an assessment",
+    "note": "Virtual visits with registered physiotherapists."
+  },
+  "steps_heading": "How a video assessment works",
+  "steps": [
+    { "title": "Book a time", "line": "Pick a video visit that fits around your matches." },
+    { "title": "Meet on video", "line": "You see a registered physiotherapist from home." },
+    { "title": "Talk it through", "line": "They look at how you move and discuss next steps with you." }
+  ],
+  "disclaimer": "Not emergency care. Call 911 in an emergency. Care is provided by registered physiotherapists. Products open in the Industry Insider’s Store. Calm Joints does not take payment on this page."
+}
