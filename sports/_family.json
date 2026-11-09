@@ -51,7 +51,9 @@
     { "href": "/squash", "label": "Squash" },
     { "href": "/tennis", "label": "Tennis" },
     { "href": "/pickleball", "label": "Pickleball" },
-    { "href": "/paddle", "label": "Padel" }
+    { "href": "/paddle", "label": "Padel" },
+    { "href": "/badminton", "label": "Badminton" },
+    { "href": "/racquets", "label": "Racquets" }
   ],
   "therapists": {
     "heading": "Physiotherapists you can book",

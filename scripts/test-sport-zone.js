@@ -3,7 +3,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const vm = require('vm');
-const { renderAll, listedCards, renderSportPage, mergeFamily } = require('../lib/sport-zone');
+const { renderAll, listedCards, renderSportPage, mergeFamily, renderRacquetsIndex } = require('../lib/sport-zone');
 
 function jpegSize(buf) {
   let i = 2;
@@ -60,7 +60,7 @@ for (const sku of catalog.skus) {
 }
 
 const { pages } = renderAll();
-assert.deepStrictEqual(pages.map((page) => page.file), ['paddle.html', 'pickleball.html', 'squash.html', 'tennis.html']);
+assert.deepStrictEqual(pages.map((page) => page.file), ['badminton.html', 'paddle.html', 'pickleball.html', 'squash.html', 'tennis.html']);
 const html = pages.find((page) => page.file === 'squash.html').html;
 assert.strictEqual(fs.readFileSync('squash.html', 'utf8'), html, 'squash.html is stale; run node scripts/build-sport-pages.js');
 
@@ -274,7 +274,35 @@ assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.or
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/pickleball'));
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/paddle'));
 assert.ok(mid.includes('paddle$') && mid.includes('pickleball$') && mid.includes('tennis$'));
-for (const name of ['tennis', 'pickleball', 'paddle']) assert.ok(alias.RESERVED_ALIASES.has(name), name);
+assert.ok(mid.includes('badminton$') && mid.includes('racquets$'));
+for (const name of ['tennis', 'pickleball', 'paddle', 'badminton', 'racquets']) assert.ok(alias.RESERVED_ALIASES.has(name), name);
+const badminton = pages.find((page) => page.file === 'badminton.html');
+assert.strictEqual(badminton.sport.route, '/badminton');
+assert.strictEqual(badminton.sport.sport_id, 'badminton');
+assert.ok(badminton.html.includes('Stay quick at the net.'));
+assert.ok(badminton.html.includes('Murray Foubister'));
+assert.ok(badminton.html.includes('CC BY-SA 2.0'));
+assert.ok(badminton.html.includes('overhead smashes'));
+assert.ok(badminton.html.includes('deep lunge loads the front knee'));
+assert.ok(badminton.html.includes('overhead smash asks a lot of the shoulder'));
+assert.ok(badminton.html.includes('landing keeps nagging the ankle'));
+assert.ok(badminton.html.includes('href="/badminton" aria-current="page"'));
+assert.ok(badminton.html.includes('href="/racquets">Racquets</a>'));
+assert.ok(html.includes('>Badminton</a>') && html.includes('href="/racquets">Racquets</a>'));
+assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/badminton'));
+assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/racquets'));
+assert.ok(fs.readFileSync('index.html', 'utf8').includes('href="/racquets">Racquets</a>'));
+const indexHtml = renderRacquetsIndex(family, pages);
+assert.strictEqual(fs.readFileSync('racquets.html', 'utf8'), indexHtml, 'racquets.html is stale; run node scripts/build-sport-pages.js');
+for (const href of ['/squash', '/tennis', '/pickleball', '/paddle', '/badminton']) {
+  assert.ok(indexHtml.includes('href="' + href + '"'), href);
+}
+assert.ok(indexHtml.includes('aria-current="page">Racquets</a>'));
+assert.ok(indexHtml.includes('Five court sports.'));
+const indexVisible = indexHtml.replace(/<script[\s\S]*?<\/script>/g, '').replace(/\s(?:href|src)="[^"]*"/g, '');
+for (const banned of ['Scale Health', 'membership', 'residual', 'Dual-Fee', 'dual fee', 'wholesale']) {
+  assert.ok(!indexVisible.includes(banned), 'racquets index includes ' + banned);
+}
 
 console.log('sport-zone: store', storeUrl);
 console.log('sport-zone: book', booking);

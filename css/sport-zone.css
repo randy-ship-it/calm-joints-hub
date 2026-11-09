@@ -374,3 +374,27 @@ body.insider-open { overflow: hidden; }
   .insider-overlay { padding: .6rem; align-items: end; }
   .insider-dialog { max-height: 88vh; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; }
 }
+.racquet-index { background: var(--paper); padding: clamp(1.25rem, 4vw, 2.4rem) 0 clamp(2.2rem, 5vw, 3.2rem); }
+.racquet-index h2 { font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: .85rem; }
+.racquet-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.racquet-card {
+  display: grid; height: 100%; overflow: hidden; text-decoration: none; color: inherit;
+  background: var(--white); border: 1px solid var(--line); border-radius: 16px;
+}
+.racquet-card img {
+  width: 100%; height: 180px; object-fit: cover;
+  object-position: var(--hero-x, 50%) var(--hero-y, 46%);
+}
+.racquet-copy { display: grid; gap: .2rem; padding: .8rem .9rem .9rem; }
+.racquet-copy h2 { font-size: 1.12rem; }
+.racquet-copy p { margin: 0; color: var(--muted); font-size: .92rem; }
+.racquet-credit { font-size: .72rem !important; line-height: 1.35; }
+.racquet-card:hover { border-color: var(--purple); }
+.racquet-card:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+@media (min-width: 720px) {
+  .racquet-grid { grid-template-columns: 1fr 1fr; }
+  .racquet-card img { height: 168px; }
+}
+@media (min-width: 980px) {
+  .racquet-grid { grid-template-columns: repeat(3, 1fr); }
+}
