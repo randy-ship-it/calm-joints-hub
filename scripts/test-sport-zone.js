@@ -225,12 +225,24 @@ const mid = fs.readFileSync('middleware.js', 'utf8');
 assert.ok(mid.includes('squash$'));
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/squash'));
 const homeNow = fs.readFileSync('index.html', 'utf8');
-assert.ok(homeNow.includes('class="squash-tease" href="/squash"'));
-assert.ok(homeNow.includes('href="/tennis"') && homeNow.includes('href="/pickleball"') && homeNow.includes('href="/paddle"'));
-assert.ok(homeNow.includes('Squash Insiders'));
-assert.ok(homeNow.includes('Between matches? A squash recovery page is open.'));
-assert.ok(homeNow.indexOf('id="hero-book"') < homeNow.indexOf('class="squash-tease"'));
-assert.ok(!/randywholesale|wholesale-rate|Randy30|30%|35%/i.test(homeNow.slice(homeNow.indexOf('squash-tease'), homeNow.indexOf('squash-tease') + 500)));
+assert.ok(!homeNow.includes('squash-tease'));
+assert.ok(!homeNow.includes('racquet-teases'));
+assert.ok(!homeNow.includes('Squash Insiders'));
+assert.ok(!homeNow.includes('recovery page is open'));
+assert.ok(!homeNow.includes('See Squash'));
+const footStart = homeNow.indexOf('<footer>');
+assert.ok(footStart > 0);
+const foot = homeNow.slice(footStart);
+assert.ok(foot.includes('data-foot-racquets'));
+assert.ok(foot.includes('id="foot-racquets-btn"') && foot.includes('aria-haspopup="true"') && foot.includes('aria-controls="foot-racquets-menu"'));
+assert.ok(foot.includes('href="/squash">Squash</a>') && foot.includes('href="/tennis">Tennis</a>'));
+assert.ok(foot.includes('href="/pickleball">Pickleball</a>') && foot.includes('href="/paddle">Padel</a>'));
+assert.ok(!homeNow.slice(0, footStart).includes('href="/squash"'));
+assert.ok(!homeNow.includes('href="/racquets">Racquets</a>'));
+const llms = fs.readFileSync('llms.txt', 'utf8');
+for (const url of ['https://calmjoints.org/squash', 'https://calmjoints.org/tennis', 'https://calmjoints.org/pickleball', 'https://calmjoints.org/paddle', 'https://calmjoints.org/racquets']) {
+  assert.ok(llms.includes(url), 'llms missing ' + url);
+}
 
 const css = fs.readFileSync('css/sport-zone.css', 'utf8');
 assert.ok(css.includes('#0A1D56') && css.includes('#00FF88') && css.includes('#9D4EDD') && css.includes('#F6F7FB'));
@@ -291,7 +303,7 @@ assert.ok(badminton.html.includes('href="/racquets">Racquets</a>'));
 assert.ok(html.includes('>Badminton</a>') && html.includes('href="/racquets">Racquets</a>'));
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/badminton'));
 assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('https://calmjoints.org/racquets'));
-assert.ok(fs.readFileSync('index.html', 'utf8').includes('href="/racquets">Racquets</a>'));
+assert.ok(fs.readFileSync('index.html', 'utf8').includes('data-foot-racquets'));
 const indexHtml = renderRacquetsIndex(family, pages);
 assert.strictEqual(fs.readFileSync('racquets.html', 'utf8'), indexHtml, 'racquets.html is stale; run node scripts/build-sport-pages.js');
 for (const href of ['/squash', '/tennis', '/pickleball', '/paddle', '/badminton']) {

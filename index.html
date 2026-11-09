@@ -63,7 +63,7 @@
   .nav-links a:not(.btn) { text-decoration: none; color: var(--mute); } .nav-links a:not(.btn):hover { color: var(--ink); }
   .nav-links .btn { padding: .6rem 1.1rem; }
   @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
-  @media (max-width: 760px) { .nav-links { gap: .7rem; } .nav-links a[href="/partners"], .nav-links a[href="/enterprise"], .nav-links a[href="/careers"], .nav-links a[href="/racquets"] { display: inline-block; font-size: .88rem; font-weight: 600; color: var(--ink); padding: .45rem .75rem; border: 1px solid var(--line); border-radius: 999px; } .nav-links .btn { padding: .55rem .9rem; font-size: .9rem; white-space: nowrap; } .brand img { width: 118px; height: auto; } }
+  @media (max-width: 760px) { .nav-links { gap: .7rem; } .nav-links a[href="/partners"], .nav-links a[href="/enterprise"], .nav-links a[href="/careers"] { display: inline-block; font-size: .88rem; font-weight: 600; color: var(--ink); padding: .45rem .75rem; border: 1px solid var(--line); border-radius: 999px; } .nav-links .btn { padding: .55rem .9rem; font-size: .9rem; white-space: nowrap; } .brand img { width: 118px; height: auto; } }
   @media (max-width: 460px) { .nav-inner { height: auto; flex-wrap: wrap; align-items: center; row-gap: .4rem; padding-top: .45rem; padding-bottom: .5rem; } .nav-links { flex: 1 0 100%; flex-wrap: wrap; justify-content: flex-start; row-gap: .35rem; } }
   /* hero */
   .hero { padding: clamp(.7rem, 1.6vw, 1.05rem) 0 .15rem; text-align: center; }
@@ -94,13 +94,14 @@
   .tk-av { display: inline-flex; margin-right: .15rem; } .tk-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); background: #DCFCE7; margin-left: -.55rem; } .tk-av img:first-child { margin-left: -.35rem; }
   .btn-primary .tk-av img { border-color: #fff; }
   .hero .ctas .btn { min-width: 15.5rem; padding: .95rem 1.5rem; font-size: 1.02rem; }
-  .racquet-teases { display: flex; flex-direction: column; align-items: center; gap: .45rem; margin: .85rem auto 0; }
-  .squash-tease { display: flex; align-items: center; justify-content: center; gap: .55rem .75rem; flex-wrap: wrap; max-width: 36rem; margin: 0; padding: .55rem .85rem; text-decoration: none; color: var(--ink); border: 1px solid #D3F8DF; border-radius: 999px; background: #F3FDF6; }
-  .squash-tease-k { font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
-  .squash-tease-line { font-size: .95rem; font-weight: 700; }
-  .squash-tease-go { font-weight: 800; color: var(--green); }
-  .squash-tease:hover { border-color: var(--green); }
-  @media (max-width: 560px) { .squash-tease { border-radius: 18px; padding: .7rem .9rem; } }
+  .foot-racquets { position: relative; display: inline-block; }
+  .foot-racquets-btn { appearance: none; background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; text-decoration: none; }
+  .foot-racquets-btn:hover, .foot-racquets-btn:focus-visible, .foot-racquets.is-open .foot-racquets-btn { color: var(--ink); }
+  .foot-racquets-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+  .foot-racquets-menu { position: absolute; left: 0; bottom: calc(100% + .4rem); z-index: 40; min-width: 9.75rem; margin: 0; padding: .35rem 0; list-style: none; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 14px 30px -18px rgba(15,40,28,.5); }
+  .foot-racquets-menu[hidden] { display: none !important; }
+  .foot-racquets-menu a { display: block; padding: .45rem .9rem; text-decoration: none; color: var(--ink); font-weight: 600; }
+  .foot-racquets-menu a:hover, .foot-racquets-menu a:focus { background: #F3FDF6; color: var(--green); outline: none; }
   .hero-glen { margin: .15rem auto 0; font-size: .92rem; font-weight: 600; line-height: 1.3; color: var(--green); }
   .hero-glen a { color: var(--green); font-weight: 700; text-decoration: none; }
   .hero-glen a:hover { text-decoration: underline; }
@@ -441,7 +442,6 @@
     <a class="brand" href="/" aria-label="Calm Joints home"><img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42"><span class="cj-tag">In the moment recovery care</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a class="nav-store" href="https://www.scalehealth.ca/calmjoints?src=cjsite&amp;place=nav" data-store-place="nav">Insider’s Store</a>
-      <a href="/racquets">Racquets</a>
       <a href="#brands">Brands</a>
       <a href="/partners">Partnerships</a>
       <a href="/enterprise">Enterprise</a>
@@ -463,28 +463,6 @@
       <div class="ctas">
         <a class="btn btn-primary" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen now</a>
         <a class="btn btn-ghost" id="hero-book" href="#" data-book data-book-direct>Book a visit</a>
-      </div>
-      <div class="racquet-teases">
-      <a class="squash-tease" href="/squash">
-        <span class="squash-tease-k">Squash Insiders</span>
-        <span class="squash-tease-line">Between matches? A squash recovery page is open.</span>
-        <span class="squash-tease-go">See Squash <span aria-hidden="true">→</span></span>
-      </a>
-      <a class="squash-tease" href="/tennis">
-        <span class="squash-tease-k">Tennis</span>
-        <span class="squash-tease-line">Between matches? A tennis recovery page is open.</span>
-        <span class="squash-tease-go">See Tennis <span aria-hidden="true">→</span></span>
-      </a>
-      <a class="squash-tease" href="/pickleball">
-        <span class="squash-tease-k">Pickleball</span>
-        <span class="squash-tease-line">Between games? A pickleball recovery page is open.</span>
-        <span class="squash-tease-go">See Pickleball <span aria-hidden="true">→</span></span>
-      </a>
-      <a class="squash-tease" href="/paddle">
-        <span class="squash-tease-k">Padel</span>
-        <span class="squash-tease-line">Enclosed court. A padel recovery page is open.</span>
-        <span class="squash-tease-go">See Padel <span aria-hidden="true">→</span></span>
-      </a>
       </div>
       <ul class="m-logos" aria-label="Brands we work with">
         <li><a href="https://drhonow.com/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S" width="90" height="28"></a></li>
@@ -721,6 +699,15 @@
       <a href="/enterprise">Enterprise · Managed Physio</a>
       <a href="/blog">Blog</a>
       <a href="/careers">Careers</a>
+      <div class="foot-racquets" data-foot-racquets>
+        <button type="button" class="foot-racquets-btn" id="foot-racquets-btn" aria-expanded="false" aria-haspopup="true" aria-controls="foot-racquets-menu">Racquets</button>
+        <ul class="foot-racquets-menu" id="foot-racquets-menu" role="menu" hidden>
+          <li role="none"><a role="menuitem" href="/squash">Squash</a></li>
+          <li role="none"><a role="menuitem" href="/tennis">Tennis</a></li>
+          <li role="none"><a role="menuitem" href="/pickleball">Pickleball</a></li>
+          <li role="none"><a role="menuitem" href="/paddle">Padel</a></li>
+        </ul>
+      </div>
       <a href="#partner" data-partner>Partnership opportunities</a>
       <a href="mailto:info@calmjoints.org">info@calmjoints.org</a>
       <a href="/privacy">Privacy</a><a href="/terms">Terms</a>
@@ -1078,6 +1065,55 @@
       .catch(function () { st.classList.add('err'); st.textContent = 'We couldn’t save that just now. Email info@calmjoints.org, or just browse below.'; })
       .finally(function () { btn.disabled = false; });
   });
+})();
+</script>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-foot-racquets]');
+  if (!root) return;
+  var btn = root.querySelector('.foot-racquets-btn');
+  var menu = root.querySelector('.foot-racquets-menu');
+  if (!btn || !menu) return;
+  var hover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var closeTimer = null;
+  function items() { return Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]')); }
+  function open() {
+    if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+    menu.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    root.classList.add('is-open');
+  }
+  function close(focusBtn) {
+    if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+    menu.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    root.classList.remove('is-open');
+    if (focusBtn) btn.focus();
+  }
+  function toggle() { if (menu.hidden) open(); else close(); }
+  btn.addEventListener('click', function (e) { e.preventDefault(); toggle(); });
+  btn.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault(); open(); var first = items()[0]; if (first) first.focus();
+    } else if (e.key === 'Escape') { close(); }
+  });
+  menu.addEventListener('keydown', function (e) {
+    var list = items(); var i = list.indexOf(document.activeElement);
+    if (e.key === 'Escape') { e.preventDefault(); close(true); return; }
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (list.length) list[(i + 1) % list.length].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); if (list.length) list[(i <= 0 ? list.length : i) - 1].focus(); }
+    if (e.key === 'Home') { e.preventDefault(); if (list[0]) list[0].focus(); }
+    if (e.key === 'End') { e.preventDefault(); if (list.length) list[list.length - 1].focus(); }
+    if (e.key === 'Tab') close();
+  });
+  root.addEventListener('mouseenter', function () { if (hover.matches) open(); });
+  root.addEventListener('mouseleave', function () {
+    if (!hover.matches) return;
+    closeTimer = setTimeout(function () { close(); }, 120);
+  });
+  document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) close(true); });
 })();
 </script>
 </body>

@@ -11,6 +11,14 @@
 - [Talk to a guide](https://calmjoints.org/chat): Virtual recovery guides (not clinicians).
 - [Blog](https://calmjoints.org/blog): Recovery articles.
 
+## Racquets
+- [Racquets index](https://calmjoints.org/racquets): Squash, tennis, pickleball, padel and badminton recovery pages.
+- [Squash](https://calmjoints.org/squash): Between-match squash kit and video physio assessment.
+- [Tennis](https://calmjoints.org/tennis): Between-match tennis kit and video physio assessment.
+- [Pickleball](https://calmjoints.org/pickleball): Between-game pickleball kit and video physio assessment.
+- [Padel](https://calmjoints.org/paddle): Enclosed-court padel kit and video physio assessment.
+- [Badminton](https://calmjoints.org/badminton): Between-match badminton kit and video physio assessment.
+
 ## Partners
 - [Partnerships](https://calmjoints.org/partners): Hubs and partnerships for gyms, studios, brands, employers and clinics.
 - [Careers](https://calmjoints.org/careers): Roles for physiotherapists.
