@@ -1,0 +1,36 @@
+{
+  "family": "racquets",
+  "sport_id": "badminton",
+  "route": "/badminton",
+  "title": "Badminton | Calm Joints",
+  "description": "A short badminton kit for between matches, and a video assessment with a registered physiotherapist.",
+  "eyebrow": "Badminton",
+  "h1": "Stay quick at the net.",
+  "sub": "Badminton asks a lot of shoulders, wrists, knees and ankles: overhead smashes, deep lunges, fast changes of direction. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "hero_image": {
+    "src": "/media/badminton/us-open-2014-mixed-doubles.jpg",
+    "width": 1000,
+    "height": 583,
+    "focus_x": "58%",
+    "focus_y": "42%",
+    "alt": "Four players contest a mixed doubles rally at the net during a badminton match, racquets in hand.",
+    "author": "Murray Foubister",
+    "source_label": "Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:2014_US_Open_Grand_Prix_Gold_-_Mixed_doubles_final_match.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "changes": "cropped"
+  },
+  "nav_current": "Badminton",
+  "widget": {
+    "panel_copy": "Picked for badminton. Opens in the Industry Insider’s Store."
+  },
+  "hints": {
+    "items": [
+      { "text": "A deep lunge loads the front knee. Take a few quiet minutes between games before you step back on." },
+      { "text": "An overhead smash asks a lot of the shoulder. Set the kit out before you play. Open the", "href": "store", "link": "Industry Insider’s Store" },
+      { "text": "If a landing keeps nagging the ankle, talk it through.", "href": "#assessment", "link": "Book a video assessment" },
+      { "text": "One recovery option between matches. Follow the maker’s directions:", "href": "sku:drho-tens-pro", "link": "TENS Pro Essentials" }
+    ]
+  }
+}
