@@ -3,6 +3,7 @@
 const assert = require('assert');
 const insider = require('../lib/squash-insider');
 const store = require('../lib/squash-wishlist-store');
+const storeSheet = require('../lib/squash-wishlist-sheet');
 
 function memoryBlob() {
   const files = new Map();
@@ -177,6 +178,110 @@ function resMock() {
   assert.strictEqual(off.statusCode, 503);
   assert.strictEqual(off.body.persistence, 'unconfigured');
   assert.ok(off.body.blocker.includes('not been applied'));
+  assert.strictEqual(off.body.sheet.active, false);
+  assert.strictEqual(off.body.sheet.destination_recorded, true);
+  assert.strictEqual(off.body.sheet.headers_verified_live, false);
+
+  assert.strictEqual(first.json.sheet_status, 'unconfigured');
+  assert.strictEqual(stored.sheet_status, 'unconfigured');
+  assert.ok(allowed.body.sheet && allowed.body.sheet.active === false);
+  assert.deepStrictEqual(allowed.body.sheet.missing.sort(), ['CJ_WISHLIST_SHEET_CLIENT_EMAIL', 'CJ_WISHLIST_SHEET_ID', 'CJ_WISHLIST_SHEET_PRIVATE_KEY']);
+
+  let leaked = false;
+  const rejected = await insider.handleInsider({
+    body: { intent: 'interest', code: '', email: 'nobody@example.com', product_ids: ['roll-r1'] },
+    ip: '203.0.113.80',
+    env: { CJ_RESEND_API_KEY: 're_test', wishlistBlob: memoryBlob(), wishlistFetch: async () => { leaked = true; return { ok: false }; } },
+    fetchImpl: async () => { leaked = true; return { ok: true }; },
+  });
+  assert.strictEqual(rejected.status, 401);
+  assert.strictEqual(leaked, false);
+
+  const { generateKeyPairSync } = require('crypto');
+  const pem = generateKeyPairSync('rsa', { modulusLength: 2048 }).privateKey.export({ type: 'pkcs8', format: 'pem' });
+  const sheetCalls = [];
+  const ids = { wish: ['wishlist_id'], line: ['line_id'] };
+  const sheetBlob = memoryBlob();
+  const sheetEnv = {
+    CJ_RESEND_API_KEY: 're_test',
+    wishlistBlob: sheetBlob,
+    CJ_WISHLIST_SHEET_ID: storeSheet.SHEET_ID,
+    CJ_WISHLIST_SHEET_CLIENT_EMAIL: 'sheet-bot@example.invalid',
+    CJ_WISHLIST_SHEET_PRIVATE_KEY: pem,
+    wishlistFetch: async (url, opts) => {
+      const address = String(url);
+      const payload = opts && opts.body ? String(opts.body) : '';
+      sheetCalls.push({ address, payload, method: opts && opts.method });
+      if (address.includes('oauth2.googleapis.com')) return { ok: true, json: async () => ({ access_token: 'tok' }) };
+      if (address.includes('wishlists!1%3A1')) return { ok: true, json: async () => ({ values: [storeSheet.WISHLIST_HEADERS] }) };
+      if (address.includes('lines!1%3A1')) return { ok: true, json: async () => ({ values: [storeSheet.LINE_HEADERS] }) };
+      if (address.includes('wishlists!A%3AA')) return { ok: true, json: async () => ({ values: ids.wish.map((id) => [id]) }) };
+      if (address.includes('lines!A%3AA')) return { ok: true, json: async () => ({ values: ids.line.map((id) => [id]) }) };
+      if (address.includes(':append') || address.includes('%3Aappend')) {
+        const rows = JSON.parse(payload).values;
+        rows.forEach((row) => {
+          if (address.includes('wishlists')) ids.wish.push(row[0]);
+          if (address.includes('lines')) ids.line.push(row[0]);
+        });
+        return { ok: true, json: async () => ({}) };
+      }
+      return { ok: true, json: async () => ({}) };
+    },
+  };
+  const named = await insider.handleInsider({
+    body: { intent: 'interest', code: 'RANDYWHOLESALE', email: 'sheet@example.com', product_ids: ['roll-r8'] },
+    ip: '203.0.113.81',
+    env: sheetEnv,
+    fetchImpl: async () => ({ ok: true, status: 200 }),
+  });
+  assert.strictEqual(named.json.sheet_status, 'synced');
+  assert.ok(sheetCalls.some((call) => call.address.includes('sheets.googleapis.com') && call.payload.includes('sheet@example.com')));
+  assert.ok(sheetCalls.every((call) => !call.payload.toLowerCase().includes('randywholesale') && !call.payload.includes('BEGIN PRIVATE KEY')));
+  const appends = () => sheetCalls.filter((call) => call.method === 'POST' && call.address.includes(':append')).length;
+  const before = appends();
+  assert.strictEqual(before, 2);
+  const againSheet = await insider.handleInsider({
+    body: { intent: 'interest', code: 'RANDYWHOLESALE', email: 'sheet@example.com', product_ids: ['roll-r8'] },
+    ip: '203.0.113.82',
+    env: sheetEnv,
+    fetchImpl: async () => { throw new Error('second mail'); },
+  });
+  assert.strictEqual(againSheet.json.delivery, 'already_recorded');
+  const after = appends();
+  assert.strictEqual(after, before);
+
+  const tricky = storeSheet.lineRow(
+    { id: 'abc', created_at: 't', email: 'a@b.co' },
+    { product_id: 'x', name: '=HYPERLINK("http://evil")', quantity: 1, retail_currency: 'USD', retail_amount_cents: 100, variant_status: 'unspecified', variant_note: '+note' },
+    'now',
+  );
+  assert.strictEqual(tricky[3][0], "'");
+  assert.strictEqual(tricky[5][0], "'");
+  assert.strictEqual(tricky.length, storeSheet.LINE_HEADERS.length);
+  assert.strictEqual(storeSheet.wishlistRow({ id: 'abc', created_at: 't', email: 'a@b.co', lines: [{ retail_currency: 'USD', retail_amount_cents: 100, quantity: 1 }] }, 'now').length, storeSheet.WISHLIST_HEADERS.length);
+
+  const mismatchCalls = [];
+  const mismatch = await store.syncRecord({
+    ...sheetEnv,
+    wishlistBlob: sheetBlob,
+    wishlistFetch: async (url) => {
+      mismatchCalls.push(String(url));
+      if (String(url).includes('oauth2')) return { ok: true, json: async () => ({ access_token: 'tok' }) };
+      return { ok: true, json: async () => ({ values: [['wrong']] }) };
+    },
+  }, JSON.parse([...sheetBlob.files.values()].find((raw) => raw.includes('sheet@example.com'))));
+  assert.strictEqual(mismatch.status, 'header_mismatch');
+  assert.ok(!mismatchCalls.some((url) => url.includes('append') || url.includes('valueInputOption')));
+
+  const retry = resMock();
+  await store.handleWishlistAdmin({
+    method: 'POST',
+    url: '/api/squash-wishlist-admin',
+    headers: { authorization: 'Bearer admin-key', 'x-forwarded-for': '203.0.113.83' },
+    body: { action: 'retry_sheet' },
+  }, retry, { CJ_ADMIN_KEY: 'admin-key', wishlistBlob: memoryBlob() });
+  assert.strictEqual(retry.statusCode, 503);
+  assert.strictEqual(retry.body.sheet.active, false);
 
   console.log('squash-wishlist: checks passed');
 })().catch((err) => {
