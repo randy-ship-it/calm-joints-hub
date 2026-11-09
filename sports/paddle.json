@@ -1,0 +1,28 @@
+{
+  "family": "racquets",
+  "sport_id": "padel",
+  "route": "/paddle",
+  "title": "Padel | Calm Joints",
+  "description": "A short padel kit for between matches on an enclosed court, and a video assessment with a registered physiotherapist.",
+  "eyebrow": "Padel",
+  "h1": "Stay on the glass.",
+  "sub": "Padel is the enclosed-court game, with glass and mesh walls. Lunges, volleys and shots off the wall load knees, shoulders and wrists. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "hero_image": {
+    "src": "/media/paddle/cairo-rally-2026.jpg",
+    "width": 1000,
+    "height": 596,
+    "focus_x": "58%",
+    "focus_y": "52%",
+    "alt": "Two players hit a ball on an enclosed padel court, with perforated padel rackets, glass, and mesh.",
+    "author": "Sherif Alyamany",
+    "source_label": "Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:رياضة_البادل_في_مصر_06.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "changes": "cropped"
+  },
+  "nav_current": "Padel",
+  "widget": {
+    "panel_copy": "Picked for padel. Opens in the Industry Insider’s Store."
+  }
+}

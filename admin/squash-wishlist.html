@@ -35,7 +35,7 @@
     <table><thead><tr><th>Product</th><th>Wishlists</th><th>Quantity</th><th>Listed price</th><th>Mapping</th></tr></thead><tbody id="interest"></tbody></table>
     <h2>Wishlists</h2>
     <p><button type="button" id="retry">Retry sheet sync</button></p>
-    <table><thead><tr><th>When</th><th>Email</th><th>Products</th><th>Email status</th><th>Sheet</th></tr></thead><tbody id="lists"></tbody></table>
+    <table><thead><tr><th>When</th><th>Email</th><th>Sport</th><th>Products</th><th>Email status</th><th>Sheet</th></tr></thead><tbody id="lists"></tbody></table>
   </div>
 </main>
 <script>
@@ -63,8 +63,8 @@
       }).join('') || '<tr><td colspan="5">No wishlists yet.</td></tr>';
       $('lists').innerHTML = (o.j.wishlists || []).map(function (row) {
         var items = (row.lines || []).map(function (line) { return esc(line.name) + ' × ' + esc(line.quantity); }).join('<br>');
-        return '<tr><td>' + esc(row.created_at) + '</td><td>' + esc(row.email) + '</td><td>' + items + '</td><td>' + esc(row.email_status) + '</td><td>' + esc(row.sheet_status || 'unknown') + '</td></tr>';
-      }).join('') || '<tr><td colspan="5">No wishlists yet.</td></tr>';
+        return '<tr><td>' + esc(row.created_at) + '</td><td>' + esc(row.email) + '</td><td>' + esc(row.sport || 'squash') + '</td><td>' + items + '</td><td>' + esc(row.email_status) + '</td><td>' + esc(row.sheet_status || 'unknown') + '</td></tr>';
+      }).join('') || '<tr><td colspan="6">No wishlists yet.</td></tr>';
     }).catch(function () { $('msg').className = 'err'; $('msg').textContent = 'The list could not be loaded.'; });
   }
   $('login').addEventListener('submit', function (e) {

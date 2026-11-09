@@ -1,0 +1,28 @@
+{
+  "family": "racquets",
+  "sport_id": "pickleball",
+  "route": "/pickleball",
+  "title": "Pickleball | Calm Joints",
+  "description": "A short pickleball kit for between games, and a video assessment with a registered physiotherapist.",
+  "eyebrow": "Pickleball",
+  "h1": "Stay in the point.",
+  "sub": "Pickleball is quick at the kitchen and hard on knees, shoulders and feet. Here’s a short kit for between games, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "hero_image": {
+    "src": "/media/pickleball/doubles-rally.jpg",
+    "width": 1000,
+    "height": 583,
+    "focus_x": "50%",
+    "focus_y": "42%",
+    "alt": "Four people play pickleball doubles, solid paddles in hand and a perforated ball above the net.",
+    "author": "TheVillagesFL",
+    "source_label": "Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Pickleball_Players.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "changes": "cropped"
+  },
+  "nav_current": "Pickleball",
+  "widget": {
+    "panel_copy": "Picked for pickleball. Opens in the Industry Insider’s Store."
+  }
+}

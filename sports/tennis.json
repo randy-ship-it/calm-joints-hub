@@ -1,0 +1,28 @@
+{
+  "family": "racquets",
+  "sport_id": "tennis",
+  "route": "/tennis",
+  "title": "Tennis | Calm Joints",
+  "description": "A short tennis kit for between matches, and a video assessment with a registered physiotherapist.",
+  "eyebrow": "Tennis",
+  "h1": "Stay in the rally.",
+  "sub": "Tennis asks a lot of shoulders, elbows, knees and feet: serves, wide steps, long matches. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "hero_image": {
+    "src": "/media/tennis/citi-open-2018-forehand.jpg",
+    "width": 1000,
+    "height": 583,
+    "focus_x": "46%",
+    "focus_y": "68%",
+    "alt": "A tennis player hits a forehand in a match, string racquet back and a tennis ball in the air.",
+    "author": "JC",
+    "source_label": "Wikimedia Commons",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Alex_de_Minaur_vs_Andrey_Rublev_forehand_(42969962855).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "changes": "cropped"
+  },
+  "nav_current": "Tennis",
+  "widget": {
+    "panel_copy": "Picked for tennis. Opens in the Industry Insider’s Store."
+  }
+}

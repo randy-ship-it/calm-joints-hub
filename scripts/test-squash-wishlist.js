@@ -283,6 +283,21 @@ function resMock() {
   assert.strictEqual(retry.statusCode, 503);
   assert.strictEqual(retry.body.sheet.active, false);
 
+  const sameLines = [{ product_id: 'roll-r8', quantity: 1 }];
+  const squashId = store.buildRecord({ email: 'a@b.co', lines: sameLines, now: 't' });
+  const squashAgain = store.buildRecord({ email: 'a@b.co', lines: sameLines, now: 't', sport: 'squash' });
+  const tennisId = store.buildRecord({ email: 'a@b.co', lines: sameLines, now: 't', sport: 'tennis' });
+  const unknownSport = store.buildRecord({ email: 'a@b.co', lines: sameLines, now: 't', sport: 'platform-tennis' });
+  assert.strictEqual(squashId.id, squashAgain.id);
+  assert.strictEqual(squashId.id, unknownSport.id);
+  assert.notStrictEqual(squashId.id, tennisId.id);
+  assert.strictEqual(tennisId.sport, 'tennis');
+  assert.strictEqual(tennisId.source, 'tennis-insider');
+  const tennisRow = storeSheet.wishlistRow(tennisId, 'now');
+  assert.strictEqual(tennisRow.length, storeSheet.WISHLIST_HEADERS.length);
+  assert.strictEqual(tennisRow[4], 'squash-insider');
+  assert.ok(tennisRow.some((value) => String(value).includes('Sport: tennis')));
+
   console.log('squash-wishlist: checks passed');
 })().catch((err) => {
   console.error(err);
