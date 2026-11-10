@@ -206,13 +206,32 @@ assert.ok(html.includes('co-branded member store at wholesale rates'));
 assert.ok(html.includes('wrist, elbow or knee niggles from lunges and quick turns'));
 assert.ok(html.includes('Request a Physio QR') && html.includes('Request full recovery activation'));
 assert.ok(html.includes('id="club-qr-form"') && html.includes('name="club"') && html.includes('name="email"'));
-assert.ok(html.includes('/js/sport-club.js?v=1'));
+assert.ok(html.includes('/js/sport-club.js?v=2'));
 assert.ok(html.indexOf('id="guides"') < html.indexOf('id="club-partner"'));
 assert.ok(html.indexOf('id="club-partner"') < html.indexOf('<footer>'));
 const clubChunk = html.slice(html.indexOf('id="club-partner"'), html.indexOf('<footer>'));
 assert.ok(/wholesale/i.test(clubChunk));
 assert.ok(!/wholesale/i.test(html.slice(0, html.indexOf('id="club-partner"'))));
 assert.ok(!/canada-wide in-person|8\.7mm|MedVibe|Scale Health Connect/i.test(html));
+// Prominent club CTA: strip near the top, pill, and modal with sport-matched visuals.
+assert.ok(html.includes('id="club-strip"'), 'club strip renders');
+assert.ok(html.indexOf('id="club-strip"') < html.indexOf('id="kit"'), 'club strip sits above the kit');
+assert.ok(html.includes('data-club-open="physio"') && html.includes('data-club-open="full"'), 'both tiers open the modal');
+assert.ok(html.includes('See the club QR') && html.includes('See the member store'));
+assert.ok(html.includes('id="club-modal"') && html.includes('role="dialog"') && html.includes('aria-modal="true"'));
+assert.ok(html.includes('data-club-panel="physio"') && html.includes('data-club-panel="full"'));
+assert.ok(html.includes('/media/club/club-qr-squash.jpg') && html.includes('/media/club/club-store.jpg'));
+assert.ok(html.includes('id="club-pill"') && html.includes('Club partners'));
+assert.ok(html.includes('href="/enterprise#estimate"') && html.includes('Try the opportunity calculator'));
+assert.ok(html.indexOf('id="club-qr-form"') > html.indexOf('id="club-modal"'), 'form lives in the modal');
+const stripChunk = html.slice(html.indexOf('id="club-strip"'), html.indexOf('id="kit"'));
+assert.ok(!/contractor|canada-wide/i.test(html), 'banned words');
+assert.ok(!/wholesale/i.test(stripChunk), 'strip stays soft');
+for (const f of ['club-qr-squash.jpg', 'club-qr-tennis.jpg', 'club-qr-pickleball.jpg', 'club-store.jpg']) {
+  const buf = fs.readFileSync('media/club/' + f);
+  assert.ok(buf.length < 220000, f + ' stays modest');
+  assert.deepStrictEqual(jpegSize(buf), { w: 1200, h: 900 }, f);
+}
 
 const window = {};
 vm.runInNewContext(fs.readFileSync('config.js', 'utf8'), { window });
@@ -295,11 +314,14 @@ for (const page of pages) {
     assert.ok(body.includes('Tier 1 · Physio only') && body.includes('Tier 2 · Full recovery activation'), page.file);
     assert.ok(body.includes('25% payout on net revenue'), page.file);
     assert.ok(body.includes('co-branded member store at wholesale rates'), page.file);
-    assert.ok(body.includes('/js/sport-club.js?v=1'), page.file);
+    assert.ok(body.includes('/js/sport-club.js?v=2'), page.file);
+    assert.ok(body.includes('id="club-strip"') && body.includes('id="club-modal"') && body.includes('id="club-pill"'), page.file);
+    assert.ok(body.includes('/media/club/club-qr-' + page.sport.sport_id + '.jpg'), page.file + ' sport QR image');
     const start = body.indexOf('id="club-partner"');
     assert.ok(!/wholesale/i.test(body.slice(0, start)), page.file + ' wholesale outside club nudge');
   } else {
     assert.ok(!body.includes('id="club-partner"'), page.file);
+    assert.ok(!body.includes('id="club-strip"') && !body.includes('id="club-pill"'), page.file);
     assert.ok(!/wholesale/i.test(body), page.file + ' wholesale');
   }
 }
