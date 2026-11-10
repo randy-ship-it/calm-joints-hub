@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
-<link rel="stylesheet" href="/css/sport-zone.css?v=12">
+<link rel="stylesheet" href="/css/sport-zone.css?v=13">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -220,7 +220,50 @@
       <ol class="steps"><li><strong>Book a time</strong><span>Pick a video visit that fits around your matches.</span></li><li><strong>Meet on video</strong><span>You see a registered physiotherapist from home.</span></li><li><strong>Talk it through</strong><span>They look at how you move and discuss next steps with you.</span></li></ol>
     </div>
   </section>
-  
+  <section class="club-nudge" id="club-partner" data-club-sport="tennis" data-club-path="/tennis" aria-label="Private club partnership">
+    <div class="wrap">
+      <details class="club-band">
+        <summary>Run a private club? Partner with us</summary>
+        <div class="club-card">
+          <p class="club-frame">Activate a co-branded QR code at your club. Members who book get care from registered therapists across the province. Club profit goes up, and the burden on member fees goes down. It’s hands-off.</p>
+          <p class="club-example">For country, tennis, and golf-and-tennis clubs, this helps members with tennis elbow, shoulder strain, and the load that comes with years on court.</p>
+          <div class="club-tiers">
+            <article class="club-tier">
+              <h3>Tier 1 · Physio only</h3>
+              <p>Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.</p>
+              <button type="button" class="btn club-cta" data-club-tier="physio">Request a Physio QR</button>
+            </article>
+            <article class="club-tier">
+              <h3>Tier 2 · Full recovery activation</h3>
+              <p>A co-branded member store at wholesale rates, with physiotherapy built in.</p>
+              <button type="button" class="btn club-cta" data-club-tier="full">Request full recovery activation</button>
+            </article>
+          </div>
+          <form class="club-form" id="club-qr-form" hidden novalidate>
+            <h3 id="club-form-title">Request a co-branded QR</h3>
+            <p class="club-form-lead">We’ll use this to set up your code and get back to you.</p>
+            <label>Club name <input name="club" type="text" autocomplete="organization" maxlength="120" required></label>
+            <label>Contact name <input name="name" type="text" autocomplete="name" maxlength="80" required></label>
+            <label>Email <input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+            <label>Phone <span class="club-optional">(optional)</span> <input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
+            <label>Sport <input name="sport_label" type="text" value="Tennis" readonly></label>
+            <label>Tier
+              <select name="tier" required>
+                <option value="physio">Physio only</option>
+                <option value="full">Full recovery activation</option>
+              </select>
+            </label>
+            <input type="hidden" name="sport" value="tennis">
+            <input type="hidden" name="path" value="/tennis">
+            <label>Note <span class="club-optional">(optional)</span> <textarea name="message" rows="3" maxlength="1000"></textarea></label>
+            <p class="club-hp"><label>Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
+            <button class="btn club-submit" type="submit">Send request</button>
+            <p class="club-status" role="status"></p>
+          </form>
+        </div>
+      </details>
+    </div>
+  </section>
 </main>
 <footer>
   <div class="wrap foot">
@@ -246,6 +289,7 @@
 <script src="/js/sport-hints.js?v=1" defer></script>
 <script src="/js/sport-therapists.js?v=1" defer></script>
 <script src="/js/sport-insider.js?v=6" defer></script>
+<script src="/js/sport-club.js?v=1" defer></script>
 <script src="/config.js"></script>
 <script src="/js/book.js?v=8"></script>
 <script src="/js/consent.js"></script>

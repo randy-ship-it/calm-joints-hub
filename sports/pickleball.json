@@ -6,7 +6,7 @@
   "description": "A short pickleball kit for between games, and a video assessment with a registered physiotherapist.",
   "eyebrow": "Pickleball",
   "h1": "Stay in the point.",
-  "sub": "Pickleball is quick at the kitchen and hard on knees, shoulders and feet. Here’s a short kit for between games, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "sub": "Pickleball is quick at the kitchen and hard on knees, shoulders and feet. Here\u2019s a short kit for between games, and a video assessment with a registered physiotherapist if you\u2019d like to talk through how you move.",
   "hero_image": {
     "src": "/media/pickleball/doubles-rally.jpg",
     "width": 1000,
@@ -23,6 +23,11 @@
   },
   "nav_current": "Pickleball",
   "widget": {
-    "panel_copy": "Picked for pickleball. Opens in the Industry Insider’s Store."
+    "panel_copy": "Picked for pickleball. Opens in the Industry Insider\u2019s Store."
+  },
+  "club_nudge": {
+    "example": "For clubs and community or seniors-heavy courts, this supports a fast-growing older crowd dealing with knees, Achilles issues, and falls.",
+    "tier1": "Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.",
+    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in."
   }
 }
