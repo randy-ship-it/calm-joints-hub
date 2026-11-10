@@ -6,12 +6,12 @@
   "description": "A short squash kit for between matches, and a video assessment with a registered physiotherapist.",
   "eyebrow": "Squash",
   "h1": "Stay on court longer.",
-  "sub": "Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "sub": "Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Here\u2019s a short kit for between matches, and a video assessment with a registered physiotherapist if you\u2019d like to talk through how you move.",
   "share_image": {
     "src": "/media/squash/share-preview.jpg",
     "width": 1179,
     "height": 840,
-    "alt": "Calm Joints Squash page, with the Grand Central court photo and Insider’s Store."
+    "alt": "Calm Joints Squash page, with the Grand Central court photo and Insider\u2019s Store."
   },
   "hero_image": {
     "src": "/media/squash/grand-central-toc-2019.jpg",
@@ -27,14 +27,35 @@
   },
   "nav_current": "Squash",
   "widget": {
-    "panel_copy": "Picked for squash. Opens in the Industry Insider’s Store."
+    "panel_copy": "Picked for squash. Opens in the Industry Insider\u2019s Store."
   },
   "guides_heading": "Squash injury guides",
   "guides_note": "Short general guides. They are not a diagnosis or a plan for your injury.",
   "guides": [
-    { "href": "/blog/squash-ankle-sprain", "title": "Rolled ankle", "line": "First aid, red flags, and why a return plan is individual." },
-    { "href": "/blog/squash-knee-pain-lunging", "title": "Knee pain after lunges", "line": "Front-of-knee overload, and the signs that need urgent care." },
-    { "href": "/blog/squash-shoulder-pain", "title": "Shoulder pain", "line": "What the NHS suggests while a shoulder settles, and when to get help." },
-    { "href": "/blog/squash-lower-back-pain", "title": "Lower back pain", "line": "Staying active, and the symptoms that need emergency care." }
-  ]
+    {
+      "href": "/blog/squash-ankle-sprain",
+      "title": "Rolled ankle",
+      "line": "First aid, red flags, and why a return plan is individual."
+    },
+    {
+      "href": "/blog/squash-knee-pain-lunging",
+      "title": "Knee pain after lunges",
+      "line": "Front-of-knee overload, and the signs that need urgent care."
+    },
+    {
+      "href": "/blog/squash-shoulder-pain",
+      "title": "Shoulder pain",
+      "line": "What the NHS suggests while a shoulder settles, and when to get help."
+    },
+    {
+      "href": "/blog/squash-lower-back-pain",
+      "title": "Lower back pain",
+      "line": "Staying active, and the symptoms that need emergency care."
+    }
+  ],
+  "club_nudge": {
+    "example": "For private athletic and racquet clubs, this is a simple way to support members dealing with wrist, elbow or knee niggles from lunges and quick turns.",
+    "tier1": "Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.",
+    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in."
+  }
 }

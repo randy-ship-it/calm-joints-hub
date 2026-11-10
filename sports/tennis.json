@@ -6,7 +6,7 @@
   "description": "A short tennis kit for between matches, and a video assessment with a registered physiotherapist.",
   "eyebrow": "Tennis",
   "h1": "Stay in the rally.",
-  "sub": "Tennis asks a lot of shoulders, elbows, knees and feet: serves, wide steps, long matches. Here’s a short kit for between matches, and a video assessment with a registered physiotherapist if you’d like to talk through how you move.",
+  "sub": "Tennis asks a lot of shoulders, elbows, knees and feet: serves, wide steps, long matches. Here\u2019s a short kit for between matches, and a video assessment with a registered physiotherapist if you\u2019d like to talk through how you move.",
   "hero_image": {
     "src": "/media/tennis/citi-open-2018-forehand.jpg",
     "width": 1000,
@@ -23,6 +23,11 @@
   },
   "nav_current": "Tennis",
   "widget": {
-    "panel_copy": "Picked for tennis. Opens in the Industry Insider’s Store."
+    "panel_copy": "Picked for tennis. Opens in the Industry Insider\u2019s Store."
+  },
+  "club_nudge": {
+    "example": "For country, tennis, and golf-and-tennis clubs, this helps members with tennis elbow, shoulder strain, and the load that comes with years on court.",
+    "tier1": "Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.",
+    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in."
   }
 }

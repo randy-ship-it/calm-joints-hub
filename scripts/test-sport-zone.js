@@ -126,8 +126,9 @@ assert.ok(insiderClient.includes('Insider pricing coming soon'));
 assert.ok(!insiderClient.includes('in your cart'));
 for (const file of [html, insiderClient, fs.readFileSync('css/sport-zone.css', 'utf8')]) {
   assert.ok(!/randy\s*30|randywholesale/i.test(file), 'access code stays off the public page');
-  assert.ok(!/wholesale/i.test(file));
 }
+assert.ok(!/wholesale/i.test(insiderClient));
+assert.ok(!/wholesale/i.test(fs.readFileSync('css/sport-zone.css', 'utf8')));
 assert.ok(html.includes('id="therapists-title"'));
 assert.ok(html.includes('Physiotherapists you can book'));
 assert.ok(html.includes('This row is not a live schedule.'));
@@ -190,13 +191,28 @@ const visible = html
   .replace(/\s(?:href|src)="[^"]*"/g, '');
 for (const banned of [
   'Scale Health', 'membership', 'Align', 'Jane', 'CHI', 'residual', 'Dual-Fee', 'dual fee',
-  '35%', 'wholesale', 'all our margin', 'coupon', 'holiday', 'R4', 'KT Tape', 'Karakal',
+  '35%', 'all our margin', 'coupon', 'holiday', 'R4', 'KT Tape', 'Karakal',
   'Aircast', 'SOLE', 'Tourna', 'physio-picked', '$',
 ]) {
   assert.ok(!visible.includes(banned), 'public page includes ' + banned);
 }
 assert.ok(visible.includes('Industry Insider\u2019s Store'));
 assert.ok(!visible.includes('class="coupon"'));
+assert.ok(html.includes('id="club-partner"') && html.includes('Run a private club? Partner with us'));
+assert.ok(html.includes('Tier 1 · Physio only') && html.includes('Tier 2 · Full recovery activation'));
+assert.ok(html.includes('25% payout on net revenue'));
+assert.ok(html.includes('across the province'));
+assert.ok(html.includes('co-branded member store at wholesale rates'));
+assert.ok(html.includes('wrist, elbow or knee niggles from lunges and quick turns'));
+assert.ok(html.includes('Request a Physio QR') && html.includes('Request full recovery activation'));
+assert.ok(html.includes('id="club-qr-form"') && html.includes('name="club"') && html.includes('name="email"'));
+assert.ok(html.includes('/js/sport-club.js?v=1'));
+assert.ok(html.indexOf('id="guides"') < html.indexOf('id="club-partner"'));
+assert.ok(html.indexOf('id="club-partner"') < html.indexOf('<footer>'));
+const clubChunk = html.slice(html.indexOf('id="club-partner"'), html.indexOf('<footer>'));
+assert.ok(/wholesale/i.test(clubChunk));
+assert.ok(!/wholesale/i.test(html.slice(0, html.indexOf('id="club-partner"'))));
+assert.ok(!/canada-wide in-person|8\.7mm|MedVibe|Scale Health Connect/i.test(html));
 
 const window = {};
 vm.runInNewContext(fs.readFileSync('config.js', 'utf8'), { window });
@@ -269,10 +285,26 @@ for (const page of pages) {
   assert.deepStrictEqual(jpegSize(hero), { w: page.sport.hero_image.width, h: page.sport.hero_image.height });
   assert.ok(hero.length < 180000, page.file);
   assert.ok(fs.readFileSync(page.sport.hero_image.src.replace(/^\//, '').replace(/\.jpg$/, '.license.txt'), 'utf8').includes(page.sport.hero_image.license));
-  for (const banned of ['wholesale', 'randywholesale', 'heals', 'treats', 'physio-picked', '$']) {
+  for (const banned of ['randywholesale', 'heals', 'treats', 'physio-picked', '$']) {
     assert.ok(!body.toLowerCase().includes(banned), page.file + ' ' + banned);
   }
+  const isClubPage = page.file === 'tennis.html' || page.file === 'pickleball.html';
+  if (isClubPage) {
+    assert.ok(body.includes('id="club-partner"'), page.file);
+    assert.ok(body.includes('Run a private club? Partner with us'), page.file);
+    assert.ok(body.includes('Tier 1 · Physio only') && body.includes('Tier 2 · Full recovery activation'), page.file);
+    assert.ok(body.includes('25% payout on net revenue'), page.file);
+    assert.ok(body.includes('co-branded member store at wholesale rates'), page.file);
+    assert.ok(body.includes('/js/sport-club.js?v=1'), page.file);
+    const start = body.indexOf('id="club-partner"');
+    assert.ok(!/wholesale/i.test(body.slice(0, start)), page.file + ' wholesale outside club nudge');
+  } else {
+    assert.ok(!body.includes('id="club-partner"'), page.file);
+    assert.ok(!/wholesale/i.test(body), page.file + ' wholesale');
+  }
 }
+assert.ok(pages.find((page) => page.file === 'tennis.html').html.includes('tennis elbow, shoulder strain'));
+assert.ok(pages.find((page) => page.file === 'pickleball.html').html.includes('knees, Achilles issues, and falls'));
 const paddle = pages.find((page) => page.file === 'paddle.html');
 assert.strictEqual(paddle.sport.route, '/paddle');
 assert.strictEqual(paddle.sport.sport_id, 'padel');
