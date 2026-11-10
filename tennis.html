@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/calm-extras.css?v=4">
-<link rel="stylesheet" href="/css/sport-zone.css?v=13">
+<link rel="stylesheet" href="/css/sport-zone.css?v=14">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -111,6 +111,25 @@
           <a class="btn btn-book th-book" href="#" data-book data-book-direct data-staff="96" aria-label="Book a video assessment with Olakunle O.">Book</a>
         </li>
       </ul>
+    </div>
+  </section>
+  <section class="club-strip" id="club-strip" aria-label="For private clubs">
+    <div class="wrap">
+      <div class="club-strip-card">
+        <div class="club-strip-copy">
+          <p class="club-strip-kicker">For private clubs</p>
+          <p class="club-strip-line">Put a co-branded physio QR on your tennis courts, or open a member recovery store. Hands-off for your staff.</p>
+          <a class="club-calc" href="/enterprise#estimate" target="_blank" rel="noopener" data-club-calc="strip">Try the opportunity calculator<span aria-hidden="true"> →</span></a>
+        </div>
+        <div class="club-strip-actions">
+          <button type="button" class="club-open club-open-qr" data-club-open="physio" aria-haspopup="dialog" aria-controls="club-modal">
+            <span class="club-open-tier">Tier 1</span><span class="club-open-label">See the club QR</span>
+          </button>
+          <button type="button" class="club-open club-open-store" data-club-open="full" aria-haspopup="dialog" aria-controls="club-modal">
+            <span class="club-open-tier">Tier 2</span><span class="club-open-label">See the member store</span>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
   <section class="hints" aria-labelledby="hints-title">
@@ -220,50 +239,90 @@
       <ol class="steps"><li><strong>Book a time</strong><span>Pick a video visit that fits around your matches.</span></li><li><strong>Meet on video</strong><span>You see a registered physiotherapist from home.</span></li><li><strong>Talk it through</strong><span>They look at how you move and discuss next steps with you.</span></li></ol>
     </div>
   </section>
-  <section class="club-nudge" id="club-partner" data-club-sport="tennis" data-club-path="/tennis" aria-label="Private club partnership">
+  <section class="club-nudge" id="club-partner" data-club-sport="tennis" data-club-path="/tennis" aria-labelledby="club-band-title">
     <div class="wrap">
-      <details class="club-band">
-        <summary>Run a private club? Partner with us</summary>
-        <div class="club-card">
+      <div class="club-band">
+        <div class="club-band-head">
+          <p class="club-strip-kicker">For private clubs</p>
+          <h2 id="club-band-title">Run a private club? Partner with us</h2>
           <p class="club-frame">Activate a co-branded QR code at your club. Members who book get care from registered therapists across the province. Club profit goes up, and the burden on member fees goes down. It’s hands-off.</p>
           <p class="club-example">For country, tennis, and golf-and-tennis clubs, this helps members with tennis elbow, shoulder strain, and the load that comes with years on court.</p>
-          <div class="club-tiers">
-            <article class="club-tier">
-              <h3>Tier 1 · Physio only</h3>
-              <p>Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.</p>
-              <button type="button" class="btn club-cta" data-club-tier="physio">Request a Physio QR</button>
-            </article>
-            <article class="club-tier">
-              <h3>Tier 2 · Full recovery activation</h3>
-              <p>A co-branded member store at wholesale rates, with physiotherapy built in.</p>
-              <button type="button" class="btn club-cta" data-club-tier="full">Request full recovery activation</button>
-            </article>
-          </div>
-          <form class="club-form" id="club-qr-form" hidden novalidate>
-            <h3 id="club-form-title">Request a co-branded QR</h3>
-            <p class="club-form-lead">We’ll use this to set up your code and get back to you.</p>
-            <label>Club name <input name="club" type="text" autocomplete="organization" maxlength="120" required></label>
-            <label>Contact name <input name="name" type="text" autocomplete="name" maxlength="80" required></label>
-            <label>Email <input name="email" type="email" autocomplete="email" maxlength="254" required></label>
-            <label>Phone <span class="club-optional">(optional)</span> <input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
-            <label>Sport <input name="sport_label" type="text" value="Tennis" readonly></label>
-            <label>Tier
-              <select name="tier" required>
-                <option value="physio">Physio only</option>
-                <option value="full">Full recovery activation</option>
-              </select>
-            </label>
-            <input type="hidden" name="sport" value="tennis">
-            <input type="hidden" name="path" value="/tennis">
-            <label>Note <span class="club-optional">(optional)</span> <textarea name="message" rows="3" maxlength="1000"></textarea></label>
-            <p class="club-hp"><label>Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
-            <button class="btn club-submit" type="submit">Send request</button>
-            <p class="club-status" role="status"></p>
-          </form>
         </div>
-      </details>
+        <div class="club-tiers">
+          <article class="club-tier club-tier-qr">
+            <button type="button" class="club-tier-visual" data-club-open="physio" aria-haspopup="dialog" aria-controls="club-modal" aria-label="See the co-branded club QR">
+              <img src="/media/club/club-qr-tennis.jpg" alt="" width="1200" height="900" loading="lazy" decoding="async">
+            </button>
+            <h3>Tier 1 · Physio only</h3>
+            <p>Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.</p>
+            <button type="button" class="btn club-cta club-cta-qr" data-club-tier="physio" aria-haspopup="dialog" aria-controls="club-modal">Request a Physio QR</button>
+          </article>
+          <article class="club-tier club-tier-store">
+            <button type="button" class="club-tier-visual" data-club-open="full" aria-haspopup="dialog" aria-controls="club-modal" aria-label="See the co-branded member store">
+              <img src="/media/club/club-store.jpg" alt="" width="1200" height="900" loading="lazy" decoding="async">
+            </button>
+            <h3>Tier 2 · Full recovery activation</h3>
+            <p>A co-branded member store at wholesale rates, with physiotherapy built in.</p>
+            <button type="button" class="btn club-cta club-cta-store" data-club-tier="full" aria-haspopup="dialog" aria-controls="club-modal">Request full recovery activation</button>
+          </article>
+        </div>
+        <p class="club-calc-row">Curious what it could look like for your club? <a class="club-calc" href="/enterprise#estimate" target="_blank" rel="noopener" data-club-calc="band">Try the opportunity calculator<span aria-hidden="true"> →</span></a> <span class="club-calc-note">Illustrative only, not a payout guarantee.</span></p>
+      </div>
     </div>
   </section>
+  <div class="club-modal" id="club-modal" role="dialog" aria-modal="true" aria-labelledby="club-modal-title" data-view="physio" hidden>
+    <div class="club-modal-backdrop" data-club-close></div>
+    <div class="club-modal-dialog" tabindex="-1">
+      <div class="club-modal-top">
+        <div class="club-modal-tabs" role="group" aria-label="Partnership tier">
+          <button type="button" class="club-tab" data-club-view="physio" aria-pressed="true">Tier 1 · Physio QR</button>
+          <button type="button" class="club-tab" data-club-view="full" aria-pressed="false">Tier 2 · Member store</button>
+        </div>
+        <button type="button" class="club-modal-close" data-club-close aria-label="Close">×</button>
+      </div>
+      <div class="club-view" data-club-panel="physio">
+        <figure class="club-visual">
+          <img src="/media/club/club-qr-tennis.jpg" alt="Mockup: a co-branded Calm Joints and Your Club sign with a QR code, standing beside a tennis court." width="1200" height="900" loading="lazy" decoding="async">
+          <figcaption>Illustrative mockup. Your club’s logo goes where it says Your Club. The code opens calmjoints.org/tennis.</figcaption>
+        </figure>
+        <h2 id="club-modal-title" class="club-modal-title">A co-branded physio QR for your courts</h2>
+        <p class="club-modal-copy">Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.</p>
+        <ul class="club-points"><li>Sign, cards and code made for your club</li><li>Booking and care handled for you</li><li>No staff time or inventory</li></ul>
+      </div>
+      <div class="club-view" data-club-panel="full" hidden>
+        <figure class="club-visual">
+          <img src="/media/club/club-store.jpg" alt="Mockup: a co-branded Calm Joints and Your Club member store on a phone-sized card, with recovery products and care options." width="1200" height="900" loading="lazy" decoding="async">
+          <figcaption>Illustrative mockup of a co-branded member store. Your club’s logo goes where it says Your Club.</figcaption>
+        </figure>
+        <h2 class="club-modal-title">A co-branded member recovery store</h2>
+        <p class="club-modal-copy">A co-branded member store at wholesale rates, with physiotherapy built in.</p>
+        <ul class="club-points"><li>Your club’s name on the store</li><li>Physio booking built in, same as Tier 1</li><li>Orders and care handled for you</li></ul>
+      </div>
+      <p class="club-calc-row club-calc-modal">See what the opportunity could look like. <a class="club-calc" href="/enterprise#estimate" target="_blank" rel="noopener" data-club-calc="modal">Try the opportunity calculator<span aria-hidden="true"> →</span></a></p>
+      <form class="club-form" id="club-qr-form" novalidate>
+        <h3 id="club-form-title">Request a co-branded QR</h3>
+        <p class="club-form-lead">We’ll use this to set up your code and get back to you.</p>
+        <label>Club name <input name="club" type="text" autocomplete="organization" maxlength="120" required></label>
+        <label>Contact name <input name="name" type="text" autocomplete="name" maxlength="80" required></label>
+        <label>Email <input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+        <label>Phone <span class="club-optional">(optional)</span> <input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
+        <label>Sport <input name="sport_label" type="text" value="Tennis" readonly></label>
+        <label>Tier
+          <select name="tier" required>
+            <option value="physio">Physio only</option>
+            <option value="full">Full recovery activation</option>
+          </select>
+        </label>
+        <input type="hidden" name="sport" value="tennis">
+        <input type="hidden" name="path" value="/tennis">
+        <label>Note <span class="club-optional">(optional)</span> <textarea name="message" rows="3" maxlength="1000"></textarea></label>
+        <p class="club-hp"><label>Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
+        <button class="btn club-submit" type="submit">Send request</button>
+        <p class="club-status" role="status"></p>
+      </form>
+    </div>
+  </div>
+  <button type="button" class="club-pill" id="club-pill" data-club-open="physio" aria-haspopup="dialog" aria-controls="club-modal"><span class="club-pill-dot" aria-hidden="true"></span>Club partners</button>
 </main>
 <footer>
   <div class="wrap foot">
@@ -289,7 +348,7 @@
 <script src="/js/sport-hints.js?v=1" defer></script>
 <script src="/js/sport-therapists.js?v=1" defer></script>
 <script src="/js/sport-insider.js?v=6" defer></script>
-<script src="/js/sport-club.js?v=1" defer></script>
+<script src="/js/sport-club.js?v=2" defer></script>
 <script src="/config.js"></script>
 <script src="/js/book.js?v=8"></script>
 <script src="/js/consent.js"></script>

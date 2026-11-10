@@ -1,0 +1,11 @@
+Club partner CTA visuals (illustrative mockups)
+
+club-qr-squash.jpg, club-qr-tennis.jpg, club-qr-pickleball.jpg
+  Court backgrounds: original AI-generated renders made for Calm Joints (no people, no third-party photos, no attribution required).
+  Sign: composited in HTML with the Calm Joints wordmark, a "Your Club" logo placeholder, and a real QR code
+  that opens https://calmjoints.org/squash, /tennis or /pickleball respectively.
+
+club-store.jpg
+  Member store visual: built from a copy of the hero member-hub card on https://www.scalehealth.ca/clinichubs
+  (scalehealth-clinichubs-hero-hub.png, screenshot copy taken Nov 10, 2026), re-headed with Calm Joints x Your Club co-branding.
+  scalehealth.ca itself was not edited.
