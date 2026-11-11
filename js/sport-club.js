@@ -7,6 +7,8 @@
   var tierSelect = form && form.querySelector('[name="tier"]');
   var title = form && form.querySelector('#club-form-title');
   var pill = document.getElementById('club-pill');
+  var jump = modal.querySelector('[data-club-jump]');
+  var jumpBar = modal.querySelector('.club-jump-bar');
   if (!dialog || !form || !status || !tierSelect) return;
   var lastFocus = null;
 
@@ -24,7 +26,25 @@
     var active = modal.querySelector('[data-club-panel="' + view + '"] .club-modal-title');
     if (active) active.id = 'club-modal-title';
     tierSelect.value = view;
-    if (title) title.textContent = view === 'full' ? 'Request full recovery activation' : 'Request a Physio QR';
+    var label = view === 'full' ? 'Request full recovery activation' : 'Request a Physio QR';
+    if (title) title.textContent = label;
+    if (jump) jump.innerHTML = label + '<span aria-hidden="true"> \u2193</span>';
+  }
+
+  function setPlace(place) {
+    place = place === 'wall' ? 'wall' : 'stand';
+    modal.querySelectorAll('[data-club-place]').forEach(function (btn) {
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-club-place') === place ? 'true' : 'false');
+    });
+    modal.querySelectorAll('[data-club-place-img]').forEach(function (el) {
+      el.hidden = el.getAttribute('data-club-place-img') !== place;
+    });
+  }
+
+  function goToForm() {
+    var club = form.querySelector('[name="club"]');
+    form.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    if (club) club.focus({ preventScroll: true });
   }
 
   function open(view, focusForm) {
@@ -63,6 +83,16 @@
     el.addEventListener('click', close);
   });
   tierSelect.addEventListener('change', function () { setView(tierSelect.value); });
+  modal.querySelectorAll('[data-club-place]').forEach(function (btn) {
+    btn.addEventListener('click', function () { setPlace(btn.getAttribute('data-club-place')); });
+  });
+  if (jump) jump.addEventListener('click', goToForm);
+  if (jumpBar && 'IntersectionObserver' in window) {
+    var formIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { jumpBar.classList.toggle('is-hidden', en.isIntersecting); });
+    }, { root: dialog, threshold: 0.05 });
+    formIo.observe(form);
+  }
   document.addEventListener('keydown', function (e) {
     if (modal.hidden) return;
     if (e.key === 'Escape') { close(); return; }

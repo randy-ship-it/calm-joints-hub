@@ -4,6 +4,8 @@
   "route": "/tennis",
   "title": "Tennis | Calm Joints",
   "description": "A short tennis kit for between matches, and a video assessment with a registered physiotherapist.",
+  "seo_title": "Tennis Physio Online & Recovery Kit | Calm Joints",
+  "seo_description": "Sore after tennis? Book a video assessment with a registered physiotherapist, get a short between-match recovery kit, or bring co-branded physio to your club.",
   "eyebrow": "Tennis",
   "h1": "Stay in the rally.",
   "sub": "Tennis asks a lot of shoulders, elbows, knees and feet: serves, wide steps, long matches. Here\u2019s a short kit for between matches, and a video assessment with a registered physiotherapist if you\u2019d like to talk through how you move.",
@@ -28,6 +30,22 @@
   "club_nudge": {
     "example": "For country, tennis, and golf-and-tennis clubs, this helps members with tennis elbow, shoulder strain, and the load that comes with years on court.",
     "tier1": "Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.",
-    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in."
-  }
+    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in.",
+    "wall_label": "Fence mount",
+    "wall_where": "on the court fence or a nearby wall"
+  },
+  "faq": [
+    {
+      "q": "What are the most common tennis injuries?",
+      "a": "Tennis asks a lot of shoulders, elbows, knees and feet. Common complaints include tennis elbow, shoulder strain from serving, knee pain, and sore feet or ankles from wide, quick steps."
+    },
+    {
+      "q": "When should I get a tennis injury checked?",
+      "a": "If pain keeps coming back, stops you moving normally, or has not settled, talk it through with a registered physiotherapist. Get urgent care for severe pain, a joint that looks out of place, numbness, or if you cannot put weight on a leg. In an emergency, call 911."
+    },
+    {
+      "q": "Can a physiotherapist assess a tennis injury on video?",
+      "a": "Yes. A Calm Joints video assessment is with a registered physiotherapist. They look at how you move and talk through next steps with you, including whether an in-person visit makes sense. Book a time that fits around your matches."
+    }
+  ]
 }

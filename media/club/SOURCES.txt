@@ -1,9 +1,14 @@
 Club partner CTA visuals (illustrative mockups)
 
-club-qr-squash.jpg, club-qr-tennis.jpg, club-qr-pickleball.jpg
-  Court backgrounds: original AI-generated renders made for Calm Joints (no people, no third-party photos, no attribution required).
-  Sign: composited in HTML with the Calm Joints wordmark, a "Your Club" logo placeholder, and a real QR code
-  that opens https://calmjoints.org/squash, /tennis or /pickleball respectively.
+club-qr-<sport>.jpg (stand-up sign) and club-qr-<sport>-wall.jpg (wall, glass or fence mount)
+for squash, tennis and pickleball, plus -640.webp / -1200.webp variants of each.
+  Scenes: original AI-generated photographic renders made for Calm Joints on Nov 10, 2026
+  (no people, no third-party photos, no attribution required). Each render had a blank sign panel.
+  Sign faces: designed in HTML (Calm Joints wordmark, a "Your Club" logo placeholder, and a real QR code),
+  then perspective-warped and light-matched onto the blank panel.
+  Every QR was decoded with OpenCV after compositing and opens https://calmjoints.org/squash, /tennis or /pickleball.
+  Placements: a 24 x 36 in portrait A-frame sign at court side, and a compact co-branded sign mounted on the
+  court glass (squash), the court fence (tennis) or the side wall (pickleball).
 
 club-store.jpg
   Member store visual: built from a copy of the hero member-hub card on https://www.scalehealth.ca/clinichubs
