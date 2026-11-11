@@ -306,6 +306,10 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 .insider-list strong { color: var(--navy); font-size: .95rem; }
 .insider-list small { color: var(--muted); font-size: .8rem; line-height: 1.35; }
 .insider-pick .btn { justify-self: start; }
+.insider-share { margin-top: .85rem; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.insider-share button { font: 700 .92rem var(--sans); color: var(--navy); background: var(--white); border: 1px solid rgba(10,29,86,.28); border-radius: 999px; min-height: 44px; padding: .55rem 1.1rem; cursor: pointer; }
+.insider-share button:hover { border-color: var(--navy); background: var(--paper); }
+.insider-share button:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
 body.insider-open { overflow: hidden; }
 .insider-overlay {
   position: fixed; inset: 0; z-index: 80; display: grid; place-items: center;

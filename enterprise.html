@@ -24,6 +24,7 @@
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM summary">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/calm-extras.css?v=4">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://calmjoints.org/#org","name":"Calm Joints","legalName":"Calm Joints Inc.","url":"https://calmjoints.org/","logo":"https://calmjoints.org/media/icon-512.png","email":"info@calmjoints.org","areaServed":{"@type":"Country","name":"Canada"},"description":"Calm Joints offers Managed Physio: online physio Scale runs for a partner's customers or employees. They book on the Calm Joints site. Digital care first. In person only if needed. Canada-wide now. Partners share the revenue.","contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"info@calmjoints.org","areaServed":"CA","availableLanguage":["en"]}},
@@ -57,7 +58,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .nav-links{display:flex;align-items:center;gap:1.25rem;font-size:.95rem}
 .nav-links a:not(.btn){text-decoration:none;color:var(--mute)}.nav-links a[aria-current]{color:var(--ink);font-weight:600}
 @media(max-width:760px){
-  .nav-inner{height:auto;min-height:60px;padding:.6rem 0;flex-wrap:wrap}
+  .nav-inner{height:auto;min-height:60px;padding:.6rem var(--pad);flex-wrap:wrap}
   .nav-links a:not(.btn){display:none}
   .nav-links{width:100%;display:grid;grid-template-columns:auto 1fr;gap:.5rem}
   .nav-links a[href="/enterprise"]{display:inline-flex;align-items:center;font-size:.86rem;font-weight:600;color:var(--ink);padding:.45rem .8rem;border:1px solid var(--line);border-radius:999px}

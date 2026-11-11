@@ -79,7 +79,11 @@
   .nav-share { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; color: var(--ink) !important; white-space: nowrap; padding: .35rem .75rem .35rem .4rem; border: 1px solid #D3F8DF; border-radius: 999px; background: #F3FDF6; }
   .nav-share:hover { border-color: var(--green-2); }
   @media (min-width: 1180px) { .nav-links .btn { white-space: nowrap; } }
-  @media (max-width: 1179px) { .nav-links a.nav-share { display: none; } }
+  @media (min-width: 761px) and (max-width: 1400px) { .nav-links { gap: .95rem; } }
+  @media (min-width: 761px) and (max-width: 1279px) { .nav-links { gap: .75rem; } }
+  @media (min-width: 761px) and (max-width: 1023px) { .nav-links a[href="#brands"], .nav-links a[href="/blog"], .nav-links a[href="/careers"] { display: none; } }
+  @media (max-width: 1499px) { .nav-links a.nav-share { display: none; } }
+
   .nav-share svg { width: 17px; height: 17px; color: var(--green); }
   .nav-share img { width: 22px; height: 22px; border-radius: 50%; background: #D3F8DF; margin-left: -.55rem; border: 2px solid #fff; }
   .nav-share img:first-of-type { margin-left: 0; }
