@@ -394,6 +394,30 @@ for (const href of ['/squash', '/tennis', '/pickleball', '/paddle', '/badminton'
 }
 assert.ok(indexHtml.includes('aria-current="page">Racquets</a>'));
 assert.ok(indexHtml.includes('Five court sports.'));
+
+const garminUrl = 'https://www.garmin.com/en-CA/c/promotions/scalehealthca/';
+assert.strictEqual(family.garmin_insider.url, garminUrl);
+assert.ok(fs.existsSync('media/logos/garmin.png'), 'existing Garmin logo is required');
+assert.ok(html.includes('class="garmin-insider-card"'));
+assert.ok(html.includes('Garmin Insider’s Store'));
+assert.ok(html.includes('target="_blank" rel="noopener noreferrer"'));
+assert.ok(html.includes('data-store-place="garmin"') && html.includes('data-partner="garmin"'));
+assert.ok(html.includes('utm_source=calmjoints') && html.includes('utm_medium=referral'));
+assert.ok(html.includes('utm_campaign=garmin_insider_store') && html.includes('utm_content=squash'));
+assert.ok(html.includes('src="/media/logos/garmin.png"'));
+assert.ok(html.includes('/css/sport-zone.css?v=18'));
+assert.ok(html.indexOf('class="garmin-insider"') < html.indexOf('id="kit"'), 'Garmin store sits above the kit');
+assert.ok(css.includes('.garmin-insider-card') && css.includes('min-height: 44px'));
+for (const page of pages) {
+  assert.ok(page.html.includes('class="garmin-insider-card"'), page.file + ' missing Garmin store');
+  assert.ok(page.html.includes('utm_content=' + page.sport.sport_id), page.file + ' tracking');
+  assert.ok(page.html.includes('target="_blank" rel="noopener noreferrer"'), page.file);
+  assert.ok(page.html.includes('/css/sport-zone.css?v=18'), page.file);
+}
+assert.ok(indexHtml.includes('class="garmin-insider-card"'));
+assert.ok(indexHtml.includes('utm_content=racquets'));
+assert.ok(indexHtml.includes('Garmin Insider’s Store'));
+assert.ok(indexHtml.includes('/css/sport-zone.css?v=18'));
 const indexVisible = indexHtml.replace(/<script[\s\S]*?<\/script>/g, '').replace(/\s(?:href|src)="[^"]*"/g, '');
 for (const banned of ['Scale Health', 'membership', 'residual', 'Dual-Fee', 'dual fee', 'wholesale']) {
   assert.ok(!indexVisible.includes(banned), 'racquets index includes ' + banned);
