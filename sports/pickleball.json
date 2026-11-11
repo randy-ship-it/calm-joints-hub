@@ -4,6 +4,8 @@
   "route": "/pickleball",
   "title": "Pickleball | Calm Joints",
   "description": "A short pickleball kit for between games, and a video assessment with a registered physiotherapist.",
+  "seo_title": "Pickleball Physio Online & Recovery Kit | Calm Joints",
+  "seo_description": "Sore after pickleball? Book a video assessment with a registered physiotherapist, get a short between-game recovery kit, or bring co-branded physio to your club.",
   "eyebrow": "Pickleball",
   "h1": "Stay in the point.",
   "sub": "Pickleball is quick at the kitchen and hard on knees, shoulders and feet. Here\u2019s a short kit for between games, and a video assessment with a registered physiotherapist if you\u2019d like to talk through how you move.",
@@ -28,6 +30,22 @@
   "club_nudge": {
     "example": "For clubs and community or seniors-heavy courts, this supports a fast-growing older crowd dealing with knees, Achilles issues, and falls.",
     "tier1": "Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.",
-    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in."
-  }
+    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in.",
+    "wall_label": "Wall mount",
+    "wall_where": "on a side wall or the court fence"
+  },
+  "faq": [
+    {
+      "q": "What are the most common pickleball injuries?",
+      "a": "Pickleball is quick at the kitchen line and hard on knees, shoulders and feet. Common complaints include knee pain, Achilles issues, shoulder strain, and injuries from falls."
+    },
+    {
+      "q": "When should I get a pickleball injury checked?",
+      "a": "If pain keeps coming back, stops you moving normally, or has not settled, talk it through with a registered physiotherapist. Get urgent care for severe pain, a joint that looks out of place, numbness, or if you cannot put weight on a leg. In an emergency, call 911."
+    },
+    {
+      "q": "Can a physiotherapist assess a pickleball injury on video?",
+      "a": "Yes. A Calm Joints video assessment is with a registered physiotherapist. They look at how you move and talk through next steps with you, including whether an in-person visit makes sense. Book a time that fits around your games."
+    }
+  ]
 }

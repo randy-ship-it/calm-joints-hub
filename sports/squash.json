@@ -4,6 +4,8 @@
   "route": "/squash",
   "title": "Squash | Calm Joints",
   "description": "A short squash kit for between matches, and a video assessment with a registered physiotherapist.",
+  "seo_title": "Squash Physio Online & Recovery Kit | Calm Joints",
+  "seo_description": "Sore after squash? Book a video assessment with a registered physiotherapist, get a short between-match recovery kit, or bring co-branded physio to your club.",
   "eyebrow": "Squash",
   "h1": "Stay on court longer.",
   "sub": "Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Here\u2019s a short kit for between matches, and a video assessment with a registered physiotherapist if you\u2019d like to talk through how you move.",
@@ -56,6 +58,22 @@
   "club_nudge": {
     "example": "For private athletic and racquet clubs, this is a simple way to support members dealing with wrist, elbow or knee niggles from lunges and quick turns.",
     "tier1": "Display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province. The club earns a 25% payout on net revenue from those bookings.",
-    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in."
-  }
+    "tier2": "A co-branded member store at wholesale rates, with physiotherapy built in.",
+    "wall_label": "Glass mount",
+    "wall_where": "on the court glass or a nearby wall"
+  },
+  "faq": [
+    {
+      "q": "What are the most common squash injuries?",
+      "a": "Squash means hard lunges, fast turns and quick changes of direction. Common complaints include rolled ankles, front-of-knee pain from lunging, shoulder pain, wrist or elbow niggles, and lower back pain."
+    },
+    {
+      "q": "When should I get a squash injury checked?",
+      "a": "If pain keeps coming back, stops you moving normally, or has not settled, talk it through with a registered physiotherapist. Get urgent care for severe pain, a joint that looks out of place, numbness, or if you cannot put weight on a leg. In an emergency, call 911."
+    },
+    {
+      "q": "Can a physiotherapist assess a squash injury on video?",
+      "a": "Yes. A Calm Joints video assessment is with a registered physiotherapist. They look at how you move and talk through next steps with you, including whether an in-person visit makes sense. Book a time that fits around your matches."
+    }
+  ]
 }

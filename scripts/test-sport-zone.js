@@ -206,7 +206,7 @@ assert.ok(html.includes('co-branded member store at wholesale rates'));
 assert.ok(html.includes('wrist, elbow or knee niggles from lunges and quick turns'));
 assert.ok(html.includes('Request a Physio QR') && html.includes('Request full recovery activation'));
 assert.ok(html.includes('id="club-qr-form"') && html.includes('name="club"') && html.includes('name="email"'));
-assert.ok(html.includes('/js/sport-club.js?v=2'));
+assert.ok(html.includes('/js/sport-club.js?v=3'));
 assert.ok(html.indexOf('id="guides"') < html.indexOf('id="club-partner"'));
 assert.ok(html.indexOf('id="club-partner"') < html.indexOf('<footer>'));
 const clubChunk = html.slice(html.indexOf('id="club-partner"'), html.indexOf('<footer>'));
@@ -227,6 +227,35 @@ assert.ok(html.indexOf('id="club-qr-form"') > html.indexOf('id="club-modal"'), '
 const stripChunk = html.slice(html.indexOf('id="club-strip"'), html.indexOf('id="kit"'));
 assert.ok(!/contractor|canada-wide/i.test(html), 'banned words');
 assert.ok(!/wholesale/i.test(stripChunk), 'strip stays soft');
+// Audit pass: two sign placements, WebP variants, FAQ + JSON-LD, SEO titles.
+assert.ok(html.includes('data-club-place="stand"') && html.includes('data-club-place="wall"'), 'two sign placements');
+assert.ok(html.includes('/media/club/club-qr-squash-wall.jpg'), 'wall placement image');
+assert.ok(html.includes('club-qr-squash-640.webp 640w') && html.includes('type="image/webp"'), 'webp variants');
+assert.ok(html.includes('24 × 36 in stand-up sign'));
+assert.ok(html.includes('<title>Squash Physio Online &amp; Recovery Kit | Calm Joints</title>'));
+assert.ok(html.indexOf('id="club-partner"') < html.indexOf('id="faq"') && html.indexOf('id="faq"') < html.indexOf('<footer>'));
+const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+assert.ok(ld, 'json-ld present');
+const graph = JSON.parse(ld[1])['@graph'];
+const types = graph.map((node) => node['@type']);
+for (const t of ['Organization', 'WebPage', 'BreadcrumbList', 'Service', 'FAQPage']) assert.ok(types.includes(t), 'json-ld ' + t);
+const faqNode = graph.find((node) => node['@type'] === 'FAQPage');
+assert.ok(faqNode.mainEntity.length >= 6);
+for (const q of faqNode.mainEntity) assert.ok(html.includes('<summary>' + q.name.replace(/&/g, '&amp;') + '</summary>'), 'faq visible: ' + q.name);
+assert.ok(html.indexOf('application/ld+json') > html.indexOf('id="club-partner"'), 'json-ld sits after the club section');
+for (const sp of ['squash', 'tennis', 'pickleball']) {
+  for (const v of ['', '-wall']) {
+    for (const ext of ['-640.webp', '-1200.webp']) {
+      const f = 'media/club/club-qr-' + sp + v + ext;
+      assert.ok(fs.existsSync(f) && fs.statSync(f).size < 200000, f);
+    }
+  }
+}
+for (const f of ['club-qr-squash-wall.jpg', 'club-qr-tennis-wall.jpg', 'club-qr-pickleball-wall.jpg']) {
+  const buf = fs.readFileSync('media/club/' + f);
+  assert.ok(buf.length < 220000, f + ' stays modest');
+  assert.deepStrictEqual(jpegSize(buf), { w: 1200, h: 900 }, f);
+}
 for (const f of ['club-qr-squash.jpg', 'club-qr-tennis.jpg', 'club-qr-pickleball.jpg', 'club-store.jpg']) {
   const buf = fs.readFileSync('media/club/' + f);
   assert.ok(buf.length < 220000, f + ' stays modest');
@@ -314,7 +343,7 @@ for (const page of pages) {
     assert.ok(body.includes('Tier 1 · Physio only') && body.includes('Tier 2 · Full recovery activation'), page.file);
     assert.ok(body.includes('25% payout on net revenue'), page.file);
     assert.ok(body.includes('co-branded member store at wholesale rates'), page.file);
-    assert.ok(body.includes('/js/sport-club.js?v=2'), page.file);
+    assert.ok(body.includes('/js/sport-club.js?v=3'), page.file);
     assert.ok(body.includes('id="club-strip"') && body.includes('id="club-modal"') && body.includes('id="club-pill"'), page.file);
     assert.ok(body.includes('/media/club/club-qr-' + page.sport.sport_id + '.jpg'), page.file + ' sport QR image');
     const start = body.indexOf('id="club-partner"');
