@@ -274,22 +274,34 @@ html.lv-embed .lv-vibe,
 html.lv-embed .lv-offers,
 html.lv-embed .lv-band,
 html.lv-embed .lv-skip{display:none!important}
-html.lv-embed body{background:#F5F8F6}
-html.lv-embed .lv-stage{height:100vh;max-height:none;overflow:hidden}
-html.lv-embed .lv-main{padding-top:8px}
-html.lv-embed .lv-places{padding-bottom:18px}
-/* Keep the postal form compact in the iframe so Show my area stays on-screen. */
-html.lv-embed .lv-float{padding:14px 16px}
+html.lv-embed,html.lv-embed body{height:auto;min-height:0;overflow:visible;background:#F5F8F6}
+html.lv-embed .lv-stage{display:flex;flex-direction:column;height:auto;min-height:0;max-height:none;overflow:visible;background:#F5F8F6}
+html.lv-embed .lv-map{position:relative;inset:auto;order:2;height:220px;min-height:180px}
+html.lv-embed .lv-float{position:relative;order:1;left:auto;right:auto;top:auto;width:auto;max-width:none;margin:12px;padding:16px}
+html.lv-embed .lv-rings{position:relative;order:3;left:auto;right:auto;bottom:auto;margin:0 12px 12px}
+html.lv-embed .lv-main{padding-top:4px;padding-bottom:16px}
+html.lv-embed #lv-places{display:none;margin-bottom:8px;padding-bottom:8px}
+html.lv-embed .lv-stage.is-results + #lv-main #lv-places{display:block}
+html.lv-embed .lv-stats{margin:8px 0 14px}
 html.lv-embed .lv-float .lv-lead{display:block;margin:6px 0 0;font-size:13.5px;line-height:1.35;color:var(--lv-mute,#5B6B63)}
 html.lv-embed .lv-api-line{display:block;margin:4px 0 14px;padding:0 4px;font-size:13.5px;line-height:1.4;color:var(--lv-mute,#5B6B63);text-align:center}
 html.lv-embed .lv-api-line[hidden]{display:none}
 html.lv-embed .lv-float h1{font-size:22px;margin:4px 0 0}
 html.lv-embed .lv-search{margin-top:12px}
 html.lv-embed .lv-msg.is-bad{color:#B42318;font-weight:600}
-@media (max-width:520px){
-  html.lv-embed .lv-search{flex-direction:column}
-  html.lv-embed .lv-search .lv-btn{width:100%}
-  html.lv-embed .lv-float h1{font-size:20px}
+@media (max-width:640px){
+  html.lv-embed .lv-float{margin:10px;padding:14px}
+  html.lv-embed .lv-search{flex-direction:column;align-items:stretch}
+  html.lv-embed .lv-search .lv-btn{width:100%;min-height:48px}
+  html.lv-embed .lv-field input{min-height:48px;font-size:16px}
+  html.lv-embed .lv-float h1{font-size:1.25rem;line-height:1.2}
+  html.lv-embed .lv-map{height:180px}
+  html.lv-embed .lv-stat-side{grid-template-columns:1fr}
+  html.lv-embed .lv-cards{grid-template-columns:1fr}
+}
+@media (max-width:380px){
+  html.lv-embed .lv-float{margin:8px;padding:12px}
+  html.lv-embed .lv-field input::placeholder{font-size:13.5px}
 }
 
 /* gentle motion only: everything goes still for people who ask for less movement */
