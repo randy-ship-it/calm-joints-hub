@@ -47,6 +47,15 @@
     "nav_label": "Insider’s Store",
     "show_coupon_if_verified": true
   },
+  "garmin_insider": {
+    "url": "https://www.garmin.com/en-CA/c/promotions/scalehealthca/",
+    "label": "Garmin Insider’s Store",
+    "line": "Shop select fitness devices. Opens on Garmin.",
+    "cta": "Shop the store",
+    "logo": "/media/logos/garmin.png",
+    "logo_width": 135,
+    "logo_height": 39
+  },
   "sports_nav": [
     { "href": "/squash", "label": "Squash" },
     { "href": "/tennis", "label": "Tennis" },
