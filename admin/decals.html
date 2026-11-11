@@ -68,7 +68,8 @@
       var action = o.status === 'awaiting payment'
         ? '<button type="button" class="pay" data-id="' + esc(o.id) + '">Mark paid</button>'
         : '<form class="rowform" data-id="' + esc(o.id) + '"><input name="tracking" placeholder="Tracking, if shipped" aria-label="Tracking"><button>Mark ordered</button></form>';
-      return '<tr><td><b>/' + esc(o.handle) + '</b><div class="mute">' + esc(o.id) + ' · ' + esc(o.status) + (f.adapter ? ' · ' + esc(f.adapter) : '') + (f.tracking ? ' · ' + esc(f.tracking) : '') + (f.error ? '<br>' + esc(f.error) : '') + '</div><div>' + arts + '</div></td>'
+      var kit = (o.kits || []).indexOf('hanger') >= 0 ? 'Door-drop' : ((o.kits || []).indexOf('exterior') >= 0 ? 'In-car + outside decals' : 'In-car');
+      return '<tr><td><b>/' + esc(o.handle) + '</b><div class="mute">' + esc(kit) + ' · ' + esc(o.id) + ' · ' + esc(o.status) + (f.adapter ? ' · ' + esc(f.adapter) : '') + (f.tracking ? ' · ' + esc(f.tracking) : '') + (f.error ? '<br>' + esc(f.error) : '') + '</div><div>' + arts + '</div></td>'
         + '<td>' + ship(o) + '</td>'
         + '<td class="n">' + cad(o.price) + '</td><td class="n">' + cad(o.print_cost) + '</td><td class="n">' + cad(o.ship_cost) + '</td><td class="n">' + cad(o.stripe_fee) + '</td><td class="n">' + cad(o.hst_handling) + '</td><td class="n">' + cad(o.margin_amount) + '</td>'
         + '<td>' + action + '</td></tr>';

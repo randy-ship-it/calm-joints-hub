@@ -73,50 +73,63 @@ function call(handler, req) {
   });
 }
 
-function buyer(handle, extra) {
+function buyer(extra) {
   return Object.assign({
     partner_type: 'rideshare', name: 'Avery Lane', email: 'avery@example.com', phone: '4165550199',
-    line1: '10 King Street', line2: '', city: 'Toronto', province: 'ON', postal: 'M5V 1A1', handle,
+    line1: '10 King Street', line2: '', city: 'Toronto', province: 'ON', postal: 'M5V 1A1', kit: 'incar',
   }, extra || {});
 }
 
 (async () => {
   const incar = P.quote(['incar']);
   const both = P.quote(['incar', 'exterior']);
+  const door = P.quote(['hanger']);
   assert.ok(String(incar.price).endsWith('.99'), incar.price);
   assert.ok(String(both.price).endsWith('.99'), both.price);
+  assert.ok(String(door.price).endsWith('.99'), door.price);
+  assert.strictEqual(door.print_cost, 60);
+  assert.strictEqual(door.ship_cost, 15);
   assert.ok(incar.margin_amount > 0, incar.margin_amount);
   assert.ok(both.margin_amount > 0, both.margin_amount);
+  assert.ok(door.margin_amount > 0, door.margin_amount);
   assert.ok(both.price > incar.price);
   assert.strictEqual(incar.price_cents, Math.round(incar.price * 100));
   const cat = P.catalog();
   assert.strictEqual(cat.rules_note, "Check your rideshare platform's rules before applying exterior decals.");
-  assert.strictEqual(cat.incar.name, 'Rideshare in-car kit');
-  assert.strictEqual(cat.exterior.name, 'Exterior decal add-on');
+  assert.deepStrictEqual(cat.kits.map((k) => k.name), ['In-car', 'In-car + outside decals', 'Door-drop kit']);
+  assert.strictEqual(cat.kits.length, 3);
+  assert.strictEqual(cat.kits[0].price, incar.price);
+  assert.strictEqual(cat.kits[1].price, both.price);
+  assert.strictEqual(cat.kits[2].price, door.price);
   assert.ok(!JSON.stringify(cat).includes('print_cost'));
   assert.ok(!JSON.stringify(cat).includes('margin_amount'));
-  assert.strictEqual(cat.totals.both, both.price);
+  assert.ok(!JSON.stringify(cat).includes('"exterior"'));
 
-  const reserved = D.validate(buyer('drive'));
-  assert.ok(reserved.errors.some((e) => /already used/.test(e)));
-  assert.ok(D.validate(buyer('me')).errors.some((e) => /already used/.test(e)));
-  assert.strictEqual(D.validate(buyer('avery-lane')).errors.length, 0);
+  assert.ok(/already used/.test(D.parseHandle('drive').error));
+  assert.ok(/already used/.test(D.parseHandle('me').error));
+  assert.strictEqual(D.validate(buyer()).errors.length, 0);
+  assert.deepStrictEqual(D.validate(buyer({ kit: 'hanger' })).value.kits, ['hanger']);
+  assert.deepStrictEqual(D.validate(buyer({ kit: 'full' })).value.kits, ['incar', 'exterior']);
+  assert.ok(D.validate(buyer({ kit: 'poster' })).errors.some((e) => /Choose a kit/.test(e)));
 
-  const closed = await D.createCheckout(buyer('avery-lane'), env, { skipRateLimit: true });
+  const closed = await D.createCheckout(buyer(), env, { skipRateLimit: true });
   assert.strictEqual(closed.status, 403);
 
   const bare = { ...env, CJ_DRIVE_LIVE: 'true', STRIPE_SECRET_KEY: '', STRIPE_WEBHOOK_SECRET: '' };
-  const unconfigured = await D.createCheckout(buyer('avery-lane'), bare, { skipRateLimit: true });
+  const unconfigured = await D.createCheckout(buyer(), bare, { skipRateLimit: true });
   assert.strictEqual(unconfigured.status, 503);
   assert.deepStrictEqual(unconfigured.json.missing.sort(), ['STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET']);
 
-  const blockedLive = await D.createCheckout(buyer('avery-lane'), { ...env, CJ_DRIVE_LIVE: 'true', STRIPE_SECRET_KEY: 'sk_live_nope' }, { skipRateLimit: true });
+  const blockedLive = await D.createCheckout(buyer(), { ...env, CJ_DRIVE_LIVE: 'true', STRIPE_SECRET_KEY: 'sk_live_nope' }, { skipRateLimit: true });
   assert.strictEqual(blockedLive.status, 503);
 
   let sessionArgs = null;
   const stripe = { checkout: { sessions: { create: async (params) => { sessionArgs = params; return { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' }; } } } };
-  const started = await D.createCheckout(buyer('avery-lane', { exterior: true }), { ...env, CJ_DRIVE_LIVE: 'true' }, { skipRateLimit: true, stripe, origin: 'https://calmjoints.org' });
+  const started = await D.createCheckout(buyer({ kit: 'full', handle: 'drive' }), { ...env, CJ_DRIVE_LIVE: 'true' }, { skipRateLimit: true, stripe, origin: 'https://calmjoints.org' });
   assert.strictEqual(started.status, 200, JSON.stringify(started.json));
+  assert.match(started.json.handle, /^cj[a-f0-9]{8}$/);
+  assert.notStrictEqual(started.json.handle, 'drive');
+  assert.strictEqual(started.json.code_url, `https://calmjoints.org/${started.json.handle}?src=decal`);
   assert.strictEqual(sessionArgs.mode, 'payment');
   assert.ok(!Object.prototype.hasOwnProperty.call(sessionArgs, 'payment_method_types'));
   assert.ok(!Object.prototype.hasOwnProperty.call(sessionArgs, 'automatic_tax'));
@@ -124,8 +137,10 @@ function buyer(handle, extra) {
   assert.strictEqual(sessionArgs.line_items.length, 1);
   assert.strictEqual(sessionArgs.line_items[0].price_data.unit_amount, both.price_cents);
   assert.strictEqual(sessionArgs.line_items[0].price_data.currency, 'cad');
-  const again = await D.createCheckout(buyer('avery-lane'), { ...env, CJ_DRIVE_LIVE: 'true' }, { skipRateLimit: true, stripe });
-  assert.strictEqual(again.status, 409);
+  const again = await D.createCheckout(buyer({ kit: 'incar' }), { ...env, CJ_DRIVE_LIVE: 'true' }, { skipRateLimit: true, stripe });
+  assert.strictEqual(again.status, 200, JSON.stringify(again.json));
+  assert.match(again.json.handle, /^cj[a-f0-9]{8}$/);
+  assert.notStrictEqual(again.json.handle, started.json.handle);
 
   const amb = await Q.createDrivePartner({ partner_type: 'ambassador', alias: 'pat-drive', name: 'Pat Cole', email: 'pat@example.com', phone: '4165550101' }, env, { fetchImpl: global.fetch });
   assert.strictEqual(amb.status, 200, JSON.stringify(amb.json));
@@ -149,6 +164,8 @@ function buyer(handle, extra) {
   assert.strictEqual(pen.location, '/p/drv-ride-kim?src=pen');
   const decal = await A.aliasRedirect('ride-kim', env, 'decal');
   assert.strictEqual(decal.location, '/p/drv-ride-kim?src=decal');
+  const hangerSrc = await A.aliasRedirect('ride-kim', env, 'hanger');
+  assert.strictEqual(hangerSrc.location, '/p/drv-ride-kim?src=hanger');
   assert.strictEqual((await A.aliasRedirect('ride-kim', env, 'evil')).src, 'pen');
   assert.strictEqual(await A.aliasRedirect('drive', env, 'decal'), null);
   assert.strictEqual(await A.aliasRedirect('me', env), null);
@@ -164,6 +181,18 @@ function buyer(handle, extra) {
     if (piece.id === 'side' || piece.id === 'rear') assert.ok(piece.qr_in >= 3, piece.qr_in);
   }
   assert.deepStrictEqual(pieces.map((p) => p.id), ['headrest', 'pocket', 'side', 'rear']);
+  const hangers = await Art.renderOrder({ handle: 'cjabc12345', kits: ['hanger'] });
+  assert.strictEqual(hangers.length, 1);
+  assert.strictEqual(hangers[0].copies, 250);
+  assert.strictEqual(hangers[0].sides, 2);
+  assert.strictEqual(hangers[0].url, 'https://calmjoints.org/cjabc12345?src=hanger');
+  const hangerDoc = await PDFDocument.load(hangers[0].pdf);
+  assert.strictEqual(hangerDoc.getPageCount(), 2);
+  const hangerSize = hangerDoc.getPages()[0].getSize();
+  assert.strictEqual(Math.round(hangerSize.width), 3.5 * 72);
+  assert.strictEqual(Math.round(hangerSize.height), 8.5 * 72);
+  assert.ok(hangerDoc.getSubject().includes('?src=hanger'));
+  assert.strictEqual(hangerDoc.getPages()[1].getSize().width, hangerSize.width);
 
   assert.strictEqual(F.selectAdapter({}).id, 'manual');
   assert.strictEqual(F.stickermule.ready({ STICKERMULE_API_KEY: 'x' }), false);
@@ -233,7 +262,7 @@ function buyer(handle, extra) {
     data: { object: { id: 'cs_test_1', payment_status: 'unpaid', metadata: { order_id: started.json.order_id }, client_reference_id: started.json.order_id } },
   }, { ...env, CJ_DRIVE_LIVE: 'true' }, { fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
   assert.strictEqual(paid.json.fulfilled, false);
-  assert.strictEqual(await Q.getPartner('drv-avery-lane', env), null);
+  assert.strictEqual(await Q.getPartner(`drv-${started.json.handle}`, env), null);
 
   const beforeMail = hits.filter((h) => h.url.includes('resend')).length;
   const done = await D.handleStripeEvent({
@@ -241,7 +270,7 @@ function buyer(handle, extra) {
     data: { object: { id: 'cs_test_1', payment_status: 'paid', metadata: { order_id: started.json.order_id }, client_reference_id: started.json.order_id } },
   }, { ...env, CJ_DRIVE_LIVE: 'true' }, { fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
   assert.strictEqual(done.status, 200, JSON.stringify(done.json));
-  const partner = await Q.getPartner('drv-avery-lane', env);
+  const partner = await Q.getPartner(`drv-${started.json.handle}`, env);
   assert.strictEqual(partner.contact_type, 'rideshare');
   assert.strictEqual(partner.terms.pending_randy, true);
   assert.ok(store.has('drive-orders/' + started.json.order_id + '/headrest.pdf'));
@@ -257,18 +286,20 @@ function buyer(handle, extra) {
   assert.match(team.text, /Vistaprint has no ordering API/);
   assert.match(team.text, /drive-artwork/);
   const who = JSON.parse(teamMail[1].body);
-  assert.match(who.text, /https:\/\/calmjoints\.org\/me\/avery-lane\?t=/);
+  assert.match(who.text, new RegExp(`https://calmjoints\\.org/me/${started.json.handle}\\?t=`));
+  assert.match(who.text, new RegExp(`https://calmjoints\\.org/${started.json.handle}\\?src=decal`));
   assert.match(who.text, /PENDING RANDY DECISION/);
   assert.match(who.text, /once \$500 is owed/);
 
   const dup = await D.fulfilPaid({ id: 'cs_test_1', payment_status: 'paid', metadata: { order_id: started.json.order_id } }, env, { fetchImpl: global.fetch });
   assert.strictEqual(dup.duplicate, true);
-  assert.strictEqual([...store.keys()].filter((k) => k === 'qr-partners/drv-avery-lane/partner.json').length, 1);
+  assert.strictEqual([...store.keys()].filter((k) => k === `qr-partners/drv-${started.json.handle}/partner.json`).length, 1);
 
-  store.set('qr-leads/drv-avery-lane/visit/decal.2026-10-11.json', Buffer.from('{}'));
-  store.set('qr-ledger/drv-avery-lane/visit1.json', Buffer.from(JSON.stringify({ type: 'visit', billed: 80, share: 8, at: '2026-10-11T00:00:00.000Z' })));
-  const dash = await L.dashboard('drv-avery-lane', env);
-  assert.strictEqual(dash.handle, 'avery-lane');
+  store.set(`qr-leads/drv-${started.json.handle}/visit/decal.2026-10-11.json`, Buffer.from('{}'));
+  store.set(`qr-ledger/drv-${started.json.handle}/visit1.json`, Buffer.from(JSON.stringify({ type: 'visit', billed: 80, share: 8, at: '2026-10-11T00:00:00.000Z' })));
+  const dash = await L.dashboard(`drv-${started.json.handle}`, env);
+  assert.strictEqual(dash.handle, started.json.handle);
+  assert.strictEqual(dash.landing_url, `https://calmjoints.org/${started.json.handle}?src=decal`);
   assert.strictEqual(dash.scans, 1);
   assert.strictEqual(dash.revenue, 80);
   assert.strictEqual(dash.commission_owed, 8);
@@ -278,7 +309,7 @@ function buyer(handle, extra) {
   assert.strictEqual(denied.status, 401);
   const listed = await call(admin, { method: 'GET', url: '/api/admin-decals', headers: { authorization: 'Bearer admin-key-xyz' } });
   assert.strictEqual(listed.status, 200);
-  const row = listed.body.orders.find((o) => o.handle === 'avery-lane');
+  const row = listed.body.orders.find((o) => o.handle === started.json.handle);
   assert.ok(row.margin_amount > 0);
   assert.ok(row.print_cost > 0);
   assert.ok(row.pieces.find((p) => p.id === 'headrest').artwork_url);
@@ -359,46 +390,75 @@ function buyer(handle, extra) {
   assert.ok(!/name=["'](card|cvc|cvv|pan)/i.test(page));
   assert.ok(!page.includes('cc-number'));
   assert.ok(page.includes('In-car + outside decals'));
+  assert.ok(page.includes('Door-drop kit'));
+  assert.ok(page.includes('value="hanger"'));
+  assert.ok(!page.includes('Desired handle'));
+  assert.ok(!page.includes('name="handle"'));
   assert.ok(page.includes("We'll email you a secure payment link within 24h; your kit ships after payment."));
   assert.ok(fs.readFileSync('admin/decals.html', 'utf8').includes('Mark paid'));
+  assert.ok(fs.readFileSync('admin/decals.html', 'utf8').includes('Door-drop'));
 
   const manualEnv = { ...env, CJ_DRIVE_MODE: 'manual' };
-  const cardTry = await D.createManualOrder({ ...buyer('card-try'), card_number: '4242424242424242', cvc: '123' }, manualEnv, { skipRateLimit: true, fetchImpl: global.fetch });
+  const cardTry = await D.createManualOrder({ ...buyer(), card_number: '4242424242424242', cvc: '123' }, manualEnv, { skipRateLimit: true, fetchImpl: global.fetch });
   assert.strictEqual(cardTry.status, 400);
-  assert.ok(!store.has('drive-handles/card-try.json'));
+  assert.ok(![...store.keys()].some((k) => k.endsWith('/order.json') && store.get(k).toString().includes('4242424242424242')));
   const beforeConfirm = hits.filter((h) => h.url.includes('resend')).length;
-  const manual = await D.createManualOrder(buyer('manual-kim'), manualEnv, { skipRateLimit: true, fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
+  const manual = await D.createManualOrder(buyer({ handle: 'manual-kim' }), manualEnv, { skipRateLimit: true, fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
   assert.strictEqual(manual.status, 200, JSON.stringify(manual.json));
   assert.strictEqual(manual.json.status, 'awaiting payment');
   assert.strictEqual(manual.json.url, null);
+  assert.notStrictEqual(manual.json.handle, 'manual-kim');
+  assert.match(manual.json.handle, /^cj[a-f0-9]{8}$/);
   assert.strictEqual(manual.json.message, "We'll email you a secure payment link within 24h; your kit ships after payment.");
   const saved = await D.readOrder(manual.json.order_id, manualEnv);
   assert.strictEqual(saved.status, 'awaiting payment');
   assert.ok(!JSON.stringify(saved).match(/card_number|cvc|pan/i));
-  assert.strictEqual(await D.handleTaken('manual-kim', manualEnv, Date.now() + 7 * 86400000), 'hold');
+  assert.strictEqual(await D.handleTaken(manual.json.handle, manualEnv, Date.now() + 7 * 86400000), 'hold');
   const confirmMails = hits.filter((h) => h.url.includes('resend')).slice(beforeConfirm).map((h) => JSON.parse(h.body));
   assert.ok(confirmMails.some((m) => m.to.includes('team@example.com') && m.text.includes(manual.json.message)));
-  assert.ok(confirmMails.some((m) => m.to.includes('avery@example.com') && m.text.includes(manual.json.message)));
+  assert.ok(confirmMails.some((m) => m.to.includes('avery@example.com') && m.text.includes(manual.json.message) && m.text.includes(`?src=decal`)));
   const queued = await D.listOrders(manualEnv);
-  assert.ok(queued.some((o) => o.handle === 'manual-kim' && o.status === 'awaiting payment' && o.margin_amount > 0));
+  assert.ok(queued.some((o) => o.handle === manual.json.handle && o.status === 'awaiting payment' && o.margin_amount > 0));
   const paidManual = await D.markPaid(manual.json.order_id, manualEnv, { fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
   assert.strictEqual(paidManual.status, 200, JSON.stringify(paidManual.json));
   assert.ok(paidManual.json.order.partner_slug);
   assert.ok(store.has('drive-orders/' + manual.json.order_id + '/headrest.pdf'));
-  const fridayManual = hits.map((h) => { try { return JSON.parse(h.body); } catch { return null; } }).filter((b) => b && b.externalId === 'cj-qrpartner-drv-manual-kim');
+  const fridayManual = hits.map((h) => { try { return JSON.parse(h.body); } catch { return null; } }).filter((b) => b && b.externalId === `cj-qrpartner-drv-${manual.json.handle}`);
   assert.strictEqual(fridayManual.length, 1);
 
-  const linkEnv = { ...manualEnv, STRIPE_PAYMENT_LINK_INCAR: 'https://buy.stripe.com/test_incar', STRIPE_PAYMENT_LINK_FULL: 'https://buy.stripe.com/test_full' };
-  const linked = await D.createManualOrder(buyer('pay-link', { exterior: true }), linkEnv, { skipRateLimit: true, fetchImpl: global.fetch });
+  const doorOrder = await D.createManualOrder(buyer({ kit: 'hanger', email: 'door@example.com' }), manualEnv, { skipRateLimit: true, fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
+  assert.strictEqual(doorOrder.status, 200, JSON.stringify(doorOrder.json));
+  assert.notStrictEqual(doorOrder.json.handle, manual.json.handle);
+  assert.strictEqual(doorOrder.json.code_url, `https://calmjoints.org/${doorOrder.json.handle}?src=hanger`);
+  const doorSaved = await D.readOrder(doorOrder.json.order_id, manualEnv);
+  assert.deepStrictEqual(doorSaved.kits, ['hanger']);
+  assert.strictEqual(doorSaved.pricing.price, door.price);
+  assert.strictEqual(doorSaved.pricing.print_cost, 60);
+  const doorPaid = await D.markPaid(doorOrder.json.order_id, manualEnv, { fetchImpl: global.fetch, origin: 'https://calmjoints.org' });
+  assert.strictEqual(doorPaid.status, 200, JSON.stringify(doorPaid.json));
+  assert.strictEqual(doorPaid.json.order.track_src, 'hanger');
+  assert.ok(store.has('drive-orders/' + doorOrder.json.order_id + '/hanger.pdf'));
+  const doorPartner = await Q.getPartner(`drv-${doorOrder.json.handle}`, manualEnv);
+  assert.strictEqual(doorPartner.track_src, 'hanger');
+  const doorDash = await L.dashboard(doorPartner.slug, manualEnv);
+  assert.strictEqual(doorDash.landing_url, `https://calmjoints.org/${doorOrder.json.handle}?src=hanger`);
+  const doorFriday = hits.map((h) => { try { return JSON.parse(h.body); } catch { return null; } }).find((b) => b && b.externalId === `cj-qrpartner-drv-${doorOrder.json.handle}`);
+  assert.ok(doorFriday.message.includes('?src=hanger'));
+  assert.ok(doorFriday.tags.length < 12);
+
+  const linkEnv = { ...manualEnv, STRIPE_PAYMENT_LINK_INCAR: 'https://buy.stripe.com/test_incar', STRIPE_PAYMENT_LINK_FULL: 'https://buy.stripe.com/test_full', STRIPE_PAYMENT_LINK_HANGER: 'https://buy.stripe.com/test_hanger' };
+  const linked = await D.createManualOrder(buyer({ kit: 'full', email: 'full@example.com' }), linkEnv, { skipRateLimit: true, fetchImpl: global.fetch });
   const payUrl = new URL(linked.json.url);
   assert.strictEqual(payUrl.hostname, 'buy.stripe.com');
-  assert.strictEqual(payUrl.searchParams.get('prefilled_email'), 'avery@example.com');
+  assert.strictEqual(payUrl.searchParams.get('prefilled_email'), 'full@example.com');
   assert.strictEqual(payUrl.searchParams.get('client_reference_id'), linked.json.order_id);
   assert.strictEqual(payUrl.pathname, '/test_full');
+  const hangerLink = await D.createManualOrder(buyer({ kit: 'hanger', email: 'hang@example.com' }), linkEnv, { skipRateLimit: true, fetchImpl: global.fetch });
+  assert.strictEqual(new URL(hangerLink.json.url).pathname, '/test_hanger');
   const blockedLink = await D.paymentLinkFor({ kits: ['incar'], email: 'avery@example.com', id: 'drv_x' }, { STRIPE_PAYMENT_LINK_INCAR: 'https://evil.example/pay' });
   assert.strictEqual(blockedLink, null);
-  const foreign = await call(checkout, { method: 'POST', url: '/api/drive-checkout', headers: { origin: 'https://evil.example', host: 'calmjoints.org' }, body: buyer('nope') });
+  const foreign = await call(checkout, { method: 'POST', url: '/api/drive-checkout', headers: { origin: 'https://evil.example', host: 'calmjoints.org' }, body: buyer() });
   assert.strictEqual(foreign.status, 403);
 
-  console.log('drive: all checks passed', { incar: incar.price, both: both.price, margin: both.margin_amount });
+  console.log('drive: all checks passed', { incar: incar.price, both: both.price, door: door.price, margin: both.margin_amount });
 })().catch((e) => { console.error(e); process.exit(1); });
