@@ -400,6 +400,7 @@ body.insider-open { overflow: hidden; }
 }
 /* Tap targets: 44px minimum on small controls (WCAG 2.5.5 / Apple HIG). */
 .nav-store, .nav-current { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 760px) { .nav-current { display: none; } }
 .th-ctl button { width: 44px; height: 44px; }
 .insider-share button { min-height: 44px; }
 .foot nav a { display: inline-flex; align-items: center; min-height: 44px; }
