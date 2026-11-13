@@ -135,6 +135,7 @@ assert.ok(html.includes('This row is not a live schedule.'));
 assert.ok(html.includes('aria-roledescription="carousel"'));
 assert.ok(html.includes('data-th="prev"') && html.includes('data-th="next"'));
 assert.ok(html.includes('/js/sport-therapists.js?v=1'));
+assert.ok(html.includes('/js/img-fallback.js?v=1'));
 const railJs = fs.readFileSync('js/sport-therapists.js', 'utf8');
 assert.ok(railJs.includes('prefers-reduced-motion'));
 assert.ok(railJs.includes('#/staff_member/'));
@@ -405,19 +406,19 @@ assert.ok(html.includes('data-store-place="garmin"') && html.includes('data-part
 assert.ok(html.includes('utm_source=calmjoints') && html.includes('utm_medium=referral'));
 assert.ok(html.includes('utm_campaign=garmin_insider_store') && html.includes('utm_content=squash'));
 assert.ok(html.includes('src="/media/logos/garmin.png"'));
-assert.ok(html.includes('/css/sport-zone.css?v=18'));
+assert.ok(html.includes('/css/sport-zone.css?v=19'));
 assert.ok(html.indexOf('class="garmin-insider"') < html.indexOf('id="kit"'), 'Garmin store sits above the kit');
 assert.ok(css.includes('.garmin-insider-card') && css.includes('min-height: 44px'));
 for (const page of pages) {
   assert.ok(page.html.includes('class="garmin-insider-card"'), page.file + ' missing Garmin store');
   assert.ok(page.html.includes('utm_content=' + page.sport.sport_id), page.file + ' tracking');
   assert.ok(page.html.includes('target="_blank" rel="noopener noreferrer"'), page.file);
-  assert.ok(page.html.includes('/css/sport-zone.css?v=18'), page.file);
+  assert.ok(page.html.includes('/css/sport-zone.css?v=19'), page.file);
 }
 assert.ok(indexHtml.includes('class="garmin-insider-card"'));
 assert.ok(indexHtml.includes('utm_content=racquets'));
 assert.ok(indexHtml.includes('Garmin Insider’s Store'));
-assert.ok(indexHtml.includes('/css/sport-zone.css?v=18'));
+assert.ok(indexHtml.includes('/css/sport-zone.css?v=19'));
 const indexVisible = indexHtml.replace(/<script[\s\S]*?<\/script>/g, '').replace(/\s(?:href|src)="[^"]*"/g, '');
 for (const banned of ['Scale Health', 'membership', 'residual', 'Dual-Fee', 'dual fee', 'wholesale']) {
   assert.ok(!indexVisible.includes(banned), 'racquets index includes ' + banned);
