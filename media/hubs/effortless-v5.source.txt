@@ -1,0 +1,7 @@
+Effortless Admin member-portal card for the homepage "Trusted by the brands we power" carousel.
+
+Source: an already published screenshot of the Effortless Admin member portal
+dashboard (featured member-priced products), cropped to 1600x800. The therapist
+headshot from that screenshot is not used. Official Effortless Admin logo
+(media/logos/effortless-admin.png, same mark as
+https://www.effortlessadmin.com/images/ea-logo.svg) is the broken-image fallback.
