@@ -60,6 +60,8 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.12; }
 
 .hero { background: var(--navy); color: var(--white); padding: clamp(1.25rem, 4vw, 2.4rem) 0 clamp(1.35rem, 4vw, 2.5rem); }
 .hero-grid { display: grid; gap: .25rem; }
+/* Grid items default to min-width:auto, so the nowrap sport-switch scroller could widen the column and push the racquets hero past the screen. */
+.hero-grid > * { min-width: 0; }
 .eyebrow, .widget-label, .hints h2 {
   margin: 0 0 .45rem; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green);
 }
