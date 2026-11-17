@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Training: book a visit | Calm Joints</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#15803D">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/training.css">
+</head>
+<body data-training="book">
+  <div class="train-chrome">
+  <div class="train-banner" role="status">
+    <strong>TRAINING — not a real visit</strong>
+    <span>No appointment is created. No clinician calendar is changed. No credit card is required or charged.</span>
+  </div>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/training">
+        <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints">
+        <span class="badge">Training</span>
+      </a>
+      <nav class="nav-links" aria-label="Training">
+        <a href="/training/book" aria-current="page">Book a visit</a>
+        <a href="/training/store">Store checkout</a>
+      </nav>
+    </div>
+  </header>
+  </div>
+  <main class="page">
+    <div class="wrap">
+      <h1>Book a video visit</h1>
+      <p class="lede">This copies the Jane booking steps so you can practise with a member. It does not open Jane, and it does not write to a real calendar.</p>
+      <ol class="steps" id="steps"></ol>
+
+      <section id="step-service">
+        <h2>Choose a visit type</h2>
+        <div class="cards two" style="margin-top:.8rem">
+          <button type="button" class="pick" data-service="initial" aria-pressed="false">
+            <b>Initial video assessment</b>
+            <span class="meta">45 minutes. Public member rate $129 (regular $189). Training: no charge, no card.</span>
+          </button>
+          <button type="button" class="pick" data-service="followup" aria-pressed="false">
+            <b>Follow-up video visit</b>
+            <span class="meta">30 minutes. The real Jane flow shows the price at checkout. Training: no charge, no card.</span>
+          </button>
+        </div>
+        <p class="err" id="service-err" hidden>Choose a visit type to continue.</p>
+        <div class="actions">
+          <button type="button" class="btn" id="next-service">Continue</button>
+        </div>
+      </section>
+
+      <section id="step-clinician" hidden>
+        <h2>Choose a physiotherapist</h2>
+        <p class="muted">Names match the public Calm Joints team. These buttons do not open a live calendar.</p>
+        <div class="cards staff" id="staff" style="margin-top:.8rem"></div>
+        <p class="err" id="clinician-err" hidden>Choose a physiotherapist to continue.</p>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="back-clinician">Back</button>
+          <button type="button" class="btn" id="next-clinician">Continue</button>
+        </div>
+      </section>
+
+      <section id="step-time" hidden>
+        <h2>Choose a time</h2>
+        <p class="muted">Practice times in America/Toronto, weekdays only. Some days will be thin so you can practise picking someone else.</p>
+        <div class="days" id="days" style="margin-top:.8rem"></div>
+        <p class="empty" id="no-slots" hidden>No training times on this day. Pick another day, or go back and choose a different physiotherapist.</p>
+        <div class="slots" id="slots"></div>
+        <p class="err" id="time-err" hidden>Choose a time to continue.</p>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="back-time">Back</button>
+          <button type="button" class="btn" id="next-time">Continue</button>
+        </div>
+      </section>
+
+      <section id="step-details" hidden>
+        <h2>Your details</h2>
+        <p class="notice">Practice fields only. Nothing is sent, stored on a server, or added to a patient record. No credit card is collected.</p>
+        <p id="review" class="muted"></p>
+        <form class="form" id="book-form" novalidate>
+          <div class="row">
+            <div>
+              <label for="first">First name</label>
+              <input id="first" name="first" autocomplete="given-name" required>
+            </div>
+            <div>
+              <label for="last">Last name</label>
+              <input id="last" name="last" autocomplete="family-name" required>
+            </div>
+          </div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+          <p class="err" id="details-err" hidden></p>
+          <div class="actions">
+            <button type="button" class="btn btn-ghost" id="back-details">Back</button>
+            <button type="submit" class="btn">Book this training visit</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="step-done" hidden>
+        <div class="confirm">
+          <p class="badge">Training confirmation</p>
+          <p class="id" id="confirm-id"></p>
+          <p id="confirm-summary"></p>
+          <p>No appointment was created. No clinician calendar was changed. This does not count toward street team commissions or KPIs.</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="book-another">Book another training visit</button>
+          <a class="btn btn-ghost" href="/training/store">Train on store checkout</a>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="foot">
+    <div class="wrap">
+      <p>Training only. No real appointment. No real charge. Activity here does not count toward street team commissions or KPIs.</p>
+      <p><a href="/training">Training home</a> · <a href="/training/store">Training: store checkout</a></p>
+    </div>
+  </footer>
+  <script src="/js/training.js"></script>
+  <script src="/js/training-ui.js"></script>
+</body>
+</html>

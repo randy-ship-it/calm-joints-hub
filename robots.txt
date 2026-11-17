@@ -4,5 +4,6 @@ Disallow: /drive
 Disallow: /body-map-demo
 Disallow: /me
 Disallow: /admin
+Disallow: /training
 
 Sitemap: https://calmjoints.org/sitemap.xml
