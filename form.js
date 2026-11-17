@@ -17,6 +17,15 @@ function cjStoredRef() {
     return out;
   } catch (e) { return {}; }
 }
+var cjRefBase = cjStoredRef;
+cjStoredRef = function () {
+  var out = cjRefBase();
+  try {
+    var s = JSON.parse(localStorage.getItem('cj_street') || 'null');
+    if (s && /^(st\d{3}b?|amb-[a-z0-9-]{2,40}|bridgette|mona|hire-\d{1,2})$/.test(String(s.tag)) && Date.now() - s.at < 30 * 864e5) out.street = String(s.tag);
+  } catch (e) {}
+  return out;
+};
 
 function cjForm(form, endpoint, onOk) {
   const msg = form.querySelector('.msg');
