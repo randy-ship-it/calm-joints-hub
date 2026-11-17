@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Training: store checkout | Calm Joints</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#15803D">
+<link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/training.css">
+</head>
+<body data-training="store">
+  <div class="train-chrome">
+  <div class="train-banner" role="status">
+    <strong>TRAINING — no real charge</strong>
+    <span>This is not the live Insider’s Store and not Stripe. Use test card 4242 4242 4242 4242. Nothing is charged or ordered.</span>
+  </div>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/training">
+        <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints">
+        <span class="badge">Training</span>
+      </a>
+      <nav class="nav-links" aria-label="Training">
+        <a href="/training/book">Book a visit</a>
+        <a href="/training/store" aria-current="page">Store checkout</a>
+      </nav>
+    </div>
+  </header>
+  </div>
+  <main class="page">
+    <div class="wrap">
+      <section id="shop-panel">
+        <h1>Industry Insider’s Store</h1>
+        <p class="lede">A practice catalog from the public listed products. Add items, then check out with the training test card. This does not open the live Scale store, and it does not take a real payment.</p>
+        <div class="catalog" id="catalog"></div>
+        <div class="cart" id="cart">
+          <h2>Training cart</h2>
+          <p class="muted" id="cart-empty">Your training cart is empty.</p>
+          <div id="cart-lines"></div>
+          <p class="totals" id="cart-totals"></p>
+          <div class="actions">
+            <button type="button" class="btn" id="go-checkout" disabled>Check out (training)</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="checkout-panel" hidden>
+        <h1>Training checkout</h1>
+        <p class="notice">Use test card 4242 4242 4242 4242, any future expiry, and any 3-digit CVC. The card number never leaves this page. No Stripe charge is created.</p>
+        <form class="form" id="pay-form" autocomplete="on" novalidate>
+          <h2>Ship to</h2>
+          <div class="row">
+            <div>
+              <label for="ship-first">First name</label>
+              <input id="ship-first" name="ship-first" autocomplete="given-name" required>
+            </div>
+            <div>
+              <label for="ship-last">Last name</label>
+              <input id="ship-last" name="ship-last" autocomplete="family-name" required>
+            </div>
+          </div>
+          <label for="ship-email">Email</label>
+          <input id="ship-email" name="ship-email" type="email" autocomplete="email" required>
+          <label for="ship-phone">Phone</label>
+          <input id="ship-phone" name="ship-phone" type="tel" autocomplete="tel" required>
+          <label for="ship-address">Address</label>
+          <input id="ship-address" name="ship-address" autocomplete="street-address" required>
+          <div class="row">
+            <div>
+              <label for="ship-city">City</label>
+              <input id="ship-city" name="ship-city" autocomplete="address-level2" required>
+            </div>
+            <div>
+              <label for="ship-postal">Postal code</label>
+              <input id="ship-postal" name="ship-postal" autocomplete="postal-code" required>
+            </div>
+          </div>
+          <h2 style="margin-top:1.2rem">Training card</h2>
+          <label for="card">Card number</label>
+          <input id="card" name="card" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="4242 4242 4242 4242" maxlength="19" required>
+          <div class="row">
+            <div>
+              <label for="exp-month">Expiry month</label>
+              <select id="exp-month" name="exp-month" required>
+                <option value="">Month</option>
+              <option value="1">01</option>
+              <option value="2">02</option>
+              <option value="3">03</option>
+              <option value="4">04</option>
+              <option value="5">05</option>
+              <option value="6">06</option>
+              <option value="7">07</option>
+              <option value="8">08</option>
+              <option value="9">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              </select>
+            </div>
+            <div>
+              <label for="exp-year">Expiry year</label>
+              <select id="exp-year" name="exp-year" required>
+                <option value="">Year</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+              <option value="2031">2031</option>
+              <option value="2032">2032</option>
+              <option value="2033">2033</option>
+              <option value="2034">2034</option>
+              </select>
+            </div>
+          </div>
+          <label for="cvc">CVC</label>
+          <input id="cvc" name="cvc" inputmode="numeric" autocomplete="off" maxlength="4" required>
+          <p class="err" id="pay-err" hidden></p>
+          <div class="actions">
+            <button type="button" class="btn btn-ghost" id="back-shop">Back to cart</button>
+            <button type="submit" class="btn">Place training order</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="done-panel" hidden>
+        <div class="confirm">
+          <p class="badge">Training confirmation</p>
+          <p class="id" id="order-id"></p>
+          <p id="order-summary"></p>
+          <p>No real card was charged. No order was placed. This does not count toward street team commissions or KPIs.</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn" id="shop-again">Shop again (training)</button>
+          <a class="btn btn-ghost" href="/training/book">Train on booking</a>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="foot">
+    <div class="wrap">
+      <p>Training only. No real appointment. No real charge. Activity here does not count toward street team commissions or KPIs.</p>
+      <p><a href="/training">Training home</a> · <a href="/training/book">Training: book a visit</a></p>
+    </div>
+  </footer>
+  <script src="/js/training.js"></script>
+  <script src="/js/training-ui.js"></script>
+</body>
+</html>
