@@ -44,10 +44,12 @@
   <form id="buy" novalidate>
     <section class="card">
       <label class="check"><input type="radio" name="kit" value="incar" checked> <span><b id="opt-incar">In-car</b><span class="note" id="incar-detail"></span></span></label>
-      <label class="check"><input type="radio" name="kit" value="full"> <span><b id="opt-full">In-car + outside decals</b><span class="note" id="ext-detail"></span></span></label>
+      <label class="check"><input type="radio" name="kit" value="full"> <span><b id="opt-full">In-car + outside decals</b><span class="note" id="full-detail"></span></span></label>
+      <label class="check"><input type="radio" name="kit" value="hanger"> <span><b id="opt-hanger">Door-drop kit</b><span class="note" id="hanger-detail"></span></span></label>
       <p class="note" id="rules">Check your rideshare platform's rules before applying exterior decals.</p>
       <p class="note" id="bylaw"></p>
       <p class="note" id="paynote" hidden>We never collect card numbers on this page. We'll email you a secure payment link within 24h; your kit ships after payment.</p>
+      <p class="note">Each order gets its own tracked code. We assign it when you submit.</p>
     </section>
     <section class="card">
       <label for="type">Partner type</label>
@@ -83,9 +85,6 @@
       </div>
       <label for="postal">Postal code</label>
       <input id="postal" name="postal" autocomplete="postal-code" required>
-      <label for="handle">Desired handle</label>
-      <input id="handle" name="handle" autocapitalize="off" spellcheck="false" placeholder="your-name" required>
-      <p class="note">Lowercase letters, numbers, and hyphens. Your code will be calmjoints.org/<span id="preview">your-handle</span>.</p>
       <p class="note" id="total"></p>
       <button class="btn" id="pay" type="submit" disabled>Ordering is closed</button>
       <p class="msg" id="msg" role="status"></p>
@@ -98,16 +97,27 @@
   var cad = function (n) { return '$' + Number(n).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' CAD'; };
   var catalog = null;
   var mode = 'closed';
-  function kitFull() { return document.querySelector('input[name="kit"]:checked').value === 'full'; }
+  function selectedKit() {
+    var el = document.querySelector('input[name="kit"]:checked');
+    return el ? el.value : 'incar';
+  }
+  function kitById(id) {
+    return (catalog.kits || []).filter(function (k) { return k.id === id; })[0] || null;
+  }
   function paint() {
     if (!catalog) return;
-    $('opt-incar').textContent = 'In-car ' + cad(catalog.totals.incar);
-    $('opt-full').textContent = 'In-car + outside decals ' + cad(catalog.totals.both);
-    $('incar-detail').textContent = catalog.incar.detail;
-    $('ext-detail').textContent = catalog.exterior.detail;
+    ['incar', 'full', 'hanger'].forEach(function (id) {
+      var kit = kitById(id);
+      if (!kit) return;
+      $('opt-' + id).textContent = kit.name + ' ' + cad(kit.price);
+      $(id + '-detail').textContent = kit.detail;
+    });
     $('rules').textContent = catalog.rules_note;
     $('bylaw').textContent = catalog.bylaw_note;
-    $('total').textContent = 'Total ' + cad(kitFull() ? catalog.totals.both : catalog.totals.incar);
+    $('rules').hidden = selectedKit() !== 'full';
+    $('bylaw').hidden = selectedKit() !== 'full';
+    var chosen = kitById(selectedKit());
+    $('total').textContent = chosen ? 'Total ' + cad(chosen.price) : '';
     $('paynote').hidden = mode !== 'manual';
   }
   function params() {
@@ -115,7 +125,6 @@
     if (q.get('paid') === '1') { $('msg').className = 'msg ok'; $('msg').textContent = 'Payment received. Your code and dashboard link are on the way by email. This page does not finish the order.'; }
     else if (q.get('canceled') === '1') { $('msg').className = 'msg'; $('msg').textContent = 'Checkout canceled. Nothing was charged.'; }
   }
-  $('handle').addEventListener('input', function () { $('preview').textContent = ($('handle').value || 'your-handle').toLowerCase(); });
   Array.prototype.forEach.call(document.querySelectorAll('input[name="kit"]'), function (el) { el.addEventListener('change', paint); });
   $('buy').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -126,14 +135,18 @@
     var body = {
       partner_type: $('type').value, name: $('name').value, email: $('email').value, phone: $('phone').value,
       line1: $('line1').value, line2: $('line2').value, city: $('city').value, province: $('province').value,
-      postal: $('postal').value, handle: $('handle').value, exterior: kitFull()
+      postal: $('postal').value, kit: selectedKit()
     };
     fetch('/api/drive-checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (j) { return { r: r, j: j }; }); })
       .then(function (o) {
         if (o.j && o.j.url) { location.href = o.j.url; return; }
         $('pay').disabled = mode === 'closed';
-        if (o.j && o.j.ok && mode === 'manual') { $('msg').className = 'msg ok'; $('msg').textContent = o.j.message; return; }
+        if (o.j && o.j.ok && mode === 'manual') {
+          $('msg').className = 'msg ok';
+          $('msg').textContent = o.j.message + (o.j.code_url ? ' Your code is ' + String(o.j.code_url).replace(/^https:\/\//, '') + '.' : '');
+          return;
+        }
         $('msg').className = 'msg err';
         $('msg').textContent = (o.j && o.j.message) || 'That order could not be saved.';
       })

@@ -5,7 +5,8 @@
 //
 // print_cost and ship_cost are planning estimates in CAD, not a printer invoice.
 // Replace them when a real quote lands. Exterior ship_cost is the extra postage
-// on top of the in-car parcel, because the add-on rides in the same box.
+// on top of the in-car parcel, because that add-on rides in the same box.
+// Door-drop is its own parcel: placeholder print_cost 60 and ship_cost 15.
 
 module.exports = {
   currency: 'cad',
@@ -75,6 +76,29 @@ module.exports = {
           qr_min_in: 3,
           printful_env: 'PRINTFUL_VARIANT_REAR',
           printful_fit: 'Printful 5×5 in kiss-cut vinyl sticker, placed on the rear windshield only',
+        },
+      ],
+    },
+    hanger: {
+      id: 'hanger',
+      name: 'Door-drop kit',
+      detail: '250 double-sided 3.5×8.5 in door hangers with your own QR code.',
+      print_cost: 60,
+      ship_cost: 15,
+      track_src: 'hanger',
+      pieces: [
+        {
+          id: 'hanger',
+          name: 'Door hanger',
+          width_in: 3.5,
+          height_in: 8.5,
+          copies: 250,
+          sides: 2,
+          hook_in: 1.5,
+          qr_in: 2.4,
+          src: 'hanger',
+          printful_env: 'PRINTFUL_VARIANT_HANGER',
+          printful_fit: 'Double-sided 3.5×8.5 in door hanger. The top 1.5 in stays clear for the door hook. Set PRINTFUL_VARIANT_HANGER when that blank exists.',
         },
       ],
     },
