@@ -29,5 +29,23 @@
 - [Partnerships](https://calmjoints.org/partners): Hubs and partnerships for gyms, studios, brands, employers and clinics.
 - [Careers](https://calmjoints.org/careers): Roles for physiotherapists.
 
+
+## How to book (people)
+1. Go to https://calmjoints.org/?intent=book (or tap "Book now").
+2. Pick what is sore, a day and a time.
+3. Meet a registered physiotherapist on video. In person only if needed after digital care.
+- Talk to a guide first (not a clinician): https://calmjoints.org/chat or call or text (647) 692-6575.
+- Industry Insider's Store: physio consults $129 (reg. $189): https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
+
+## Markdown versions
+- [Home](https://calmjoints.org/index.md)
+- [Managed Physio (enterprise)](https://calmjoints.org/enterprise.md)
+- [Partnerships](https://calmjoints.org/partners.md)
+- [Racquets](https://calmjoints.org/racquets.md)
+- [Squash](https://calmjoints.org/squash.md)
+- [Tennis](https://calmjoints.org/tennis.md)
+- [Pickleball](https://calmjoints.org/pickleball.md)
+- [Everything in one file](https://calmjoints.org/llms-full.txt)
+
 ## Notes
 - Calm Joints is not a medical device and not emergency care. In an emergency, call 911.

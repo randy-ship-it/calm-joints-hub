@@ -1,0 +1,263 @@
+# Calm Joints (full description for AI assistants)
+
+> Every Markdown page on calmjoints.org in one file. Short version: https://calmjoints.org/llms.txt
+
+# Calm Joints
+
+> Calm Joints (Calm Joints Inc.) is a virtual physiotherapy service in Canada. Talk to a virtual recovery guide now, then see a registered physiotherapist by video. In person only if treatment needs it.
+
+## Who it is for
+- People with sore joints, sprains, strains or a nagging injury who want to see a registered physiotherapist from home.
+- Athletes in court sports (squash, tennis, pickleball, padel, badminton).
+- Brands, gyms, studios, clinics, clubs and employers who want to offer physio to their customers, members or staff.
+
+## The offer
+- Video visits with registered physiotherapists, Canada-wide.
+- Talk to Glen or Gwen, virtual recovery guides (not clinicians), any time: https://calmjoints.org/chat or call or text (647) 692-6575.
+- Industry Insider's Store: physio consults $129 (reg. $189), plus member-only prices on recovery gear: https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
+- Many plans cover physio. You get a receipt.
+
+## How to book
+1. Go to https://calmjoints.org/?intent=book (or tap "Book now" on any page).
+2. Pick what is sore, a day and a time.
+3. Meet a registered physiotherapist on video. They look at how you move and talk through next steps.
+4. In-person treatment at a trusted location only if it is needed after digital care.
+
+Not sure yet? Talk to a guide first: https://calmjoints.org/chat
+
+## For brands, gyms and clinics
+- Option 1, standalone Calm Joints clinic: your customers scan your QR code and book video visits with Calm Joints physiotherapists. Co-branding is optional. Calm Joints handles booking, records and billing.
+- Option 2, full turnkey recovery store and digital physio: a member hub under your brand with digital physio, a recovery store with member pricing, partner deals and perks.
+- Recovery and sports brands: a co-branded QR card in the box. Visits booked through your code earn your brand a share, shown in a partner dashboard.
+- Start: https://calmjoints.org/partners or info@calmjoints.org. Managed Physio for employers and platforms: https://calmjoints.org/enterprise
+
+## FAQ
+Q: Can I see a physiotherapist online in Canada?
+A: Yes. Calm Joints offers video visits with registered physiotherapists across Canada. Book at https://calmjoints.org/?intent=book
+
+Q: Do I need to go in person?
+A: Digital care comes first. In-person treatment at a trusted location is only arranged if needed after digital care.
+
+Q: Is physio covered by my insurance?
+A: Many plans cover physio, and you get a receipt. Check your own plan.
+
+Q: How much is a consult?
+A: Through the Industry Insider's Store, physio consults are $129 (reg. $189): https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
+
+Q: Who are Glen and Gwen?
+A: Virtual recovery guides, not clinicians. Talk now at https://calmjoints.org/chat
+
+Q: Is this emergency care?
+A: No. Calm Joints is not emergency care and not a medical device. In an emergency, call 911.
+
+## Pages
+- Home: https://calmjoints.org/
+- Managed Physio (enterprise): https://calmjoints.org/enterprise · Markdown: https://calmjoints.org/enterprise.md
+- Partnerships: https://calmjoints.org/partners · Markdown: https://calmjoints.org/partners.md
+- Racquets: https://calmjoints.org/racquets · Markdown: https://calmjoints.org/racquets.md
+- Squash: https://calmjoints.org/squash.md · Tennis: https://calmjoints.org/tennis.md · Pickleball: https://calmjoints.org/pickleball.md
+- Careers for physiotherapists: https://calmjoints.org/careers
+- Blog: https://calmjoints.org/blog
+
+Contact: info@calmjoints.org · © 2026 Calm Joints Inc.
+
+---
+
+# Managed Physio. One click to physio. | Calm Joints
+
+> Scale runs online physio for your customers or employees. They book on the Calm Joints site. Fully managed by Scale. Your business shares in the revenue. Canada-wide now. USA planned Q1 2027.
+
+## Who it is for
+Multi-location wellness, health apps, retirement homes, hospitals and employee benefits.
+
+## How it works
+1. Customers or employees book a video visit on the Calm Joints site.
+2. Scale runs the digital physio visit.
+3. In person only if needed. The store perk is optional.
+
+## Options
+- Option 1, Managed Physio: Scale runs the visits for your customers or employees. They book on the Calm Joints site. The setup is agreed with you.
+- Option 2, Managed Physio plus a turnkey store: everything in option 1, plus a co-branded store loaded with products and services. 35% of the net revenue Scale collects on products and services (not physio bookings, and not gross sales). Employers can plug staff into that physio and offer insider pricing on eligible products as a workplace perk.
+
+## How to start
+1. Fill in the form at https://calmjoints.org/enterprise#talk (company, work email, organization type, users or members).
+2. The team replies within one business day.
+3. Setup is agreed with you. Booking stays on the Calm Joints site.
+
+The scenario calculator on the page (https://calmjoints.org/enterprise#estimate) is illustrative only. It is not a guaranteed payout.
+
+## FAQ
+Q: How can my company offer virtual physiotherapy to employees in Canada?
+A: Become a Calm Joints channel partner at https://calmjoints.org/enterprise. Employees book on the Calm Joints site and Scale runs the visits.
+
+Q: Does it work outside Canada?
+A: Canada-wide now. USA planned Q1 2027.
+
+Q: What does it cost to start?
+A: Setup is agreed with each partner. Contact info@calmjoints.org or use the form.
+
+HTML version: https://calmjoints.org/enterprise · All pages: https://calmjoints.org/llms.txt
+
+---
+
+# Partner with Calm Joints | Calm Joints
+
+> Physio care for your members, customers or team. Video visits with registered physiotherapists. Nothing to manage on your side. No cost to get started.
+
+## Who it is for
+- Venues and sports facilities: clubs, courts, arenas and courses.
+- Health services companies: clinics and health teams that want more reach.
+- Fitness and wellness studios and clubs: Pilates, yoga, strength and members' clubs.
+- Health and wellness creators.
+
+## How to start
+1. Send the form at https://calmjoints.org/partners (business type, approximate members or customers, city).
+2. A person on the team gets back to you.
+
+## Doctor clinics
+- Option 1, a spare room: registered physiotherapists placed in an empty room under a simple fair-market lease. Patients book at calmjoints.org.
+- Option 2, a free educational waiting-room kit (acrylic stand, cards and a poster with a QR code). A $299 deposit covers production and shipping risk, refunded in full after a 6-month pilot if the materials stay in place. No payments, commissions or incentives tied to scans or bookings.
+
+## Private athletic and racquet clubs
+- Tier 1, physio only: display a co-branded QR code. The club earns a 25% payout on net revenue from bookings made through it.
+- Tier 2, full recovery activation: a co-branded member store at wholesale rates, with physiotherapy built in.
+- Request either tier at https://calmjoints.org/squash#club-partner, https://calmjoints.org/tennis#club-partner or https://calmjoints.org/pickleball#club-partner.
+
+HTML version: https://calmjoints.org/partners · Contact: info@calmjoints.org · All pages: https://calmjoints.org/llms.txt
+
+---
+
+# Racquets: five court sports | Calm Joints
+
+> Squash, tennis, pickleball, padel and badminton. Each page has a short kit for between matches, and a video assessment with a registered physiotherapist.
+
+## Pick a court
+- Squash, stay on court longer: https://calmjoints.org/squash (Markdown: https://calmjoints.org/squash.md)
+- Tennis, stay in the rally: https://calmjoints.org/tennis (Markdown: https://calmjoints.org/tennis.md)
+- Pickleball, stay in the point: https://calmjoints.org/pickleball (Markdown: https://calmjoints.org/pickleball.md)
+- Padel, stay on the glass: https://calmjoints.org/paddle
+- Badminton, stay quick at the net: https://calmjoints.org/badminton
+
+## How to book an assessment
+1. Go to https://calmjoints.org/?intent=book
+2. Pick a video visit time.
+3. Meet a registered physiotherapist on video. They look at how you move and talk through next steps.
+
+## Clubs
+Private athletic and racquet clubs: Tier 1 co-branded physio QR (25% payout on net booking revenue to the club) or Tier 2 co-branded member store at wholesale rates. Request at https://calmjoints.org/squash#club-partner, https://calmjoints.org/tennis#club-partner or https://calmjoints.org/pickleball#club-partner.
+
+Products open in the Industry Insider's Store: https://www.scalehealth.ca/calmjoints?src=cjsite&place=home. Not emergency care; call 911 in an emergency.
+
+HTML version: https://calmjoints.org/racquets · All pages: https://calmjoints.org/llms.txt
+
+---
+
+# Squash: Stay on court longer. | Calm Joints
+
+> Squash puts real load on ankles, knees and wrists: hard lunges, fast turns, back-to-back matches. Calm Joints offers a short kit for between matches and a video assessment with a registered physiotherapist.
+
+## Who it is for
+Squash players who want to stay on court, and private clubs that want physio for their members.
+
+## Book a video assessment
+1. Go to https://calmjoints.org/?intent=book (or "Book a Calm Joints assessment" on https://calmjoints.org/squash).
+2. Pick a video visit that fits around your matches.
+3. Meet a registered physiotherapist on video from home. They look at how you move and talk through next steps with you.
+
+## A short kit for between matches
+Opens in the Industry Insider's Store (https://www.scalehealth.ca/calmjoints?src=cjsite&place=home). Prices and availability are on the linked pages.
+- TENS Pro Essentials (DR-HO'S): one option between matches, not something every player needs. Follow the maker's directions.
+- R8 Deep Tissue Massage Tool (ROLL Recovery): quads, calves and hamstrings.
+- R3 Orthopedic Foot Roller (ROLL Recovery): a compact foot roller for after court time.
+- StretchMat (ROLL Recovery): a marked mat for a post-matche stretch.
+
+## Squash injury guides
+Short general guides. They are not a diagnosis or a plan for your injury.
+- Rolled ankle: https://calmjoints.org/blog/squash-ankle-sprain
+- Knee pain after lunges: https://calmjoints.org/blog/squash-knee-pain-lunging
+- Shoulder pain: https://calmjoints.org/blog/squash-shoulder-pain
+- Lower back pain: https://calmjoints.org/blog/squash-lower-back-pain
+
+## For private clubs
+- Tier 1, physio only: display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province, and the club earns a 25% payout on net revenue from those bookings.
+- Tier 2, full recovery activation: a co-branded member store at wholesale rates, with physiotherapy built in.
+- Hands-off for club staff. Request either tier at https://calmjoints.org/squash#club-partner. The calculator at https://calmjoints.org/enterprise#estimate is illustrative only, not a payout guarantee.
+
+## FAQ
+Q: Where can I see a physiotherapist online for a squash injury in Canada?
+A: Calm Joints offers video assessments with registered physiotherapists. Book at https://calmjoints.org/?intent=book
+
+Q: Is this emergency care?
+A: No. Call 911 in an emergency.
+
+HTML version: https://calmjoints.org/squash · Other court sports: https://calmjoints.org/racquets.md · All pages: https://calmjoints.org/llms.txt
+
+---
+
+# Tennis: Stay in the rally. | Calm Joints
+
+> Tennis asks a lot of shoulders, elbows, knees and feet: serves, wide steps, long matches. Calm Joints offers a short kit for between matches and a video assessment with a registered physiotherapist.
+
+## Who it is for
+Tennis players who want to stay on court, and private clubs that want physio for their members.
+
+## Book a video assessment
+1. Go to https://calmjoints.org/?intent=book (or "Book a Calm Joints assessment" on https://calmjoints.org/tennis).
+2. Pick a video visit that fits around your matches.
+3. Meet a registered physiotherapist on video from home. They look at how you move and talk through next steps with you.
+
+## A short kit for between matches
+Opens in the Industry Insider's Store (https://www.scalehealth.ca/calmjoints?src=cjsite&place=home). Prices and availability are on the linked pages.
+- TENS Pro Essentials (DR-HO'S): one option between matches, not something every player needs. Follow the maker's directions.
+- R8 Deep Tissue Massage Tool (ROLL Recovery): quads, calves and hamstrings.
+- R3 Orthopedic Foot Roller (ROLL Recovery): a compact foot roller for after court time.
+- StretchMat (ROLL Recovery): a marked mat for a post-matche stretch.
+
+## For private clubs
+- Tier 1, physio only: display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province, and the club earns a 25% payout on net revenue from those bookings.
+- Tier 2, full recovery activation: a co-branded member store at wholesale rates, with physiotherapy built in.
+- Hands-off for club staff. Request either tier at https://calmjoints.org/tennis#club-partner. The calculator at https://calmjoints.org/enterprise#estimate is illustrative only, not a payout guarantee.
+
+## FAQ
+Q: Where can I see a physiotherapist online for a tennis injury in Canada?
+A: Calm Joints offers video assessments with registered physiotherapists. Book at https://calmjoints.org/?intent=book
+
+Q: Is this emergency care?
+A: No. Call 911 in an emergency.
+
+HTML version: https://calmjoints.org/tennis · Other court sports: https://calmjoints.org/racquets.md · All pages: https://calmjoints.org/llms.txt
+
+---
+
+# Pickleball: Stay in the point. | Calm Joints
+
+> Pickleball is quick at the kitchen and hard on knees, shoulders and feet. Calm Joints offers a short kit for between games and a video assessment with a registered physiotherapist.
+
+## Who it is for
+Pickleball players who want to stay on court, and private clubs that want physio for their members.
+
+## Book a video assessment
+1. Go to https://calmjoints.org/?intent=book (or "Book a Calm Joints assessment" on https://calmjoints.org/pickleball).
+2. Pick a video visit that fits around your games.
+3. Meet a registered physiotherapist on video from home. They look at how you move and talk through next steps with you.
+
+## A short kit for between games
+Opens in the Industry Insider's Store (https://www.scalehealth.ca/calmjoints?src=cjsite&place=home). Prices and availability are on the linked pages.
+- TENS Pro Essentials (DR-HO'S): one option between games, not something every player needs. Follow the maker's directions.
+- R8 Deep Tissue Massage Tool (ROLL Recovery): quads, calves and hamstrings.
+- R3 Orthopedic Foot Roller (ROLL Recovery): a compact foot roller for after court time.
+- StretchMat (ROLL Recovery): a marked mat for a post-game stretch.
+
+## For private clubs
+- Tier 1, physio only: display a co-branded QR code. Anyone who books through it gets sessions with registered therapists across the province, and the club earns a 25% payout on net revenue from those bookings.
+- Tier 2, full recovery activation: a co-branded member store at wholesale rates, with physiotherapy built in.
+- Hands-off for club staff. Request either tier at https://calmjoints.org/pickleball#club-partner. The calculator at https://calmjoints.org/enterprise#estimate is illustrative only, not a payout guarantee.
+
+## FAQ
+Q: Where can I see a physiotherapist online for a pickleball injury in Canada?
+A: Calm Joints offers video assessments with registered physiotherapists. Book at https://calmjoints.org/?intent=book
+
+Q: Is this emergency care?
+A: No. Call 911 in an emergency.
+
+HTML version: https://calmjoints.org/pickleball · Other court sports: https://calmjoints.org/racquets.md · All pages: https://calmjoints.org/llms.txt
