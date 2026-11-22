@@ -3,3 +3,6 @@
 # and public access to both trees is denied in vercel.json routes.
 *.md
 .private/
+# AI layer Markdown mirrors (served at /index.md, /squash.md, ... via vercel.json routes).
+!ai/
+!ai/*.md
