@@ -108,6 +108,7 @@
     { "src": "/gwen/?", "dest": "/chat-gwen" },
     { "src": "/lib(/.*)?", "dest": "/api/blocked", "status": 404 },
     { "src": "/scripts(/.*)?", "dest": "/api/blocked", "status": 404 },
+    { "src": "/(index|enterprise|partners|racquets|squash|tennis|pickleball)\\.md", "dest": "/ai/$1.md", "headers": { "Content-Type": "text/markdown; charset=utf-8", "Cache-Control": "public, max-age=300", "X-Robots-Tag": "index, follow" } },
     { "src": "/.*\\.md", "dest": "/api/blocked", "status": 404 },
     { "src": "/package(-lock)?\\.json", "dest": "/api/blocked", "status": 404 },
     { "src": "/vercel\\.json", "dest": "/api/blocked", "status": 404 },
