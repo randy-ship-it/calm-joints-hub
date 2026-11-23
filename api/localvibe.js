@@ -19,9 +19,10 @@ function sameSite(req) {
   try { if (origin && host) return new URL(origin).host === host; } catch (e) { return false; }
   return true;
 }
-// Free postal-code lookup (read only): this site's own /localdemand/api/estimate route.
+// Free postal-code lookup (read only): the service behind /localdemand/api/estimate. Called directly, not via
+// calmjoints.org, because a server-side call to our own public domain can hit Vercel's bot challenge (429) -> lookup error.
 // Set LOCALVIBE_ESTIMATE_URL to point somewhere else (for example straight at the service behind that route).
-const ESTIMATE = process.env.LOCALVIBE_ESTIMATE_URL || 'https://calmjoints.org/localdemand/api/estimate';
+const ESTIMATE = process.env.LOCALVIBE_ESTIMATE_URL || 'https://scale-partner-dash.vercel.app/localdemand/api/estimate';
 
 async function getEstimate(fsa) {
   const ac = new AbortController();
