@@ -24,7 +24,7 @@
   })();
 </script>
 <link rel="stylesheet" href="/localvibe/vendor/leaflet.css">
-<link rel="stylesheet" href="/localvibe/localvibe.css?v=10">
+<link rel="stylesheet" href="/localvibe/localvibe.css?v=11">
 </head>
 <body>
 <a class="lv-skip" href="#lv-places">Skip to nearby places</a>
@@ -47,11 +47,15 @@
     <p class="lv-kicker">Local Consumer Vibe</p>
     <h1>What’s happening near you</h1>
     <p class="lv-lead">Trusted places and the recovery brands people near you are looking at.</p>
-    <form class="lv-search" id="lv-form" novalidate>
-      <label class="lv-field"><span class="lv-sr">Your postal code</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-        <input id="lv-pc" name="pc" inputmode="text" autocomplete="postal-code" placeholder="Postal code or first 3, e.g. M5V" maxlength="10" spellcheck="false" aria-describedby="lv-msg"></label>
-      <button class="lv-btn lv-btn-primary" type="submit">Show my area</button>
+    <form class="lv-search" id="lv-form" novalidate autocomplete="off">
+      <button class="lv-btn lv-btn-primary lv-geo" type="button" id="lv-geo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7.5"/></svg>Use my location</button>
+      <span class="lv-or" aria-hidden="true">or</span>
+      <div class="lv-combo">
+        <label class="lv-field"><span class="lv-sr">City or postal code</span>
+          <input id="lv-pc" name="pc" type="text" role="combobox" aria-expanded="false" aria-controls="lv-suggest" aria-autocomplete="list" inputmode="text" autocomplete="off" autocapitalize="words" placeholder="City or postal code" maxlength="60" spellcheck="false" aria-describedby="lv-msg"></label>
+        <ul class="lv-suggest" id="lv-suggest" role="listbox" hidden></ul>
+      </div>
+      <button class="lv-btn lv-btn-ghost lv-go" type="submit">Search</button>
     </form>
     <p class="lv-msg" id="lv-msg" role="status" aria-live="polite"></p>
   </div>
@@ -146,6 +150,6 @@
 <div class="lv-sticky" aria-label="Quick actions"><a class="lv-btn lv-btn-primary" data-lv-cta="book"></a><a class="lv-btn lv-btn-ghost" data-lv-cta="store"></a></div>
 
 <script src="/localvibe/vendor/leaflet.js"></script>
-<script src="/localvibe/localvibe.js?v=7"></script>
+<script src="/localvibe/localvibe.js?v=8"></script>
 </body>
 </html>

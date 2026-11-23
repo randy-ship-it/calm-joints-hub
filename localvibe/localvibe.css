@@ -317,3 +317,32 @@ html.lv-embed .lv-msg.is-bad{color:#B42318;font-weight:600}
   .lv-ribbon-set[aria-hidden=true],.lv-ribbon-set [aria-hidden=true]{display:none}
   .lv-mk{opacity:1}
 }
+
+/* ---- finder v2: location first, forgiving input, suggestions ---- */
+.lv-search{flex-wrap:wrap;align-items:center}
+.lv-geo{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:1 1 100%}
+.lv-geo svg{width:20px;height:20px}
+.lv-or{flex:1 1 100%;display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--lv-mute,#5B6B63);text-transform:uppercase;letter-spacing:.08em}
+.lv-or::before,.lv-or::after{content:"";flex:1;height:1px;background:var(--lv-line,#dfe7e2)}
+.lv-combo{position:relative;flex:1 1 0;min-width:0}
+.lv-field input{padding-left:16px;letter-spacing:0;text-transform:none}
+.lv-suggest{position:absolute;z-index:1200;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;background:#fff;border:1px solid var(--lv-line,#dfe7e2);border-radius:16px;box-shadow:0 12px 32px rgba(15,40,28,.18)}
+.lv-suggest li{padding:11px 12px;border-radius:10px;font:600 15px var(--lv-font);cursor:pointer;color:var(--lv-ink,#12261c)}
+.lv-suggest li:hover,.lv-suggest li[aria-selected="true"]{background:#EAF5EE}
+.lv-go{flex:0 0 auto}
+html.lv-embed .lv-search{flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px}
+html.lv-embed .lv-search .lv-geo{width:100%;flex:1 1 100%}
+html.lv-embed .lv-search .lv-go{width:auto}
+html.lv-embed .lv-field input{min-height:48px}
+html.lv-embed .lv-map{height:360px;min-height:300px;border-radius:14px;margin:0 12px;box-shadow:inset 0 0 0 1px var(--lv-line,#dfe7e2)}
+html.lv-embed .lv-rings{position:relative;z-index:1000;align-self:flex-start;margin:-54px 0 14px 24px}
+html.lv-embed .lv-chips{background:#fff;border-radius:999px;padding:4px;box-shadow:0 6px 18px rgba(15,40,28,.2)}
+html.lv-embed .lv-chip{border:0;min-height:36px}
+html.lv-embed .lv-stats{margin:6px 12px 14px;border-radius:18px}
+html.lv-embed .lv-stat-side{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+html.lv-embed .lv-stat-side>div:nth-child(3){display:none}
+@media (max-width:640px){
+  html.lv-embed .lv-map{height:300px;min-height:260px;margin:0 10px}
+  html.lv-embed .lv-search .lv-go{flex:0 0 auto}
+  html.lv-embed .lv-stat-side{grid-template-columns:1fr 1fr}
+}
