@@ -117,7 +117,7 @@
     var k = $('.lv-float .lv-kicker'); if (k) k.textContent = 'Booking engine';
     var h = $('.lv-float h1'); if (h) h.textContent = 'Digital demand nearby';
     var lead = $('.lv-float .lv-lead'); if (lead) lead.textContent = 'Existing demand in Scale Health hubs your customers can tap.';
-    var pc = $('#lv-pc'); if (pc) pc.placeholder = 'Postal or first 3, e.g. M4V';
+    var pc = $('#lv-pc'); if (pc) pc.placeholder = 'City or postal code';
     var near = $('#lv-near-label'); if (near) near.textContent = 'Scale Health hubs nearby';
     var sub = $('#lv-views-sub'); if (sub) sub.textContent = 'digital demand in Scale Health hubs (estimate)';
     var api = $('#lv-api-line'); if (api) api.hidden = false;
@@ -180,6 +180,7 @@
   var ONTARIO = [[42.6, -82.4], [46.2, -76.6]];
   function overlayPad() {
     var f = $('#lv-float'), w = root.innerWidth;
+    if (isEmbed) return { tl: [36, 44], br: [36, 60] };
     if (!f) return { tl: [20, 20], br: [20, 20] };
     var r = f.getBoundingClientRect(), s = $('#lv-map').getBoundingClientRect();
     if (w > 860) return { tl: [Math.round(r.right - s.left) + 28, 24], br: [24, 24] };
@@ -228,6 +229,12 @@
     var lat = c[0] + km / 111.32;
     return L.marker([lat, c[1]], { icon: L.divIcon({ className: 'lv-ringlbl', html: '<span>' + km + ' km</span>', iconSize: [48, 20], iconAnchor: [24, 10] }), interactive: false, keyboard: false });
   }
+  function fitView(list, r, animate) {
+    var m = state.map, c = state.center; if (!m || !c) return;
+    var p = overlayPad(), b = L.latLng(c[0], c[1]).toBounds(r * 2000);
+    if (list && list.length) { b = L.latLngBounds([c]); list.forEach(function (l) { b.extend([l.lat, l.lng]); }); b = b.pad(0.25); }
+    m.fitBounds(b, { paddingTopLeft: p.tl, paddingBottomRight: p.br, animate: !!animate && !reduce, duration: 0.8, maxZoom: 14 });
+  }
   function drawMap(list, r, fit) {
     var m = ensureMap(), c = state.center;
     state.layer.clearLayers(); state.pins = [];
@@ -242,11 +249,7 @@
     });
     setTimeout(function () {
       m.invalidateSize();
-      if (fit) {
-        var p = overlayPad();
-        var b = L.latLng(c[0], c[1]).toBounds(r * 2000);
-        m.fitBounds(b, { paddingTopLeft: p.tl, paddingBottomRight: p.br, animate: !reduce, duration: 0.8 });
-      }
+      if (fit) fitView(list, r, true);
     }, 40);
   }
 
@@ -403,38 +406,89 @@
     renderBrands();
     reportEmbedHeight();
   }
-  function lookup(raw) {
-    var pc = normalizePostal(raw);
-    if (!pc) {
-      say('Enter a Canadian postal code or the first 3 characters (FSA), like M5V or M5V 2T6.', true);
-      var input = $('#lv-pc');
-      if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
-      return;
-    }
-    var inputOk = $('#lv-pc');
-    if (inputOk) inputOk.removeAttribute('aria-invalid');
-    say('Looking up ' + pc.fsa + '…');
-    var url = (T.lookupUrl || '/api/localvibe') + '?pc=' + encodeURIComponent(pc.fsa);
-    fetch(url, { headers: { Accept: 'application/json' } })
-      .then(function (r) { if (!r.ok) { var e = new Error('lookup'); e.status = r.status; throw e; } return r.json(); })
-      .then(function (d) { onResult(d); })
-      .catch(function (e) { onError(e); });
+  var LURL = function () { return T.lookupUrl || '/api/localvibe'; };
+  function getJson(url) {
+    return fetch(url, { headers: { Accept: 'application/json' } })
+      .then(function (r) { if (!r.ok) { var e = new Error('lookup'); e.status = r.status; throw e; } return r.json(); });
   }
-  function onResult(d) {
-    say('Showing ' + d.fsa + '. Distances are approximate.');
-    try {
-      var params = new URLSearchParams(location.search);
-      params.set('pc', d.fsa);
-      var q = params.toString();
-      history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
-    } catch (e) {}
+  function lookupPostal(pc) {
+    say('Looking up ' + pc.fsa + '…');
+    getJson(LURL() + '?pc=' + encodeURIComponent(pc.fsa)).then(function (d) { onResult(d, pc.fsa); }).catch(onError);
+  }
+  function lookupPoint(lat, lng, label) {
+    say('Finding hubs near ' + label + '…');
+    getJson(LURL() + '?lat=' + encodeURIComponent(lat) + '&lng=' + encodeURIComponent(lng) + '&label=' + encodeURIComponent(label)).then(function (d) { onResult(d, null); }).catch(onError);
+  }
+  // Forgiving input: a postal code (full or first 3) goes straight through; anything else is treated as a place name.
+  function lookup(raw) {
+    var text = String(raw || '').trim();
+    var input = $('#lv-pc'); if (input) input.removeAttribute('aria-invalid');
+    hideSuggest();
+    if (text.length < 2) { say('Type a city or postal code, or tap Use my location.'); return; }
+    var pc = normalizePostal(text);
+    if (pc) return lookupPostal(pc);
+    suggest(text, function (list) {
+      if (list.length) { if (input) input.value = list[0].label; lookupPoint(list[0].lat, list[0].lng, list[0].name); }
+      else say('We could not find that place. Try a nearby city, or tap Use my location.', true);
+    });
+  }
+  var sugTimer = null, sugItems = [], sugSeq = 0;
+  function suggest(text, cb) {
+    var n = ++sugSeq;
+    getJson(LURL() + '?q=' + encodeURIComponent(text)).then(function (d) { if (n === sugSeq) cb(d.places || []); }).catch(function () { if (n === sugSeq) cb([]); });
+  }
+  function hideSuggest() { var ul = $('#lv-suggest'), i = $('#lv-pc'); if (ul) { ul.hidden = true; ul.innerHTML = ''; } if (i) i.setAttribute('aria-expanded', 'false'); sugItems = []; }
+  function showSuggest(list) {
+    var ul = $('#lv-suggest'), i = $('#lv-pc'); if (!ul) return;
+    sugItems = list; if ($('#lv-suggest')) $('#lv-suggest').dataset.cur = '';
+    if (!list.length) return hideSuggest();
+    ul.innerHTML = list.map(function (x, k) { return '<li role="option" id="lv-sg' + k + '" data-k="' + k + '">' + esc(x.label) + '</li>'; }).join('');
+    ul.hidden = false; i.setAttribute('aria-expanded', 'true');
+  }
+  function pickSuggest(k) {
+    var x = sugItems[k]; if (!x) return;
+    $('#lv-pc').value = x.label; hideSuggest(); lookupPoint(x.lat, x.lng, x.name);
+  }
+  function useLocation(auto) {
+    if (!root.navigator || !navigator.geolocation) { say('Your browser can’t share a location. Type a city or postal code instead.', true); return; }
+    var btn = $('#lv-geo'); if (btn) btn.disabled = true;
+    say('Finding your location…');
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      if (btn) btn.disabled = false;
+      lookupPoint(pos.coords.latitude, pos.coords.longitude, 'you');
+    }, function () {
+      if (btn) btn.disabled = false;
+      if (auto) { say(''); return; }
+      say('We couldn’t get your location. Type a city or postal code instead.', true);
+      var i = $('#lv-pc'); if (i) i.focus();
+    }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+  }
+  // Start on a real area straight away: Toronto by default, or the visitor's own spot if they already allowed location.
+  function defaultView() {
+    var fallback = function () { lookupPoint(43.65, -79.38, 'Toronto'); };
+    if (root.navigator && navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({ name: 'geolocation' }).then(function (r) { if (r.state === 'granted') useLocation(true); else fallback(); }).catch(fallback);
+    } else fallback();
+  }
+  function onResult(d, pcFsa) {
+    say(d.fsa === 'you' ? 'Showing hubs near you. Distances are approximate.' : 'Showing ' + d.fsa + '. Distances are approximate.');
+    if (pcFsa) {
+      try {
+        var params = new URLSearchParams(location.search);
+        params.set('pc', pcFsa);
+        var q = params.toString();
+        history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
+      } catch (e) {}
+    }
     showArea(d);
-    var s = $('.lv-stage').getBoundingClientRect();
-    if (s.top < -20 || s.top > 200) $('.lv-stage').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    if (!isEmbed) {
+      var s = $('.lv-stage').getBoundingClientRect();
+      if (s.top < -20 || s.top > 200) $('.lv-stage').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
   }
   function onError(e) {
     var s = e && e.status;
-    say(s === 404 ? 'We could not find that postal code. Check it and try again.' : s === 429 ? 'That was a lot of lookups. Please wait a minute and try again.' : 'We could not look that up right now. Please try again.', true);
+    say(s === 404 ? 'We could not find that place. Try a nearby city or postal code.' : s === 429 ? 'That was a lot of lookups. Please wait a minute and try again.' : 'We could not look that up right now. Please try again.', true);
   }
 
   /* ---------- "local offers" alert sign-up: email only, no login, express consent box ---------- */
@@ -461,6 +515,26 @@
     initNotify();
     $$('.lv-chip').forEach(function (c) { c.addEventListener('click', function () { setRadius(+c.dataset.r, true); }); });
     $('#lv-form').addEventListener('submit', function (e) { e.preventDefault(); lookup($('#lv-pc').value); });
+    $('#lv-geo').addEventListener('click', function () { useLocation(false); });
+    var pcIn = $('#lv-pc'), sg = $('#lv-suggest');
+    pcIn.addEventListener('input', function () {
+      clearTimeout(sugTimer);
+      var v = pcIn.value.trim();
+      if (v.length < 2 || normalizePostal(v) || /^[A-Za-z]\d[A-Za-z]/.test(v)) return hideSuggest();
+      sugTimer = setTimeout(function () { suggest(v, showSuggest); }, 220);
+    });
+    pcIn.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') hideSuggest();
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        if (!sugItems.length) return; e.preventDefault();
+        var cur = +(sg.dataset.cur || -1), nx = e.key === 'ArrowDown' ? Math.min(sugItems.length - 1, cur + 1) : Math.max(0, cur - 1);
+        $$('li', sg).forEach(function (li, k) { li.setAttribute('aria-selected', String(k === nx)); }); sg.dataset.cur = String(nx);
+        pcIn.setAttribute('aria-activedescendant', 'lv-sg' + nx);
+      }
+      if (e.key === 'Enter' && sugItems.length && sg.dataset.cur >= 0 && sg.dataset.cur !== '') { e.preventDefault(); pickSuggest(+sg.dataset.cur); }
+    });
+    sg.addEventListener('mousedown', function (e) { var li = e.target.closest('li'); if (li) { e.preventDefault(); pickSuggest(+li.dataset.k); } });
+    pcIn.addEventListener('blur', function () { setTimeout(hideSuggest, 150); });
     var rail = $('#lv-brands');
     rail.addEventListener('scroll', function () { root.requestAnimationFrame(syncRail); }, { passive: true });
     $('#lv-prev').addEventListener('click', function () { rail.scrollBy({ left: -rail.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' }); });
@@ -469,11 +543,7 @@
       syncRail();
       if (state.map) {
         state.map.invalidateSize({ animate: false });
-        if (state.center) {
-          var p = overlayPad();
-          var b = L.latLng(state.center[0], state.center[1]).toBounds(state.radius * 2000);
-          state.map.fitBounds(b, { paddingTopLeft: p.tl, paddingBottomRight: p.br, animate: false });
-        }
+        if (state.center) fitView(state.places.filter(function (l) { return l.km <= state.radius; }), state.radius, false);
       }
     }
     root.addEventListener('resize', function () { onResize(); reportEmbedHeight(); });
@@ -496,6 +566,7 @@
     renderBrands();
     var q = new URLSearchParams(location.search).get('pc');
     if (q) { $('#lv-pc').value = q; lookup(q); }
+    else if (isEmbed) defaultView();
   }
 
   applySkin();
