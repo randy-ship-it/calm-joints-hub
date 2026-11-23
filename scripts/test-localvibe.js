@@ -15,7 +15,7 @@ assert.deepStrictEqual(core.normalizePostal('m5v 2t6').fsa, 'M5V');
 assert.strictEqual(core.normalizePostal('M5'), null);
 assert.strictEqual(core.normalizePostal('D5V'), null);
 assert.strictEqual(core.normalizePostal('hello'), null);
-assert.ok(fs.readFileSync(path.join(root, 'localvibe/index.html'), 'utf8').includes('localvibe.js?v=6'));
+assert.ok(fs.readFileSync(path.join(root, 'localvibe/index.html'), 'utf8').includes('localvibe.js?v=7'));
 
 // nearest: at most 3, within 20 km, closest first
 const locs = [];
