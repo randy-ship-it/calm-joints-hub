@@ -105,6 +105,11 @@
   var base = T.assetBase || '/localvibe/';
   var state = { est: null, views20: 600000, brands: [], map: null, layer: null, key: 'ON', hourly: 0, center: null, radius: 20, places: [], label: '', pins: [] };
   var isEmbed = document.documentElement.classList.contains('lv-embed');
+  function reportEmbedHeight() {
+    if (!isEmbed || !root.parent || root.parent === root) return;
+    var h = Math.ceil(Math.max(document.body.scrollHeight || 0, document.documentElement.scrollHeight || 0));
+    try { root.parent.postMessage({ source: 'cj-localdemand', height: h }, root.location.origin); } catch (err) {}
+  }
 
   // Enterprise iframe only: Managed Physio + Scale Health hub demand (public /localvibe keeps consumer copy).
   function applyEmbedCopy() {
@@ -117,6 +122,7 @@
     var sub = $('#lv-views-sub'); if (sub) sub.textContent = 'digital demand in Scale Health hubs (estimate)';
     var api = $('#lv-api-line'); if (api) api.hidden = false;
     var stage = $('.lv-stage'); if (stage) stage.setAttribute('aria-label', 'Digital demand in Scale Health hubs near a postal code');
+    reportEmbedHeight();
     var sk = $('.lv-places .lv-k'); if (sk) sk.textContent = 'Scale Health hubs';
   }
 
@@ -377,7 +383,7 @@
   }
 
   /* ---------- search ---------- */
-  function say(t, bad) { var m = $('#lv-msg'); m.textContent = t || ''; m.classList.toggle('is-bad', !!bad); }
+  function say(t, bad) { var m = $('#lv-msg'); m.textContent = t || ''; m.classList.toggle('is-bad', !!bad); reportEmbedHeight(); }
   function showArea(d) {
     state.center = [d.point.lat, d.point.lng]; state.key = d.fsa; state.label = d.fsa; state.hourly = d.views20 / 30 / 24; state.est = d.est || null; state.views20 = d.views20 || 600000;
     state.places = (d.places || []).slice(0, 3);
@@ -395,6 +401,7 @@
       setRadius(state.places.some(function (l) { return l.km <= 10; }) ? 10 : 20, true);
     }
     renderBrands();
+    reportEmbedHeight();
   }
   function lookup(raw) {
     var pc = normalizePostal(raw);
@@ -469,7 +476,12 @@
         }
       }
     }
-    root.addEventListener('resize', onResize);
+    root.addEventListener('resize', function () { onResize(); reportEmbedHeight(); });
+    if (isEmbed) {
+      reportEmbedHeight();
+      root.addEventListener('load', reportEmbedHeight);
+      if (root.ResizeObserver) new ResizeObserver(reportEmbedHeight).observe(document.body);
+    }
     if (root.ResizeObserver) {
       var ro = new ResizeObserver(function () { onResize(); });
       var mapEl = $('#lv-map');
