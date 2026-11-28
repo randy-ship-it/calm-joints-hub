@@ -268,8 +268,8 @@ vm.runInNewContext(fs.readFileSync('config.js', 'utf8'), { window });
 const booking = window.CALM_JOINTS.booking.primaryUrl;
 assert.strictEqual(booking, 'https://calmjoints.janeapp.com/locations/calm-joints/book#/discipline/2/treatment/346');
 const bookJs = fs.readFileSync('js/book.js', 'utf8');
-assert.ok(bookJs.includes('el.href = url'));
-assert.ok(bookJs.includes('data-book-direct'));
+assert.ok(bookJs.includes('el.href = CARE_BOOK'));
+assert.ok(bookJs.includes('/book'));
 
 const held = JSON.parse(JSON.stringify(catalog));
 held.skus.push({

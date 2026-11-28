@@ -13,6 +13,22 @@ window.CALM_JOINTS = {
     providerListApi: null,
     status: 'partner-clinic',
     label: 'Book a physiotherapist',
+    calendarUrl: '/book',
+    // Display prices to match Jane, confirmed by Randy 2026-11-28 10:21 AM ET (America/Toronto):
+    // 60-minute assessment $129, 30-minute follow-up $99, doctor visit $89.
+    services: {
+      initial: { id: 346, name: 'Physio assessment', minutes: 60, price: 129 },
+      followup: { id: 347, name: 'Follow-up visit', minutes: 30, price: 99 },
+    },
+  },
+  // $89 confirmed 2026-11-28. Partner name and booking URL are still open. Do not name the partner on the page.
+  md: {
+    enabled: true,
+    price: 89,
+    priceVerified: true,
+    label: 'Doctor visit',
+    primaryUrl: null,
+    coverageNote: 'Private virtual visit. OHIP or benefits coverage has not been confirmed.',
   },
   guide: {
     // ElevenLabs Agents: Calm Joints Guide (chat + voice). Public agent ids, no secret.

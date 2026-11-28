@@ -10,8 +10,8 @@
   if (!url) return;
 
 
-  // Scale PA QR attribution (Friday): ?ref=<8-char code>&utm_source=pa is kept 30 days on this device;
-  // every hand-off to the Jane booking page sends a book_click to Friday credited to that PA (qr=pa-<code>).
+  // PA QR attribution (Friday): ?ref=<8-char code>&utm_source=pa is kept 30 days on this device;
+  // every hand-off to the official booking page sends a book_click to Friday credited to that PA (qr=pa-<code>).
   var PA_RE = /^[A-HJKMNP-Z2-9]{8}$/;
   (function () {
     try {
@@ -38,7 +38,7 @@
     } catch (e) {}
   }
   window.CJPaBook = paBook;
-  // The guide opens Jane with window.open; credit the PA on that hand-off too.
+  // The guide may open the official booking page with window.open; credit the PA on that hand-off too.
   try {
     var _open = window.open;
     window.open = function (u) { try { if (/janeapp\.com/i.test(String(u || ''))) paBook('jane_open'); } catch (e) {} return _open.apply(window, arguments); };
@@ -59,52 +59,31 @@
     } catch (e) {}
   }
 
-  // Booking hand-off used by the guide: /?intent=book&area=&province=&src=&venue=
+  // Booking hand-off: /?intent=book and /#book open the in-site calendar at /book.
+  // The calendar then hands off to the official booking page when a slot is picked.
   var qs = new URLSearchParams(location.search);
+  var CARE_BOOK = '/book';
   if (qs.get('intent') === 'book' || location.hash === '#book') {
     trackBook();
-    // Print/QR scan count (door hangers etc.): queue before leaving for booking (lib/scan-events.js).
     try {
       if (qs.get('src') && navigator.sendBeacon) navigator.sendBeacon('/api/qr-lead', new Blob([JSON.stringify({ kind: 'scan-event', page: 'book', src: String(qs.get('src')).slice(0, 40) })], { type: 'text/plain' }));
     } catch (e) {}
     try { if (window.gtag) window.gtag('event', 'cj_book_handoff', { area: qs.get('area') || '', src: qs.get('src') || '', venue: qs.get('venue') || '' }); } catch (e) {}
-    location.replace(url);
+    var dest = CARE_BOOK;
+    var q = [];
+    qs.forEach(function (v, k) {
+      if (k !== 'intent' && v) q.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+    });
+    if (q.length) dest += '?' + q.join('&');
+    location.replace(dest);
     return;
   }
 
-  // Load the guide (styles + script) on every page that has this file.
-  function loadGuide(cb) {
-    if (window.CJGuide) { cb && cb(); return; }
-    if (!document.querySelector('link[data-cjg]')) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/css/guide.css?v=15'; l.setAttribute('data-cjg', ''); document.head.appendChild(l);
-    }
-    // One-tap share helper (js/share.js), used inside the guide.
-    if (!window.CJShare && !document.querySelector('script[data-cjs]')) {
-      var sh = document.createElement('script'); sh.src = '/js/share.js?v=8'; sh.async = true; sh.setAttribute('data-cjs', ''); document.head.appendChild(sh);
-    }
-    var s = document.querySelector('script[data-cjg]');
-    if (!s) {
-      s = document.createElement('script'); s.src = '/js/guide.js?v=25'; s.async = true; s.setAttribute('data-cjg', '');
-      s.addEventListener('error', function () { s.setAttribute('data-failed', '1'); });
-      document.head.appendChild(s);
-    }
-    if (!cb) return;
-    if (s.getAttribute && s.getAttribute('data-failed')) { trackBook(); window.open(url, '_blank', 'noopener'); return; }
-    s.addEventListener('load', cb);
-  }
-  loadGuide();
-
   document.querySelectorAll('[data-book], a[href="/#book"], a[href="#book"]').forEach(function (el) {
-    // Fallback if the guide can't load: the link still opens booking.
-    el.href = url;
-    el.target = '_blank';
-    el.rel = 'noopener noreferrer';
-    el.addEventListener('click', function (e) {
-      // "Book now" goes straight to booking; "Talk to Glen or Gwen" is its own button.
-      if (e.metaKey || e.ctrlKey || e.shiftKey || (el.hasAttribute && el.hasAttribute('data-book-direct'))) { trackBook(); return; }
-      e.preventDefault();
-      loadGuide(function () { if (window.CJGuide) window.CJGuide.open(); });
-    });
+    el.href = CARE_BOOK;
+    el.removeAttribute('target');
+    el.removeAttribute('rel');
+    el.addEventListener('click', function () { trackBook(); });
   });
 })();
 
@@ -129,6 +108,7 @@
   }
   function run() {
     if (!document.querySelector || !document.getElementById || !document.head) return;
+    if (document.body && document.body.hasAttribute('data-care-redesign')) return;
     if (document.querySelector('[data-text-glen]')) return;
     var st = document.createElement('style');
     // Header nav hides plain links on phones, so the hero and footer lines stay visible there.

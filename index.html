@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Calm Joints | In the moment recovery care</title>
-<meta name="description" content="Get answers anytime.">
+<meta name="description" content="Book a physio visit, or a doctor for $89.">
 <meta name="theme-color" content="#15803D">
 <meta name="robots" content="index,follow">
 <meta name="author" content="Calm Joints">
 <link rel="canonical" href="https://calmjoints.org/">
 <meta property="og:site_name" content="Calm Joints">
 <meta property="og:title" content="Calm Joints — the clinic behind the brands">
-<meta property="og:description" content="Get answers anytime.">
+<meta property="og:description" content="Book a physio visit, or a doctor for $89.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://calmjoints.org/">
 <meta property="og:image" content="https://calmjoints.org/media/cj-og-1200x630.png">
@@ -20,7 +20,7 @@
 <meta property="og:locale" content="en_CA">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Calm Joints — the clinic behind the brands">
-<meta name="twitter:description" content="Get answers anytime.">
+<meta name="twitter:description" content="Book a physio visit, or a doctor for $89.">
 <meta name="twitter:image" content="https://calmjoints.org/media/cj-og-1200x630.png">
 <link rel="icon" href="/media/calm-joints-mark.svg" type="image/svg+xml">
 <link rel="icon" href="/media/favicon-32.png" type="image/png" sizes="32x32">
@@ -446,8 +446,9 @@
 @media(max-width:480px){.ins-prods{gap:.4rem}.ins-prods li{padding:.45rem .25rem}.ins-prods span{font-size:.62rem}.ins-prods img{height:56px}}
 </style>
   <link rel="alternate" type="text/markdown" href="https://calmjoints.org/index.md" title="Markdown version">
+  <link rel="stylesheet" href="/css/care.css?v=3">
 </head>
-<body data-calming-pop="popup">
+<body data-care-redesign>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top">
   <div class="wrap nav-inner">
@@ -461,7 +462,7 @@
       <a href="/careers">Careers</a>
       <a class="nav-share" href="#share" data-cjs-open="header" aria-label="Share your recovery concierge: send someone Glen or Gwen"><img src="/media/cj-guide-glen.webp" alt="" width="22" height="22"><img src="/media/cj-guide-gwen.webp" alt="" width="22" height="22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share</span></a>
       <a class="btn btn-primary nav-talk" href="/chat" data-talk data-talk-place="header"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span><span class="tk-long">Talk to Glen or Gwen</span><span class="tk-short">Talk now</span></a>
-      <a class="btn btn-ghost" id="nav-book" href="#" data-book data-book-direct>Book now</a>
+      <a class="btn btn-ghost" id="nav-book" href="/book" data-book data-book-direct>Book now</a>
     </nav>
   </div>
 </header>
@@ -469,13 +470,30 @@
 <main id="main">
   <section class="hero" id="hubs">
     <div class="wrap">
-      <h1>Get answers anytime.</h1>
-      <p class="lede lede-long">Talk to someone now, then see a registered physio by video, at home or in person.</p>
-      <p class="lede lede-short">A physio by video, at home or in person.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" id="hero-talk" href="/chat" data-talk data-talk-place="hero"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk to Glen or Gwen now</a>
-        <a class="btn btn-ghost" id="hero-book" href="#" data-book data-book-direct>Book a visit</a>
+      <h1>Book a physio visit, or a doctor for $89.</h1>
+      <p class="lede lede-long">Book a video visit with a registered Ontario physiotherapist, or request a doctor visit. A guide is one tap away if you want a hand first.</p>
+      <p class="lede lede-short">Video physio, or a doctor visit, when you need it.</p>
+      <div class="care-dual">
+        <a class="care-card" href="/book?visit=initial">
+          <span class="k">Physio</span>
+          <b>Physio assessment</b>
+          <span class="price">$129</span>
+          <p>A 60-minute first visit with a registered Ontario physiotherapist, by video. Follow-up visits are $99 for 30 minutes. You’ll pick a real opening on the next page.</p>
+          <span class="go">Book physio</span>
+        </a>
+        <a class="care-card md" href="/book?visit=md">
+          <span class="k">Doctor</span>
+          <b>Doctor visit</b>
+          <span class="price">$89</span>
+          <p>A virtual doctor visit at $89. Leave your number and we’ll help you book. The live doctor calendar isn’t connected yet.</p>
+          <span class="go">Request a doctor</span>
+        </a>
       </div>
+      <div class="ctas">
+        <a class="btn btn-primary" id="hero-book" href="/book" data-book data-book-direct>Book a visit</a>
+        <a class="btn btn-ghost" id="hero-talk" href="/chat" data-talk data-talk-place="hero">Chat</a>
+      </div>
+      <p class="care-note">Physio visits are for people located in Ontario. A 60-minute physio assessment is $129. A 30-minute follow-up is $99. A doctor visit is $89.</p>
       <ul class="m-logos" aria-label="Brands we work with">
         <li><a href="https://drhonow.com/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/dr-hos.svg" alt="DR-HO’S" width="90" height="28"></a></li>
         <li><a href="https://jill.health/" target="_blank" rel="noopener noreferrer"><img src="/media/logos/jill.png" alt="Jill Health" width="80" height="28"></a></li>
@@ -485,11 +503,7 @@
         <li><a href="https://yoursole.com/ca" target="_blank" rel="noopener noreferrer"><img src="/media/logos/sole.png" alt="Sole" width="80" height="28"></a></li>
       </ul>
       <p class="m-more-wrap"><button type="button" class="m-more" aria-expanded="false">More</button></p>
-      <div class="mob-hide">
-        <p class="hero-glen">Call or text Glen: <a href="tel:+16476926575">(647) 692-6575</a> <a class="tg-sms" href="sms:+16476926575">Text</a></p>
-        <p class="hero-join"><a href="#join">Physios, join us</a></p>
-        <div class="hero-share" id="share" data-cjs-mount data-place="home" data-no-textguide></div>
-      </div>
+      <div class="hero-share" id="share" hidden data-cjs-mount data-place="home" data-no-textguide></div>
     </div>
     <div class="mob-hide">
     <p class="trust-lbl">Trusted by the brands we power</p>
@@ -548,7 +562,7 @@
         <div class="ins-copy">
           <p class="ins-kick">Industry Insider’s Store</p>
           <h2 id="ins-h">Member pricing on top recovery brands.</h2>
-          <p class="ins-line">Physio consults $129 (reg. $189), plus member-only prices on recovery gear.</p>
+          <p class="ins-line">Member prices on recovery gear, alongside physio assessments at $129 and follow-up visits at $99.</p>
           <span class="btn ins-btn">Shop the Insider’s Store <span aria-hidden="true">→</span></span>
         </div>
         <ul class="ins-prods" aria-label="In the store"><li><img src="https://www.scalehealth.ca/images/roll-recovery/r8plus-cutout.png" alt="Roll Recovery R8 Plus" width="120" height="120" loading="lazy" decoding="async"><span>Roll Recovery R8 Plus</span></li><li><img src="https://www.scalehealth.ca/images/partner-offers/manduka-manduka-pro-yoga-mat-cutout.png" alt="Manduka PRO mat" width="120" height="120" loading="lazy" decoding="async"><span>Manduka PRO mat</span></li><li><img src="https://www.scalehealth.ca/images/partner-offers/renpho-ascend-massage-gun-cutout.png" alt="Renpho massage gun" width="120" height="120" loading="lazy" decoding="async"><span>Renpho massage gun</span></li><li><img src="https://www.scalehealth.ca/images/genuine-health/greens-original-cutout.png" alt="greens+" width="120" height="120" loading="lazy" decoding="async"><span>greens+</span></li></ul>
@@ -761,9 +775,8 @@
 </dialog>
 
 <div class="sticky" aria-label="Quick actions">
-  <button type="button" class="btn btn-ghost sticky-share sticky-share-ic" data-cjs-open="sticky" aria-label="Share your recovery concierge: send someone Glen or Gwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg></button>
-  <a class="btn btn-primary" id="sticky-talk" href="/chat" data-talk data-talk-place="sticky"><span class="tk-av" aria-hidden="true"><img src="/media/cj-guide-glen.webp" alt="" width="26" height="26"><img src="/media/cj-guide-gwen.webp" alt="" width="26" height="26"></span>Talk now</a>
-  <a class="btn btn-ghost" id="sticky-book" href="#" data-book data-book-direct>Book now</a>
+  <a class="btn btn-ghost" id="sticky-book" href="/book" data-book data-book-direct>Book now</a>
+  <a class="btn btn-primary" id="sticky-talk" href="/chat" data-talk data-talk-place="sticky">Chat</a>
 </div>
 
 <dialog class="hubpop" id="hubpop" aria-labelledby="hubpop-title">
@@ -1025,6 +1038,7 @@
 })();
 </script>
 <script src="/js/book.js?v=8"></script>
+<script src="/js/care-shell.js?v=3"></script>
 <script src="/js/consent.js"></script>
 <script src="/js/mobile-more.js" defer></script>
 <script src="/js/calming.js"></script>

@@ -78,7 +78,7 @@ assert.ok(!JSON.stringify(body).includes('dropped'), 'no symptoms or history eve
 
   assert.ok(fs.readFileSync('chat.html', 'utf8').includes('/js/guide.js?v=25'));
   assert.ok(fs.readFileSync('js/guide.js', 'utf8').includes('name="intake_prefill"'));
-  assert.ok(fs.readFileSync('js/book.js', 'utf8').includes('/js/guide.js?v=25'));
+  assert.ok(fs.readFileSync('chat.html', 'utf8').includes('/js/guide.js?v=25')); // Book no longer boots the guide; /chat still does.
   const guideSrc = fs.readFileSync('js/guide.js', 'utf8');
   for (const q of [
     'My neck is sore by 3 p.m. Is it my desk setup?',

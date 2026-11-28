@@ -38,7 +38,7 @@ assert.deepStrictEqual(S.summarize([p]).bySrc, { 'dh-t1': { partners: 1 } });
   assert.strictEqual(o.sent.length, 0);
   o = run('js/book.js', 'https://calmjoints.org/?intent=book&src=dh-t1');
   assert.deepStrictEqual(o.sent[0], { to: '/api/qr-lead', body: { kind: 'scan-event', page: 'book', src: 'dh-t1' } });
-  assert.strictEqual(o.ctx.redirected, 'https://calmjoints.janeapp.com/x', 'beacon queued, then redirect');
+  assert.strictEqual(o.ctx.redirected, '/book?src=dh-t1', 'beacon queued, then redirect to the in-site calendar');
   for (const f of ['chat.html', 'chat-glen.html', 'chat-gwen.html', 'partners.html']) assert.ok(fs.readFileSync(f, 'utf8').includes('/js/scan.js?v=2'), f);
   // FieldTest1: follow-ups, user agent + timestamp in the stored record, test hits kept apart, campaign roll-up.
   o = run('js/scan.js', 'https://calmjoints.org/chat?src=FieldTest1');
