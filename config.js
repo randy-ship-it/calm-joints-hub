@@ -14,11 +14,11 @@ window.CALM_JOINTS = {
     status: 'partner-clinic',
     label: 'Book a physiotherapist',
     calendarUrl: '/book',
-    // Display prices confirmed by Randy 2026-11-28 9:22 AM ET (America/Toronto).
-    // Jane's public calendar may still show a different amount at checkout until that calendar is updated.
+    // Display prices to match Jane, confirmed by Randy 2026-11-28 10:21 AM ET (America/Toronto):
+    // 60-minute assessment $129, 30-minute follow-up $99, doctor visit $89.
     services: {
-      initial: { id: 346, name: 'Physio appointment', minutes: 60, price: 129 },
-      followup: { id: 347, name: 'Physio appointment', minutes: 30, price: 129 },
+      initial: { id: 346, name: 'Physio assessment', minutes: 60, price: 129 },
+      followup: { id: 347, name: 'Follow-up visit', minutes: 30, price: 99 },
     },
   },
   // $89 confirmed 2026-11-28. Partner name and booking URL are still open. Do not name the partner on the page.

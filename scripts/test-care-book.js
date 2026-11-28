@@ -23,9 +23,9 @@ assert.ok(home.includes('data-care-redesign'));
 assert.ok(!home.includes('data-calming-pop'));
 assert.ok(home.includes('href="/book"'));
 assert.ok(home.includes('$129'));
+assert.ok(home.includes('$99'));
 assert.ok(home.includes('$89'));
 assert.ok(!home.includes('$139'));
-assert.ok(!home.includes('$99'));
 assert.ok(!home.includes('$189'));
 assert.ok(!home.includes('Talk to Glen or Gwen now'));
 assert.ok(home.includes('id="hero-book"'));
@@ -34,10 +34,10 @@ assert.equal((home.match(/data-book data-book-direct/g) || []).length, 3);
 
 assert.ok(book.includes('id="cal-days"'));
 assert.ok(book.includes('id="tab-md"'));
-assert.ok(book.includes('$89'));
 assert.ok(book.includes('$129'));
+assert.ok(book.includes('$99'));
+assert.ok(book.includes('$89'));
 assert.ok(!book.includes('$139'));
-assert.ok(!book.includes('$99'));
 assert.ok(!book.includes('$189'));
 assert.ok(book.includes('Text or call me to help me book. Reply STOP anytime.'));
 assert.ok(book.includes('/api/openings') || fs.readFileSync('js/care-book.js', 'utf8').includes('/api/openings'));
@@ -48,10 +48,28 @@ assert.ok(bookJs.includes("CARE_BOOK = '/book'") || bookJs.includes("var CARE_BO
 assert.ok(bookJs.includes("location.replace(dest)"));
 assert.ok(!/loadGuide\(/.test(bookJs), 'book.js should not auto-load the guide for Book clicks');
 
+
+const llms = fs.readFileSync('llms.txt', 'utf8');
+const llmsFull = fs.readFileSync('llms-full.txt', 'utf8');
+const aiIndex = fs.readFileSync('ai/index.md', 'utf8');
+const trainingBook = fs.readFileSync('training/book.html', 'utf8');
+const trainingJs = fs.readFileSync('js/training.js', 'utf8');
+for (const [name, txt] of [['llms.txt', llms], ['llms-full.txt', llmsFull], ['ai/index.md', aiIndex], ['training/book.html', trainingBook], ['js/training.js', trainingJs]]) {
+  assert.ok(txt.includes('$129'), name + ' missing $129 assessment');
+  assert.ok(txt.includes('$99'), name + ' missing $99 follow-up');
+  assert.ok(txt.includes('$89') || name === 'js/training.js', name + ' missing $89 doctor');
+  assert.ok(!txt.includes('$139') || name === 'js/training.js', name + ' has $139');
+  assert.ok(!txt.includes('$189'), name + ' has $189');
+  assert.ok(!/reg\. \$|regular \$189/.test(txt), name + ' has a regular-price anchor');
+}
+assert.ok(trainingJs.includes("price_label: 'US$139.00'"), 'ROLL US$139 product price should stay');
+assert.ok(trainingBook.includes('Public member rate $129'));
+assert.ok(trainingBook.includes('Public member rate $99'));
+
 const window = {};
 vm.runInNewContext(fs.readFileSync('config.js', 'utf8'), { window });
 assert.strictEqual(window.CALM_JOINTS.booking.services.initial.price, 129);
-assert.strictEqual(window.CALM_JOINTS.booking.services.followup.price, 129);
+assert.strictEqual(window.CALM_JOINTS.booking.services.followup.price, 99);
 assert.strictEqual(window.CALM_JOINTS.md.price, 89);
 assert.strictEqual(window.CALM_JOINTS.md.priceVerified, true);
 assert.strictEqual(window.CALM_JOINTS.md.primaryUrl, null);

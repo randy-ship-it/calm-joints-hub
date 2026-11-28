@@ -10,7 +10,7 @@
 ## The offer
 - Video visits with registered physiotherapists, Canada-wide.
 - Talk to Glen or Gwen, virtual recovery guides (not clinicians), any time: https://calmjoints.org/chat or call or text (647) 692-6575.
-- Industry Insider's Store: physio appointments at $129, plus member-only prices on recovery gear: https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
+- Industry Insider's Store: physio assessments at $129 and follow-up visits at $99, plus member-only prices on recovery gear: https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
 - Many plans cover physio. You get a receipt.
 
 ## How to book
@@ -38,7 +38,7 @@ Q: Is physio covered by my insurance?
 A: Many plans cover physio, and you get a receipt. Check your own plan.
 
 Q: How much is a consult?
-A: A physio appointment is $129. A doctor visit is $89. Book at https://calmjoints.org/book
+A: A 60-minute physio assessment is $129. A 30-minute follow-up is $99. A doctor visit is $89. Book at https://calmjoints.org/book
 
 Q: Who are Glen and Gwen?
 A: Virtual recovery guides, not clinicians. Talk now at https://calmjoints.org/chat
