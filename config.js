@@ -14,17 +14,18 @@ window.CALM_JOINTS = {
     status: 'partner-clinic',
     label: 'Book a physiotherapist',
     calendarUrl: '/book',
+    // Display prices confirmed by Randy 2026-11-28 9:22 AM ET (America/Toronto).
+    // Jane's public calendar may still show a different amount at checkout until that calendar is updated.
     services: {
-      initial: { id: 346, name: 'Initial physio assessment', minutes: 60, price: 139 },
-      followup: { id: 347, name: 'Physiotherapy session', minutes: 30, price: 99 },
+      initial: { id: 346, name: 'Physio appointment', minutes: 60, price: 129 },
+      followup: { id: 347, name: 'Physio appointment', minutes: 30, price: 129 },
     },
   },
-  // Doctor visit offer. priceVerified is false until Randy confirms the figure,
-  // coverage (OHIP vs private), and the booking path. Do not name the partner on the page.
+  // $89 confirmed 2026-11-28. Partner name and booking URL are still open. Do not name the partner on the page.
   md: {
     enabled: true,
     price: 89,
-    priceVerified: false,
+    priceVerified: true,
     label: 'Doctor visit',
     primaryUrl: null,
     coverageNote: 'Private virtual visit. OHIP or benefits coverage has not been confirmed.',

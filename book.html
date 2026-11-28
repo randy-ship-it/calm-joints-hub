@@ -7,7 +7,7 @@
 <meta name="description" content="Book a video visit with a registered Ontario physiotherapist, or request a doctor visit. Ontario only for physio.">
 <link rel="canonical" href="https://calmjoints.org/book">
 <link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="/css/care.css?v=1">
+<link rel="stylesheet" href="/css/care.css?v=2">
 </head>
 <body class="care-book" data-care-redesign>
 <a class="skip" href="#main" style="position:absolute;left:-999px">Skip to content</a>
@@ -41,13 +41,13 @@
   <section class="care-panel is-on" id="panel-physio" role="tabpanel" aria-labelledby="tab-physio">
     <div class="svc-row">
       <button type="button" class="svc" id="svc-initial" aria-pressed="true" data-visit="initial">
-        <b>Initial assessment</b>
-        <div class="meta">60 minutes · $139</div>
+        <b>Physio appointment</b>
+        <div class="meta">$129 · 60 minutes</div>
         <p>First visit with a registered Ontario physiotherapist. A plan you can actually follow.</p>
       </button>
       <button type="button" class="svc" id="svc-followup" aria-pressed="false" data-visit="followup">
-        <b>Physio session</b>
-        <div class="meta">30 minutes · $99</div>
+        <b>Follow-up visit</b>
+        <div class="meta">$129 · 30 minutes</div>
         <p>Follow-up care after an assessment. Same registered team.</p>
       </button>
     </div>
@@ -72,7 +72,7 @@
         <label>Email<input name="email" type="email" autocomplete="email" maxlength="254"></label>
         <label>Phone<input name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel"></label>
       </div>
-      <label class="consent"><input name="consent" type="checkbox"> If I don’t finish booking, Calm Joints can call or text me about this appointment. Msg rates may apply. I can say stop anytime.</label>
+      <label class="consent"><input name="consent" type="checkbox"> Text or call me to help me book. Reply STOP anytime.</label>
       <button type="submit" class="btn" id="physio-go" disabled>Continue to confirm</button>
       <p class="status" id="physio-status"></p>
     </form>
@@ -82,8 +82,7 @@
     <div class="md-offer">
       <p class="eyebrow">Doctor visit</p>
       <div class="price">$89</div>
-      <p>A virtual doctor visit, priced as a simple flat fee. This is a private visit. Whether OHIP or benefits cover it has not been confirmed, and the live doctor calendar is not connected on this preview.</p>
-      <p class="flag">The $89 figure is the intended offer and still needs a final check before this goes to the public site. We will not name the clinical partner here until that is approved.</p>
+      <p>A virtual doctor visit at $89. This is a private visit. Whether OHIP or benefits cover it has not been confirmed. The live doctor calendar is not connected yet, so this is a request — we’ll text or call to help you book. We will not name the clinical partner here until that is approved.</p>
     </div>
     <form class="care-form" id="md-form" novalidate>
       <h2>Request a doctor visit</h2>
@@ -94,15 +93,15 @@
         <label>Phone<input name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel"></label>
         <label>Preferred time<input name="note" type="text" maxlength="400" placeholder="e.g. Tuesday after 3, or first available"></label>
       </div>
-      <label class="consent"><input name="consent" type="checkbox" required> If I don’t finish booking, Calm Joints can call or text me about this appointment. Msg rates may apply. I can say stop anytime.</label>
+      <label class="consent"><input name="consent" type="checkbox" required> Text or call me to help me book. Reply STOP anytime.</label>
       <button type="submit" class="btn" id="md-go">Request the $89 visit</button>
       <p class="status" id="md-status"></p>
     </form>
   </section>
 </main>
 <script src="/config.js"></script>
-<script src="/js/care-book.js?v=1"></script>
-<script src="/js/care-shell.js?v=1"></script>
+<script src="/js/care-book.js?v=2"></script>
+<script src="/js/care-shell.js?v=2"></script>
 <script src="/js/consent.js"></script>
 </body>
 </html>

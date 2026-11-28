@@ -5,8 +5,8 @@
 const crypto = require('crypto');
 const { persistEnvelope, postFriday, SOURCE } = require('../lib/care-events');
 
-const CONSENT_VERSION = 'cj-booking-callback-v1-2026-11-28';
-const CONSENT_TEXT = 'If I don’t finish booking, Calm Joints can call or text me about this appointment. Msg rates may apply. I can say stop anytime.';
+const CONSENT_VERSION = 'cj-booking-callback-v2-2026-11-28';
+const CONSENT_TEXT = 'Text or call me to help me book. Reply STOP anytime.';
 
 function send(res, status, body) {
   res.statusCode = status;
@@ -84,7 +84,7 @@ module.exports = async function handler(req, res) {
   const email = cleanText(body.email, 254).toLowerCase();
   const phone = cleanText(body.phone, 40);
   const firstName = cleanText(body.firstName || body.name, 80);
-  if (!body.consent) { send(res, 400, { ok: false, message: 'Please tick the box if you’d like a call or text if you don’t finish booking.' }); return; }
+  if (!body.consent) { send(res, 400, { ok: false, message: 'Please tick the box if you’d like a text or call to help you book.' }); return; }
   if (!validEmail(email) && !validPhone(phone)) {
     send(res, 400, { ok: false, message: 'Add an email or a phone number so we can reach you.' });
     return;
@@ -113,7 +113,7 @@ module.exports = async function handler(req, res) {
     ok: true,
     id: lead.externalId,
     friday: friday.ok || friday.skipped ? 'recorded' : 'queued',
-    message: 'Thanks. If you don’t finish booking, we’ll use this only to call or text you about this visit.',
+    message: 'Thanks. We’ll text or call only to help you book this visit. Reply STOP anytime.',
   });
 };
 

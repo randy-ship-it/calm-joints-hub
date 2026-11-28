@@ -12,6 +12,7 @@ const lead = fs.readFileSync('api/booking-lead.js', 'utf8');
 
 for (const [name, txt] of [['index', home], ['book', book], ['css', css], ['book.js', bookJs]]) {
   assert.ok(!/best in class/i.test(txt), name + ' says "best in class"');
+  assert.ok(!/most competitive in Ontario/i.test(txt), name + ' makes an unverified competitive claim');
   assert.ok(!/clairvoyant/i.test(txt), name + ' mentions Clairvoyant');
   assert.ok(!/align wellness|clairvoyant holdings/i.test(txt), name + ' mentions Align or CHI');
   assert.ok(!/medvibe/i.test(txt), name + ' names MedVibe');
@@ -21,10 +22,10 @@ for (const [name, txt] of [['index', home], ['book', book], ['css', css], ['book
 assert.ok(home.includes('data-care-redesign'));
 assert.ok(!home.includes('data-calming-pop'));
 assert.ok(home.includes('href="/book"'));
-assert.ok(home.includes('$139'));
-assert.ok(home.includes('$99'));
+assert.ok(home.includes('$129'));
 assert.ok(home.includes('$89'));
-assert.ok(!home.includes('$129'));
+assert.ok(!home.includes('$139'));
+assert.ok(!home.includes('$99'));
 assert.ok(!home.includes('$189'));
 assert.ok(!home.includes('Talk to Glen or Gwen now'));
 assert.ok(home.includes('id="hero-book"'));
@@ -34,7 +35,11 @@ assert.equal((home.match(/data-book data-book-direct/g) || []).length, 3);
 assert.ok(book.includes('id="cal-days"'));
 assert.ok(book.includes('id="tab-md"'));
 assert.ok(book.includes('$89'));
-assert.ok(book.includes('If I don’t finish booking, Calm Joints can call or text me'));
+assert.ok(book.includes('$129'));
+assert.ok(!book.includes('$139'));
+assert.ok(!book.includes('$99'));
+assert.ok(!book.includes('$189'));
+assert.ok(book.includes('Text or call me to help me book. Reply STOP anytime.'));
 assert.ok(book.includes('/api/openings') || fs.readFileSync('js/care-book.js', 'utf8').includes('/api/openings'));
 assert.ok(openings.includes('listOpenings'));
 assert.ok(lead.includes('cj-winback') || lead.includes('cj-booking-partial'));
@@ -45,10 +50,10 @@ assert.ok(!/loadGuide\(/.test(bookJs), 'book.js should not auto-load the guide f
 
 const window = {};
 vm.runInNewContext(fs.readFileSync('config.js', 'utf8'), { window });
-assert.strictEqual(window.CALM_JOINTS.booking.services.initial.price, 139);
-assert.strictEqual(window.CALM_JOINTS.booking.services.followup.price, 99);
+assert.strictEqual(window.CALM_JOINTS.booking.services.initial.price, 129);
+assert.strictEqual(window.CALM_JOINTS.booking.services.followup.price, 129);
 assert.strictEqual(window.CALM_JOINTS.md.price, 89);
-assert.strictEqual(window.CALM_JOINTS.md.priceVerified, false);
+assert.strictEqual(window.CALM_JOINTS.md.priceVerified, true);
 assert.strictEqual(window.CALM_JOINTS.md.primaryUrl, null);
 
 // listOpenings uses real Jane when called; here we stub fetch.
@@ -77,7 +82,7 @@ const fetchImpl = async (url) => {
   const data = await listOpenings({ kind: 'initial', days: 14 }, fetchImpl, now);
   assert.strictEqual(data.ok, true, JSON.stringify(data));
   assert.strictEqual(data.count, 2);
-  assert.strictEqual(data.price, 139);
+  assert.strictEqual(data.price, 129);
   assert.ok(data.days['2099-03-01']);
   assert.strictEqual(data.days['2099-03-01'].count, 2);
   assert.ok(data.slots[0].book_url.includes('/staff_member/91/treatment/346/2099-03-01'));
