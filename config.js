@@ -13,6 +13,21 @@ window.CALM_JOINTS = {
     providerListApi: null,
     status: 'partner-clinic',
     label: 'Book a physiotherapist',
+    calendarUrl: '/book',
+    services: {
+      initial: { id: 346, name: 'Initial physio assessment', minutes: 60, price: 139 },
+      followup: { id: 347, name: 'Physiotherapy session', minutes: 30, price: 99 },
+    },
+  },
+  // Doctor visit offer. priceVerified is false until Randy confirms the figure,
+  // coverage (OHIP vs private), and the booking path. Do not name the partner on the page.
+  md: {
+    enabled: true,
+    price: 89,
+    priceVerified: false,
+    label: 'Doctor visit',
+    primaryUrl: null,
+    coverageNote: 'Private virtual visit. OHIP or benefits coverage has not been confirmed.',
   },
   guide: {
     // ElevenLabs Agents: Calm Joints Guide (chat + voice). Public agent ids, no secret.

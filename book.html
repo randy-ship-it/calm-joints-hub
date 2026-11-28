@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a visit | Calm Joints</title>
+<meta name="description" content="Book a video visit with a registered Ontario physiotherapist, or request a doctor visit. Ontario only for physio.">
+<link rel="canonical" href="https://calmjoints.org/book">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/css/care.css?v=1">
+</head>
+<body class="care-book" data-care-redesign>
+<a class="skip" href="#main" style="position:absolute;left:-999px">Skip to content</a>
+<header class="nav" id="top">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:1rem">
+    <a class="brand" href="/" aria-label="Calm Joints home" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit">
+      <img src="/media/calm-joints-wordmark.svg" alt="Calm Joints" width="154" height="42">
+    </a>
+    <nav aria-label="Primary" style="display:flex;gap:1rem;align-items:center;font-size:.92rem">
+      <a href="/chat" style="color:#5B6E80;text-decoration:none">Chat</a>
+      <a class="btn" id="nav-book" href="/book" style="background:#15A34A;color:#fff;text-decoration:none;border-radius:10px;padding:.65rem 1rem;font-weight:600">Book now</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="care-hero">
+    <p class="eyebrow">Ontario video visits</p>
+    <h1>Book care that actually has a time.</h1>
+    <p class="lead">Pick a physio visit and a real opening, or request a doctor visit. You’ll finish booking on the Calm Joints calendar. Chat with a guide only if you want a hand.</p>
+    <div class="care-how" aria-label="How booking works">
+      <div><div class="n">1</div><h3>Choose the visit</h3><p>Physio assessment, a follow-up session, or a doctor visit.</p></div>
+      <div><div class="n">2</div><h3>Pick a time</h3><p>Live openings, starting from today — not last week’s empty grid.</p></div>
+      <div><div class="n">3</div><h3>Confirm the booking</h3><p>Physio visits finish on the official calendar. Doctor visits are a request until that calendar is connected.</p></div>
+    </div>
+    <div class="care-switch" role="tablist" aria-label="Type of visit">
+      <button type="button" role="tab" id="tab-physio" aria-selected="true" aria-controls="panel-physio">Physio</button>
+      <button type="button" role="tab" id="tab-md" aria-selected="false" aria-controls="panel-md">Doctor</button>
+    </div>
+  </section>
+
+  <section class="care-panel is-on" id="panel-physio" role="tabpanel" aria-labelledby="tab-physio">
+    <div class="svc-row">
+      <button type="button" class="svc" id="svc-initial" aria-pressed="true" data-visit="initial">
+        <b>Initial assessment</b>
+        <div class="meta">60 minutes · $139</div>
+        <p>First visit with a registered Ontario physiotherapist. A plan you can actually follow.</p>
+      </button>
+      <button type="button" class="svc" id="svc-followup" aria-pressed="false" data-visit="followup">
+        <b>Physio session</b>
+        <div class="meta">30 minutes · $99</div>
+        <p>Follow-up care after an assessment. Same registered team.</p>
+      </button>
+    </div>
+    <div class="cal-head">
+      <div>
+        <h2>Available times</h2>
+        <p class="cal-count" id="cal-count">Loading live openings…</p>
+      </div>
+      <div class="cal-nav">
+        <button type="button" id="cal-prev" aria-label="Previous days">Previous</button>
+        <button type="button" id="cal-next" aria-label="Next days">Next</button>
+      </div>
+    </div>
+    <div class="cal-days" id="cal-days" aria-live="polite"></div>
+    <p id="cal-msg" class="care-note" hidden></p>
+
+    <form class="care-form" id="physio-form" novalidate>
+      <h2>Hold this time</h2>
+      <p>We’ll open the official booking page on the time you picked. Optional: leave a number or email so we can reach you if you don’t finish.</p>
+      <div class="fields">
+        <label>First name<input name="firstName" type="text" autocomplete="given-name" maxlength="80"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" maxlength="254"></label>
+        <label>Phone<input name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel"></label>
+      </div>
+      <label class="consent"><input name="consent" type="checkbox"> If I don’t finish booking, Calm Joints can call or text me about this appointment. Msg rates may apply. I can say stop anytime.</label>
+      <button type="submit" class="btn" id="physio-go" disabled>Continue to confirm</button>
+      <p class="status" id="physio-status"></p>
+    </form>
+  </section>
+
+  <section class="care-panel" id="panel-md" role="tabpanel" aria-labelledby="tab-md" hidden>
+    <div class="md-offer">
+      <p class="eyebrow">Doctor visit</p>
+      <div class="price">$89</div>
+      <p>A virtual doctor visit, priced as a simple flat fee. This is a private visit. Whether OHIP or benefits cover it has not been confirmed, and the live doctor calendar is not connected on this preview.</p>
+      <p class="flag">The $89 figure is the intended offer and still needs a final check before this goes to the public site. We will not name the clinical partner here until that is approved.</p>
+    </div>
+    <form class="care-form" id="md-form" novalidate>
+      <h2>Request a doctor visit</h2>
+      <p>Leave a way to reach you and a preferred window. A person will follow up to complete the booking.</p>
+      <div class="fields">
+        <label>First name<input name="firstName" type="text" autocomplete="given-name" maxlength="80"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" maxlength="254"></label>
+        <label>Phone<input name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel"></label>
+        <label>Preferred time<input name="note" type="text" maxlength="400" placeholder="e.g. Tuesday after 3, or first available"></label>
+      </div>
+      <label class="consent"><input name="consent" type="checkbox" required> If I don’t finish booking, Calm Joints can call or text me about this appointment. Msg rates may apply. I can say stop anytime.</label>
+      <button type="submit" class="btn" id="md-go">Request the $89 visit</button>
+      <p class="status" id="md-status"></p>
+    </form>
+  </section>
+</main>
+<script src="/config.js"></script>
+<script src="/js/care-book.js?v=1"></script>
+<script src="/js/care-shell.js?v=1"></script>
+<script src="/js/consent.js"></script>
+</body>
+</html>

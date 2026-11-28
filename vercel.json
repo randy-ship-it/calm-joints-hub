@@ -57,6 +57,10 @@
     {
       "path": "/api/partner-events",
       "schedule": "17 14 * * *"
+    },
+    {
+      "path": "/api/booking-lead",
+      "schedule": "13 * * * *"
     }
   ],
   "functions": {
@@ -83,7 +87,10 @@
     "api/question.js": { "includeFiles": "lib/**" },
     "api/squash-insider.js": { "includeFiles": "lib/**" },
     "api/squash-wishlist-admin.js": { "includeFiles": "lib/**" },
-    "api/resume.js": { "includeFiles": "lib/**" }
+    "api/resume.js": { "includeFiles": "lib/**" },
+    "api/openings.js": { "includeFiles": "lib/**" },
+    "api/funnel.js": { "includeFiles": "lib/**" },
+    "api/booking-lead.js": { "includeFiles": "lib/**" }
   },
   "routes": [
     { "src": "/near-you/?", "dest": "/localvibe/index.html" },

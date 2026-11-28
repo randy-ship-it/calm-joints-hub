@@ -64,6 +64,9 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/admin-decals') return adminDecals(req, res);
   if (url.pathname === '/api/cimpress-webhook') return cimpressWebhook(req, res);
   if (url.pathname === '/api/printful-webhook') return printfulWebhook(req, res);
+  if (url.pathname === '/api/openings') return require('../api/openings')(req, res);
+  if (url.pathname === '/api/funnel') return require('../api/funnel')(req, res);
+  if (url.pathname === '/api/booking-lead') return require('../api/booking-lead')(req, res);
   if (url.pathname.startsWith('/p/')) { req.url = '/p.html?slug=' + url.pathname.slice(3); }
   if (url.pathname === '/localdemand/api/estimate') {
     const target = 'https://scale-partner-dash.vercel.app/localdemand/api/estimate' + url.search;
