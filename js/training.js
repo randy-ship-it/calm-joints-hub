@@ -13,13 +13,13 @@
       id: 'initial',
       name: 'Initial video assessment',
       duration: '45 minutes',
-      detail: 'The public member rate is $129 (regular $189). This training visit is not billed and no card is asked for.',
+      detail: 'The public member rate is $129. This training visit is not billed and no card is asked for.',
     },
     {
       id: 'followup',
       name: 'Follow-up video visit',
       duration: '30 minutes',
-      detail: 'The real Jane flow shows the follow-up price at checkout. This training visit is not billed and no card is asked for.',
+      detail: 'The public member rate is $129. This training visit is not billed and no card is asked for.',
     },
   ];
 

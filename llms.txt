@@ -35,7 +35,8 @@
 2. Pick what is sore, a day and a time.
 3. Meet a registered physiotherapist on video. In person only if needed after digital care.
 - Talk to a guide first (not a clinician): https://calmjoints.org/chat or call or text (647) 692-6575.
-- Industry Insider's Store: physio consults $129 (reg. $189): https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
+- A physio appointment is $129. A doctor visit is $89. Book at https://calmjoints.org/book
+- Industry Insider's Store: member-only prices on recovery gear: https://www.scalehealth.ca/calmjoints?src=cjsite&place=home
 
 ## Markdown versions
 - [Home](https://calmjoints.org/index.md)
